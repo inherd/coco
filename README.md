@@ -1,16 +1,22 @@
 # Coco
 
+> A automatic DevOps metrics tools.
+
 ## Todo
 
- - [ ] framework detector
- - [ ] git tag analysis
- - [ ] git branch analysis
-    - [ ] branch history
- - [ ] git commit time analysis
-    - [ ] working night count
+ - [ ] framework detector.
+    - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
+ - [ ] git analysis
+    - [ ] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
+    - [ ] git tag analysis
+    - [ ] git branch analysis
+       - [ ] branch history
+    - [ ] git commit time analysis
+       - [ ] working night count
  - [ ] cloud native
-    - [ ] dockerfile
+    - [ ] dockerfile analysis
  - [ ] cloc analysis
+    - [ ] spike cloc tools
  - [ ] module analysis
     - [ ] base framework for directory
  - [ ] team analysis
