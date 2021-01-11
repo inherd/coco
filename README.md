@@ -6,6 +6,10 @@
 
  - [ ] framework detector.
     - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
+ - [ ] tools
+    - tools config identify
+    - tools suggest (identify old tools)
+    - cloud-native config
  - [ ] git analysis
     - [ ] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [ ] git tag analysis
@@ -26,6 +30,9 @@
  - [ ] suggestion API
     - [ ] suggest ledge
  - [ ] web assembly support
+ - [ ] graph support for velocity
+    - [ ] code commits by daily
+    - [ ] PR times by daily
 
 License
 ---
