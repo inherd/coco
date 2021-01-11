@@ -25,6 +25,7 @@
  - [ ] commit rules
  - [ ] suggestion API
     - [ ] suggest ledge
+ - [ ] web assembly support
 
 License
 ---

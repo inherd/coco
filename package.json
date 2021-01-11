@@ -1,8 +1,8 @@
 {
-  "name": "cocoj",
+  "name": "cocojs",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "web/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
