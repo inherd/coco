@@ -1,5 +1,5 @@
 {
-  "name": "cocojs",
+  "name": "@phodal/coco",
   "version": "0.0.1",
   "description": "",
   "main": "web/index.js",
