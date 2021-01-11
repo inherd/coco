@@ -1,4 +1,4 @@
-name: Scie Build
+name: Coco Build
 
 on: [push]
 
