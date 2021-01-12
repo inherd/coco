@@ -33,6 +33,7 @@
  - [ ] graph support for velocity
     - [ ] code commits by daily
     - [ ] PR times by daily
+ - [ ] tech stack generate
 
 License
 ---
