@@ -1,5 +1,5 @@
-pub mod bin;
 pub mod app;
+pub mod bin;
 pub mod domain;
 pub mod infrastructure;
 
