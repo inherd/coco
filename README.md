@@ -45,6 +45,7 @@ features:
     - [ ] commit cloc changes
  - [ ] module analysis
     - [ ] base framework for directory
+    - [ ] code flower
  - [ ] team analysis
     - [ ] join time & life time
     - [ ] member growth
