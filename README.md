@@ -1,15 +1,35 @@
 # Coco
 
-> A automatic DevOps metrics tools.
+> (aka coconut, juice), a automatic DevOps metrics tools.
+
+特性（features in Chinese）：
+
+ - 改进建议（英语）
+ - 框架检测
+ - 分支生命周期和可视化
+ - 云原生成熟度分析
+ - 团队健康值分析
+ - 图形可视化
+ - 多项目**并行**分析
+
+features:
+
+ - automatic suggestion (online).
+ - framework detector
+ - branch lifecycle and visual
+ - cloud-native analysis
+ - team health analysis
+ - graph visual and reporter
+ - multiple-repo **parallel**
 
 ## Todo
 
  - [ ] framework detector.
     - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
  - [ ] tools
-    - tools config identify
-    - tools suggest (identify old tools)
-    - cloud-native config
+    - [ ] tools config identify
+    - [ ] tools suggest (identify old tools)
+    - [ ] cloud-native config
  - [ ] git analysis
     - [ ] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [ ] git tag analysis
@@ -21,6 +41,8 @@
     - [ ] dockerfile analysis
  - [ ] cloc analysis
     - [ ] spike cloc tools
+    - [ ] history cloc changes
+    - [ ] commit cloc changes
  - [ ] module analysis
     - [ ] base framework for directory
  - [ ] team analysis
