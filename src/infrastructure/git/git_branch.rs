@@ -33,7 +33,7 @@ impl GitBranch {
         let last_id = walk_iter.next().unwrap().unwrap();
         let last_commit = repo.find_commit(last_id).unwrap();
 
-        branch.last_commit_date = last_commit.author().when().seconds().to_string();
+        branch.last_commit_date = last_commit.author().when().seconds();
 
         while let Some(oid_result) = walk_iter.next() {
             if walk_iter.next().is_none() {
@@ -41,9 +41,12 @@ impl GitBranch {
 
                 branch.author = first_commit.author().name().unwrap().to_string();
                 branch.committer = first_commit.committer().name().unwrap().to_string();
-                branch.first_commit_date = first_commit.author().when().seconds().to_string();
+                branch.first_commit_date = first_commit.author().when().seconds();
             }
         }
+
+        branch.duration = branch.last_commit_date - branch.first_commit_date;
+
         branch
     }
 

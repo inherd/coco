@@ -43,8 +43,13 @@ mod test {
         let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
         let branch = GitBranch::get("master", repo).unwrap();
         assert_eq!("master", branch.name);
-        assert_eq!("1610519809", branch.first_commit_date);
+        assert_eq!(1610519809, branch.first_commit_date);
         assert_eq!("Phodal Huang", branch.author);
         assert_eq!("GitHub", branch.committer);
+
+        let first_second_commit_duration_hours = 6;
+        let hours = branch.duration / 3600;
+
+        assert!(hours >= first_second_commit_duration_hours);
     }
 }
