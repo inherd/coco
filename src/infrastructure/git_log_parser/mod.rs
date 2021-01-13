@@ -16,7 +16,7 @@ impl GitLogParser {
 
         let buf = GitLogParser::uri_to_path(root, uri_path);
 
-        println!("tempdir: {:?}", buf.clone());
+        println!("tempdir: {:?}", buf);
         if buf.exists() {
             // todo: make update for repo
             println!("todo: make update for repo");
@@ -65,9 +65,20 @@ impl GitLogParser {
 #[cfg(test)]
 mod test {
     use crate::infrastructure::git_log_parser::GitLogParser;
+    use std::sync::Once;
+
+    static INIT: Once = Once::new();
+
+    pub fn initialize() {
+        INIT.call_once(|| {
+            GitLogParser::clone("https://github.com/phodal/coco.fixtures");
+            // initialization code here
+        });
+    }
 
     #[test]
     fn should_support_clone() {
+        initialize();
         let repo = GitLogParser::clone("https://github.com/phodal/coco.fixtures");
         let result = repo.revparse("master");
         assert!(result.is_ok());
@@ -75,6 +86,7 @@ mod test {
 
     #[test]
     fn should_verify_github_dir() {
+        initialize();
         let repo = GitLogParser::clone("https://github.com/phodal/coco.fixtures");
         let path_str = repo.path().to_str().unwrap();
         assert!(path_str.contains("github.com/phodal/coco.fixtures"));
