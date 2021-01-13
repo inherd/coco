@@ -34,5 +34,7 @@ mod test {
         let branch = GitBranch::get("master", repo).unwrap();
         assert_eq!("master", branch.name);
         assert_eq!("1610519809", branch.date);
+        assert_eq!("Phodal Huang", branch.author);
+        assert_eq!("GitHub", branch.committer);
     }
 }

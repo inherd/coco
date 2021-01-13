@@ -20,8 +20,9 @@ impl GitBranch {
                     let find_commit = repo.find_commit(so.from().unwrap().id());
                     let commit = find_commit.unwrap();
 
-                    branch.author = commit.committer().name().unwrap().to_string();
-                    branch.date = commit.committer().when().seconds().to_string();
+                    branch.author = commit.author().name().unwrap().to_string();
+                    branch.committer = commit.committer().name().unwrap().to_string();
+                    branch.date = commit.author().when().seconds().to_string();
                 }
                 Err(_) => {}
             }

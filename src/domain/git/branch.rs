@@ -7,6 +7,7 @@ pub struct Branch {
     pub last_commit: String,
     pub duration: String,
     pub author: String,
+    pub committer: String,
     pub date: String,
     // todo: add branch type support
 }
@@ -19,6 +20,7 @@ impl Branch {
             last_commit: "".to_string(),
             duration: "".to_string(),
             author: "".to_string(),
+            committer: "".to_string(),
             date: "".to_string(),
         }
     }
