@@ -31,7 +31,8 @@ mod test {
         initialize();
 
         let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
-        let branch = GitBranch::get("master", repo);
-        assert_eq!("master", branch.unwrap().name);
+        let branch = GitBranch::get("master", repo).unwrap();
+        assert_eq!("master", branch.name);
+        assert_eq!("1610519809", branch.date);
     }
 }
