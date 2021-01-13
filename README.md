@@ -34,6 +34,7 @@
     - [ ] code commits by daily
     - [ ] PR times by daily
  - [ ] tech stack generate
+ - [ ] case study
 
 License
 ---
