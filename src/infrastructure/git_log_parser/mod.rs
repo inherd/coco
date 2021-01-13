@@ -72,4 +72,11 @@ mod test {
         let result = repo.revparse("master");
         assert!(result.is_ok());
     }
+
+    #[test]
+    fn should_verify_github_dir() {
+        let repo = GitLogParser::clone("https://github.com/phodal/coco.fixtures");
+        let path_str = repo.path().to_str().unwrap();
+        assert!(path_str.contains("github.com/phodal/coco.fixtures"));
+    }
 }
