@@ -22,7 +22,11 @@ mod test {
                         println!("{:?}", so.to());
 
                         let commit = repo.find_commit(so.from().unwrap().id());
-                        println!("{:?}", commit);
+                        // println!("{:?}", commit);
+                        // println!("{:?}", commit.unwrap().committer().name());
+                        // println!("{:?}", commit.unwrap().committer().email());
+
+                        println!("{:?}", commit.unwrap().committer().when().seconds());
                     }
                     Err(_) => {}
                 }
