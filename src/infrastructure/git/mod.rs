@@ -25,4 +25,13 @@ mod test {
         let branches = GitBranch::list(repo);
         assert_eq!(5, branches.len());
     }
+
+    #[test]
+    fn should_get_master() {
+        initialize();
+
+        let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
+        let branch = GitBranch::get("master", repo);
+        assert_eq!("master", branch.unwrap().name);
+    }
 }

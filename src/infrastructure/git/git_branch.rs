@@ -15,4 +15,18 @@ impl GitBranch {
 
         coco_branches
     }
+
+    pub fn get(name: &str, repo: Repository) -> Option<Branch> {
+        let filter: Vec<Branch> = GitBranch::list(repo)
+            .iter()
+            .filter(|br| br.name == name)
+            .cloned()
+            .collect();
+
+        return if filter.len() > 0 {
+            Some(filter[0].clone())
+        } else {
+            None
+        };
+    }
 }
