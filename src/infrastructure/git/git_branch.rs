@@ -1,10 +1,10 @@
-use crate::domain::git::branch::Branch;
+use crate::domain::git::branch::CocoBranch;
 use git2::Repository;
 
 pub struct GitBranch {}
 
 impl GitBranch {
-    pub fn list(repo: Repository) -> Vec<Branch> {
+    pub fn list(repo: Repository) -> Vec<CocoBranch> {
         let branches = repo.branches(None).unwrap();
         let mut coco_branches = vec![];
         for x in branches {
@@ -21,8 +21,8 @@ impl GitBranch {
         coco_branches
     }
 
-    fn create_branch_by_name(repo: &Repository, branch_name: &str) -> Branch {
-        let mut branch = Branch::new(branch_name);
+    fn create_branch_by_name(repo: &Repository, branch_name: &str) -> CocoBranch {
+        let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
         let mut walk = repo.revwalk().unwrap();
@@ -50,8 +50,8 @@ impl GitBranch {
         branch
     }
 
-    pub fn get(name: &str, repo: Repository) -> Option<Branch> {
-        let filter: Vec<Branch> = GitBranch::list(repo)
+    pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {
+        let filter: Vec<CocoBranch> = GitBranch::list(repo)
             .iter()
             .filter(|br| br.name == name)
             .cloned()

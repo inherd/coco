@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct Branch {
+pub struct CocoBranch {
     pub name: String,
     pub first_commit_date: i64,
     pub last_commit_date: i64,
@@ -10,9 +10,9 @@ pub struct Branch {
     pub committer: String,
 }
 
-impl Branch {
-    pub fn new(name: &str) -> Branch {
-        Branch {
+impl CocoBranch {
+    pub fn new(name: &str) -> CocoBranch {
+        CocoBranch {
             name: name.to_string(),
             first_commit_date: 0,
             last_commit_date: 0,
