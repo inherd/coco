@@ -14,17 +14,26 @@ impl GitBranch {
             let branch_name = br.name().unwrap().unwrap();
 
             let mut branch = Branch::new(branch_name);
-            let result = repo.revparse(branch_name);
-            match result {
-                Ok(so) => {
-                    let find_commit = repo.find_commit(so.from().unwrap().id());
-                    let commit = find_commit.unwrap();
+            let oid = repo.revparse_single(branch_name).unwrap().id();
 
-                    branch.author = commit.author().name().unwrap().to_string();
-                    branch.committer = commit.committer().name().unwrap().to_string();
-                    branch.fist_commit_date = commit.author().when().seconds().to_string();
+            let mut walk = repo.revwalk().unwrap();
+            let _re = walk.push(oid);
+
+            let mut walk_iter = walk.into_iter();
+
+            let last_id = walk_iter.next().unwrap().unwrap();
+            let last_commit = repo.find_commit(last_id).unwrap();
+
+            branch.last_commit_date = last_commit.author().when().seconds().to_string();
+
+            while let Some(oid_result) = walk_iter.next() {
+                if walk_iter.next().is_none() {
+                    let first_commit = repo.find_commit(oid_result.unwrap()).unwrap();
+
+                    branch.author = first_commit.author().name().unwrap().to_string();
+                    branch.committer = first_commit.committer().name().unwrap().to_string();
+                    branch.first_commit_date = first_commit.author().when().seconds().to_string();
                 }
-                Err(_) => {}
             }
 
             coco_branches.push(branch);
