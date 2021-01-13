@@ -26,6 +26,7 @@
  - [ ] team analysis
     - [ ] join time & life time
     - [ ] member growth
+    - [ ] count system size & learning curve
  - [ ] commit rules
  - [ ] suggestion API
     - [ ] suggest ledge
