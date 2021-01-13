@@ -43,7 +43,7 @@ mod test {
         let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
         let branch = GitBranch::get("master", repo).unwrap();
         assert_eq!("master", branch.name);
-        assert_eq!("1610519809", branch.date);
+        assert_eq!("1610519809", branch.fist_commit_date);
         assert_eq!("Phodal Huang", branch.author);
         assert_eq!("GitHub", branch.committer);
     }

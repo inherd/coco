@@ -29,7 +29,6 @@ impl GitRepository {
         };
 
         // for windows https://github.com/rust-lang/git2-rs/issues/475
-
         let repo = match Repository::clone(url, buf.as_path()) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to clone: {}", e),

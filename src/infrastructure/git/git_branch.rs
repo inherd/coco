@@ -22,7 +22,7 @@ impl GitBranch {
 
                     branch.author = commit.author().name().unwrap().to_string();
                     branch.committer = commit.committer().name().unwrap().to_string();
-                    branch.date = commit.author().when().seconds().to_string();
+                    branch.fist_commit_date = commit.author().when().seconds().to_string();
                 }
                 Err(_) => {}
             }
