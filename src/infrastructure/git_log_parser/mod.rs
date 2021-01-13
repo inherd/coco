@@ -22,13 +22,15 @@ impl GitLogParser {
             println!("todo: make update for repo");
             let repo = match Repository::open(buf) {
                 Ok(repo) => repo,
-                Err(e) => panic!("failed to clone: {}", e),
+                Err(e) => panic!("failed to open: {}", e),
             };
 
             return repo;
         };
 
-        let repo = match Repository::clone(url, buf) {
+        // for windows https://github.com/rust-lang/git2-rs/issues/475
+
+        let repo = match Repository::clone(url, buf.as_path()) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to clone: {}", e),
         };
