@@ -66,7 +66,7 @@ impl GitRepository {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::git_log_parser::git_repository::GitRepository;
+    use crate::infrastructure::git::GitRepository;
     use std::path::Path;
     use std::sync::Once;
 

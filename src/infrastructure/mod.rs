@@ -6,7 +6,7 @@ use std::time::{Duration, UNIX_EPOCH};
 
 pub mod cloud_native_identify;
 pub mod file_scanner;
-pub mod git_log_parser;
+pub mod git;
 
 pub fn format_unix_time(i: u64) -> String {
     let d = UNIX_EPOCH + Duration::from_secs(i);
