@@ -1,5 +1,7 @@
 # Coco
 
+![Coco Build](https://github.com/phodal/coco/workflows/Coco%20Build/badge.svg)
+
 > (aka coconut, juice), a automatic DevOps metrics tools.
 
 特性（features in Chinese）：
