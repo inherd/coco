@@ -7,6 +7,7 @@ pub mod git_repository;
 mod test {
     use crate::infrastructure::git::git_branch::GitBranch;
     use crate::infrastructure::git::GitRepository;
+    use std::path::Path;
     use std::sync::Once;
 
     static INIT: Once = Once::new();
@@ -15,6 +16,15 @@ mod test {
         INIT.call_once(|| {
             GitRepository::clone("https://github.com/phodal/coco.fixtures");
         });
+    }
+
+    #[test]
+    fn should_verify_github_dir() {
+        initialize();
+        let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
+        let path_str = repo.path().to_str().unwrap();
+        let path = Path::new("github.com/phodal/coco.fixtures");
+        assert!(path_str.contains(path.to_str().unwrap()));
     }
 
     #[test]
