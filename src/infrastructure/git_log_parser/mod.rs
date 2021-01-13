@@ -72,7 +72,6 @@ mod test {
     pub fn initialize() {
         INIT.call_once(|| {
             GitLogParser::clone("https://github.com/phodal/coco.fixtures");
-            // initialization code here
         });
     }
 
