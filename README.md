@@ -50,7 +50,9 @@ features:
     - [ ] join time & life time
     - [ ] member growth
     - [ ] count system size & learning curve
- - [ ] commit rules
+ - [ ] commit analysis
+    - [ ] rule regex support in config
+    - [ ] participle（分词）
  - [ ] suggestion API
     - [ ] suggest ledge
  - [ ] web assembly support
@@ -59,6 +61,7 @@ features:
     - [ ] PR times by daily
  - [ ] tech stack generate
  - [ ] case study
+ - [ ] jenkins api analysis
 
 License
 ---
