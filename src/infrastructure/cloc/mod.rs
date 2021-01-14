@@ -1,4 +1,4 @@
-use tokei::{Config, Languages};
+use tokei::{Config, LanguageType, Languages};
 
 pub fn count() {
     let paths = &["src", "tests"];
@@ -9,9 +9,10 @@ pub fn count() {
     let mut languages = Languages::new();
 
     languages.get_statistics(paths, excluded, &config);
-    // let rust = &languages[&LanguageType::Rust];
+    let rust = &languages[&LanguageType::Rust];
 
     println!("{:?}", languages);
+    println!("{:?}", rust);
 }
 
 #[cfg(test)]
