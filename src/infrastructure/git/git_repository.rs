@@ -16,11 +16,12 @@ impl GitRepository {
 
         let buf = GitRepository::uri_to_path(root, uri_path);
 
-        println!("tempdir: {:?}", buf);
+        let path_str = buf.as_path().to_str().unwrap();
+        println!("tempdir: {:?}", path_str);
         if buf.exists() {
             // todo: make update for repo
             println!("todo: make update for repo");
-            let repo = match Repository::open(buf) {
+            let repo = match Repository::open(Path::new(path_str)) {
                 Ok(repo) => repo,
                 Err(e) => panic!("failed to open: {}", e),
             };
@@ -29,7 +30,7 @@ impl GitRepository {
         };
 
         // for windows https://github.com/rust-lang/git2-rs/issues/475
-        let repo = match Repository::clone(url, buf.as_path()) {
+        let repo = match Repository::clone(url, Path::new(path_str)) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to clone: {}", e),
         };
