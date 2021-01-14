@@ -14,16 +14,16 @@ mod test {
 
     pub fn initialize() {
         INIT.call_once(|| {
-            GitRepository::clone("https://github.com/phodal/coco.fixtures");
+            GitRepository::clone("https://github.com/inherd/coco.fixtures");
         });
     }
 
     #[test]
     fn should_verify_github_dir() {
         initialize();
-        let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
+        let repo = GitRepository::clone("https://github.com/inherd/coco.fixtures");
         let path_str = repo.path().to_str().unwrap();
-        let path = Path::new("github.com/phodal/coco.fixtures");
+        let path = Path::new("github.com/inherd/coco.fixtures");
         assert!(path_str.contains(path.to_str().unwrap()));
     }
 
@@ -31,7 +31,7 @@ mod test {
     fn should_list_branch() {
         initialize();
 
-        let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
+        let repo = GitRepository::clone("https://github.com/inherd/coco.fixtures");
         let branches = GitBranch::list(repo);
         assert_eq!(5, branches.len());
     }
@@ -40,7 +40,7 @@ mod test {
     fn should_get_master() {
         initialize();
 
-        let repo = GitRepository::clone("https://github.com/phodal/coco.fixtures");
+        let repo = GitRepository::clone("https://github.com/inherd/coco.fixtures");
         let branch = GitBranch::get("master", repo).unwrap();
         assert_eq!("master", branch.name);
         assert_eq!(1610519809, branch.first_commit_date);
