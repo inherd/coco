@@ -27,8 +27,8 @@ features:
 ## Todo
 
  - [x] git analysis
-    - [ ] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
-    - [ ] git tag analysis
+    - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
+ - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
     - [ ] git commit time analysis

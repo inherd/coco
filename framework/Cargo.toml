@@ -22,3 +22,12 @@ exclude = [
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_derive = "1.0.115"
+serde_json = "1.0"
+
+lazy_static = "1.2"
+
+walkdir = "2"
+
+regex = "1"
