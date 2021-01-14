@@ -1,8 +1,9 @@
 extern crate chrono;
-use chrono::prelude::DateTime;
-use chrono::Utc;
 
 use std::time::{Duration, UNIX_EPOCH};
+
+use chrono::prelude::DateTime;
+use chrono::Utc;
 
 pub fn format_unix_time(i: u64) -> String {
     if i == 0 {
