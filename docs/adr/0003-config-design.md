@@ -12,8 +12,8 @@ In order to support multiple project clone, we need to use a config for support 
 
 ```yaml
 repo:
-  - https://github.com/inherd/coco.fixtures
-  - https://github.com/inherd/coco.fixtures2
+  - url: https://github.com/inherd/coco.fixtures
+  - url: https://github.com/inherd/coco.fixtures2
 ```
 
 ## Decision
