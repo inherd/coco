@@ -40,6 +40,21 @@ pub fn get_repo(url: &str) -> String {
 
 #[cfg(test)]
 mod test {
+    use crate::app::git_app::FormatBranch;
+    use crate::domain::git::branch::CocoBranch;
+
     #[test]
-    fn should_output_really_date() {}
+    fn should_output_really_date() {
+        let branch = FormatBranch::from(CocoBranch {
+            name: "master".to_string(),
+            first_commit_date: 1610519809,
+            last_commit_date: 1610541520,
+            duration: 21711,
+            author: "GitHub".to_string(),
+            committer: "Phodal HUANG".to_string(),
+        });
+
+        assert_eq!("2021-01-13 06:36:49", branch.first_commit);
+        assert_eq!("2021-01-13 12:38:40", branch.last_commit);
+    }
 }
