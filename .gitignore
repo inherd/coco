@@ -11,4 +11,3 @@ Cargo.lock
 **/*.rs.bk
 .idea
 .coco
-coco_tmp
