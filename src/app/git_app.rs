@@ -10,8 +10,10 @@ pub struct FormatBranch {
     pub name: String,
     pub author: String,
     pub committer: String,
-    pub first_commit: String,
-    pub last_commit: String,
+    pub first_commit_str: String,
+    pub last_commit_str: String,
+    pub first_commit_date: i64,
+    pub last_commit_date: i64,
 }
 
 impl FormatBranch {
@@ -20,8 +22,11 @@ impl FormatBranch {
             name: br.name,
             author: br.author,
             committer: br.committer,
-            first_commit: format_unix_time(br.first_commit_date as u64),
-            last_commit: format_unix_time(br.last_commit_date as u64),
+
+            first_commit_str: format_unix_time(br.first_commit_date),
+            last_commit_str: format_unix_time(br.last_commit_date),
+            first_commit_date: br.first_commit_date,
+            last_commit_date: br.last_commit_date,
         }
     }
 }
@@ -54,7 +59,7 @@ mod test {
             committer: "Phodal HUANG".to_string(),
         });
 
-        assert_eq!("2021-01-13 06:36:49", branch.first_commit);
-        assert_eq!("2021-01-13 12:38:40", branch.last_commit);
+        assert_eq!("2021-01-13 06:36:49", branch.first_commit_str);
+        assert_eq!("2021-01-13 12:38:40", branch.last_commit_str);
     }
 }

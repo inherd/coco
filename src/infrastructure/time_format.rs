@@ -5,12 +5,12 @@ use std::time::{Duration, UNIX_EPOCH};
 use chrono::prelude::DateTime;
 use chrono::Utc;
 
-pub fn format_unix_time(i: u64) -> String {
+pub fn format_unix_time(i: i64) -> String {
     if i == 0 {
         return "".to_string();
     }
 
-    let d = UNIX_EPOCH + Duration::from_secs(i);
+    let d = UNIX_EPOCH + Duration::from_secs(i as u64);
     let datetime = DateTime::<Utc>::from(d);
     let timestamp_str = datetime.format("%Y-%m-%d %H:%M:%S").to_string();
     return timestamp_str;
