@@ -21,6 +21,7 @@ fn main() {
     let config_file = matches.value_of("config").unwrap_or("coco.yml");
     let contents = fs::read_to_string(config_file).expect("reading config file error");
     let config: CocoConfig = serde_yaml::from_str(&contents).expect("parse config file error");
+
     for x in &config.repo {
         get_repo(x.url.as_str());
     }

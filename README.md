@@ -26,25 +26,19 @@ features:
 
 ## Todo
 
- - [ ] framework detector.
-    - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
- - [ ] tools
-    - [ ] tools config identify
-    - [ ] tools suggest (identify old tools)
-    - [ ] cloud-native config
- - [ ] git analysis
+ - [x] git analysis
     - [ ] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [ ] git tag analysis
-    - [ ] git branch analysis
-       - [ ] branch history
+    - [x] git branch analysis
+       - [x] branch history
     - [ ] git commit time analysis
        - [ ] working night count
- - [ ] cloud native
-    - [ ] dockerfile analysis
  - [ ] cloc analysis
     - [ ] spike cloc tools
     - [ ] history cloc changes
     - [ ] commit cloc changes
+ - [ ] framework detector.
+    - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
  - [ ] module analysis
     - [ ] base framework for directory
     - [ ] code flower
@@ -57,11 +51,16 @@ features:
     - [ ] participle（分词）
  - [ ] suggestion API
     - [ ] suggest ledge
- - [ ] web assembly support
  - [ ] graph support for velocity
     - [ ] code commits by daily
     - [ ] PR times by daily
  - [ ] tech stack generate
+ - [ ] cloud native
+    - [ ] dockerfile analysis
+ - [ ] tools
+    - [ ] tools config identify
+    - [ ] tools suggest (identify old tools)
+    - [ ] cloud-native config
  - [ ] case study
  - [ ] jenkins api analysis
 
