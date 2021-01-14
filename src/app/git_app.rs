@@ -34,7 +34,7 @@ pub fn get_repo(url: &str) -> String {
         branches.push(FormatBranch::from(br));
     }
 
-    let output = serde_json::to_string(&branches).unwrap();
+    let output = serde_json::to_string_pretty(&branches).unwrap();
     return output;
 }
 
