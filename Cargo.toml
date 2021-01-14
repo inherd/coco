@@ -7,8 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-chrono = "0.4" # time format
+# time format
+chrono = "0.4"
+
 git2 = "0.13"
+
+# for cli usage
+clap = "2.33.3"
 
 # for git clone
 tempdir = "0.3"
