@@ -1,4 +1,4 @@
-use crate::domain::git::branch::CocoBranch;
+use crate::domain::git::coco_branch::CocoBranch;
 use git2::Repository;
 
 pub struct GitBranch {}

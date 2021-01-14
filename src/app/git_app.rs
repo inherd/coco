@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::domain::git::branch::CocoBranch;
+use crate::domain::git::coco_branch::CocoBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 use crate::infrastructure::time_format::format_unix_time;
@@ -46,7 +46,7 @@ pub fn get_repo(url: &str) -> String {
 #[cfg(test)]
 mod test {
     use crate::app::git_app::FormatBranch;
-    use crate::domain::git::branch::CocoBranch;
+    use crate::domain::git::coco_branch::CocoBranch;
 
     #[test]
     fn should_output_really_date() {
