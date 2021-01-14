@@ -8,7 +8,7 @@ pub struct GitRepository {}
 
 impl GitRepository {
     pub fn clone(url: &str) -> Repository {
-        let root = Path::new(".coco");
+        let root = Path::new("coco_tmp");
         let uri_path = match Url::parse(url) {
             Ok(url) => url,
             Err(e) => panic!("failed to parsed: {}", e),
