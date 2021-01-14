@@ -34,7 +34,7 @@ features:
     - [ ] git commit time analysis
        - [ ] working night count
  - [ ] cloc analysis
-    - [ ] spike cloc tools
+    - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
     - [ ] history cloc changes
     - [ ] commit cloc changes
  - [ ] framework detector.
