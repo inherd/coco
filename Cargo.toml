@@ -23,6 +23,8 @@ exclude = [
 ]
 
 [dependencies]
+lazy_static = "1.4.0"
+
 # time format
 chrono = "0.4"
 

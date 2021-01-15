@@ -3,12 +3,13 @@ use std::path::{Path, PathBuf};
 use git2::Repository;
 use tempdir::TempDir;
 use url::Url;
+use crate::global_config;
 
 pub struct GitRepository {}
 
 impl GitRepository {
     pub fn clone(url: &str) -> Repository {
-        let root = Path::new(".coco");
+        let root = Path::new(global_config("dir"));
         let uri_path = match Url::parse(url) {
             Ok(url) => url,
             Err(e) => panic!("failed to parsed: {}", e),
