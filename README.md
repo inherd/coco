@@ -49,6 +49,7 @@ features:
  - [ ] commit analysis
     - [ ] rule regex support in config
     - [ ] participle（分词）
+    - [ ] tags generate
  - [ ] suggestion API
     - [ ] suggest ledge
  - [ ] graph support for velocity
