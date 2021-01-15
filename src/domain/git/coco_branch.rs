@@ -6,7 +6,7 @@ pub struct CocoBranch {
     pub first_commit_date: i64,
     pub last_commit_date: i64,
     pub duration: i64,
-    pub commits_count: i64,
+    pub commits_count: usize,
     pub author: String,
     pub committer: String,
 }

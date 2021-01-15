@@ -1,7 +1,12 @@
 use crate::domain::git::coco_branch::CocoBranch;
+use crate::domain::git::coco_commit::CocoCommit;
 use git2::Repository;
 
 pub struct GitBranch {}
+
+pub struct SimpleCommit {
+    pub author: String,
+}
 
 impl GitBranch {
     pub fn list(repo: Repository) -> Vec<CocoBranch> {
@@ -27,28 +32,31 @@ impl GitBranch {
         let mut walk = repo.revwalk().unwrap();
         let _re = walk.push(oid);
 
-        let mut walk_iter = walk.into_iter();
+        let mut commits = vec![];
+        let mut revwalk = walk.into_iter();
+        while let Some(oid_result) = revwalk.next() {
+            let oid = oid_result.unwrap();
+            let commit = repo.find_commit(oid).unwrap();
 
-        let mut count = 1;
-
-        let last_id = walk_iter.next().unwrap().unwrap();
-        let last_commit = repo.find_commit(last_id).unwrap();
-
-        branch.last_commit_date = last_commit.author().when().seconds();
-
-        while let Some(oid_result) = walk_iter.next() {
-            if walk_iter.next().is_none() {
-                let first_commit = repo.find_commit(oid_result.unwrap()).unwrap();
-
-                branch.author = first_commit.author().name().unwrap().to_string();
-                branch.committer = first_commit.committer().name().unwrap().to_string();
-                branch.first_commit_date = first_commit.author().when().seconds();
-            }
-
-            count = count + 1;
+            commits.push(CocoCommit {
+                branch: branch_name.to_string(),
+                rev: oid.to_string(),
+                author: commit.author().name().unwrap().to_string(),
+                committer: commit.committer().name().unwrap().to_string(),
+                date: commit.author().when().seconds(),
+                message: "".to_string(),
+                changes: vec![],
+            });
         }
 
-        branch.commits_count = count;
+        branch.last_commit_date = commits[0].date;
+
+        let last_commit = commits.last().unwrap();
+
+        branch.commits_count = commits.len();
+        branch.author = last_commit.author.clone();
+        branch.committer = last_commit.committer.clone();
+        branch.first_commit_date = last_commit.date.clone();
 
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 
