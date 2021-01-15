@@ -70,6 +70,10 @@ features:
     - [ ] commit message analysis
     - [ ] story spend days
 
+## Documents
+
+Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/master/docs/guides/101-samples/index.md)
+
 License
 ---
 
