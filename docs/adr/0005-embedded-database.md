@@ -8,7 +8,10 @@ Date: 2021-01-15
 
 ## Context
 
-Context here...
+Sqlite or SQLite
+
+ - [sled](https://github.com/spacejam/sled) -  the champagne of beta embedded databases
+ - [Rusqlite](https://github.com/rusqlite/rusqlite)
 
 ## Decision
 
