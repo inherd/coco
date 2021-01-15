@@ -1,10 +1,9 @@
 use clap::{App, Arg};
 use coco::app::git_analysis::get_repo;
-use coco::domain::config::CocoConfig;
+use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::name_format;
 use std::{fs, thread};
 use std::path::Path;
-use std::time::Duration;
 
 fn main() {
     let matches = App::new("Coco Program")
@@ -28,7 +27,11 @@ fn main() {
     println!("found config file: {}", config_file);
 
     let repo = config.repo.clone();
-    let handle = thread::spawn( || {
+    run_analysis_repository(repo);
+}
+
+fn run_analysis_repository(repo: Vec<RepoConfig>) {
+    let handle = thread::spawn(|| {
         for x in repo {
             let results = get_repo(x.url.as_str());
             let file_name = name_format::from_url(x.url.as_str());
@@ -40,8 +43,6 @@ fn main() {
             let output_file = reporter_buf.join(file_name);
 
             fs::write(output_file, results).expect("cannot write file");
-
-            thread::sleep(Duration::from_millis(1));
         }
     });
 
