@@ -5,3 +5,4 @@
 * [3. config-design](0003-config-design.md)
 * [4. format-git-commit-message](0004-format-git-commit-message.md)
 * [5. embedded-database](0005-embedded-database.md)
+* [6. tech-stack-generate](0006-tech-stack-generate.md)
