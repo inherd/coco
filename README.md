@@ -32,6 +32,8 @@ features:
     - [x] git branch analysis
        - [x] branch history
     - [ ] git commit time analysis
+       - [ ] storage all commits
+          - [ ] light database?
        - [ ] working night count
  - [ ] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
