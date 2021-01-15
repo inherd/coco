@@ -28,7 +28,7 @@ fn main() {
     println!("found config file: {}", config_file);
 
     let repo = config.repo.clone();
-    thread::spawn( || {
+    let handle = thread::spawn( || {
         for x in repo {
             let results = get_repo(x.url.as_str());
             let file_name = name_format::from_url(x.url.as_str());
@@ -44,4 +44,6 @@ fn main() {
             thread::sleep(Duration::from_millis(1));
         }
     });
+
+    handle.join().unwrap();
 }
