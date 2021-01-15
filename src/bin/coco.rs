@@ -2,8 +2,9 @@ use clap::{App, Arg};
 use coco::app::git_analysis::get_repo;
 use coco::domain::config::CocoConfig;
 use coco::infrastructure::name_format;
-use std::fs;
+use std::{fs, thread};
 use std::path::Path;
+use std::time::Duration;
 
 fn main() {
     let matches = App::new("Coco Program")
@@ -24,16 +25,23 @@ fn main() {
     let contents = fs::read_to_string(config_file).expect("reading config file error");
     let config: CocoConfig = serde_yaml::from_str(&contents).expect("parse config file error");
 
-    for x in &config.repo {
-        let results = get_repo(x.url.as_str());
-        let file_name = name_format::from_url(x.url.as_str());
+    println!("found config file: {}", config_file);
 
-        let root = Path::new(".coco");
-        let reporter_buf = root.join("reporter");
-        let _ = fs::create_dir_all(reporter_buf.clone());
+    let repo = config.repo.clone();
+    thread::spawn( || {
+        for x in repo {
+            let results = get_repo(x.url.as_str());
+            let file_name = name_format::from_url(x.url.as_str());
 
-        let output_file = reporter_buf.join(file_name);
+            let root = Path::new(".coco");
+            let reporter_buf = root.join("reporter");
+            let _ = fs::create_dir_all(reporter_buf.clone());
 
-        fs::write(output_file, results).expect("cannot write file");
-    }
+            let output_file = reporter_buf.join(file_name);
+
+            fs::write(output_file, results).expect("cannot write file");
+
+            thread::sleep(Duration::from_millis(1));
+        }
+    });
 }
