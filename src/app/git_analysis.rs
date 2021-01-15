@@ -1,4 +1,4 @@
-use crate::domain::git::coco_branch::{FormatBranch};
+use crate::app::format_branch::FormatBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
@@ -16,8 +16,8 @@ pub fn get_repo(url: &str) -> String {
 
 #[cfg(test)]
 mod test {
+    use crate::app::format_branch::FormatBranch;
     use crate::domain::git::coco_branch::CocoBranch;
-    use crate::domain::git::coco_branch::FormatBranch;
 
     #[test]
     fn should_output_really_date() {
