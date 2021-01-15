@@ -1,6 +1,7 @@
 pub use git_repository::GitRepository;
 
 pub mod git_branch;
+pub mod git_commit;
 pub mod git_repository;
 
 #[cfg(test)]
@@ -51,5 +52,17 @@ mod test {
         let hours = branch.duration / 3600;
 
         assert!(hours >= first_second_commit_duration_hours);
+    }
+
+    #[test]
+    fn should_count_master_commits() {
+        initialize();
+
+        let repo = GitRepository::clone("https://github.com/inherd/coco.fixtures");
+        let branch = GitBranch::get("master", repo).unwrap();
+
+        println!("{:?}", branch);
+        println!("{:?}", branch.commits_count);
+        assert!(branch.commits_count >= 2);
     }
 }

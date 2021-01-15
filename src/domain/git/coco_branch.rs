@@ -6,6 +6,7 @@ pub struct CocoBranch {
     pub first_commit_date: i64,
     pub last_commit_date: i64,
     pub duration: i64,
+    pub commits_count: i64,
     pub author: String,
     pub committer: String,
 }
@@ -17,6 +18,7 @@ impl CocoBranch {
             first_commit_date: 0,
             last_commit_date: 0,
             duration: 0,
+            commits_count: 0,
             author: "".to_string(),
             committer: "".to_string(),
         }

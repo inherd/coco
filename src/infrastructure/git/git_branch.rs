@@ -10,7 +10,6 @@ impl GitBranch {
         for x in branches {
             let br = x.unwrap().0;
             // todo: add branch type support
-            // let br_type: BranchType = x.unwrap().1;
             let branch_name = br.name().unwrap().unwrap();
 
             let branch = GitBranch::create_branch_by_name(&repo, branch_name);
@@ -30,6 +29,8 @@ impl GitBranch {
 
         let mut walk_iter = walk.into_iter();
 
+        let mut count = 1;
+
         let last_id = walk_iter.next().unwrap().unwrap();
         let last_commit = repo.find_commit(last_id).unwrap();
 
@@ -43,7 +44,11 @@ impl GitBranch {
                 branch.committer = first_commit.committer().name().unwrap().to_string();
                 branch.first_commit_date = first_commit.author().when().seconds();
             }
+
+            count = count + 1;
         }
+
+        branch.commits_count = count;
 
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 

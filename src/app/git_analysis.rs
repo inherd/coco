@@ -26,6 +26,7 @@ mod test {
             first_commit_date: 1610519809,
             last_commit_date: 1610541520,
             duration: 21711,
+            commits_count: 0,
             author: "GitHub".to_string(),
             committer: "Phodal HUANG".to_string(),
         });

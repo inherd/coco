@@ -1,7 +1,6 @@
 use std::path::{Path, PathBuf};
 
 use git2::Repository;
-use tempdir::TempDir;
 use url::Url;
 
 use crate::settings::Settings;
