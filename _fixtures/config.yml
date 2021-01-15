@@ -1,3 +1,7 @@
 repo:
   - url: https://github.com/inherd/coco.fixtures
   - url: https://github.com/inherd/coco.fixtures2
+
+message:
+  #  should be a regexp
+  format: []

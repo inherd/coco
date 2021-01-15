@@ -63,6 +63,8 @@ features:
     - [ ] cloud-native config
  - [ ] case study
  - [ ] jenkins api analysis
+ - [ ] story burndown
+    - [ ] commit message analysis
 
 License
 ---
