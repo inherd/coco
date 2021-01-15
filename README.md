@@ -63,8 +63,9 @@ features:
     - [ ] cloud-native config
  - [ ] case study
  - [ ] jenkins api analysis
- - [ ] story burndown
+ - [ ] story velocity
     - [ ] commit message analysis
+    - [ ] story spend days
 
 License
 ---
