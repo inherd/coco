@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use coco::app::git_app::get_repo;
+use coco::app::git_analysis::get_repo;
 use coco::domain::config::CocoConfig;
 use coco::infrastructure::name_format;
 use std::fs;

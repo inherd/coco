@@ -45,7 +45,7 @@ pub fn get_repo(url: &str) -> String {
 
 #[cfg(test)]
 mod test {
-    use crate::app::git_app::FormatBranch;
+    use crate::app::git_analysis::FormatBranch;
     use crate::domain::git::coco_branch::CocoBranch;
 
     #[test]
