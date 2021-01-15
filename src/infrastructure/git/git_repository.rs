@@ -54,14 +54,4 @@ impl GitRepository {
 
         buf
     }
-
-    #[allow(dead_code)]
-    fn create_temp_dir() -> PathBuf {
-        let temp = TempDir::new_in(".coco", "");
-        let dir = match temp {
-            Ok(tempdir) => tempdir.into_path(),
-            Err(e) => panic!("failed to create dir: {}", e),
-        };
-        dir
-    }
 }

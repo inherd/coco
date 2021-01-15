@@ -2,8 +2,9 @@ use clap::{App, Arg};
 use coco::app::git_analysis::get_repo;
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::name_format;
-use std::{fs, thread};
+use coco::settings::Settings;
 use std::path::Path;
+use std::{fs, thread};
 
 fn main() {
     let matches = App::new("Coco Program")
@@ -36,7 +37,7 @@ fn run_analysis_repository(repo: Vec<RepoConfig>) {
             let results = get_repo(x.url.as_str());
             let file_name = name_format::from_url(x.url.as_str());
 
-            let root = Path::new(".coco");
+            let root = Path::new(Settings::dir());
             let reporter_buf = root.join("reporter");
             let _ = fs::create_dir_all(reporter_buf.clone());
 
