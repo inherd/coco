@@ -56,7 +56,11 @@ impl GitBranch {
     }
 
     fn create_coco_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
-        let commit = CocoCommit {
+        // let commit_message = commit.message().unwrap();
+        // println!("{:?}", commit_message);
+        // println!("{:?}", commit.as_object());
+
+        CocoCommit {
             branch: branch_name.to_string(),
             rev: oid.to_string(),
             author: commit.author().name().unwrap().to_string(),
@@ -64,8 +68,7 @@ impl GitBranch {
             date: commit.author().when().seconds(),
             message: "".to_string(),
             changes: vec![],
-        };
-        commit
+        }
     }
 
     pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {
