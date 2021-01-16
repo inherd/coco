@@ -17,7 +17,7 @@ impl GitBranch {
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
 
-            let branch = GitBranch::create_branch_by_name(&repo, branch_name).0;
+            let branch = GitBranch::caculate_branch(&repo, branch_name).0;
 
             coco_branches.push(branch);
         }
@@ -25,10 +25,7 @@ impl GitBranch {
         coco_branches
     }
 
-    fn create_branch_by_name(
-        repo: &Repository,
-        branch_name: &str,
-    ) -> (CocoBranch, Vec<CocoCommit>) {
+    fn caculate_branch(repo: &Repository, branch_name: &str) -> (CocoBranch, Vec<CocoCommit>) {
         let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
