@@ -17,7 +17,7 @@ impl GitBranch {
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
 
-            let branch = GitBranch::create_branch_by_name(&repo, branch_name);
+            let branch = GitBranch::create_branch_by_name(&repo, branch_name).0;
 
             coco_branches.push(branch);
         }
@@ -25,7 +25,10 @@ impl GitBranch {
         coco_branches
     }
 
-    fn create_branch_by_name(repo: &Repository, branch_name: &str) -> CocoBranch {
+    fn create_branch_by_name(
+        repo: &Repository,
+        branch_name: &str,
+    ) -> (CocoBranch, Vec<CocoCommit>) {
         let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
@@ -60,7 +63,7 @@ impl GitBranch {
 
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 
-        branch
+        (branch, commits)
     }
 
     pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {
