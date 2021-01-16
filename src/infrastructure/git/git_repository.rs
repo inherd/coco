@@ -18,7 +18,7 @@ impl GitRepository {
         let buf = GitRepository::uri_to_path(root, uri_path);
 
         let path_str = buf.as_path().to_str().unwrap();
-        println!("tempdir: {:?}", path_str);
+        println!("target dir: {:?}", path_str);
         if buf.exists() {
             // todo: make update for repo
             println!("todo: make update for repo");
