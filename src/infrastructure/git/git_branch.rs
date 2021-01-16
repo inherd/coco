@@ -1,6 +1,6 @@
 use crate::domain::git::coco_branch::CocoBranch;
 use crate::domain::git::coco_commit::CocoCommit;
-use git2::Repository;
+use git2::{Commit, Oid, Repository};
 
 pub struct GitBranch {}
 
@@ -38,15 +38,7 @@ impl GitBranch {
             let oid = oid_result.unwrap();
             let commit = repo.find_commit(oid).unwrap();
 
-            commits.push(CocoCommit {
-                branch: branch_name.to_string(),
-                rev: oid.to_string(),
-                author: commit.author().name().unwrap().to_string(),
-                committer: commit.committer().name().unwrap().to_string(),
-                date: commit.author().when().seconds(),
-                message: "".to_string(),
-                changes: vec![],
-            });
+            commits.push(GitBranch::create_coco_commit(branch_name, oid, commit));
         }
 
         branch.last_commit_date = commits[0].date;
@@ -61,6 +53,19 @@ impl GitBranch {
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 
         (branch, commits)
+    }
+
+    fn create_coco_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
+        let commit = CocoCommit {
+            branch: branch_name.to_string(),
+            rev: oid.to_string(),
+            author: commit.author().name().unwrap().to_string(),
+            committer: commit.committer().name().unwrap().to_string(),
+            date: commit.author().when().seconds(),
+            message: "".to_string(),
+            changes: vec![],
+        };
+        commit
     }
 
     pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {
