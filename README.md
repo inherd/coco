@@ -56,7 +56,7 @@ features:
     - [ ] suggest ledge
     - [ ] suggest phodal
     - [ ] online suggest
-       - [ ] link daily check
+       - [ ] link daily checkx
  - [ ] graph support for velocity
     - [ ] code commits by daily
     - [ ] PR times by daily
