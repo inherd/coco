@@ -54,6 +54,9 @@ features:
     - [ ] tags generate
  - [ ] suggestion API
     - [ ] suggest ledge
+    - [ ] suggest phodal
+    - [ ] online suggest
+       - [ ] link daily check
  - [ ] graph support for velocity
     - [ ] code commits by daily
     - [ ] PR times by daily
