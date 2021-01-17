@@ -40,7 +40,8 @@ features:
     - [ ] history cloc changes
     - [ ] commit cloc changes
  - [ ] framework detector.
-    - [ ] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
+    - [x] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
+    - [ ] framework output
  - [ ] module analysis
     - [ ] base framework for directory
     - [ ] code flower
