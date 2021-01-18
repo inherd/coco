@@ -91,6 +91,28 @@ Bilibili: [研发效能分析工具 Coco 第一次线上讨论](https://www.bili
 
 ### Roadmap
 
+#### analysis and reporter
+
+analysis
+
+ - git analysis
+    - branch
+    - changes
+    - commits
+ - cloc analysis
+    - summary
+    - file arch
+ - framework analysis
+ - architecture analysis
+    - file/directory orgianzation
+
+reporter
+
+ - html reporter
+ - json output
+ - query api?
+
+#### suggest and case study
 
 
 ## Todo
