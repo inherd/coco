@@ -4,7 +4,7 @@ use clap::{App, Arg};
 
 use coco::app::git_analysis;
 use coco::domain::config::{CocoConfig, RepoConfig};
-use coco::infrastructure::name_format;
+use coco::infrastructure::url_format;
 use coco::settings::Settings;
 
 fn main() {
@@ -28,23 +28,27 @@ fn main() {
 
     println!("found config file: {}", config_file);
 
-    let repo = config.repo.clone();
-    run_analysis_repository(repo);
+    run_analysis_repositories(config.repo.clone());
 }
 
-fn run_analysis_repository(repo: Vec<RepoConfig>) {
-    let handle = thread::spawn(|| {
-        for i in repo {
-            let url_str = i.url.as_str();
-
-            let results = git_analysis::get_repo(url_str);
-            let file_name = name_format::from_url(url_str);
-
-            let output_file = Settings::reporter_dir().join(file_name);
-
-            fs::write(output_file, results).expect("cannot write file");
+fn run_analysis_repositories(repos: Vec<RepoConfig>) {
+    thread::spawn(|| {
+        for repo in repos {
+            // todo: add other analysis code in here
+            analysis_repo(repo);
         }
-    });
+    })
+    .join()
+    .unwrap();
+}
 
-    handle.join().unwrap();
+fn analysis_repo(repo: RepoConfig) {
+    let url_str = repo.url.as_str();
+
+    let branches_info = git_analysis::get_repo(url_str);
+    let file_name = url_format::from(url_str);
+
+    let output_file = Settings::reporter_dir().join(file_name);
+
+    fs::write(output_file, branches_info).expect("cannot write file");
 }

@@ -10,8 +10,8 @@ pub fn get_repo(url: &str) -> String {
         branches.push(FormatBranch::from(br));
     }
 
-    let output = serde_json::to_string_pretty(&branches).unwrap();
-    return output;
+    let branches_info = serde_json::to_string_pretty(&branches).unwrap();
+    return branches_info;
 }
 
 #[cfg(test)]
