@@ -9,13 +9,12 @@ pub struct GitRepository {}
 
 impl GitRepository {
     pub fn clone(url: &str) -> Repository {
-        let root = Path::new(Settings::dir());
         let uri_path = match Url::parse(url) {
             Ok(url) => url,
             Err(e) => panic!("failed to parsed: {}", e),
         };
 
-        let buf = GitRepository::uri_to_path(root, uri_path);
+        let buf = GitRepository::uri_to_path(uri_path);
 
         let path_str = buf.as_path().to_str().unwrap();
         println!("target dir: {:?}", path_str);
@@ -39,7 +38,8 @@ impl GitRepository {
         return repo;
     }
 
-    pub fn uri_to_path(root: &Path, uri_path: Url) -> PathBuf {
+    pub fn uri_to_path(uri_path: Url) -> PathBuf {
+        let root = Path::new(Settings::dir());
         let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
         let paths = uri_path
