@@ -38,7 +38,7 @@ impl GitBranch {
             let oid = oid_result.unwrap();
             let commit = repo.find_commit(oid).unwrap();
 
-            commits.push(GitBranch::create_coco_commit(branch_name, oid, commit));
+            commits.push(GitBranch::to_coco_commit(branch_name, oid, commit));
         }
 
         branch.last_commit_date = commits[0].date;
@@ -55,7 +55,7 @@ impl GitBranch {
         (branch, commits)
     }
 
-    fn create_coco_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
+    fn to_coco_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
         CocoCommit {
             branch: branch_name.to_string(),
             rev: oid.to_string(),
