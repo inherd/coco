@@ -52,7 +52,12 @@ cargo run --bin coco
 
 ### Architecture
 
+![Architecture](docs/images/coco-architecture.svg)
 
+third-party libs:
+
+ - libgit2, git api
+ - tokei, cloc api
 
 ## Todo
 
