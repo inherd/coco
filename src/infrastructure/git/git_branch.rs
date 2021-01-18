@@ -17,7 +17,7 @@ impl GitBranch {
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
 
-            let branch = GitBranch::caculate_branch(&repo, branch_name).0;
+            let branch = GitBranch::calculate_branch(&repo, branch_name).0;
 
             coco_branches.push(branch);
         }
@@ -25,12 +25,12 @@ impl GitBranch {
         coco_branches
     }
 
-    fn caculate_branch(repo: &Repository, branch_name: &str) -> (CocoBranch, Vec<CocoCommit>) {
+    fn calculate_branch(repo: &Repository, branch_name: &str) -> (CocoBranch, Vec<CocoCommit>) {
         let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
         let mut walk = repo.revwalk().unwrap();
-        let _re = walk.push(oid);
+        let _ = walk.push(oid);
 
         let mut commits = vec![];
         let mut revwalk = walk.into_iter();
@@ -56,17 +56,13 @@ impl GitBranch {
     }
 
     fn create_coco_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
-        // let commit_message = commit.message().unwrap();
-        // println!("{:?}", commit_message);
-        // println!("{:?}", commit.as_object());
-
         CocoCommit {
             branch: branch_name.to_string(),
             rev: oid.to_string(),
             author: commit.author().name().unwrap().to_string(),
             committer: commit.committer().name().unwrap().to_string(),
             date: commit.author().when().seconds(),
-            message: "".to_string(),
+            message: commit.message().unwrap().to_string(),
             changes: vec![],
         }
     }
