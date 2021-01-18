@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="718px" height="560px" viewBox="0 0 718 560" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg width="745px" height="582px" viewBox="0 0 745 582" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
     <!-- Generator: Sketch 62 (91390) - https://sketch.com -->
     <title>clean</title>
     <desc>Created with Sketch.</desc>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="clean" transform="translate(1.000000, 1.000000)">
-            <g id="domain" transform="translate(133.000000, 298.000000)">
+        <g id="clean">
+            <rect id="Rectangle" fill="#FFFFFF" x="0" y="0" width="745" height="582"></rect>
+            <g id="domain" transform="translate(148.000000, 311.000000)">
                 <path d="M0,0 L582,0 L582,111 L0,111 L0,0 Z" id="Rectangle" stroke="#979797" stroke-width="2" stroke-dasharray="4,4"></path>
                 <rect id="Rectangle" stroke="#979797" stroke-width="2" x="37" y="24" width="163" height="55" rx="2"></rect>
                 <text id="CLOC" font-family="PingFangSC-Semibold, PingFang SC" font-size="18" font-weight="500" fill="#000000">
@@ -23,7 +24,7 @@
                     <tspan x="510" y="98">domain</tspan>
                 </text>
             </g>
-            <g id="app" transform="translate(1.000000, 149.000000)">
+            <g id="app" transform="translate(16.000000, 162.000000)">
                 <path d="M0,0 L715,0 L715,111 L0,111 L0,0 Z" id="Rectangle" stroke="#979797" stroke-width="2" stroke-dasharray="4,4"></path>
                 <text id="application" font-family="PingFangSC-Semibold, PingFang SC" font-size="18" font-weight="500" fill="#000000">
                     <tspan x="612" y="98">application</tspan>
@@ -53,7 +54,7 @@
                     <tspan x="443" y="88">…</tspan>
                 </text>
             </g>
-            <g id="infra" transform="translate(0.000000, 447.000000)">
+            <g id="infra" transform="translate(15.000000, 460.000000)">
                 <g id="Group-3" transform="translate(29.000000, 14.000000)">
                     <rect id="Rectangle" stroke="#979797" stroke-width="2" x="0" y="0" width="189" height="39" rx="2"></rect>
                     <text id="framework-detector" font-family="PingFangSC-Semibold, PingFang SC" font-size="18" font-weight="500" fill="#000000">
@@ -95,7 +96,7 @@
                     <tspan x="590" y="97">infrastructure</tspan>
                 </text>
             </g>
-            <g id="bin" transform="translate(1.000000, 0.000000)">
+            <g id="bin" transform="translate(16.000000, 13.000000)">
                 <path d="M0,0 L715,0 L715,111 L0,111 L0,0 Z" id="Rectangle" stroke="#979797" stroke-width="2" stroke-dasharray="4,4"></path>
                 <text font-family="PingFangSC-Semibold, PingFang SC" font-size="18" font-weight="500" fill="#000000">
                     <tspan x="680" y="98">bin</tspan>
@@ -116,9 +117,9 @@
                     <tspan x="527" y="62">suggest</tspan>
                 </text>
             </g>
-            <path id="Line" d="M22.0155428,116.984617 L25.0153834,117.015543 L24.9999203,118.515463 L24.9043499,127.785794 L24.798,138.038 L31.1044399,127.094746 L31.8532699,125.795033 L34.4526957,127.292693 L33.7038656,128.592406 L24.5394042,144.498777 L23.2081507,146.809378 L21.9248165,144.471822 L13.0902344,128.379894 L12.3683589,127.065019 L14.9981085,125.621268 L15.719984,126.936143 L21.798,138.009 L21.9045093,127.754868 L22.0000797,118.484537 L22.0155428,116.984617 Z" fill="#979797" fill-rule="nonzero"></path>
-            <path id="Line" d="M22.0010787,264.998922 L25.001078,265.001079 L24.9999996,266.501078 L24.8857822,425.377498 L24.878,435.649 L31.078947,424.645142 L31.8152785,423.338308 L34.4289471,424.810971 L33.6926156,426.117806 L24.6811154,442.111331 L23.3720815,444.434592 L22.0663894,442.109452 L13.0778943,426.102986 L12.3434425,424.795094 L14.9592258,423.32619 L15.6936776,424.634082 L21.878,435.648 L21.885783,425.375341 L22.0000004,266.498922 L22.0010787,264.998922 Z" fill="#979797" fill-rule="nonzero"></path>
-            <path id="Line" d="M205.010989,264.989091 L208.010909,265.010989 L207.99996,266.510949 L207.921844,277.212849 L207.846,287.472 L214.119786,276.508676 L214.8647,275.206716 L217.468622,276.696545 L216.723707,277.998506 L207.607162,293.932388 L206.282869,296.246985 L204.992505,293.913303 L196.10953,277.848038 L195.3837,276.535341 L198.009092,275.083682 L198.734922,276.396378 L204.846,287.45 L204.921924,277.190952 L205.00004,266.489051 L205.010989,264.989091 Z" fill="#979797" fill-rule="nonzero"></path>
+            <path id="Line" d="M37.0155428,129.984617 L40.0153834,130.015543 L39.9999203,131.515463 L39.9043499,140.785794 L39.798,151.038 L46.1044399,140.094746 L46.8532699,138.795033 L49.4526957,140.292693 L48.7038656,141.592406 L39.5394042,157.498777 L38.2081507,159.809378 L36.9248165,157.471822 L28.0902344,141.379894 L27.3683589,140.065019 L29.9981085,138.621268 L30.719984,139.936143 L36.798,151.009 L36.9045093,140.754868 L37.0000797,131.484537 L37.0155428,129.984617 Z" fill="#979797" fill-rule="nonzero"></path>
+            <path id="Line" d="M37.0010787,277.998922 L40.001078,278.001079 L39.9999996,279.501078 L39.8857822,438.377498 L39.878,448.649 L46.078947,437.645142 L46.8152785,436.338308 L49.4289471,437.810971 L48.6926156,439.117806 L39.6811154,455.111331 L38.3720815,457.434592 L37.0663894,455.109452 L28.0778943,439.102986 L27.3434425,437.795094 L29.9592258,436.32619 L30.6936776,437.634082 L36.878,448.648 L36.885783,438.375341 L37.0000004,279.498922 L37.0010787,277.998922 Z" fill="#979797" fill-rule="nonzero"></path>
+            <path id="Line" d="M220.010989,277.989091 L223.010909,278.010989 L222.99996,279.510949 L222.921844,290.212849 L222.846,300.472 L229.119786,289.508676 L229.8647,288.206716 L232.468622,289.696545 L231.723707,290.998506 L222.607162,306.932388 L221.282869,309.246985 L219.992505,306.913303 L211.10953,290.848038 L210.3837,289.535341 L213.009092,288.083682 L213.734922,289.396378 L219.846,300.45 L219.921924,290.190952 L220.00004,279.489051 L220.010989,277.989091 Z" fill="#979797" fill-rule="nonzero"></path>
         </g>
     </g>
 </svg>
