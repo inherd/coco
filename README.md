@@ -24,6 +24,36 @@ features:
  - graph visual and reporter
  - multiple-repo **parallel**
 
+## Development
+
+IDE: Clion
+
+### Setup
+
+1.install Rust
+
+follow [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
+
+2.install `justfile`
+
+follow: [https://github.com/casey/just](https://github.com/casey/just)
+
+3.Run tests
+
+```
+just tests
+```
+
+4.test Command
+
+```
+cargo run --bin coco
+```
+
+### Architecture
+
+
+
 ## Todo
 
  - [x] git analysis
