@@ -50,6 +50,30 @@ just tests
 cargo run --bin coco
 ```
 
+#### Setup for macOS with HomeBrew
+
+1. install rust
+
+```
+brew install rustup
+rustup-init
+```
+重启shell，或者执行``` source $HOME/.cargo/env ```
+
+
+2. install just
+
+```
+brew install just
+```
+
+3.Run tests
+
+```
+just tests
+```
+
+
 ### Architecture
 
 ![Architecture](docs/images/coco-architecture.svg)
