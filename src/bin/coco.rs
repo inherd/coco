@@ -1,10 +1,11 @@
+use std::{fs, thread};
+
 use clap::{App, Arg};
-use coco::app::git_analysis::get_repo;
+
+use coco::app::git_analysis;
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::name_format;
 use coco::settings::Settings;
-use std::path::Path;
-use std::{fs, thread};
 
 fn main() {
     let matches = App::new("Coco Program")
@@ -33,15 +34,13 @@ fn main() {
 
 fn run_analysis_repository(repo: Vec<RepoConfig>) {
     let handle = thread::spawn(|| {
-        for x in repo {
-            let results = get_repo(x.url.as_str());
-            let file_name = name_format::from_url(x.url.as_str());
+        for i in repo {
+            let url_str = i.url.as_str();
 
-            let root = Path::new(Settings::dir());
-            let reporter_buf = root.join("reporter");
-            let _ = fs::create_dir_all(reporter_buf.clone());
+            let results = git_analysis::get_repo(url_str);
+            let file_name = name_format::from_url(url_str);
 
-            let output_file = reporter_buf.join(file_name);
+            let output_file = Settings::reporter_dir().join(file_name);
 
             fs::write(output_file, results).expect("cannot write file");
         }
