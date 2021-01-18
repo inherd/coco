@@ -13,19 +13,19 @@ mod test {
 
     #[test]
     fn format_github() {
-        let string = from_url("github.com/inherd/coco.fixtures");
-        assert_eq!("github-com-inherd-coco-fixtures.json", string);
+        let string = from_url("github.com/coco-rs/coco.fixtures");
+        assert_eq!("github-com-coco-rs-coco-fixtures.json", string);
     }
 
     #[test]
     fn format_github_with_url_https() {
-        let string = from_url("https://github.com/inherd/coco.fixtures");
-        assert_eq!("github-com-inherd-coco-fixtures.json", string);
+        let string = from_url("https://github.com/coco-rs/coco.fixtures");
+        assert_eq!("github-com-coco-rs-coco-fixtures.json", string);
     }
 
     #[test]
     fn format_github_with_url_http() {
-        let string = from_url("http://github.com/inherd/coco.fixtures");
-        assert_eq!("github-com-inherd-coco-fixtures.json", string);
+        let string = from_url("http://github.com/coco-rs/coco.fixtures");
+        assert_eq!("github-com-coco-rs-coco-fixtures.json", string);
     }
 }
