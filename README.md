@@ -59,6 +59,16 @@ third-party libs:
  - libgit2, git api
  - tokei, cloc api
 
+## Documents
+
+### Online video
+
+Bilibili: [研发效能分析工具 Coco 第一次线上讨论](https://www.bilibili.com/video/BV18K4y1W7jN/)
+
+### Roadmap
+
+
+
 ## Todo
 
  - [x] git analysis
