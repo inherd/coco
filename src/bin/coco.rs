@@ -2,6 +2,7 @@ use std::{fs, thread};
 
 use clap::{App, Arg};
 
+use coco::app::framework_analysis;
 use coco::app::git_analysis;
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
@@ -35,17 +36,23 @@ fn run_analysis_repositories(repos: Vec<RepoConfig>) {
     thread::spawn(|| {
         for repo in repos {
             // todo: add other analysis code in here
-            analysis_repo(repo);
+            let url_str = repo.url.as_str();
+
+            analysis_repo(url_str);
+            analysis_framework(url_str);
         }
     })
     .join()
     .unwrap();
 }
 
-fn analysis_repo(repo: RepoConfig) {
-    let url_str = repo.url.as_str();
+fn analysis_framework(url_str: &str) {
+    let path_buf = url_format::uri_to_path(url_str);
+    let _results = framework_analysis::analysis(path_buf);
+}
 
-    let branches_info = git_analysis::get_repo(url_str);
+fn analysis_repo(url_str: &str) {
+    let branches_info = git_analysis::branches_info(url_str);
     let file_name = url_format::from(url_str);
 
     let output_file = Settings::reporter_dir().join(file_name);

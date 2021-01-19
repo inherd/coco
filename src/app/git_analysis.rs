@@ -2,7 +2,7 @@ use crate::app::format_branch::FormatBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
-pub fn get_repo(url: &str) -> String {
+pub fn branches_info(url: &str) -> String {
     let repo = GitRepository::clone(url);
     let mut branches = vec![];
 

@@ -1,20 +1,14 @@
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use git2::Repository;
-use url::Url;
 
-use crate::settings::Settings;
+use crate::infrastructure::url_format;
 
 pub struct GitRepository {}
 
 impl GitRepository {
     pub fn clone(url: &str) -> Repository {
-        let uri_path = match Url::parse(url) {
-            Ok(url) => url,
-            Err(e) => panic!("failed to parsed: {}", e),
-        };
-
-        let buf = GitRepository::uri_to_path(uri_path);
+        let buf = url_format::uri_to_path(url);
 
         let path_str = buf.as_path().to_str().unwrap();
         println!("target dir: {:?}", path_str);
@@ -36,21 +30,5 @@ impl GitRepository {
         };
 
         return repo;
-    }
-
-    pub fn uri_to_path(uri_path: Url) -> PathBuf {
-        let root = Path::new(Settings::root_dir());
-        let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
-
-        let paths = uri_path
-            .path_segments()
-            .map(|c| c.collect::<Vec<_>>())
-            .unwrap();
-
-        for path in paths {
-            buf = buf.join(PathBuf::from(path));
-        }
-
-        buf
     }
 }
