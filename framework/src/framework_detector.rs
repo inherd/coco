@@ -16,9 +16,9 @@ pub struct Framework {
     // |   languages |   files    |
     // |-------------|------------|
     // | Java        | build.gradle, settings.gradle |
-    pub framework_files: Vec<String>,
+    pub files: Vec<String>,
     // in JVM projects, has different languages, such as Java, Groovy, Kotlin...
-    pub language: Vec<String>,
+    pub languages: Vec<String>,
 }
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
