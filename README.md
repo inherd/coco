@@ -137,7 +137,7 @@ analysis
     - file arch
  - framework analysis
  - architecture analysis
-    - file/directory orgianzation
+    - file/directory organization
 
 reporter
 
@@ -198,6 +198,20 @@ reporter
  - [ ] story velocity
     - [ ] commit message analysis
     - [ ] story spend days
+
+Visual and Reporter
+
+ - visual
+     - [ ] spike d3.js code organization
+     - [ ] architecture
+         - [ ] code flower
+     - [ ] git
+         - [ ] branch history
+ - [ ] reporter
+     - [ ] framework
+     - [ ] cloc
+     - [ ] git
+     - [ ] architecture
 
 ## Documents
 
