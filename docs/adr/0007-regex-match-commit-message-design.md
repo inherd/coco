@@ -15,7 +15,7 @@ Gitlab use RE2: [https://github.com/google/re2/wiki/Syntax](https://github.com/g
 Rust RE2
 
 ```yaml
-commit:
+commit-message:
   regex: (\d{4})-(\d{2})-(\d{2})
   matches:
     - year
@@ -26,12 +26,14 @@ commit:
 Conventional Commit:
 
 ```yaml
-commit:
- regex: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
+commit-message:
+ default: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
 ```
 
+Jira Samples
+
 ```yaml
-branch:
+commit-message:
   regex: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
   matches:
     - branch

@@ -2,6 +2,13 @@ repo:
   - url: https://github.com/coco-rs/coco.fixtures
   - url: https://github.com/coco-rs/coco.fixtures2
 
-message:
-  #  should be a regexp
-  format: /
+commit-message:
+  # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
+  # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
+  # jira test case: feature/JIR-124:test commit message
+  regex: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
+  matches:
+    - branch
+    - tag
+    - id
+  samples: feature/JIR-124:test commit message
