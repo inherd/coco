@@ -135,6 +135,7 @@ reporter
     - [ ] framework output
  - [ ] module analysis
     - [ ] base framework for directory
+       - [ ] gitignore support
     - [ ] code flower
  - [ ] team analysis
     - [ ] join time & life time
