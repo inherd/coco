@@ -1,8 +1,11 @@
-use crate::facet::{JavaFacet, JvmFacet};
 use std::collections::hash_map::RandomState;
 use std::collections::{BTreeMap, HashSet};
+
 use walkdir::WalkDir;
 
+use crate::facet::{JavaFacet, JvmFacet};
+
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub struct Framework {
     pub name: String,
     pub path: String,
@@ -17,6 +20,7 @@ pub struct Framework {
     pub language: Vec<String>,
 }
 
+#[derive(Serialize, PartialEq, Debug, Clone)]
 pub struct FrameworkDetector<'a> {
     pub tags: BTreeMap<&'a str, bool>,
     pub frameworks: Vec<Framework>,
@@ -118,8 +122,9 @@ impl<'a> FrameworkDetector<'a> {
 
 #[cfg(test)]
 mod tests {
-    use crate::framework_detector::FrameworkDetector;
     use std::path::PathBuf;
+
+    use crate::framework_detector::FrameworkDetector;
 
     fn build_test_detector<'a>() -> FrameworkDetector<'a> {
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
