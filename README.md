@@ -24,6 +24,39 @@ features:
  - graph visual and reporter
  - multiple-repo **parallel**
 
+## Usage
+
+1. create `coco.yml` in projects.
+2. config `coco.yml`
+3. run `coco`
+
+### coco.yml
+
+#### 配置 (config in Chinese)
+
+示例：
+
+```yml
+# 代码库
+repo:
+  - url: https://github.com/coco-rs/coco.fixtures
+  - url: https://github.com/coco-rs/coco.fixtures2
+
+# 提交信息格式
+commit-message:
+  # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
+  # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
+  # jira test case: feature/JIR-124:test commit message
+  regex: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
+  matches:
+    - branch
+    - tag
+    - id
+  samples: feature/JIR-124:test commit message
+```
+
+#### Config
+
 ## Development
 
 IDE: Clion
