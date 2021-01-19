@@ -2,8 +2,8 @@ use std::{fs, thread};
 
 use clap::{App, Arg};
 
-use coco::app::framework_analysis;
-use coco::app::git_analysis;
+use coco::app::{architecture_analysis, git_analysis};
+use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
@@ -37,6 +37,7 @@ fn run_analysis_repositories(repos: Vec<RepoConfig>) {
         for repo in repos {
             let url_str = repo.url.as_str();
 
+            // todo: thinking in refactor to patterns
             analysis_git(url_str);
             analysis_framework(url_str);
             analysis_cloc(url_str);
@@ -66,6 +67,20 @@ fn analysis_git(url_str: &str) {
     fs::write(output_file, branches_info).expect("cannot write file");
 }
 
-fn analysis_cloc(_url_str: &str) {}
+fn analysis_cloc(url_str: &str) {
+    let branches_info = cloc_analysis::analysis(url_str);
+    let file_name = url_format::from(url_str);
 
-fn analysis_architecture(_url_str: &str) {}
+    let output_file = Settings::reporter_dir(Some("cloc")).join(file_name);
+
+    fs::write(output_file, branches_info).expect("cannot write file");
+}
+
+fn analysis_architecture(url_str: &str) {
+    let branches_info = architecture_analysis::analysis(url_str);
+    let file_name = url_format::from(url_str);
+
+    let output_file = Settings::reporter_dir(Some("architecture")).join(file_name);
+
+    fs::write(output_file, branches_info).expect("cannot write file");
+}
