@@ -4,6 +4,7 @@ use std::collections::{BTreeMap, HashSet};
 use walkdir::WalkDir;
 
 use crate::facet::{JavaFacet, JvmFacet};
+use std::path::Path;
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
 pub struct Framework {
@@ -36,20 +37,18 @@ impl<'a> FrameworkDetector<'a> {
         }
     }
 
-    pub fn run(&mut self, path: String) {
+    pub fn run<P: AsRef<Path>>(&mut self, path: P) {
         self.light_detector(path)
     }
 
     fn deep_detector(&mut self, _path: String) {}
 
     fn build_frameworks_info(&mut self) {
-        if self.tags.contains_key("workspace.java.gradle")
-            || self.tags.contains_key("workspace.java.pom")
-        {
+        if self.is_contains("workspace.java.gradle") || self.is_contains("workspace.java.pom") {
             let facet = JavaFacet {
                 jvm: JvmFacet {
-                    is_gradle: self.tags.contains_key("workspace.java.gradle"),
-                    is_maven: self.tags.contains_key("workspace.java.pom"),
+                    is_gradle: self.is_contains("workspace.java.gradle"),
+                    is_maven: self.is_contains("workspace.java.pom"),
                     has_java: false,
                     has_groovy: false,
                     has_kotlin: false,
@@ -62,43 +61,48 @@ impl<'a> FrameworkDetector<'a> {
         }
     }
 
-    fn light_detector(&mut self, path: String) {
-        let name_set = FrameworkDetector::build_level_one_name_set(path);
+    fn is_contains(&mut self, key: &str) -> bool {
+        self.tags.contains_key(key)
+    }
+
+    fn light_detector<P: AsRef<Path>>(&mut self, path: P) {
+        let sets = FrameworkDetector::build_level_one_name_set(path);
+        println!("{:?}", sets);
         self.tags
-            .insert("workspace.java.gradle", name_set.contains("build.gradle"));
+            .insert("workspace.java.gradle", sets.contains("build.gradle"));
         self.tags.insert(
             "workspace.java.gradle.composite",
-            name_set.contains("build.gradle") && name_set.contains("settings.gradle"),
+            sets.contains("build.gradle") && sets.contains("settings.gradle"),
         );
 
         self.tags
-            .insert("workspace.java.pom", name_set.contains("pom.xml"));
+            .insert("workspace.java.pom", sets.contains("pom.xml"));
 
         self.tags.insert(
             "workspace.bower",
-            name_set.contains("bower.json") || name_set.contains("bower_components"),
+            sets.contains("bower.json") || sets.contains("bower_components"),
         );
 
         self.tags.insert(
             "workspace.npm",
-            name_set.contains("package.json") || name_set.contains("node_modules"),
+            sets.contains("package.json") || sets.contains("node_modules"),
         );
 
         self.tags
-            .insert("workspace.c", name_set.contains("CMakeLists.txt"));
+            .insert("workspace.c", sets.contains("CMakeLists.txt"));
 
         self.tags.insert(
             "workspace.go",
-            name_set.contains("go.mod") || name_set.contains("main.got"),
+            sets.contains("go.mod") || sets.contains("main.got"),
         );
 
         self.tags
-            .insert("workspace.rust.cargo", name_set.contains("Cargo.toml"));
+            .insert("workspace.rust.cargo", sets.contains("Cargo.toml"));
 
         self.build_frameworks_info();
     }
 
-    pub fn build_level_one_name_set(path: String) -> HashSet<String, RandomState> {
+    pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String, RandomState> {
         let mut name_sets: HashSet<String> = HashSet::new();
         let walk_dir = WalkDir::new(path);
         for dir_entry in walk_dir.max_depth(1).into_iter() {
