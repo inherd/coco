@@ -49,14 +49,19 @@ fn run_analysis_repositories(repos: Vec<RepoConfig>) {
 
 fn analysis_framework(url_str: &str) {
     let path_buf = url_format::uri_to_path(url_str);
-    let _results = framework_analysis::analysis(path_buf);
+    let file_name = url_format::from(url_str);
+
+    let frameworks = framework_analysis::analysis(path_buf);
+    let output_file = Settings::reporter_dir(Some("framework")).join(file_name);
+
+    fs::write(output_file, frameworks).expect("cannot write file");
 }
 
 fn analysis_git(url_str: &str) {
     let branches_info = git_analysis::branches_info(url_str);
     let file_name = url_format::from(url_str);
 
-    let output_file = Settings::reporter_dir().join(file_name);
+    let output_file = Settings::reporter_dir(Some("git")).join(file_name);
 
     fs::write(output_file, branches_info).expect("cannot write file");
 }

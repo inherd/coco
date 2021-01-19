@@ -21,13 +21,23 @@ impl Settings {
         return Settings::global_config("dir");
     }
 
-    pub fn reporter_dir() -> PathBuf {
+    pub fn reporter_dir(child: Option<&str>) -> PathBuf {
         let root = Path::new(Settings::root_dir());
-        let reporter_buf = root.join("reporter");
-        if !reporter_buf.exists() {
-            let _ = fs::create_dir_all(reporter_buf.clone());
+        let reporter_path = root.join("reporter");
+        if !reporter_path.exists() {
+            let _ = fs::create_dir_all(reporter_path.clone());
         }
 
-        reporter_buf
+        match child {
+            None => reporter_path,
+            Some(str) => {
+                let child_path = reporter_path.join(str);
+                if !child_path.exists() {
+                    let _ = fs::create_dir_all(child_path.clone());
+                }
+
+                child_path
+            }
+        }
     }
 }
