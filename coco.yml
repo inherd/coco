@@ -4,4 +4,4 @@ repo:
 
 message:
   #  should be a regexp
-  format: []
+  format: /
