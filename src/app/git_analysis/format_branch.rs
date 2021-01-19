@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::domain::git::coco_branch::CocoBranch;
+use crate::domain::git::CocoBranch;
 use crate::infrastructure::time_format::format_unix_time;
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

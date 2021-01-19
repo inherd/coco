@@ -35,11 +35,12 @@ fn main() {
 fn run_analysis_repositories(repos: Vec<RepoConfig>) {
     thread::spawn(|| {
         for repo in repos {
-            // todo: add other analysis code in here
             let url_str = repo.url.as_str();
 
-            analysis_repo(url_str);
+            analysis_git(url_str);
             analysis_framework(url_str);
+            analysis_cloc(url_str);
+            analysis_architecture(url_str);
         }
     })
     .join()
@@ -51,7 +52,7 @@ fn analysis_framework(url_str: &str) {
     let _results = framework_analysis::analysis(path_buf);
 }
 
-fn analysis_repo(url_str: &str) {
+fn analysis_git(url_str: &str) {
     let branches_info = git_analysis::branches_info(url_str);
     let file_name = url_format::from(url_str);
 
@@ -59,3 +60,7 @@ fn analysis_repo(url_str: &str) {
 
     fs::write(output_file, branches_info).expect("cannot write file");
 }
+
+fn analysis_cloc(_url_str: &str) {}
+
+fn analysis_architecture(_url_str: &str) {}

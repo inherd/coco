@@ -1,4 +1,4 @@
-use crate::app::format_branch::FormatBranch;
+use crate::app::git_analysis::FormatBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
@@ -16,8 +16,8 @@ pub fn branches_info(url: &str) -> String {
 
 #[cfg(test)]
 mod test {
-    use crate::app::format_branch::FormatBranch;
-    use crate::domain::git::coco_branch::CocoBranch;
+    use crate::app::git_analysis::FormatBranch;
+    use crate::domain::git::CocoBranch;
 
     #[test]
     fn should_output_really_date() {

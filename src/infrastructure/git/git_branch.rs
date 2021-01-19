@@ -1,5 +1,5 @@
-use crate::domain::git::coco_branch::CocoBranch;
-use crate::domain::git::coco_commit::CocoCommit;
+use crate::domain::git::CocoBranch;
+use crate::domain::git::CocoCommit;
 use git2::{Commit, Oid, Repository};
 
 pub struct GitBranch {}
