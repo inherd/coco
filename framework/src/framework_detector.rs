@@ -38,7 +38,8 @@ impl<'a> FrameworkDetector<'a> {
     }
 
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
-        self.light_detector(path)
+        self.light_detector(path);
+        self.build_frameworks_info();
     }
 
     fn deep_detector(&mut self, _path: String) {}
@@ -67,14 +68,14 @@ impl<'a> FrameworkDetector<'a> {
 
     fn light_detector<P: AsRef<Path>>(&mut self, path: P) {
         let sets = FrameworkDetector::build_level_one_name_set(path);
-        println!("{:?}", sets);
+        // todo: refactor to polymorphism
+
         self.tags
             .insert("workspace.java.gradle", sets.contains("build.gradle"));
         self.tags.insert(
             "workspace.java.gradle.composite",
             sets.contains("build.gradle") && sets.contains("settings.gradle"),
         );
-
         self.tags
             .insert("workspace.java.pom", sets.contains("pom.xml"));
 
@@ -82,24 +83,18 @@ impl<'a> FrameworkDetector<'a> {
             "workspace.bower",
             sets.contains("bower.json") || sets.contains("bower_components"),
         );
-
         self.tags.insert(
             "workspace.npm",
             sets.contains("package.json") || sets.contains("node_modules"),
         );
 
-        self.tags
-            .insert("workspace.c", sets.contains("CMakeLists.txt"));
-
         self.tags.insert(
             "workspace.go",
-            sets.contains("go.mod") || sets.contains("main.got"),
+            sets.contains("go.mod") || sets.contains("main.go"),
         );
 
         self.tags
             .insert("workspace.rust.cargo", sets.contains("Cargo.toml"));
-
-        self.build_frameworks_info();
     }
 
     pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String, RandomState> {

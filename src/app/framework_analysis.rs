@@ -7,3 +7,11 @@ pub fn analysis(path: PathBuf) -> String {
 
     return serde_json::to_string_pretty(&detector).unwrap();
 }
+
+#[cfg(test)]
+mod test {
+    #[test]
+    fn should_return_json() {
+        // todo:
+    }
+}
