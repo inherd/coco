@@ -12,7 +12,7 @@ fn main() {
     let matches = App::new("Coco Program")
         .version("1.0")
         .author("Phodal <h@phodal.com>")
-        .about("A effective DevOps analysis and auto-suggest tools.")
+        .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
         .arg(
             Arg::with_name("config")
                 .short("c")
