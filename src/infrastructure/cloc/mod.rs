@@ -4,7 +4,7 @@ use tokei::{Config, Languages};
 
 pub fn by_dir<P: AsRef<Path>>(path: P) -> Languages {
     let paths = &[path];
-    let excluded = &["target"];
+    let excluded = &vec![];
 
     let config = Config::default();
 
