@@ -8,12 +8,19 @@ pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
         let mut details = vec![];
         for report in language.reports {
             let strip_path = report.name.strip_prefix(&path).unwrap();
+            let file_name = strip_path
+                .file_name()
+                .unwrap()
+                .to_str()
+                .unwrap()
+                .to_string();
 
             details.push(ClocDetail {
                 blanks: report.stats.blanks,
                 code: report.stats.code,
                 comments: report.stats.comments,
-                name: strip_path.to_str().unwrap().to_string(),
+                file_name,
+                path: strip_path.to_str().unwrap().to_string(),
             });
         }
 
@@ -50,6 +57,15 @@ mod test {
         assert_eq!(1, languages[0].reports.len());
         assert_eq!(1, languages[0].reports[0].blanks);
         assert_eq!(6, languages[0].reports[0].code);
-        assert_eq!("HelloWorld.java", languages[0].reports[0].name);
+        assert_eq!("HelloWorld.java", languages[0].reports[0].file_name);
+    }
+
+    #[test]
+    fn should_cloc_in_dir_with_path_and_name() {
+        let buf = fixtures_dir().join("projects").join("java").join("simple");
+        let languages = cloc_analysis::analysis(buf);
+
+        assert_eq!("HelloWorld.java", languages[0].reports[0].file_name);
+        assert_eq!("app/HelloWorld.java", languages[0].reports[0].path);
     }
 }

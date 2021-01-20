@@ -26,7 +26,8 @@ pub struct ClocDetail {
     pub blanks: usize,
     pub code: usize,
     pub comments: usize,
-    pub name: String,
+    pub file_name: String,
+    pub path: String,
 }
 
 impl Default for ClocDetail {
@@ -35,7 +36,8 @@ impl Default for ClocDetail {
             blanks: 0,
             code: 0,
             comments: 0,
-            name: "".to_string(),
+            file_name: "".to_string(),
+            path: "".to_string(),
         }
     }
 }
