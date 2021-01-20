@@ -83,6 +83,34 @@ just tests
 cargo run --bin coco
 ```
 
+#### Setup for Windows Subsystem for Linux (Debian)
+
+1. install rust
+
+```
+apt-get install curl
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+```
+
+2. install just
+
+```
+cargo install just
+```
+
+3. install dependency package
+
+```
+sudo apt-get install gcc cmake g++ pkg-config libssl-dev 
+sudo apt-get install libfreetype6-dev expat libxml2 libasound2-dev libexpat1-dev libxcb-composite0-dev
+```
+
+4. Run tests
+
+```
+just tests
+```
+
 #### Setup for macOS with HomeBrew
 
 1. install rust
