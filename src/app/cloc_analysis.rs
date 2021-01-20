@@ -4,14 +4,16 @@ use std::path::PathBuf;
 
 pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
     let mut languages = vec![];
-    for (lang_type, language) in cloc::by_dir(path) {
+    for (lang_type, language) in cloc::by_dir(&path) {
         let mut details = vec![];
         for report in language.reports {
+            let strip_path = report.name.strip_prefix(&path).unwrap();
+
             details.push(ClocDetail {
                 blanks: report.stats.blanks,
                 code: report.stats.code,
                 comments: report.stats.comments,
-                name: report.name.to_str().unwrap().to_string(),
+                name: strip_path.to_str().unwrap().to_string(),
             });
         }
 
@@ -48,5 +50,6 @@ mod test {
         assert_eq!(1, languages[0].reports.len());
         assert_eq!(1, languages[0].reports[0].blanks);
         assert_eq!(6, languages[0].reports[0].code);
+        assert_eq!("HelloWorld.java", languages[0].reports[0].name);
     }
 }
