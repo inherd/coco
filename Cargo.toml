@@ -9,7 +9,7 @@ repository = "https://github.com/phodal/coco"
 documentation = "https://github.com/phodal/coco"
 homepage = "https://github.com/phodal/coco"
 description = """
-Coco 是一个研发效能分析工具，如开发速率（根据架构复杂度及行数变更）、团队演进、历史分析、根因分析等。生成可视化报告，并对应的改进建议。 a effective DevOps analysis and auto-suggest tools.
+Coco 是一个研发效能分析工具，如开发速率（根据架构复杂度及行数变更）、团队演进、历史分析、根因分析等。生成可视化报告，并对应的改进建议。 A DevOps efficiency analysis and auto-suggestion tool.
 """
 categories = ["text-processing", "command-line-interface", "development-tools"]
 exclude = [
