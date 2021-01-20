@@ -1,4 +1,5 @@
-use std::{fs, thread};
+use rayon::prelude::*;
+use std::fs;
 
 use clap::{App, Arg};
 
@@ -33,19 +34,15 @@ fn main() {
 }
 
 fn run_analysis_repositories(repos: Vec<RepoConfig>) {
-    thread::spawn(|| {
-        for repo in repos {
-            let url_str = repo.url.as_str();
+    repos.par_iter().for_each(|repo| {
+        let url_str = repo.url.as_str();
 
-            // todo: thinking in refactor to patterns
-            analysis_git(url_str);
-            analysis_framework(url_str);
-            analysis_cloc(url_str);
-            analysis_architecture(url_str);
-        }
-    })
-    .join()
-    .unwrap();
+        // todo: thinking in refactor to patterns
+        analysis_git(url_str);
+        analysis_framework(url_str);
+        analysis_cloc(url_str);
+        analysis_architecture(url_str);
+    });
 }
 
 fn analysis_framework(url_str: &str) {
