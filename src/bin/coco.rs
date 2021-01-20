@@ -69,12 +69,13 @@ fn analysis_git(url_str: &str) {
 
 fn analysis_cloc(url_str: &str) {
     let path_buf = url_format::uri_to_path(url_str);
-    let branches_info = cloc_analysis::analysis(path_buf);
+    let languages = cloc_analysis::analysis(path_buf);
     let file_name = url_format::from(url_str);
 
+    let result = serde_json::to_string_pretty(&languages).unwrap();
     let output_file = Settings::reporter_dir(Some("cloc")).join(file_name);
 
-    fs::write(output_file, branches_info).expect("cannot write file");
+    fs::write(output_file, result).expect("cannot write file");
 }
 
 fn analysis_architecture(url_str: &str) {
