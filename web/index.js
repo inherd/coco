@@ -38,7 +38,9 @@ function renderPacking(originData) {
 
   for (let datum of originData) {
     // todo: add support for windows
-    let path = datum.path.replace(".rs", "")
+    let path = datum.path
+      .replace(".rs", "")
+      .replace(".go", "")
       .replaceAll(/\//g, ".")
       .replace(/.src./g, ".")
       .replace(/src./g, "main.")
@@ -99,7 +101,7 @@ function renderPacking(originData) {
     .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation()));
 
   const label = svg.append("g")
-    .style("font", "14px sans-serif")
+    .style("font", "18px sans-serif")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
     .selectAll("text")
@@ -107,7 +109,12 @@ function renderPacking(originData) {
     .join("text")
     .style("fill-opacity", d => d.parent === root ? 1 : 0)
     .style("display", d => d.parent === root ? "inline" : "none")
-    .text(d => d.data.name);
+    .text(d => {
+      if (!d.data.value) {
+        return d.data.name
+      }
+      return d.data.name + ":" + d.data.value;
+    });
 
   zoomTo([root.x, root.y, root.r * 2]);
 
@@ -150,7 +157,7 @@ function renderPacking(originData) {
 d3.json("coco.json").then(function (json) {
   let data = json;
   for (let datum of json) {
-    if (datum.language === "Rust") {
+    if (datum.language === "Rust" || datum.language === "Go") {
       data = datum;
     }
   }
