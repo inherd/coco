@@ -65,16 +65,6 @@ function renderNestedTreemap(originData) {
 
   var jdata = Object.values(dMap)
   var data = hierarchy(jdata);
-  console.log(data);
-
-  // var pack = function (data) {
-  //   return d3.pack()
-  //     .size([width, height])
-  //     .padding(3)
-  //     (d3.hierarchy(data)
-  //       .sum(d => d.value)
-  //       .sort((a, b) => b.value - a.value))
-  // }
 
   const root = treemap(data);
 
