@@ -89,7 +89,7 @@ function renderPacking(originData) {
     .on("mouseout", function () {
       d3.select(this).attr("stroke", null);
     })
-    .on("click", d => focus !== d && (zoom(d), d3.event.stopPropagation()));
+    .on("click", (event, d) => focus !== d && (zoom(d), event.stopPropagation()));
 
   const label = svg.append("g")
     .style("font", "18px sans-serif")
@@ -123,18 +123,16 @@ function renderPacking(originData) {
     const focus0 = focus;
     focus = d;
 
-    const transition = svg.transition()
-      .duration(d3.event.altKey ? 7500 : 750)
-      .tween("zoom", d => {
-        const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
-        return t => zoomTo(i(t));
-      });
-
     label
       .filter(function (d) {
         return d.parent === focus || this.style.display === "inline";
       })
-      .transition(transition)
+      .transition(svg.transition()
+        .duration(750)
+        .tween("zoom", d => {
+          const i = d3.interpolateZoom(view, [focus.x, focus.y, focus.r * 2]);
+          return t => zoomTo(i(t));
+        }))
       .style("fill-opacity", d => d.parent === focus ? 1 : 0)
       .on("start", function (d) {
         if (d.parent === focus) this.style.display = "inline";
