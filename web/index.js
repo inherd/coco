@@ -43,8 +43,8 @@ function renderPacking(originData) {
       .replace(/.src./g, ".")
       .replace(/src./g, "main.")
 
-    dMap[path] = {
-      name: path,
+    dMap["root." + path] = {
+      name: "root." + path,
       value: datum.code
     }
   }
