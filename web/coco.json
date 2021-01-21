@@ -1,0 +1,584 @@
+[
+  {
+    "language": "HTML",
+    "blanks": 0,
+    "code": 0,
+    "comments": 0,
+    "reports": [
+      {
+        "blanks": 0,
+        "code": 0,
+        "comments": 0,
+        "file_name": "index.html",
+        "path": "web/index.html"
+      }
+    ]
+  },
+  {
+    "language": "Java",
+    "blanks": 2,
+    "code": 12,
+    "comments": 0,
+    "reports": [
+      {
+        "blanks": 1,
+        "code": 6,
+        "comments": 0,
+        "file_name": "HelloWorld.java",
+        "path": "_fixtures/projects/java/hello/HelloWorld.java"
+      },
+      {
+        "blanks": 1,
+        "code": 6,
+        "comments": 0,
+        "file_name": "HelloWorld.java",
+        "path": "_fixtures/projects/java/simple/app/HelloWorld.java"
+      }
+    ]
+  },
+  {
+    "language": "JavaScript",
+    "blanks": 0,
+    "code": 0,
+    "comments": 0,
+    "reports": [
+      {
+        "blanks": 0,
+        "code": 0,
+        "comments": 0,
+        "file_name": "index.js",
+        "path": "web/index.js"
+      }
+    ]
+  },
+  {
+    "language": "Markdown",
+    "blanks": 218,
+    "code": 0,
+    "comments": 393,
+    "reports": [
+      {
+        "blanks": 2,
+        "code": 0,
+        "comments": 2,
+        "file_name": "README.md",
+        "path": "docs/case-study/README.md"
+      },
+      {
+        "blanks": 3,
+        "code": 0,
+        "comments": 10,
+        "file_name": "model.md",
+        "path": "docs/model.md"
+      },
+      {
+        "blanks": 19,
+        "code": 0,
+        "comments": 16,
+        "file_name": "README.md",
+        "path": "docs/README.md"
+      },
+      {
+        "blanks": 17,
+        "code": 0,
+        "comments": 26,
+        "file_name": "related.md",
+        "path": "docs/related.md"
+      },
+      {
+        "blanks": 27,
+        "code": 0,
+        "comments": 43,
+        "file_name": "coco-intro.md",
+        "path": "docs/social/coco-intro.md"
+      },
+      {
+        "blanks": 9,
+        "code": 0,
+        "comments": 10,
+        "file_name": "0004-format-git-commit-message.md",
+        "path": "docs/adr/0004-format-git-commit-message.md"
+      },
+      {
+        "blanks": 9,
+        "code": 0,
+        "comments": 10,
+        "file_name": "0006-tech-stack-generate.md",
+        "path": "docs/adr/0006-tech-stack-generate.md"
+      },
+      {
+        "blanks": 10,
+        "code": 0,
+        "comments": 12,
+        "file_name": "0005-embedded-database.md",
+        "path": "docs/adr/0005-embedded-database.md"
+      },
+      {
+        "blanks": 9,
+        "code": 0,
+        "comments": 10,
+        "file_name": "0002-chart-library.md",
+        "path": "docs/adr/0002-chart-library.md"
+      },
+      {
+        "blanks": 9,
+        "code": 0,
+        "comments": 10,
+        "file_name": "0001-metrics-model-design.md",
+        "path": "docs/adr/0001-metrics-model-design.md"
+      },
+      {
+        "blanks": 1,
+        "code": 0,
+        "comments": 8,
+        "file_name": "README.md",
+        "path": "docs/adr/README.md"
+      },
+      {
+        "blanks": 4,
+        "code": 0,
+        "comments": 9,
+        "file_name": "commands.md",
+        "path": "docs/commands.md"
+      },
+      {
+        "blanks": 4,
+        "code": 0,
+        "comments": 6,
+        "file_name": "README.md",
+        "path": "framework/README.md"
+      },
+      {
+        "blanks": 10,
+        "code": 0,
+        "comments": 12,
+        "file_name": "0003-config-design.md",
+        "path": "docs/adr/0003-config-design.md"
+      },
+      {
+        "blanks": 18,
+        "code": 0,
+        "comments": 23,
+        "file_name": "0007-regex-match-commit-message-design.md",
+        "path": "docs/adr/0007-regex-match-commit-message-design.md"
+      },
+      {
+        "blanks": 67,
+        "code": 0,
+        "comments": 186,
+        "file_name": "README.md",
+        "path": "README.md"
+      }
+    ]
+  },
+  {
+    "language": "Rust",
+    "blanks": 207,
+    "code": 997,
+    "comments": 21,
+    "reports": [
+      {
+        "blanks": 0,
+        "code": 1,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/domain/framework/mod.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/domain/git/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/domain/mod.rs"
+      },
+      {
+        "blanks": 3,
+        "code": 9,
+        "comments": 0,
+        "file_name": "config.rs",
+        "path": "src/domain/config.rs"
+      },
+      {
+        "blanks": 3,
+        "code": 19,
+        "comments": 0,
+        "file_name": "coco_commit.rs",
+        "path": "src/domain/git/coco_commit.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 9,
+        "comments": 6,
+        "file_name": "coco_framework.rs",
+        "path": "src/domain/framework/coco_framework.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 0,
+        "comments": 0,
+        "file_name": "git_commit.rs",
+        "path": "src/infrastructure/git/git_commit.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 2,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/infrastructure/file_scanner/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 6,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/infrastructure/mod.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 0,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/infrastructure/cloud_native_identify/mod.rs"
+      },
+      {
+        "blanks": 2,
+        "code": 24,
+        "comments": 0,
+        "file_name": "coco_branch.rs",
+        "path": "src/domain/git/coco_branch.rs"
+      },
+      {
+        "blanks": 18,
+        "code": 64,
+        "comments": 2,
+        "file_name": "git_branch.rs",
+        "path": "src/infrastructure/git/git_branch.rs"
+      },
+      {
+        "blanks": 7,
+        "code": 36,
+        "comments": 0,
+        "file_name": "settings.rs",
+        "path": "src/settings.rs"
+      },
+      {
+        "blanks": 4,
+        "code": 39,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/domain/cloc/mod.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 8,
+        "comments": 0,
+        "file_name": "lib.rs",
+        "path": "src/lib.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 2,
+        "comments": 1,
+        "file_name": "suggest.rs",
+        "path": "src/bin/suggest.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/app/mod.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/app/git_analysis/mod.rs"
+      },
+      {
+        "blanks": 8,
+        "code": 24,
+        "comments": 2,
+        "file_name": "git_repository.rs",
+        "path": "src/infrastructure/git/git_repository.rs"
+      },
+      {
+        "blanks": 4,
+        "code": 26,
+        "comments": 0,
+        "file_name": "format_branch.rs",
+        "path": "src/app/git_analysis/format_branch.rs"
+      },
+      {
+        "blanks": 14,
+        "code": 35,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/infrastructure/cloc/mod.rs"
+      },
+      {
+        "blanks": 3,
+        "code": 13,
+        "comments": 1,
+        "file_name": "framework_analysis.rs",
+        "path": "src/app/framework_analysis.rs"
+      },
+      {
+        "blanks": 5,
+        "code": 25,
+        "comments": 0,
+        "file_name": "visual.rs",
+        "path": "src/bin/visual.rs"
+      },
+      {
+        "blanks": 7,
+        "code": 27,
+        "comments": 0,
+        "file_name": "time_format.rs",
+        "path": "src/infrastructure/time_format.rs"
+      },
+      {
+        "blanks": 13,
+        "code": 47,
+        "comments": 0,
+        "file_name": "url_format.rs",
+        "path": "src/infrastructure/url_format.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 4,
+        "comments": 0,
+        "file_name": "architecture_analysis.rs",
+        "path": "src/app/architecture_analysis.rs"
+      },
+      {
+        "blanks": 6,
+        "code": 31,
+        "comments": 0,
+        "file_name": "git_analysis.rs",
+        "path": "src/app/git_analysis/git_analysis.rs"
+      },
+      {
+        "blanks": 10,
+        "code": 61,
+        "comments": 0,
+        "file_name": "cloc_analysis.rs",
+        "path": "src/app/cloc_analysis.rs"
+      },
+      {
+        "blanks": 14,
+        "code": 54,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "src/infrastructure/git/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 4,
+        "comments": 0,
+        "file_name": "python_facet.rs",
+        "path": "framework/src/facet/python_facet.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 25,
+        "comments": 0,
+        "file_name": "content_root.rs",
+        "path": "framework/src/content_root.rs"
+      },
+      {
+        "blanks": 2,
+        "code": 21,
+        "comments": 0,
+        "file_name": "jvm_facet.rs",
+        "path": "framework/src/facet/jvm_facet.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 2,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "framework/src/facet/javascript/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 2,
+        "comments": 0,
+        "file_name": "rust_facet.rs",
+        "path": "framework/src/facet/rust_facet.rs"
+      },
+      {
+        "blanks": 4,
+        "code": 37,
+        "comments": 0,
+        "file_name": "javascript_facet.rs",
+        "path": "framework/src/facet/javascript/javascript_facet.rs"
+      },
+      {
+        "blanks": 5,
+        "code": 10,
+        "comments": 1,
+        "file_name": "mod.rs",
+        "path": "framework/src/facet/mod.rs"
+      },
+      {
+        "blanks": 1,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "framework/src/facet/java/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 4,
+        "comments": 0,
+        "file_name": "go_facet.rs",
+        "path": "framework/src/facet/go_facet.rs"
+      },
+      {
+        "blanks": 4,
+        "code": 11,
+        "comments": 0,
+        "file_name": "lib.rs",
+        "path": "framework/src/lib.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 2,
+        "comments": 0,
+        "file_name": "module_dependency.rs",
+        "path": "framework/src/dependency/module_dependency.rs"
+      },
+      {
+        "blanks": 2,
+        "code": 14,
+        "comments": 0,
+        "file_name": "java_module_data.rs",
+        "path": "framework/src/facet/java/java_module_data.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 2,
+        "comments": 0,
+        "file_name": "project_dependency.rs",
+        "path": "framework/src/dependency/project_dependency.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 4,
+        "comments": 0,
+        "file_name": "mod.rs",
+        "path": "framework/src/dependency/mod.rs"
+      },
+      {
+        "blanks": 0,
+        "code": 2,
+        "comments": 0,
+        "file_name": "library_dependency.rs",
+        "path": "framework/src/dependency/library_dependency.rs"
+      },
+      {
+        "blanks": 20,
+        "code": 68,
+        "comments": 1,
+        "file_name": "coco.rs",
+        "path": "src/bin/coco.rs"
+      },
+      {
+        "blanks": 5,
+        "code": 32,
+        "comments": 0,
+        "file_name": "base_library.rs",
+        "path": "framework/src/dependency/base_library.rs"
+      },
+      {
+        "blanks": 6,
+        "code": 42,
+        "comments": 0,
+        "file_name": "java_facet.rs",
+        "path": "framework/src/facet/java/java_facet.rs"
+      },
+      {
+        "blanks": 28,
+        "code": 129,
+        "comments": 7,
+        "file_name": "framework_detector.rs",
+        "path": "framework/src/framework_detector.rs"
+      }
+    ]
+  },
+  {
+    "language": "SVG",
+    "blanks": 0,
+    "code": 124,
+    "comments": 1,
+    "reports": [
+      {
+        "blanks": 0,
+        "code": 124,
+        "comments": 1,
+        "file_name": "coco-architecture.svg",
+        "path": "docs/images/coco-architecture.svg"
+      }
+    ]
+  },
+  {
+    "language": "TOML",
+    "blanks": 16,
+    "code": 70,
+    "comments": 8,
+    "reports": [
+      {
+        "blanks": 4,
+        "code": 28,
+        "comments": 0,
+        "file_name": "Cargo.toml",
+        "path": "framework/Cargo.toml"
+      },
+      {
+        "blanks": 12,
+        "code": 42,
+        "comments": 8,
+        "file_name": "Cargo.toml",
+        "path": "Cargo.toml"
+      }
+    ]
+  },
+  {
+    "language": "YAML",
+    "blanks": 2,
+    "code": 16,
+    "comments": 4,
+    "reports": [
+      {
+        "blanks": 0,
+        "code": 0,
+        "comments": 0,
+        "file_name": "tech_mapping.yml",
+        "path": "_fixtures/tech_mapping.yml"
+      },
+      {
+        "blanks": 1,
+        "code": 5,
+        "comments": 1,
+        "file_name": "config.yml",
+        "path": "_fixtures/config.yml"
+      },
+      {
+        "blanks": 1,
+        "code": 11,
+        "comments": 3,
+        "file_name": "coco.yml",
+        "path": "coco.yml"
+      }
+    ]
+  }
+]
