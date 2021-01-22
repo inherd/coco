@@ -56,6 +56,8 @@ rayon = "1.5"
 # docs: https://github.com/BurntSushi/ripgrep/tree/master/crates/ignore
 ignore = "0.4"
 
+walkdir = "2"
+
 [dependencies.framework]
 path = "framework"
 

@@ -3,7 +3,7 @@ use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
 pub fn branches_info(url: &str) -> String {
-    let repo = GitRepository::clone(url);
+    let repo = GitRepository::clone_remote(url);
     let mut branches = vec![];
 
     for br in GitBranch::list(repo) {

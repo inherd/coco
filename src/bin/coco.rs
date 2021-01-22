@@ -1,7 +1,8 @@
-use rayon::prelude::*;
 use std::fs;
+use std::path::Path;
 
 use clap::{App, Arg};
+use rayon::prelude::*;
 
 use coco::app::{architecture_analysis, git_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
@@ -30,10 +31,10 @@ fn main() {
 
     println!("found config file: {}", config_file);
 
-    run_analysis_repositories(config.repo.clone());
+    run_analysis(config.repo.clone());
 }
 
-fn run_analysis_repositories(repos: Vec<RepoConfig>) {
+fn run_analysis(repos: Vec<RepoConfig>) {
     repos.par_iter().for_each(|repo| {
         let url_str = repo.url.as_str();
 
@@ -84,3 +85,6 @@ fn analysis_architecture(url_str: &str) {
 
     fs::write(output_file, branches_info).expect("cannot write file");
 }
+
+#[cfg(test)]
+mod test {}

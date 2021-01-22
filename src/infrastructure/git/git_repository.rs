@@ -7,7 +7,7 @@ use crate::infrastructure::url_format;
 pub struct GitRepository {}
 
 impl GitRepository {
-    pub fn clone(url: &str) -> Repository {
+    pub fn clone_remote(url: &str) -> Repository {
         let buf = url_format::uri_to_path(url);
 
         let path_str = buf.as_path().to_str().unwrap();
