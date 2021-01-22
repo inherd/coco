@@ -9,6 +9,15 @@
     "last_commit_date": 1610694788
   },
   {
+    "name": "origin/20200122",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-22 09:03:15",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1611306195
+  },
+  {
     "name": "origin/gh-pages",
     "author": "Phodal Huang",
     "committer": "GitHub",
