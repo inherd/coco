@@ -182,6 +182,7 @@ reporter
 
  - [x] git analysis
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
+    - [ ] local repo support
  - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
