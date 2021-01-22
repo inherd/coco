@@ -75,8 +75,8 @@ function renderBranches(csv) {
       .style("dominant-baseline", "hanging");
   }
 
-  let dataByTimeline = d3.nest().key(d => d.timeline).entries(data);
-  let dataByRegion = d3.nest().key(d => d.region).entries(data);
+  // let dataByTimeline = d3.group(root, d => d.timline);
+  // let dataByRegion = d3.group(root, d => d.region);
 
   let formatDate = d => d < 0 ? `${-d}BC` : `${d}AD`;
   let axisTop = d3.axisTop(x)
@@ -86,11 +86,15 @@ function renderBranches(csv) {
     .tickPadding(2)
     .tickFormat(formatDate);
 
-  let regions = d3.nest().key(d => d.region).entries(data).map(d => d.key);
-  let color = d3.scaleOrdinal(d3.schemeSet2).domain(regions)
+  // let regions = d3.group(root, d => d.region);
+  // let color = d3.scaleOrdinal(d3.schemeSet2).domain(regions)
+  let color = d3.scaleLinear()
+    .domain([0, 5])
+    .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
+    .interpolate(d3.interpolateHcl)
 
   const svg = d3.select("#timeline").append("svg")
-    .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
+    .attr("viewBox", `0 0 ${width} ${height}`)
 
   const g = svg.append("g").attr("transform", (d, i) => `translate(${margin.left} ${margin.top})`);
   const filteredData = data.sort((a, b) => a.start - b.start);
@@ -102,9 +106,7 @@ function renderBranches(csv) {
     .append("g")
     .attr("class", "civ")
 
-
   const tooltip = d3.select(document.createElement("div")).call(createTooltip);
-
   const line = svg.append("line").attr("y1", margin.top - 10).attr("y2", height - margin.bottom).attr("stroke", "rgba(0,0,0,0.2)").style("pointer-events", "none");
 
   groups.attr("transform", (d, i) => `translate(0 ${y(i)})`)
@@ -118,7 +120,8 @@ function renderBranches(csv) {
         .style("opacity", 1)
         .html(getTooltipContent(d))
     })
-    .on("mouseleave", function (d) {
+    .on("mouseleave", function (event, d) {
+      console.log(event, d)
       d3.select(this).select("rect").attr("fill", d.color)
       tooltip.style("opacity", 0)
     })
@@ -135,9 +138,9 @@ function renderBranches(csv) {
     .call(axisBottom)
 
 
-  svg.on("mousemove", function (d) {
+  svg.on("mousemove", function (event) {
 
-    let [x, y] = d3.mouse(this);
+    let [x, y] = d3.pointer(this);
     line.attr("transform", `translate(${x} 0)`);
     y += 20;
     if (x > width / 2) x -= 100;
@@ -147,9 +150,9 @@ function renderBranches(csv) {
       .style("top", y + "px")
   })
 
-  parent.appendChild(svg.node());
-  parent.appendChild(tooltip.node());
-  parent.groups = groups;
+  // parent.appendChild(svg.node());
+  // parent.appendChild(tooltip.node());
+  // parent.groups = groups;
 
 }
 
