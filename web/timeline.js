@@ -1,9 +1,9 @@
 // based on https://observablehq.com/@tezzutezzu/world-history-timeline
-let formatDate = d => d < 0 ? `${-d}BC` : `${d}AD`;
+let formatDate = d => d < 0 ? `${-d}BC` : `${d}`;
 let getTooltipContent = function (d) {
-  return `<b>${d.civilization}</b>
+  return `<b>${d.name}</b>
 <br/>
-<b style="color:${d.color.darker()}">${d.region}</b>
+<b style="color:${d.color.darker()}">${d.name}</b>
 <br/>
 ${formatDate(d.start)} - ${formatDate(d.end)}
 `
@@ -13,12 +13,12 @@ function renderBranches(csv) {
   let data = csv.map(d => {
     return {
       ...d,
-      start: +d.start,
-      end: +d.end
+      start: d.start,
+      end: d.end
     }
   }).sort((a, b) => a.start - b.start);
 
-  let height = 1000;
+  let height = csv.length * 50;
   let width = 1000;
 
   let margin = {
@@ -77,7 +77,7 @@ function renderBranches(csv) {
   }
 
   // let dataByTimeline = d3.group(root, d => d.timline);
-  // let dataByRegion = d3.group(root, d => d.region);
+  // let dataByname = d3.group(root, d => d.name);
 
   let axisTop = d3.axisTop(x)
     .tickPadding(2)
@@ -86,15 +86,15 @@ function renderBranches(csv) {
     .tickPadding(2)
     .tickFormat(formatDate);
 
-  let regions = d3.group(data, d => d.region);
-  let color = d3.scaleOrdinal(d3.schemeSet2).domain(regions)
+  let names = d3.group(data, d => d.name);
+  let color = d3.scaleOrdinal(d3.schemeSet2).domain(names)
 
   const svg = d3.select("#timeline").append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
 
   const g = svg.append("g").attr("transform", (d, i) => `translate(${margin.left} ${margin.top})`);
   const filteredData = data.sort((a, b) => a.start - b.start);
-  filteredData.forEach(d => d.color = d3.color(color(d.region)))
+  filteredData.forEach(d => d.color = d3.color(color(d.name)))
 
   const groups = g
     .selectAll("g")
@@ -148,23 +148,63 @@ function renderBranches(csv) {
   element.appendChild(svg.node());
   element.appendChild(tooltip.node());
   element.groups = groups;
-  // document.appendChild(parent);
 }
 
-renderBranches([{
-  "civilization": "some",
-  "start": "-2000",
-  "end": "-1200",
-  "startLabel": "",
-  "endLabel": "",
-  "region": "Europe (and colonial offshoots)",
-  "timeline": "ANCIENT WORLD"
-}, {
-  "civilization": "some",
-  "start": "650",
-  "end": "1880",
-  "startLabel": "",
-  "endLabel": "",
-  "region": "Sub-Saharan Africa",
-  "timeline": "MEDIEVAL WORLD"
-}])
+let origin_data = [
+  {
+    "name": "master",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-15 07:13:08",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1610694788
+  },
+  {
+    "name": "origin/gh-pages",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-13 06:36:49",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1610519809
+  },
+  {
+    "name": "origin/HEAD",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-15 07:13:08",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1610694788
+  },
+  {
+    "name": "origin/main",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-13 12:38:40",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1610541520
+  },
+  {
+    "name": "origin/master",
+    "author": "Phodal Huang",
+    "committer": "GitHub",
+    "first_commit_str": "2021-01-13 06:36:49",
+    "last_commit_str": "2021-01-15 07:13:08",
+    "first_commit_date": 1610519809,
+    "last_commit_date": 1610694788
+  }
+];
+let data = [];
+for (let datum of origin_data) {
+  data.push({
+    name: datum.name,
+    author: datum.author,
+    start: datum.first_commit_date,
+    end: datum.last_commit_date,
+  })
+}
+
+renderBranches(data)
