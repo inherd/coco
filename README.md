@@ -232,9 +232,13 @@ Visual and Reporter
  - visual
      - [ ] spike d3.js code organization
      - [ ] architecture
+         - [x] first demo
          - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
      - [ ] git
          - [ ] branch history
+     - [ ] commits in years/month
+     - [ ] changes in years/month
+         - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
  - [ ] reporter
      - [ ] framework
      - [ ] cloc
