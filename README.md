@@ -61,7 +61,15 @@ commit-message:
 
 ## Development
 
-IDE: Clion
+**IDE**: [Clion](https://www.jetbrains.com/clion/) (Recommended) / [IntelliJ](https://www.jetbrains.com/idea/) + [IntelliJ Rust plugin](https://intellij-rust.github.io/)
+
+**Rust**: Verison >= 1.49.0 
+
+
+If you already have older version installed ,please update Rust version by:
+```
+rustup update
+```
 
 ### Setup
 
