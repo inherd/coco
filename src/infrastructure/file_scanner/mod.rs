@@ -1,11 +1,11 @@
 use std::path::PathBuf;
 use walkdir::WalkDir;
 
-pub fn search_git_projects(path: PathBuf) -> Vec<String> {
+pub fn search_git_projects(path: &PathBuf) -> Vec<String> {
     return search_projects(path, ".git");
 }
 
-pub fn search_projects(path: PathBuf, filter: &str) -> Vec<String> {
+pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {
     let mut results = vec![];
     let mut has_first_level = false;
     for entry in WalkDir::new(&path).max_depth(1) {
@@ -39,8 +39,10 @@ mod test {
     #[test]
     fn should_list_local_git() {
         let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let projects = search_projects(path, ".git");
+        let projects = search_projects(&path, ".git");
+
         assert_eq!(1, projects.len());
+        assert_eq!(format!("{}", path.display()), projects[0]);
     }
 
     #[test]
@@ -49,7 +51,7 @@ mod test {
             .join("_fixtures")
             .join("repos")
             .join("root");
-        let projects = search_projects(path, ".gittest");
+        let projects = search_projects(&path, ".gittest");
 
         assert_eq!(2, projects.len());
         assert_eq!("app2/.gittest", projects[0]);
