@@ -51,10 +51,12 @@ mod test {
             .join("_fixtures")
             .join("repos")
             .join("root");
-        let projects = search_projects(&path, ".gittest");
+        let mut projects = search_projects(&path, ".gittest");
 
         assert_eq!(2, projects.len());
-        assert_eq!("app2/.gittest", projects[0]);
-        assert_eq!("app1/.gittest", projects[1]);
+        projects.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
+
+        assert_eq!("app1/.gittest", projects[0]);
+        assert_eq!("app2/.gittest", projects[1]);
     }
 }
