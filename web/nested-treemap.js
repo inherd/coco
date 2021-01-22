@@ -74,8 +74,6 @@ function renderNestedTreemap(originData) {
 
   const shadow = DOM.uid("shadow");
 
-  console.log(root);
-
   svg.append("filter")
     .attr("id", shadow.id)
     .append("feDropShadow")
@@ -85,7 +83,6 @@ function renderNestedTreemap(originData) {
 
   const node = svg.selectAll("g")
     .data(d3.group(root, d => {
-      console.log(d);
       return d.height
     }))
     .join("g")
