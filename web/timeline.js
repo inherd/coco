@@ -88,10 +88,6 @@ function renderBranches(csv) {
 
   let regions = d3.group(data, d => d.region);
   let color = d3.scaleOrdinal(d3.schemeSet2).domain(regions)
-  // let color = d3.scaleLinear()
-  //   .domain([0, 5])
-  //   .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
-  //   .interpolate(d3.interpolateHcl)
 
   const svg = d3.select("#timeline").append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
@@ -121,11 +117,9 @@ function renderBranches(csv) {
         .html(getTooltipContent(d))
     })
     .on("mouseleave", function (event, d) {
-      console.log(event, d)
       d3.select(this).select("rect").attr("fill", d.color)
       tooltip.style("opacity", 0)
     })
-
 
   svg
     .append("g")
@@ -151,14 +145,15 @@ function renderBranches(csv) {
   })
 
 
-  // d3.select("#timeline").appendChild(svg.node());
-  // d3.select("#timeline").appendChild(tooltip.node());
-  // d3.select("#timeline").groups = groups;
+  let element = document.getElementById("timeline");
+  element.appendChild(svg.node());
+  element.appendChild(tooltip.node());
+  element.groups = groups;
   // document.appendChild(parent);
 }
 
 renderBranches([{
-  "civilization": "Aegean civilization",
+  "civilization": "some",
   "start": "-2000",
   "end": "-1200",
   "startLabel": "",
@@ -166,7 +161,7 @@ renderBranches([{
   "region": "Europe (and colonial offshoots)",
   "timeline": "ANCIENT WORLD"
 }, {
-  "civilization": "Age of pre-colonial civilization (Christian, Islamic, and traditional kingdoms)",
+  "civilization": "some",
   "start": "650",
   "end": "1880",
   "startLabel": "",
