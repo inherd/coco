@@ -1,5 +1,11 @@
 // based on https://observablehq.com/@tezzutezzu/world-history-timeline
-let formatDate = d => d < 0 ? `${-d}BC` : `${d}`;
+let formatDate = function (d) {
+  let date = new Date(d * 1000);
+  let year = date.getUTCFullYear();
+  let month = date.getUTCMonth() + 1;
+  let day = date.getUTCDate();
+  return year + "-" + month + "-" + day
+};
 let getTooltipContent = function (d) {
   return `<b>${d.name}</b>
 <br/>
