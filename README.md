@@ -129,7 +129,7 @@ just tests
 brew install rustup
 rustup-init
 ```
-重启shell，或者执行``` source $HOME/.cargo/env ```
+restart shell，or execute ``` source $HOME/.cargo/env ```
 
 
 2. install just
@@ -153,6 +153,11 @@ third-party libs:
 
  - libgit2, git api
  - tokei, cloc api
+
+### Contribute
+
+we need you coding in TDD. You can use this repo to learn TDD :
+[rust-fizzbuzz](https://github.com/jtong/rust-fizzbuzz)
 
 ## Documents
 
