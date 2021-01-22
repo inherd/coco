@@ -1,13 +1,30 @@
-use std::path::Path;
+use std::path::PathBuf;
 use walkdir::WalkDir;
 
-pub fn find_git_projects<P: AsRef<Path>>(path: P) -> Vec<String> {
+pub fn search_git_projects(path: PathBuf) -> Vec<String> {
+    return search_projects(path, ".git");
+}
+
+pub fn search_projects(path: PathBuf, filter: &str) -> Vec<String> {
     let mut results = vec![];
-    for entry in WalkDir::new(path).max_depth(1) {
+    let mut has_first_level = false;
+    for entry in WalkDir::new(&path).max_depth(1) {
         let entry = entry.unwrap();
-        if entry.path().ends_with(".git") {
-            println!("{}", entry.path().display());
-            results.push(entry.path().display().to_string())
+        if entry.path().ends_with(filter) {
+            results.push(format!("{}", path.display()));
+            has_first_level = true;
+        }
+    }
+
+    if has_first_level {
+        return results;
+    }
+
+    for entry in WalkDir::new(&path).max_depth(2) {
+        let entry = entry.unwrap();
+        if entry.path().ends_with(filter) {
+            let strip_path = entry.path().strip_prefix(&path).unwrap();
+            results.push(format!("{}", strip_path.display()));
         }
     }
 
@@ -16,13 +33,26 @@ pub fn find_git_projects<P: AsRef<Path>>(path: P) -> Vec<String> {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::file_scanner::find_git_projects;
+    use crate::infrastructure::file_scanner::search_projects;
     use std::path::PathBuf;
 
     #[test]
     fn should_list_local_git() {
         let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let projects = find_git_projects(path);
+        let projects = search_projects(path, ".git");
         assert_eq!(1, projects.len());
+    }
+
+    #[test]
+    fn should_list_local_gittest() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join("_fixtures")
+            .join("repos")
+            .join("root");
+        let projects = search_projects(path, ".gittest");
+
+        assert_eq!(2, projects.len());
+        assert_eq!("app2/.gittest", projects[0]);
+        assert_eq!("app1/.gittest", projects[1]);
     }
 }
