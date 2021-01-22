@@ -34,7 +34,7 @@ mod test {
 
         let repo = GitRepository::clone_remote("https://github.com/coco-rs/coco.fixtures");
         let branches = GitBranch::list(repo);
-        assert_eq!(5, branches.len());
+        assert!(branches.len() > 5);
     }
 
     #[test]

@@ -1,5 +1,4 @@
 use std::fs;
-use std::path::Path;
 
 use clap::{App, Arg};
 use rayon::prelude::*;
