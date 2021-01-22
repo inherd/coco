@@ -132,9 +132,8 @@ function renderBranches(csv) {
     .call(axisBottom)
 
 
-  svg.on("mousemove", function (event) {
-
-    let [x, y] = d3.pointer(this);
+  svg.on("mousemove", function (event, d) {
+    let [x, y] = d3.pointer(event);
     line.attr("transform", `translate(${x} 0)`);
     y += 20;
     if (x > width / 2) x -= 100;
