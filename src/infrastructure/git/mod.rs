@@ -61,8 +61,6 @@ mod test {
         let repo = GitRepository::clone("https://github.com/coco-rs/coco.fixtures");
         let branch = GitBranch::get("master", repo).unwrap();
 
-        println!("{:?}", branch);
-        println!("{:?}", branch.commits_count);
         assert!(branch.commits_count >= 2);
     }
 }
