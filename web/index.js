@@ -27,3 +27,17 @@ d3.json("coco.json").then(function (json) {
   renderNestedTreemap(data["reports"])
 });
 
+d3.json("branches-coco.fixtures.json").then(function (json) {
+  let data = [];
+  for (let datum of json) {
+    data.push({
+      name: datum.name,
+      author: datum.author,
+      start: datum.first_commit_date,
+      end: datum.last_commit_date,
+    })
+  }
+
+  renderBranches(data)
+});
+
