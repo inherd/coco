@@ -111,7 +111,7 @@ impl<'a> FrameworkDetector<'a> {
                 continue;
             }
 
-            let file_name = entry.path().file_name().unwrap().clone();
+            let file_name = entry.path().file_name().unwrap();
             name_sets.insert(file_name.to_str().unwrap().to_string());
         }
 
