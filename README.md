@@ -202,6 +202,7 @@ reporter
     - [ ] git commit time analysis
        - [ ] storage all commits
           - [ ] light database?
+          - [ ] light RESTful API?
        - [ ] working night count
  - [ ] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
@@ -210,6 +211,9 @@ reporter
  - [ ] framework detector.
     - [x] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
     - [ ] framework output
+    - [ ] tech stack generate
+    - [ ] cloud native
+        - [ ] dockerfile analysis
  - [ ] module analysis
     - [ ] base framework for directory
        - [ ] gitignore support
@@ -223,38 +227,38 @@ reporter
     - [ ] participle（分词）
     - [ ] tags generate
  - [ ] suggestion API
-    - [ ] suggest ledge
-    - [ ] suggest phodal
+    - [ ] suggest to ledge
+    - [ ] suggest to coco.server ?
     - [ ] online suggest
-       - [ ] link daily checkx
- - [ ] graph support for velocity
-    - [ ] code commits by daily
-    - [ ] PR times by daily
- - [ ] tech stack generate
- - [ ] cloud native
-    - [ ] dockerfile analysis
+       - [ ] link daily checking
  - [ ] tools
     - [ ] tools config identify
     - [ ] tools suggest (identify old tools)
     - [ ] cloud-native config
+ - [ ] third-party integration
+    - [ ] jenkins api analysis
+    - [ ] test coverage integration
  - [ ] case study
- - [ ] jenkins api analysis
- - [ ] story velocity
-    - [ ] commit message analysis
-    - [ ] story spend days
 
 Visual and Reporter
 
  - visual
      - [ ] spike d3.js code organization
+     - [ ] typescript with frontend framework
      - [ ] architecture
-         - [x] first demo
-         - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
+        - [x] first demo
+        - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
      - [ ] git
-         - [ ] branch history
+        - [x] branch history demo
      - [ ] commits in years/month
      - [ ] changes in years/month
-         - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
+        - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
+    - [ ] graph support for velocity
+        - [ ] code commits by daily
+        - [ ] PR times by daily
+    - [ ] story velocity
+        - [ ] commit message analysis
+        - [ ] story spend days
  - [ ] reporter
      - [ ] framework
      - [ ] cloc
