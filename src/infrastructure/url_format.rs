@@ -7,7 +7,11 @@ use crate::settings::Settings;
 pub fn from(text: &str) -> String {
     let uri_path = match Url::parse(text) {
         Ok(url) => url,
-        Err(e) => panic!("failed to parsed: {}", e),
+        Err(_e) => {
+            let path = Path::new(text);
+            let file_name = path.file_name().unwrap().to_str().unwrap().to_string();
+            return format!("{}.{}", file_name, "json");
+        }
     };
 
     let paths = uri_path
@@ -44,16 +48,27 @@ pub fn uri_to_path(url: &str) -> PathBuf {
 #[cfg(test)]
 mod test {
     use crate::infrastructure::url_format::{from, uri_to_path};
+    use std::path::PathBuf;
 
     #[test]
-    fn format_github_with_url_http() {
+    fn should_format_github_with_url_http() {
         let string = from("http://github.com/coco-rs/coco.fixtures");
         assert_eq!("coco.fixtures.json", string);
     }
 
     #[test]
-    fn url_to_path() {
-        let string = uri_to_path("http://github.com/coco-rs/coco.fixtures");
+    fn should_format_local_url() {
+        let path = PathBuf::from(".coco");
+        let framework_path = path.join("framework");
+
+        let string = from(&*format!("{}", framework_path.display()));
+        assert_eq!("framework.json", string);
+    }
+
+    #[test]
+    fn should_url_to_path() {
+        let url = "http://github.com/coco-rs/coco.fixtures";
+        let string = uri_to_path(url);
         assert_eq!(
             ".coco/github.com/coco-rs/coco.fixtures",
             string.to_str().unwrap()
