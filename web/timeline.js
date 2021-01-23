@@ -24,7 +24,7 @@ function renderBranches(csv) {
     }
   }).sort((a, b) => a.start - b.start);
 
-  let height = csv.length * 40;
+  let height = csv.length * 30;
   let width = 1000;
 
   let margin = {
@@ -39,8 +39,9 @@ function renderBranches(csv) {
     .range([0, height - margin.bottom - margin.top])
     .padding(0.2);
 
+  let now = Date.now() / 1000;
   let x = d3.scaleLinear()
-    .domain([d3.min(data, d => d.start), d3.max(data, d => d.end)])
+    .domain([d3.min(data, d => d.start), now])
     .range([0, width - margin.left - margin.right]);
 
   let createTooltip = function (el) {
