@@ -17,6 +17,7 @@ let DOM = {
 
 d3.json("coco.json").then(function (json) {
   let data = json;
+  // todo: refactor by select
   for (let datum of json) {
     if (datum.language === "Rust" || datum.language === "Go") {
       data = datum;
@@ -35,6 +36,8 @@ d3.json("branches-coco.fixtures.json").then(function (json) {
       author: datum.author,
       start: datum.first_commit_date,
       end: datum.last_commit_date,
+      format_start: datum.first_commit_str,
+      format_end: datum.last_commit_str,
     })
   }
 

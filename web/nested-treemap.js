@@ -1,4 +1,3 @@
-
 function renderNestedTreemap(originData) {
   const color = d3.scaleSequential([8, 0], d3.interpolateMagma);
   const format = d3.format(",d");

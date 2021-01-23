@@ -17,6 +17,13 @@ impl GitBranch {
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
 
+            // match br.upstream() {
+            //     Ok(_) => {
+            //         println!("{:?}", br.upstream().unwrap().name());
+            //     }
+            //     Err(_) => {}
+            // };
+
             let branch = GitBranch::calculate_branch(&repo, branch_name).0;
 
             coco_branches.push(branch);
