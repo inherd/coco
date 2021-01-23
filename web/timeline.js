@@ -24,7 +24,7 @@ function renderBranches(csv) {
     }
   }).sort((a, b) => a.start - b.start);
 
-  let height = csv.length * 50;
+  let height = csv.length * 40;
   let width = 1000;
 
   let margin = {
@@ -74,16 +74,13 @@ function renderBranches(csv) {
 
     el
       .append("text")
-      .text(d.civilization)
+      .text(d.name)
       .attr("x", isLabelRight ? sx - 5 : sx + w + 5)
       .attr("y", 2.5)
       .attr("fill", "black")
       .style("text-anchor", isLabelRight ? "end" : "start")
       .style("dominant-baseline", "hanging");
   }
-
-  // let dataByTimeline = d3.group(root, d => d.timline);
-  // let dataByname = d3.group(root, d => d.name);
 
   let axisTop = d3.axisTop(x)
     .tickPadding(2)
