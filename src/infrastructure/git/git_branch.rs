@@ -13,18 +13,13 @@ impl GitBranch {
         let branches = repo.branches(None).unwrap();
         let mut coco_branches = vec![];
         for x in branches {
-            let br = x.unwrap().0;
+            let branch = x.unwrap();
+            let br = &branch.0;
+            let branch_type = format!("{:?}", &branch.1);
+
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
-
-            // match br.upstream() {
-            //     Ok(_) => {
-            //         println!("{:?}", br.upstream().unwrap().name());
-            //     }
-            //     Err(_) => {}
-            // };
-
-            let branch = GitBranch::calculate_branch(&repo, branch_name).0;
+            let branch = GitBranch::calculate_branch(&repo, branch_name, &*branch_type).0;
 
             coco_branches.push(branch);
         }
@@ -32,7 +27,11 @@ impl GitBranch {
         coco_branches
     }
 
-    fn calculate_branch(repo: &Repository, branch_name: &str) -> (CocoBranch, Vec<CocoCommit>) {
+    fn calculate_branch(
+        repo: &Repository,
+        branch_name: &str,
+        branch_type: &str,
+    ) -> (CocoBranch, Vec<CocoCommit>) {
         let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
@@ -56,6 +55,7 @@ impl GitBranch {
         branch.author = last_commit.author.clone();
         branch.committer = last_commit.committer.clone();
         branch.first_commit_date = last_commit.date.clone();
+        branch.branch_type = branch_type.to_string();
 
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 

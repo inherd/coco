@@ -23,6 +23,7 @@ mod test {
     fn should_output_really_date() {
         let branch = FormatBranch::from(CocoBranch {
             name: "master".to_string(),
+            branch_type: "".to_string(),
             first_commit_date: 1610519809,
             last_commit_date: 1610541520,
             duration: 21711,
