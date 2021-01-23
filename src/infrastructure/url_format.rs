@@ -4,8 +4,8 @@ use url::Url;
 
 use crate::settings::Settings;
 
-pub fn from(url: &str) -> String {
-    let uri_path = match Url::parse(url) {
+pub fn from(text: &str) -> String {
+    let uri_path = match Url::parse(text) {
         Ok(url) => url,
         Err(e) => panic!("failed to parsed: {}", e),
     };
@@ -21,18 +21,20 @@ pub fn from(url: &str) -> String {
 pub fn uri_to_path(url: &str) -> PathBuf {
     let uri_path = match Url::parse(url) {
         Ok(url) => url,
-        Err(e) => panic!("failed to parsed: {}", e),
+        Err(_e) => {
+            return PathBuf::from(url);
+        }
     };
 
     let root = Path::new(Settings::root_dir());
     let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
-    let paths = uri_path
+    let segments = uri_path
         .path_segments()
         .map(|c| c.collect::<Vec<_>>())
         .unwrap();
 
-    for path in paths {
+    for path in segments {
         buf = buf.join(PathBuf::from(path));
     }
 
@@ -56,5 +58,11 @@ mod test {
             ".coco/github.com/coco-rs/coco.fixtures",
             string.to_str().unwrap()
         );
+    }
+
+    #[test]
+    fn should_return_origin_when_is_git() {
+        let string = uri_to_path(".coco/framework");
+        assert_eq!(".coco/framework", string.to_str().unwrap());
     }
 }
