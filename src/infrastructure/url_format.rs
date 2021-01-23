@@ -9,8 +9,14 @@ pub fn from(text: &str) -> String {
         Ok(url) => url,
         Err(_e) => {
             let path = Path::new(text);
-            let file_name = path.file_name().unwrap().to_str().unwrap().to_string();
-            return format!("{}.{}", file_name, "json");
+            return match path.file_name() {
+                Some(name) => {
+                    format!("{}.{}", name.to_str().unwrap().to_string(), "json")
+                }
+                None => {
+                    format!("default.{}", "json")
+                }
+            };
         }
     };
 
