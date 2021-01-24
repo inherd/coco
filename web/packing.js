@@ -28,13 +28,7 @@ function renderPacking(originData) {
   var dMap = {}
 
   for (let datum of originData) {
-    // todo: add support for windows
-    let path = datum.path
-      .replace(".rs", "")
-      .replace(".go", "")
-      .replaceAll(/\//g, ".")
-      .replace(/.src./g, ".")
-      .replace(/src./g, "main.")
+    let path = CodeUtil.convertPath(datum.path)
 
     dMap["root." + path] = {
       name: "root." + path,

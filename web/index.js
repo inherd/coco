@@ -5,7 +5,7 @@ function Id(id) {
   this.href = new URL(`#${id}`, location) + "";
 }
 
-Id.prototype.toString = function() {
+Id.prototype.toString = function () {
   return "url(" + this.href + ")";
 };
 
@@ -13,6 +13,20 @@ let DOM = {
   uid: function (name) {
     return new Id("O-" + (name == null ? "" : name + "-") + ++count)
   }
+}
+
+let CodeUtil = {
+  convertPath: function (str) {
+    // todo: multiple languages support
+    return str
+      .replace(".rs", "")
+      .replace(".go", "")
+      .replace(".java", "")
+      .replaceAll(/\//g, ".")
+      .replace(/.src./g, ".")
+      .replace(/src./g, "main.");
+  }
+
 }
 
 d3.json("coco.json").then(function (json) {
