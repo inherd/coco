@@ -267,6 +267,11 @@ Visual and Reporter
      - [ ] git
      - [ ] architecture
 
+Tech Debt Integration
+
+ - [ ] Integration Sonarqube ?
+     - [ ] [Our 10-Point Technical Debt Assessment](https://codeclimate.com/blog/10-point-technical-debt-assessment/)
+
 ## Documents
 
 Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/master/docs/guides/101-samples/index.md)
