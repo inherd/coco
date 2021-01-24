@@ -22,6 +22,8 @@ let CodeUtil = {
       .replace(".rs", "")
       .replace(".go", "")
       .replace(".java", "")
+      .replace(".ts", "")
+      .replace(".js", "")
       .replaceAll(/\//g, ".")
       .replace(/.src./g, ".")
       .replace(/src./g, "main.");
@@ -33,7 +35,7 @@ d3.json("coco.json").then(function (json) {
   let data = json;
   // todo: refactor by select
   for (let datum of json) {
-    if (datum.language === "Rust" || datum.language === "Go" || datum.language === "Java") {
+    if (datum.language === "Rust" || datum.language === "Go" || datum.language === "Java" || datum.language === "TypeScript") {
       data = datum;
     }
   }
