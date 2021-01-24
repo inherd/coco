@@ -19,7 +19,7 @@ d3.json("coco.json").then(function (json) {
   let data = json;
   // todo: refactor by select
   for (let datum of json) {
-    if (datum.language === "Rust" || datum.language === "Go") {
+    if (datum.language === "Rust" || datum.language === "Go" || datum.language === "Java") {
       data = datum;
     }
   }
