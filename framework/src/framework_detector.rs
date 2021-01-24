@@ -39,12 +39,14 @@ impl<'a> FrameworkDetector<'a> {
 
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
         self.light_detector(path);
-        self.build_frameworks_info();
+        self.build_project_info();
     }
 
-    fn deep_detector(&mut self, _path: String) {}
+    fn deep_detector(&mut self, _path: String) {
+        // todo: thinking in merge with cloc?
+    }
 
-    fn build_frameworks_info(&mut self) {
+    fn build_project_info(&mut self) {
         if self.is_contains("workspace.java.gradle") || self.is_contains("workspace.java.pom") {
             let facet = JavaFacet {
                 jvm: JvmFacet {
