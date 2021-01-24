@@ -239,6 +239,8 @@ reporter
     - [ ] jenkins api analysis
     - [ ] test coverage integration
  - [ ] case study
+ - [ ] todo scan
+    - [ ] merge from [coca](https://github.com/inherd/coca/blob/master/pkg/application/todo/astitodo/astitodo.go)
 
 Visual and Reporter
 
