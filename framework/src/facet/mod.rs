@@ -1,5 +1,4 @@
 pub mod go_facet;
-pub mod python_facet;
 
 pub mod rust_facet;
 
@@ -11,7 +10,12 @@ pub use java::JavaFacet;
 pub use java::JavaModuleData;
 pub use jvm_facet::JvmFacet;
 
-// JavaScript
+/// JavaScript
 pub mod javascript;
 
 pub use javascript::javascript_facet;
+
+/// Python
+pub mod python;
+
+pub use python::python_facet;
