@@ -1,4 +1,4 @@
-use std::{fs, thread};
+use std::fs;
 
 use clap::{App, Arg};
 use rayon::prelude::*;

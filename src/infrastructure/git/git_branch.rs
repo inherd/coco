@@ -41,10 +41,17 @@ impl GitBranch {
         let mut commits = vec![];
         let mut revwalk = walk.into_iter();
         while let Some(oid_result) = revwalk.next() {
+            if oid_result.is_err() {
+                continue;
+            }
             let oid = oid_result.unwrap();
             let commit = repo.find_commit(oid).unwrap();
 
             commits.push(GitBranch::convert_commit(branch_name, oid, commit));
+        }
+
+        if commits.len() <= 0 {
+            panic!("not found commits");
         }
 
         branch.last_commit_date = commits[0].date;
