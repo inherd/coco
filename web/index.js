@@ -24,7 +24,7 @@ let CodeUtil = {
       .replace(".java", "")
       .replace(".ts", "")
       .replace(".js", "")
-      .replaceAll(/\//g, ".")
+      .replace(/\//g, ".")
       .replace(/.src./g, ".")
       .replace(/src./g, "main.");
   },
