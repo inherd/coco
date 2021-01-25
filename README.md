@@ -215,8 +215,8 @@ reporter
     - [ ] cloud native
         - [ ] dockerfile analysis
  - [ ] module analysis
-    - [ ] base framework for directory
-       - [ ] gitignore support
+    - [x] base framework for directory
+       - [x] gitignore support
     - [ ] code flower
  - [ ] team analysis
     - [ ] join time & life time
