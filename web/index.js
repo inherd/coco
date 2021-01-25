@@ -55,6 +55,50 @@ let CodeUtil = {
   }
 }
 
+
+let Menu = {
+  menuFactory: function(x, y, menuItems, data, svgId){
+    d3.select(".contextMenu").remove();
+
+    // Draw the menu
+    d3.select(svgId)
+      .append('g').attr('class', "contextMenu")
+      .selectAll('tmp')
+      .data(menuItems).enter()
+      .append('g').attr('class', "menuEntry")
+      .style({'cursor': 'pointer'});
+
+    // Draw menu entries
+    d3.selectAll(`.menuEntry`)
+      .append('rect')
+      .attr('x', x)
+      .attr('y', (d, i) => { return y + (i * 30); })
+      .attr('rx', 2)
+      .attr('width', 150)
+      .attr('height', 30)
+      .on('click', (d) => { d.action(data) });
+
+    d3.selectAll(`.menuEntry`)
+      .append('text')
+      .text((d) => { return d.title; })
+      .attr('x', x)
+      .attr('y', (d, i) => { return y + (i * 30); })
+      .attr('dy', 20)
+      .attr('dx', 45)
+      .on('click', (d) => { d.action(data) });
+
+    // Other interactions
+    d3.select('body')
+      .on('click', () => {
+        d3.select(".contextMenu").remove();
+      });
+  },
+  createContextMenu: function (event, d, menuItems, width, height, svgId) {
+    Menu.menuFactory(event.pageX - width / 2, event.pageY - height / 1.5, menuItems, d, svgId);
+    event.preventDefault();
+  }
+}
+
 d3.json("cloc.json").then(function (json) {
   var data;
   var maxlen = 0;

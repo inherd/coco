@@ -31,10 +31,26 @@ function renderNestedTreemap(originData) {
   let data = CodeUtil.hierarchy(Object.values(dMap));
 
   const svg = d3.select("#nested-treemap").append("svg")
+    .attr("id", "graphSvg")
     .attr("viewBox", [0.5, -30.5, width, height + 30])
 
   let group = svg.append("g")
     .call(render, treemap(data));
+
+  const menuItems = [
+    {
+      title: 'First action',
+      action: (d) => {
+        console.log(d);
+      }
+    },
+    {
+      title: 'Second action',
+      action: (d) => {
+        console.log(d);
+      }
+    }
+  ];
 
   function render(group, root) {
     const shadow = DOM.uid("shadow");
@@ -55,7 +71,10 @@ function renderNestedTreemap(originData) {
       .selectAll("g")
       .data(d => d[1])
       .join("g")
-      .attr("transform", d => `translate(${d.x0},${d.y0})`);
+      .attr("transform", d => `translate(${d.x0},${d.y0})`)
+      .on("contextmenu", (event, d) => {
+        Menu.createContextMenu(event, d, menuItems, width, height, '#nested-treemap');
+      })
 
     node.append("title")
       .text(d => `${d.ancestors().reverse().map(d => d.data.name).join("/")}\n${format(d.value)}`);
@@ -129,5 +148,6 @@ function renderNestedTreemap(originData) {
         .attrTween("opacity", () => d3.interpolate(1, 0))
         .call(position, d))
       .call(t => group1.transition(t)
-        .call(position, d.parent));  }
+        .call(position, d.parent));
+  }
 }
