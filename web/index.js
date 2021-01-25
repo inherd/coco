@@ -55,7 +55,7 @@ let CodeUtil = {
   }
 }
 
-d3.json("git.json").then(function (json) {
+d3.json("cloc.json").then(function (json) {
   var data;
   var maxlen = 0;
   for (let i = 0; i < json.length; i++) {
