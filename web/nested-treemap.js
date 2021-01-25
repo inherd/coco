@@ -3,6 +3,8 @@ function renderNestedTreemap(originData) {
   const format = d3.format(",d");
   const width = 1200;
   const height = 960;
+  const x = d3.scaleLinear().rangeRound([0, width]);
+  const y = d3.scaleLinear().rangeRound([0, height]);
 
   var dMap = {}
 
@@ -26,18 +28,15 @@ function renderNestedTreemap(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  var jdata = Object.values(dMap)
-  var data = CodeUtil.hierarchy(jdata);
-
-  const root = treemap(data);
+  let data = CodeUtil.hierarchy(Object.values(dMap));
 
   const svg = d3.select("#nested-treemap").append("svg")
     .attr("viewBox", [0, 0, width, height])
-    .style("font", "10px sans-serif");
 
-  let group = svg.append("g").call(render, root);
+  let group = svg.append("g")
+    .call(render, treemap(data));
 
-  function render(group, data) {
+  function render(group, root) {
     const shadow = DOM.uid("shadow");
 
     svg.append("filter")
@@ -47,7 +46,7 @@ function renderNestedTreemap(originData) {
       .attr("dx", 0)
       .attr("stdDeviation", 3);
 
-    const node = svg.selectAll("g")
+    const node = group.selectAll("g")
       .data(d3.group(root, d => {
         return d.height
       }))
@@ -92,13 +91,43 @@ function renderNestedTreemap(originData) {
       .attr("cursor", "pointer")
       .on("click", (event, d) => d === root ? zoomout(root) : zoomin(d));
   }
+  //
+  // function position(group, root) {
+  //   group.selectAll("g")
+  //     .attr("transform", d => d === root ? `translate(0,-30)` : `translate(${x(d.x0)},${y(d.y0)})`)
+  //     .select("rect")
+  //     .attr("width", d => d === root ? width : x(d.x1) - x(d.x0))
+  //     .attr("height", d => d === root ? 30 : y(d.y1) - y(d.y0));
+  // }
 
   function zoomin(d) {
-    console.log("zoomin");
+    const group0 = group.attr("pointer-events", "none");
+    const group1 = group = svg.append("g").call(render, d);
 
+    x.domain([d.x0, d.x1]);
+    y.domain([d.y0, d.y1]);
+
+    svg.transition()
+      .duration(750)
+      .call(t => group0.transition(t).remove()
+        .call(position, d.parent))
+      .call(t => group1.transition(t)
+        .attrTween("opacity", () => d3.interpolate(0, 1))
+        .call(position, d));
   }
 
   function zoomout(d) {
-    console.log("zoomout");
-  }
+    const group0 = group.attr("pointer-events", "none");
+    const group1 = group = svg.insert("g", "*").call(render, d.parent);
+
+    x.domain([d.parent.x0, d.parent.x1]);
+    y.domain([d.parent.y0, d.parent.y1]);
+
+    svg.transition()
+      .duration(750)
+      .call(t => group0.transition(t).remove()
+        .attrTween("opacity", () => d3.interpolate(1, 0))
+        .call(position, d))
+      .call(t => group1.transition(t)
+        .call(position, d.parent));  }
 }
