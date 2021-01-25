@@ -53,15 +53,15 @@ let CodeUtil = {
 
     return root;
   }
-
 }
 
 d3.json("coco.json").then(function (json) {
-  let data = json;
-  // todo: refactor by select
-  for (let datum of json) {
-    if (datum.language === "Rust" || datum.language === "Go" || datum.language === "Java" || datum.language === "TypeScript") {
-      data = datum;
+  var data;
+  var maxlen = 0;
+  for (let i = 0; i < json.length; i++) {
+    if (json[i].reports.length > maxlen) {
+      maxlen = json[i].reports.length;
+      data = json[i];
     }
   }
 
