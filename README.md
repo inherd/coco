@@ -270,6 +270,10 @@ Visual and Reporter
      - [ ] git
      - [ ] architecture
 
+DevOps pipeline
+
+ - [ ] Jenkinsfile of Coco's examples
+
 Tech Debt Integration
 
  - [ ] Integration Sonarqube ?
