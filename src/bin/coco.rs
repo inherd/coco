@@ -1,4 +1,4 @@
-use std::fs;
+use std::{fs, thread};
 
 use clap::{App, Arg};
 use rayon::prelude::*;
@@ -34,6 +34,7 @@ fn main() {
 }
 
 fn run_analysis(repos: Vec<RepoConfig>) {
+    // todo: add tasks for parallel run analysis tasks for one or more repos
     repos.par_iter().for_each(|repo| {
         let url_str = repo.url.as_str();
 
