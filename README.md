@@ -247,6 +247,9 @@ Visual and Reporter
  - visual
      - [ ] spike d3.js code organization
      - [ ] typescript with frontend framework
+        - [ ] use deno ?
+     - [ ] static files server
+        - [ ] [Rust Embed](https://github.com/pyros2097/rust-embed)
      - [ ] architecture
         - [x] first demo
         - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
