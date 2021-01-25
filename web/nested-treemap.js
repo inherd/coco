@@ -12,6 +12,7 @@ function renderNestedTreemap(originData) {
     let path = CodeUtil.convertPath(datum.path);
     dMap["root." + path] = {
       name: "root." + path,
+      path: datum.path,
       value: datum.code
     }
   }
@@ -73,7 +74,7 @@ function renderNestedTreemap(originData) {
       .join("g")
       .attr("transform", d => `translate(${d.x0},${d.y0})`)
       .on("contextmenu", (event, d) => {
-        Menu.createContextMenu(event, d, menuItems, width, height, '#nested-treemap');
+        Menu.createContextMenu(event, d, menuItems, width, height, '#graphSvg');
       })
 
     node.append("title")
