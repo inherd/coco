@@ -1,30 +1,4 @@
 function renderPacking(originData) {
-  function hierarchy(data, delimiter = ".") {
-    let root;
-    const map = new Map;
-    data.forEach(function find(data) {
-      const {name, value} = data;
-      if (map.has(name)) return map.get(name);
-      const i = name.lastIndexOf(delimiter);
-      map.set(name, data);
-      if (i >= 0) {
-        let found = find({name: name.substring(0, i), children: []});
-        if (found.children) {
-          found.children.push(data);
-        } else {
-          return data
-        }
-        data.name = name.substring(i + 1);
-        data.value = value;
-      } else {
-        root = data;
-      }
-      return data;
-    });
-
-    return root;
-  }
-
   var dMap = {}
 
   for (let datum of originData) {
@@ -37,7 +11,7 @@ function renderPacking(originData) {
   }
 
   var jdata = Object.values(dMap)
-  var data = hierarchy(jdata);
+  var data = CodeUtil.hierarchy(jdata);
 
   var pack = function (data) {
     return d3.pack()
