@@ -31,7 +31,7 @@ function renderNestedTreemap(originData) {
   let data = CodeUtil.hierarchy(Object.values(dMap));
 
   const svg = d3.select("#nested-treemap").append("svg")
-    .attr("viewBox", [0, 0, width, height])
+    .attr("viewBox", [0.5, -30.5, width, height + 30])
 
   let group = svg.append("g")
     .call(render, treemap(data));
@@ -91,14 +91,14 @@ function renderNestedTreemap(originData) {
       .attr("cursor", "pointer")
       .on("click", (event, d) => d === root ? zoomout(root) : zoomin(d));
   }
-  //
-  // function position(group, root) {
-  //   group.selectAll("g")
-  //     .attr("transform", d => d === root ? `translate(0,-30)` : `translate(${x(d.x0)},${y(d.y0)})`)
-  //     .select("rect")
-  //     .attr("width", d => d === root ? width : x(d.x1) - x(d.x0))
-  //     .attr("height", d => d === root ? 30 : y(d.y1) - y(d.y0));
-  // }
+
+  function position(group, root) {
+    group.selectAll("g")
+      .attr("transform", d => d === root ? `translate(0,-30)` : `translate(${x(d.x0)},${y(d.y0)})`)
+      .select("rect")
+      .attr("width", d => d === root ? width : x(d.x1) - x(d.x0))
+      .attr("height", d => d === root ? 30 : y(d.y1) - y(d.y0));
+  }
 
   function zoomin(d) {
     const group0 = group.attr("pointer-events", "none");
