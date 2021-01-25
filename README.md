@@ -6,6 +6,8 @@
 
 Online Reporter Demo: [https://inherd.github.io/coco/web/](https://inherd.github.io/coco/web/)
 
+Case Studies: [Coco cases](https://inherd.github.io/cases/)
+
 特性（features in Chinese）：
 
  - 改进建议（英语）
