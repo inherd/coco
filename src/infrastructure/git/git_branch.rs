@@ -74,7 +74,7 @@ impl GitBranch {
         // GitBranch::build_changes(&commit);
         CocoCommit {
             branch: branch_name.to_string(),
-            rev: oid.to_string(),
+            commit_id: oid.to_string(),
             author: commit.author().name().unwrap().to_string(),
             committer: commit.committer().name().unwrap().to_string(),
             date: commit.author().when().seconds(),

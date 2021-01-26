@@ -6,7 +6,7 @@ use crate::domain::git::coco_commit::FileChange;
 use crate::domain::git::CocoCommit;
 
 lazy_static! {
-    static ref REV: Regex = Regex::new(r"\[(?P<rev>[\d|a-f]{5,12})\]").unwrap();
+    static ref COMMIT_ID: Regex = Regex::new(r"\[(?P<commit_id>[\d|a-f]{5,12})\]").unwrap();
     static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{10}").unwrap();
     static ref DATE: Regex = Regex::new(r"(?P<date>\d{10})").unwrap();
     static ref CHANGES: Regex =
@@ -47,8 +47,8 @@ impl GitMessageParser {
     }
 
     pub fn parse_log_by_line(&mut self, text: &str) {
-        let find_rev = REV.captures(text);
-        if let Some(captures) = find_rev {
+        // COMMIT_ID -> CHANGES -> CHANGEMODEL
+        if let Some(captures) = COMMIT_ID.captures(text) {
             let commit = GitMessageParser::create_commit(text, &captures);
             self.current_commit = commit
         } else if let Some(caps) = CHANGES.captures(text) {
@@ -56,7 +56,7 @@ impl GitMessageParser {
             self.current_file_change_map.insert(filename, file_change);
         } else if let Some(caps) = CHANGEMODEL.captures(text) {
             self.update_change_mode(caps)
-        } else if self.current_commit.rev != "" {
+        } else if self.current_commit.commit_id != "" {
             for (_filename, change) in &self.current_file_change_map {
                 self.current_file_change.push(change.clone());
             }
@@ -101,9 +101,9 @@ impl GitMessageParser {
     }
 
     fn create_commit(text: &str, captures: &Captures) -> CocoCommit {
-        let cap_rev = &captures["rev"];
+        let commit_id = &captures["commit_id"];
         let without_rev = text
-            .split(&format!("[{}] ", cap_rev))
+            .split(&format!("[{}] ", commit_id))
             .collect::<Vec<&str>>()[1];
 
         let author = &AUTHOR.captures(without_rev).unwrap()["author"];
@@ -121,7 +121,7 @@ impl GitMessageParser {
         let date = date_str.parse::<i64>().unwrap();
         CocoCommit {
             branch: "".to_string(),
-            rev: cap_rev.to_string(),
+            commit_id: commit_id.to_string(),
             author: author.to_string(),
             committer: "".to_string(),
             date,
@@ -146,7 +146,7 @@ mod test {
 
         let commits = GitMessageParser::to_commit_message(input);
         assert_eq!(1, commits.len());
-        assert_eq!("828fe39523", commits[0].rev);
+        assert_eq!("828fe39523", commits[0].commit_id);
         assert_eq!("Rossen Stoyanchev", commits[0].author);
         assert_eq!(1575388800, commits[0].date);
         assert_eq!(
