@@ -7,3 +7,4 @@
 * [5. embedded-database](0005-embedded-database.md)
 * [6. tech-stack-generate](0006-tech-stack-generate.md)
 * [7. regex-match-commit-message-design](0007-regex-match-commit-message-design.md)
+* [8. virualenv-for-runtime](0008-virualenv-for-runtime.md)

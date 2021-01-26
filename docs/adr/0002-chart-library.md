@@ -6,6 +6,8 @@ Date: 2021-01-13
 
 2021-01-13 proposed
 
+2021-01-26 deprecated
+
 ## Context
 
 We need a simple chart library by split.
