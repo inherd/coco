@@ -36,7 +36,7 @@ impl Default for GitMessageParser {
 }
 
 impl GitMessageParser {
-    pub fn to_commit_message(str: &str) -> Vec<CocoCommit> {
+    pub fn parse(str: &str) -> Vec<CocoCommit> {
         let split = str.split("\n");
         let mut parser = GitMessageParser::default();
         for line in split {
@@ -47,25 +47,29 @@ impl GitMessageParser {
     }
 
     pub fn parse_log_by_line(&mut self, text: &str) {
-        // COMMIT_ID -> CHANGES -> CHANGEMODEL
+        // COMMIT_ID -> CHANGES -> CHANGE_MODEL -> Push to Commits
         if let Some(captures) = COMMIT_ID.captures(text) {
-            let commit = GitMessageParser::create_commit(text, &captures);
-            self.current_commit = commit
+            self.current_commit = GitMessageParser::create_commit(text, &captures)
         } else if let Some(caps) = CHANGES.captures(text) {
-            let (filename, file_change) = GitMessageParser::create_file_change(caps);
+            let filename = caps["filename"].to_string();
+            let file_change = GitMessageParser::create_file_change(filename.clone(), caps);
             self.current_file_change_map.insert(filename, file_change);
         } else if let Some(caps) = CHANGEMODEL.captures(text) {
             self.update_change_mode(caps)
         } else if self.current_commit.commit_id != "" {
-            for (_filename, change) in &self.current_file_change_map {
-                self.current_file_change.push(change.clone());
-            }
-
-            self.current_commit.changes = self.current_file_change.clone();
-            self.commits.push(self.current_commit.clone());
-
-            self.current_file_change_map.clear();
+            self.push_to_commits();
         }
+    }
+
+    fn push_to_commits(&mut self) {
+        for (_filename, change) in &self.current_file_change_map {
+            self.current_file_change.push(change.clone());
+        }
+
+        self.current_commit.changes = self.current_file_change.clone();
+        self.commits.push(self.current_commit.clone());
+
+        self.current_file_change_map.clear();
     }
 
     fn update_change_mode(&mut self, caps: Captures) {
@@ -89,15 +93,13 @@ impl GitMessageParser {
         }
     }
 
-    fn create_file_change(caps: Captures) -> (String, FileChange) {
-        let filename = caps["filename"].to_string();
-        let file_change = FileChange {
+    fn create_file_change(filename: String, caps: Captures) -> FileChange {
+        FileChange {
             added: caps["added"].parse::<i32>().unwrap(),
             deleted: caps["deleted"].parse::<i32>().unwrap(),
-            file: filename.clone(),
+            file: filename,
             mode: "".to_string(),
-        };
-        (filename, file_change)
+        }
     }
 
     fn create_commit(text: &str, captures: &Captures) -> CocoCommit {
@@ -144,7 +146,7 @@ mod test {
 6       11      core/docs/asciidoc/web/webflux-webclient.adoc
 ";
 
-        let commits = GitMessageParser::to_commit_message(input);
+        let commits = GitMessageParser::parse(input);
         assert_eq!(1, commits.len());
         assert_eq!("828fe39523", commits[0].commit_id);
         assert_eq!("Rossen Stoyanchev", commits[0].author);
@@ -164,7 +166,7 @@ mod test {
 
 ";
 
-        let commits = GitMessageParser::to_commit_message(input);
+        let commits = GitMessageParser::parse(input);
         assert_eq!(1, commits[0].changes.len());
         assert_eq!("delete", commits[0].changes[0].mode)
     }
@@ -187,7 +189,7 @@ mod test {
 0       0       core/adapter/bs/BadSmellApp.go
 ";
 
-        let commits = GitMessageParser::to_commit_message(input);
+        let commits = GitMessageParser::parse(input);
         println!("{:?}", commits);
         assert_eq!(4, commits.len());
     }
@@ -204,7 +206,7 @@ mod test {
 
 ";
 
-        let commits = GitMessageParser::to_commit_message(input);
+        let commits = GitMessageParser::parse(input);
         assert_eq!(5, commits[0].changes.len());
         let mut changes = commits[0].changes.clone();
         changes.sort_by(|a, b| a.file.to_lowercase().cmp(&b.file.to_lowercase()));
