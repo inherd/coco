@@ -48,7 +48,8 @@ function renderNestedTreemap(originData) {
     {
       title: 'Open In Idea (Todo)',
       action: (d) => {
-        console.log(d);
+        // todo: add identify idea projects support
+        window.open("jetbrains://open?url=" + d.data.path);
       }
     }
   ];
