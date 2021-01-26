@@ -52,5 +52,14 @@
     "last_commit_str": "2021-01-15 07:13:08",
     "first_commit_date": 1610519809,
     "last_commit_date": 1610694788
+  },
+  {
+    "name": "origin/no-commits",
+    "author": "Phodal Huang",
+    "committer": "Phodal Huang",
+    "first_commit_str": "2021-01-26 03:22:50",
+    "last_commit_str": "2021-01-26 03:22:50",
+    "first_commit_date": 1611631370,
+    "last_commit_date": 1611631370
   }
 ]
