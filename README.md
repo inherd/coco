@@ -11,17 +11,17 @@ Case Studies: [Coco cases](https://inherd.github.io/cases/)
 特性（features in Chinese）：
 
  - 改进建议（英语）
- - 框架检测
- - 分支生命周期和可视化
+ - 框架检测与分析
  - 云原生成熟度分析
- - 团队健康值分析
- - 图形可视化
+ - 项目健康值分析
+ - 图形可视化和报表生成
  - 多项目**并行**分析
+ - 分支生命周期和可视化
 
 features:
 
  - automatic suggestion (online).
- - framework detector
+ - framework detector and analysis
  - branch lifecycle and visual
  - cloud-native analysis
  - team health analysis
