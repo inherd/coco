@@ -47,7 +47,6 @@ impl GitMessageParser {
     }
 
     pub fn parse_log_by_line(&mut self, text: &str) {
-        let change_mode = "";
         let find_rev = REV.captures(text);
         if let Some(captures) = find_rev {
             let commit = GitMessageParser::create_commit(text, &captures);
@@ -56,7 +55,7 @@ impl GitMessageParser {
             let (filename, file_change) = GitMessageParser::create_file_change(caps);
             self.current_file_change_map.insert(filename, file_change);
         } else if let Some(caps) = CHANGEMODEL.captures(text) {
-            // todo
+            self.update_change_mode(caps)
         } else if self.current_commit.rev != "" {
             for (_filename, change) in &self.current_file_change_map {
                 self.current_file_change.push(change.clone());
@@ -67,6 +66,27 @@ impl GitMessageParser {
 
             // self.current_commit = CocoCommit::default();
             self.current_file_change_map.clear();
+        }
+    }
+
+    fn update_change_mode(&mut self, caps: Captures) {
+        let change_model_index = 4;
+        if caps.len() > change_model_index {
+            let mode = caps.get(1).unwrap().as_str();
+            let file_name = caps.get(4).unwrap().as_str();
+            if self.current_file_change_map.get(file_name).is_some() {
+                let change = self.current_file_change_map.get_mut(file_name).unwrap();
+                change.mode = mode.to_string();
+            } else {
+                let change = FileChange {
+                    added: 0,
+                    deleted: 0,
+                    file: file_name.to_string(),
+                    mode: mode.to_string(),
+                };
+                self.current_file_change_map
+                    .insert(file_name.to_string(), change);
+            }
         }
     }
 
@@ -135,6 +155,19 @@ mod test {
             commits[0].message
         );
         assert_eq!(4, commits[0].changes.len())
+    }
+
+    #[test]
+    pub fn should_support_mode_change() {
+        let input = "[828fe39523] Phodal HUANG 1575388800 refactor: extract vars
+0       0       adapter/JavaCallListener2.go
+ delete mode 100644 adapter/JavaCallListener2.go
+
+";
+
+        let commits = GitMessageParser::to_commit_message(input);
+        assert_eq!(1, commits[0].changes.len());
+        assert_eq!("delete", commits[0].changes[0].mode)
     }
 
     #[test]
