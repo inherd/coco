@@ -151,11 +151,6 @@ just tests
 
 ![Architecture](docs/images/coco-architecture.svg)
 
-third-party libs:
-
- - libgit2, git api
- - tokei, cloc api
-
 ### Contribute
 
 we need you coding in TDD. You can use this repo to learn TDD :
