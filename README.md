@@ -193,6 +193,7 @@ reporter
  - [x] git analysis
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
+    - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
  - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
