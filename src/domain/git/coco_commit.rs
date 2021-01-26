@@ -11,7 +11,19 @@ pub struct CocoCommit {
     pub changes: Vec<FileChange>,
 }
 
-impl CocoCommit {}
+impl Default for CocoCommit {
+    fn default() -> Self {
+        CocoCommit {
+            branch: "".to_string(),
+            rev: "".to_string(),
+            author: "".to_string(),
+            committer: "".to_string(),
+            date: 0,
+            message: "".to_string(),
+            changes: vec![],
+        }
+    }
+}
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct FileChange {
