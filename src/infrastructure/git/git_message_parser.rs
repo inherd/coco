@@ -64,6 +64,8 @@ impl GitMessageParser {
 
             self.current_commit.changes = self.current_file_change.clone();
             self.commits.push(self.current_commit.clone());
+
+            // self.current_commit = CocoCommit::default();
             self.current_file_change_map.clear();
         }
     }
@@ -133,5 +135,27 @@ mod test {
             commits[0].message
         );
         assert_eq!(4, commits[0].changes.len())
+    }
+
+    #[test]
+    pub fn should_success_parse_multiple_line_log() {
+        let input = "[d00f0124d] Phodal Huang 1575388800 update files
+0       0       core/domain/bs/BadSmellApp.go
+
+[1d00f0124b] Phodal Huang 1575388800 update files
+1       1       cmd/bs.go
+0       0       core/domain/bs/BadSmellApp.go
+
+[d00f04111b] Phodal Huang 1575388800 refactor: move bs to adapter
+1       1       cmd/bs.go
+5       5       core/{domain => adapter}/bs/BadSmellApp.go
+
+[d00f01214b] Phodal Huang 1575388800 update files
+1       1       cmd/bs.go
+0       0       core/adapter/bs/BadSmellApp.go
+";
+
+        let commits = GitMessageParser::to_commit_message(input);
+        assert_eq!(4, commits.len());
     }
 }
