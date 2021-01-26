@@ -1,6 +1,7 @@
 pub use git_repository::GitRepository;
 
 pub mod git_branch;
+pub mod git_command;
 pub mod git_commit;
 pub mod git_repository;
 
