@@ -56,6 +56,9 @@ ignore = "0.4"
 
 walkdir = "2"
 
+regex = "1"
+
+
 [dependencies.framework]
 path = "framework"
 

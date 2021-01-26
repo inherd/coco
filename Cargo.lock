@@ -197,6 +197,7 @@ dependencies = [
  "ignore",
  "lazy_static",
  "rayon",
+ "regex",
  "serde",
  "serde_json",
  "serde_yaml",
