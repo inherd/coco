@@ -27,8 +27,8 @@ impl Default for CocoCommit {
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct FileChange {
-    pub added: i64,
-    pub deleted: i64,
+    pub added: i32,
+    pub deleted: i32,
     pub file: String,
     pub mode: String,
 }

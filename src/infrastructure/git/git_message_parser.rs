@@ -2,13 +2,15 @@ use std::collections::HashMap;
 
 use regex::{Captures, Regex};
 
-use crate::domain::git::{CocoCommit, GitFileChange};
+use crate::domain::git::coco_commit::FileChange;
+use crate::domain::git::CocoCommit;
 
 lazy_static! {
     static ref REV: Regex = Regex::new(r"\[(?P<rev>[\d|a-f]{5,12})\]").unwrap();
     static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{10}").unwrap();
     static ref DATE: Regex = Regex::new(r"(?P<date>\d{10})").unwrap();
-    static ref CHANGES: Regex = Regex::new(r"([\d-]+)[\t\s]+([\d-]+)[\t\s]+(.*)").unwrap();
+    static ref CHANGES: Regex =
+        Regex::new(r"(?P<deleted>[\d-]+)[\t\s]+(?P<added>[\d-]+)[\t\s]+(?P<filename>.*)").unwrap();
     static ref COMPLEXMOVEREGSTR: Regex = Regex::new(r"(.*)\{(.*)\s=>\s(.*)\}(.*)").unwrap();
     static ref BASICMOVEREGSTR: Regex = Regex::new(r"(.*)\s=>\s(.*)").unwrap();
     static ref CHANGEMODEL: Regex =
@@ -17,9 +19,9 @@ lazy_static! {
 
 pub struct GitMessageParser {
     current_commit: CocoCommit,
-    current_file_change: Vec<GitFileChange>,
+    current_file_change: Vec<FileChange>,
     commits: Vec<CocoCommit>,
-    current_file_change_map: HashMap<String, GitFileChange>,
+    current_file_change_map: HashMap<String, FileChange>,
 }
 
 impl Default for GitMessageParser {
@@ -48,18 +50,36 @@ impl GitMessageParser {
         let change_mode = "";
         let find_rev = REV.captures(text);
         if let Some(captures) = find_rev {
-            let commit = GitMessageParser::init_commit_from_text(text, &captures);
+            let commit = GitMessageParser::create_commit(text, &captures);
             self.current_commit = commit
         } else if let Some(caps) = CHANGES.captures(text) {
-            // todo
+            let (filename, file_change) = GitMessageParser::create_file_change(caps);
+            self.current_file_change_map.insert(filename, file_change);
         } else if let Some(caps) = CHANGEMODEL.captures(text) {
             // todo
         } else if self.current_commit.rev != "" {
+            for (_filename, change) in &self.current_file_change_map {
+                self.current_file_change.push(change.clone());
+            }
+
+            self.current_commit.changes = self.current_file_change.clone();
             self.commits.push(self.current_commit.clone());
+            self.current_file_change_map.clear();
         }
     }
 
-    fn init_commit_from_text(text: &str, captures: &Captures) -> CocoCommit {
+    fn create_file_change(caps: Captures) -> (String, FileChange) {
+        let filename = caps["filename"].to_string();
+        let file_change = FileChange {
+            added: caps["added"].parse::<i32>().unwrap(),
+            deleted: caps["deleted"].parse::<i32>().unwrap(),
+            file: filename.clone(),
+            mode: "".to_string(),
+        };
+        (filename, file_change)
+    }
+
+    fn create_commit(text: &str, captures: &Captures) -> CocoCommit {
         let cap_rev = &captures["rev"];
         let without_rev = text
             .split(&format!("[{}] ", cap_rev))
@@ -112,5 +132,6 @@ mod test {
             "Consistently use releaseBody in DefaultWebClient",
             commits[0].message
         );
+        assert_eq!(4, commits[0].changes.len())
     }
 }
