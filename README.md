@@ -197,7 +197,7 @@ reporter
 
  - [x] git analysis
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
-    - [ ] local repo support
+    - [x] local repo support
  - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
@@ -212,7 +212,7 @@ reporter
     - [ ] commit cloc changes
  - [ ] framework detector.
     - [x] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
-    - [ ] framework output
+    - [x] framework output
     - [ ] tech stack generate
     - [ ] cloud native
         - [ ] dockerfile analysis
