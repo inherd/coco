@@ -40,13 +40,13 @@ function renderNestedTreemap(originData) {
 
   const menuItems = [
     {
-      title: 'First action',
+      title: 'Copy Path',
       action: (d) => {
-        console.log(d);
+        MenuHandle.copyText(d.data.path);
       }
     },
     {
-      title: 'Second action',
+      title: 'Open In Idea (Todo)',
       action: (d) => {
         console.log(d);
       }

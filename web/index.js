@@ -55,6 +55,19 @@ let CodeUtil = {
   }
 }
 
+let MenuHandle = {
+  copyText: function (text) {
+    let ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = 'absolute';
+    ta.style.left = "-999999999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+}
+
 
 let Menu = {
   menuFactory: function (x, y, menuItems, data, svgId, width, height) {
@@ -80,7 +93,7 @@ let Menu = {
       .attr('rx', 2)
       .attr('width', 150)
       .attr('height', 30)
-      .on('click', (d) => {
+      .on('click', (event, d) => {
         d.action(data)
       });
 
@@ -95,7 +108,7 @@ let Menu = {
       })
       .attr('dy', 20)
       .attr('dx', 45)
-      .on('click', (d) => {
+      .on('click', (event, d) => {
         d.action(data)
       });
 
