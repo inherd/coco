@@ -6,7 +6,7 @@ use crate::domain::git::{CocoCommit, GitFileChange};
 
 lazy_static! {
     static ref REV: Regex = Regex::new(r"\[(?P<rev>[\d|a-f]{5,12})\]").unwrap();
-    static ref AUTHOR: Regex = Regex::new(r"(.*?)\s\d{4}-\d{2}-\d{2}").unwrap();
+    static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{4}-\d{2}-\d{2}").unwrap();
     static ref DATE: Regex = Regex::new(r"\d{4}-\d{2}-\d{2}").unwrap();
     static ref CHANGES: Regex = Regex::new(r"([\d-]+)[\t\s]+([\d-]+)[\t\s]+(.*)").unwrap();
     static ref COMPLEXMOVEREGSTR: Regex = Regex::new(r"(.*)\{(.*)\s=>\s(.*)\}(.*)").unwrap();
@@ -44,23 +44,33 @@ impl GitMessageParser {
         parser.commits
     }
 
-    pub fn parse_log_by_line(&mut self, str: &str) {
+    pub fn parse_log_by_line(&mut self, text: &str) {
         let changeMode = "";
-        let find_rev = REV.captures(str);
+        let find_rev = REV.captures(text);
         if let Some(captures) = find_rev {
-            let rev = (&captures["rev"]).to_string();
+            let cap_rev = (&captures["rev"]);
+            let without_rev = text
+                .split(&format!("[{}] ", cap_rev))
+                .collect::<Vec<&str>>()[1];
+            let author = &AUTHOR.captures(without_rev).unwrap()["author"];
+
+            let without_author = without_rev
+                .split(&format!("{} ", author))
+                .collect::<Vec<&str>>()[1];
+            println!("{}", without_author);
+
             self.current_commit = CocoCommit {
                 branch: "".to_string(),
-                rev: rev,
-                author: "".to_string(),
+                rev: cap_rev.to_string(),
+                author: author.to_string(),
                 committer: "".to_string(),
                 date: 0,
                 message: "".to_string(),
                 changes: vec![],
             }
-        } else if let Some(caps) = CHANGES.captures(str) {
+        } else if let Some(caps) = CHANGES.captures(text) {
             // todo
-        } else if let Some(caps) = CHANGEMODEL.captures(str) {
+        } else if let Some(caps) = CHANGEMODEL.captures(text) {
             // todo
         } else if self.current_commit.rev != "" {
             self.commits.push(self.current_commit.clone());
@@ -84,5 +94,6 @@ mod test {
         let commits = GitMessageParser::to_commit_message(input);
         assert_eq!(1, commits.len());
         assert_eq!("828fe39523", commits[0].rev);
+        assert_eq!("Rossen Stoyanchev", commits[0].author);
     }
 }
