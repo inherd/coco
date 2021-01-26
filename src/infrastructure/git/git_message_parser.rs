@@ -64,7 +64,6 @@ impl GitMessageParser {
             self.current_commit.changes = self.current_file_change.clone();
             self.commits.push(self.current_commit.clone());
 
-            // self.current_commit = CocoCommit::default();
             self.current_file_change_map.clear();
         }
     }
@@ -189,6 +188,29 @@ mod test {
 ";
 
         let commits = GitMessageParser::to_commit_message(input);
+        println!("{:?}", commits);
         assert_eq!(4, commits.len());
+    }
+
+    #[test]
+    pub fn should_support_multiple_change_mode_change() {
+        let input = "[828fe39523] Phodal HUANG 1575388800 fix: fix test
+7       0       README.md
+13      0       learn_go_suite_test.go
+3       3       imp/imp_test.go => learn_go_test.go
+ create mode 100644 learn_go_suite_test.go
+ rename imp/imp_test.go => learn_go_test.go (70%)
+ delete mode 100644 adapter/call/visitor/JavaCallVisitor.go
+
+";
+
+        let commits = GitMessageParser::to_commit_message(input);
+        assert_eq!(5, commits[0].changes.len());
+        let mut changes = commits[0].changes.clone();
+        changes.sort_by(|a, b| a.file.to_lowercase().cmp(&b.file.to_lowercase()));
+
+        assert_eq!("delete", changes[0].mode);
+        assert_eq!("rename", changes[2].mode);
+        assert_eq!("create", changes[3].mode);
     }
 }
