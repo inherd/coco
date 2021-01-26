@@ -1,6 +1,6 @@
 use crate::domain::git::CocoBranch;
 use crate::domain::git::CocoCommit;
-use git2::{Commit, Oid, Repository};
+use git2::{Commit, Oid, Repository, TreeWalkMode, TreeWalkResult};
 
 pub struct GitBranch {}
 
@@ -71,6 +71,7 @@ impl GitBranch {
 
     // todo: thinking in refactor to application, is not clean in infrastructure
     fn convert_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
+        // GitBranch::build_changes(&commit);
         CocoCommit {
             branch: branch_name.to_string(),
             rev: oid.to_string(),
@@ -94,5 +95,20 @@ impl GitBranch {
         } else {
             None
         };
+    }
+
+    pub fn build_changes(commit: &Commit) {
+        match commit.tree() {
+            Ok(tree) => {
+                tree.walk(TreeWalkMode::PreOrder, |_, entry| {
+                    println!("{:?}", entry.name().unwrap());
+                    TreeWalkResult::Ok
+                })
+                .unwrap();
+            }
+            Err(_) => {
+                println!()
+            }
+        }
     }
 }
