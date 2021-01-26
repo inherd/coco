@@ -197,6 +197,8 @@ reporter
  - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
+       - [ ] branch visual. such as [https://app.gfc.io/github/nvie/gitflow](https://app.gfc.io/github/nvie/gitflow)
+           - ahead vs behind [https://github.com/BenoitZugmeyer/git-branches-overview](https://github.com/BenoitZugmeyer/git-branches-overview)
     - [ ] git commit time analysis
        - [ ] storage all commits
           - [ ] light database?
@@ -254,6 +256,7 @@ Visual and Reporter
      - [ ] git
         - [x] branch history demo
      - [ ] commits in years/month
+        - examples: [gilot](https://github.com/hirokidaichi/gilot) average committer in month
      - [ ] changes in years/month
         - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
     - [ ] graph support for velocity

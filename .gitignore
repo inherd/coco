@@ -12,3 +12,4 @@ Cargo.lock
 .idea
 .coco
 web/d3.min.js
+web/hack.js

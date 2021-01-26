@@ -1,7 +1,5 @@
 repo:
-  - url: https://github.com/coco-rs/coco.fixtures
-  - url: https://github.com/coco-rs/coco.fixtures2
-  - url: .
+  - url: /Users/fdhuang/android/gradle
 
 commit-message:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
