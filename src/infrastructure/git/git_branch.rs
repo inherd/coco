@@ -1,6 +1,5 @@
 use crate::domain::git::CocoBranch;
-use crate::domain::git::CocoCommit;
-use git2::{Commit, Oid, Repository, TreeWalkMode, TreeWalkResult};
+use git2::{Commit, Repository, TreeWalkMode, TreeWalkResult};
 
 pub struct GitBranch {}
 
@@ -19,7 +18,7 @@ impl GitBranch {
 
             // todo: add branch type support
             let branch_name = br.name().unwrap().unwrap();
-            let branch = GitBranch::calculate_branch(&repo, branch_name, &*branch_type).0;
+            let branch = GitBranch::calculate_branch(&repo, branch_name, &*branch_type);
 
             coco_branches.push(branch);
         }
@@ -27,18 +26,14 @@ impl GitBranch {
         coco_branches
     }
 
-    fn calculate_branch(
-        repo: &Repository,
-        branch_name: &str,
-        branch_type: &str,
-    ) -> (CocoBranch, Vec<CocoCommit>) {
+    fn calculate_branch(repo: &Repository, branch_name: &str, branch_type: &str) -> CocoBranch {
         let mut branch = CocoBranch::new(branch_name);
         let oid = repo.revparse_single(branch_name).unwrap().id();
 
         let mut walk = repo.revwalk().unwrap();
         let _ = walk.push(oid);
 
-        let mut commits = vec![];
+        let mut commit_times = vec![];
         let mut revwalk = walk.into_iter();
         while let Some(oid_result) = revwalk.next() {
             if oid_result.is_err() {
@@ -47,40 +42,22 @@ impl GitBranch {
             let oid = oid_result.unwrap();
             let commit = repo.find_commit(oid).unwrap();
 
-            commits.push(GitBranch::convert_commit(branch_name, oid, commit));
+            commit_times.push(commit.author().when().seconds());
+            branch.commits.push(oid.to_string());
         }
 
-        if commits.len() <= 0 {
+        if commit_times.len() <= 0 {
             panic!("not found commits");
         }
 
-        branch.last_commit_date = commits[0].date;
-
-        let last_commit = commits.last().unwrap();
-
-        branch.commits_count = commits.len();
-        branch.author = last_commit.author.clone();
-        branch.committer = last_commit.committer.clone();
-        branch.first_commit_date = last_commit.date.clone();
+        branch.last_commit_date = commit_times[0];
+        branch.commits_count = commit_times.len();
+        branch.first_commit_date = *commit_times.last().unwrap();
         branch.branch_type = branch_type.to_string();
 
         branch.duration = branch.last_commit_date - branch.first_commit_date;
 
-        (branch, commits)
-    }
-
-    // todo: thinking in refactor to application, is not clean in infrastructure
-    fn convert_commit(branch_name: &str, oid: Oid, commit: Commit) -> CocoCommit {
-        // GitBranch::build_changes(&commit);
-        CocoCommit {
-            branch: branch_name.to_string(),
-            commit_id: oid.to_string(),
-            author: commit.author().name().unwrap().to_string(),
-            committer: commit.committer().name().unwrap().to_string(),
-            date: commit.author().when().seconds(),
-            message: commit.message().unwrap().to_string(),
-            changes: vec![],
-        }
+        branch
     }
 
     pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {

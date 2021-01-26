@@ -8,8 +8,7 @@ pub struct CocoBranch {
     pub last_commit_date: i64,
     pub duration: i64,
     pub commits_count: usize,
-    pub author: String,
-    pub committer: String,
+    pub commits: Vec<String>,
 }
 
 impl CocoBranch {
@@ -21,8 +20,7 @@ impl CocoBranch {
             last_commit_date: 0,
             duration: 0,
             commits_count: 0,
-            author: "".to_string(),
-            committer: "".to_string(),
+            commits: vec![],
         }
     }
 }
