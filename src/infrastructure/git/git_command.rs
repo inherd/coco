@@ -3,11 +3,12 @@ use std::process::Command;
 pub fn get_commit_message() -> String {
     let command = Command::new("git")
         .arg("log")
-        .arg("--pretty=\"format:[%h] %aN %ad %s\"")
+        .arg("--pretty=\"format:[%h] %aN %at %s\"")
         .arg("--date=short")
         .arg("--numstat")
         .arg("--reverse")
         .arg("--summary")
+        .arg("--date=unix")
         .output()
         .expect("ls command failed to start");
 

@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
-use regex::{Match, Regex};
+use regex::{Captures, Regex};
 
 use crate::domain::git::{CocoCommit, GitFileChange};
 
 lazy_static! {
     static ref REV: Regex = Regex::new(r"\[(?P<rev>[\d|a-f]{5,12})\]").unwrap();
-    static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{4}-\d{2}-\d{2}").unwrap();
-    static ref DATE: Regex = Regex::new(r"\d{4}-\d{2}-\d{2}").unwrap();
+    static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{10}").unwrap();
+    static ref DATE: Regex = Regex::new(r"(?P<date>\d{10})").unwrap();
     static ref CHANGES: Regex = Regex::new(r"([\d-]+)[\t\s]+([\d-]+)[\t\s]+(.*)").unwrap();
     static ref COMPLEXMOVEREGSTR: Regex = Regex::new(r"(.*)\{(.*)\s=>\s(.*)\}(.*)").unwrap();
     static ref BASICMOVEREGSTR: Regex = Regex::new(r"(.*)\s=>\s(.*)").unwrap();
@@ -45,35 +45,47 @@ impl GitMessageParser {
     }
 
     pub fn parse_log_by_line(&mut self, text: &str) {
-        let changeMode = "";
+        let change_mode = "";
         let find_rev = REV.captures(text);
         if let Some(captures) = find_rev {
-            let cap_rev = (&captures["rev"]);
-            let without_rev = text
-                .split(&format!("[{}] ", cap_rev))
-                .collect::<Vec<&str>>()[1];
-            let author = &AUTHOR.captures(without_rev).unwrap()["author"];
-
-            let without_author = without_rev
-                .split(&format!("{} ", author))
-                .collect::<Vec<&str>>()[1];
-            println!("{}", without_author);
-
-            self.current_commit = CocoCommit {
-                branch: "".to_string(),
-                rev: cap_rev.to_string(),
-                author: author.to_string(),
-                committer: "".to_string(),
-                date: 0,
-                message: "".to_string(),
-                changes: vec![],
-            }
+            let commit = GitMessageParser::init_commit_from_text(text, &captures);
+            self.current_commit = commit
         } else if let Some(caps) = CHANGES.captures(text) {
             // todo
         } else if let Some(caps) = CHANGEMODEL.captures(text) {
             // todo
         } else if self.current_commit.rev != "" {
             self.commits.push(self.current_commit.clone());
+        }
+    }
+
+    fn init_commit_from_text(text: &str, captures: &Captures) -> CocoCommit {
+        let cap_rev = &captures["rev"];
+        let without_rev = text
+            .split(&format!("[{}] ", cap_rev))
+            .collect::<Vec<&str>>()[1];
+
+        let author = &AUTHOR.captures(without_rev).unwrap()["author"];
+        let without_author = without_rev
+            .split(&format!("{} ", author))
+            .collect::<Vec<&str>>()[1];
+
+        let date_str = &DATE.captures(without_author).unwrap()["date"];
+        let without_date = without_author
+            .split(&format!("{} ", date_str))
+            .collect::<Vec<&str>>()[1];
+
+        let message = without_date;
+
+        let date = date_str.parse::<i64>().unwrap();
+        CocoCommit {
+            branch: "".to_string(),
+            rev: cap_rev.to_string(),
+            author: author.to_string(),
+            committer: "".to_string(),
+            date,
+            message: message.to_string(),
+            changes: vec![],
         }
     }
 }
@@ -84,7 +96,7 @@ mod test {
 
     #[test]
     pub fn should_success_parse_one_line_log() {
-        let input = "[828fe39523] Rossen Stoyanchev 2019-12-04 Consistently use releaseBody in DefaultWebClient
+        let input = "[828fe39523] Rossen Stoyanchev 1575388800 Consistently use releaseBody in DefaultWebClient
 5       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/ClientResponse.java
 1       1       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java
 9       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/WebClient.java
@@ -95,5 +107,10 @@ mod test {
         assert_eq!(1, commits.len());
         assert_eq!("828fe39523", commits[0].rev);
         assert_eq!("Rossen Stoyanchev", commits[0].author);
+        assert_eq!(1575388800, commits[0].date);
+        assert_eq!(
+            "Consistently use releaseBody in DefaultWebClient",
+            commits[0].message
+        );
     }
 }
