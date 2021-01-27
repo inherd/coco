@@ -1,4 +1,3 @@
-use std::collections::hash_map::RandomState;
 use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
@@ -64,7 +63,7 @@ impl<'a> FrameworkDetector<'a> {
         }
     }
 
-    fn is_contains(&mut self, key: &str) -> bool {
+    fn is_contains(&self, key: &str) -> bool {
         self.tags.contains_key(key)
     }
 
@@ -99,7 +98,7 @@ impl<'a> FrameworkDetector<'a> {
             .insert("workspace.rust.cargo", sets.contains("Cargo.toml"));
     }
 
-    pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String, RandomState> {
+    pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
         let mut name_sets: HashSet<String> = HashSet::new();
         let walk_dir = WalkDir::new(path);
         for dir_entry in walk_dir.max_depth(1).into_iter() {
