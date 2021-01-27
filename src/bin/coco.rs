@@ -9,10 +9,12 @@ use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
 
+const VERSION: &'static str = env!("CARGO_PKG_VERSION");
+
 fn main() {
-    let matches = App::new("Coco Program")
-        .version("1.0")
-        .author("Phodal <h@phodal.com>")
+    let matches = App::new("Coco")
+        .version(VERSION)
+        .author("Inherd Group")
         .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
         .arg(
             Arg::with_name("config")
