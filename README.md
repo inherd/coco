@@ -284,6 +284,10 @@ Tech Debt Integration
 
 Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/master/docs/guides/101-samples/index.md)
 
+## Thanks
+
+[![PyCharm](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
+
 License
 ---
 
