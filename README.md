@@ -194,7 +194,6 @@ reporter
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
     - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
- - [ ] git tag analysis
     - [x] git branch analysis
        - [x] branch history
        - [ ] branch visual. such as [https://app.gfc.io/github/nvie/gitflow](https://app.gfc.io/github/nvie/gitflow)
@@ -208,7 +207,8 @@ reporter
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
     - [ ] history cloc changes
     - [ ] commit cloc changes
- - [ ] framework detector.
+ - [ ] framework analysis.
+    - framework detector
     - [x] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
     - [x] framework output
     - [ ] tech stack generate
@@ -218,6 +218,9 @@ reporter
     - [x] base framework for directory
        - [x] gitignore support
     - [ ] code flower
+    - [ ] include analysis
+       - [x] code parser: [pest](https://github.com/pest-parser/pest)
+       - [ ] languages support.
  - [ ] team analysis
     - [ ] join time & life time
     - [ ] member growth
