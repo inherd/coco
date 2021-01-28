@@ -8,7 +8,6 @@ use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
-use std::io::Error;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 

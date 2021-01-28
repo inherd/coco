@@ -1,5 +1,8 @@
 tests:
-	cargo test --all
+	cargo test --all --exclude e2e
+
+e2e:
+  cargo test --package e2e
 
 build:
     cargo build

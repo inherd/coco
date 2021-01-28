@@ -64,5 +64,6 @@ path = "framework"
 
 [workspace]
 members = [
-  'framework'
+  'framework',
+  'e2e'
 ]
