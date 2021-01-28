@@ -3,7 +3,7 @@ repo:
   - url: https://github.com/coco-rs/coco.fixtures2
   - url: .
 
-commit-message:
+commit:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
   # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
   # jira test case: feature/JIR-124:test commit message
@@ -13,3 +13,14 @@ commit-message:
     - tag
     - id
   samples: feature/JIR-124:test commit message
+
+team:
+  - name: Phodal
+    join_time: 2021-01-28
+    offset_time: 28
+    email:
+      - h@phodal.com
+      - h1@phodal.com
+      - h2@phodal.com
+  - name: Zero
+    email: zero@inherd.com
