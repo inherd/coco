@@ -52,6 +52,8 @@ mod tests {
         cmd.arg("-c")
             .arg(format!("{}", path.into_os_string().to_str().unwrap()));
 
+        cmd.assert().success();
+
         let mut output = PathBuf::from(".coco");
         output.push("reporter");
         output.push("architecture");
