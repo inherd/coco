@@ -4,23 +4,24 @@ use pest::Parser;
 #[grammar = "infrastructure/include_parser/ident.pest"]
 struct IdentParser;
 
-pub fn parse_code() {
-    let pairs = IdentParser::parse(Rule::ident_list, "a1 b2").unwrap_or_else(|e| panic!("{}", e));
+pub fn parse_code(code: &str) {
+    let pairs = IdentParser::parse(Rule::imports, code).unwrap_or_else(|e| panic!("{}", e));
 
-    // Because ident_list is silent, the iterator will contain idents
+    println!("{:?}", pairs);
     for pair in pairs {
-        // A pair is a combination of the rule which matched and a span of input
         println!("Rule:    {:?}", pair.as_rule());
         println!("Span:    {:?}", pair.as_span());
         println!("Text:    {}", pair.as_str());
+    }
+}
 
-        // A pair can be converted to an iterator of the tokens which make it up:
-        for inner_pair in pair.into_inner() {
-            match inner_pair.as_rule() {
-                Rule::alpha => println!("Letter:  {}", inner_pair.as_str()),
-                Rule::digit => println!("Digit:   {}", inner_pair.as_str()),
-                _ => unreachable!(),
-            };
-        }
+#[cfg(test)]
+mod test {
+    use crate::infrastructure::include_parser::parse_code;
+
+    #[test]
+    fn should_parse_c_include() {
+        let include = "#include<stdio.h>";
+        parse_code(include);
     }
 }

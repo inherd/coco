@@ -1,6 +1,13 @@
+WHITESPACE = _{ " " | "\t" | "\r" | "\n" }
+
+// ascii char
+ascii_char = { '\x00'..'\x7f' }
+
 alpha = { 'a'..'z' | 'A'..'Z' }
 digit = { '0'..'9' }
 
 ident = { (alpha | digit)+ }
 
-ident_list = _{ !digit ~ ident ~ (" " ~ ident)+ }
+// imports = { "#" ~ "include" ~ "<" ~ alpha ~ ".h" ~ ">"}
+
+imports = { "#include<stdio.h>" }

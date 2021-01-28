@@ -6,7 +6,7 @@ use rayon::prelude::*;
 use coco::app::{architecture_analysis, git_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
-use coco::infrastructure::{include_parser, url_format};
+use coco::infrastructure::url_format;
 use coco::settings::Settings;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
