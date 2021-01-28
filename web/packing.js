@@ -2,7 +2,7 @@ function renderPacking(originData) {
   var dMap = {}
 
   for (let datum of originData) {
-    let path = CodeUtil.convertPath(datum.path)
+    let path = CodeSupport.convertPath(datum.path)
 
     dMap["root." + path] = {
       name: "root." + path,
@@ -11,7 +11,7 @@ function renderPacking(originData) {
   }
 
   var jdata = Object.values(dMap)
-  var data = CodeUtil.hierarchy(jdata);
+  var data = CodeSupport.hierarchy(jdata);
 
   var pack = function (data) {
     return d3.pack()

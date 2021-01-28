@@ -9,7 +9,7 @@ function renderNestedTreemap(originData) {
   var dMap = {}
 
   for (let datum of originData) {
-    let path = CodeUtil.convertPath(datum.path);
+    let path = CodeSupport.convertPath(datum.path);
     dMap["root." + path] = {
       name: "root." + path,
       path: datum.path,
@@ -29,7 +29,7 @@ function renderNestedTreemap(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  let data = CodeUtil.hierarchy(Object.values(dMap));
+  let data = CodeSupport.hierarchy(Object.values(dMap));
 
   const svg = d3.select("#nested-treemap").append("svg")
     .attr("id", "graphSvg")

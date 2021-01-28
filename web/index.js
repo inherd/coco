@@ -15,7 +15,7 @@ let DOM = {
   }
 }
 
-let CodeUtil = {
+let CodeSupport = {
   convertPath: function (str) {
     // todo: multiple languages support
     return str
