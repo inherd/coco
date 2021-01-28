@@ -15,12 +15,14 @@ commit:
   samples: feature/JIR-124:test commit message
 
 team:
-  - name: Phodal
-    join_time: 2021-01-28
-    offset_time: 28
-    email:
-      - h@phodal.com
-      - h1@phodal.com
-      - h2@phodal.com
-  - name: Zero
-    email: zero@inherd.com
+  type: platform
+  member:
+    - name: Phodal
+      join_time: 2021-01-28
+      offset_time: 28
+      email:
+        - h@phodal.com
+        - h1@phodal.com
+        - h2@phodal.com
+    - name: Zero
+      email: zero@inherd.com
