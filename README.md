@@ -222,6 +222,7 @@ reporter
     - [ ] join time & life time
     - [ ] member growth
     - [ ] count system size & learning curve
+    - [ ] micro services size
  - [ ] commit analysis
     - [ ] rule regex support in config
     - [ ] participle（分词）

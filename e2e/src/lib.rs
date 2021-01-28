@@ -27,8 +27,8 @@ impl CliSupport {
     pub fn command(path: PathBuf) -> Command {
         let mut cmd = Command::cargo_bin("coco").unwrap();
 
-        cmd.arg("-c")
-            .arg(format!("{}", path.into_os_string().to_str().unwrap()));
+        let path_str = path.into_os_string().to_str().unwrap();
+        cmd.arg("-c").arg(format!("{}", path_str));
         cmd
     }
 
