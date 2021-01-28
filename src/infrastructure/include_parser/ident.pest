@@ -8,6 +8,6 @@ digit = { '0'..'9' }
 
 ident = { (alpha | digit)+ }
 
-// imports = { "#" ~ "include" ~ "<" ~ alpha ~ ".h" ~ ">"}
+sharp = _{ "#" }
 
-imports = { "#include<stdio.h>" }
+imports = { sharp ~ "include" ~ "<" ~ (alpha)+ ~ "." ~ "h" ~ ">"}
