@@ -25,12 +25,23 @@ pub fn coco_exe() -> PathBuf {
     cargo_dir().join(format!("coco{}", env::consts::EXE_SUFFIX))
 }
 
+pub fn coco_program() -> String {
+    return format!("{:?}", coco_exe());
+}
+
 #[cfg(test)]
 mod tests {
     use crate::coco_exe;
+    use assert_cmd::Command;
 
     #[test]
     fn should_find_coco_bin_path() {
         assert!(format!("{:?}", coco_exe()).contains("coco"));
+    }
+
+    #[test]
+    fn should_run_coco_binary() {
+        let mut cmd = Command::cargo_bin("coco").unwrap();
+        // cmd.assert().success();
     }
 }
