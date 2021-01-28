@@ -1,11 +1,11 @@
 use pest::Parser;
 
 #[derive(Parser)]
-#[grammar = "infrastructure/include_parser/ident.pest"]
-struct IdentParser;
+#[grammar = "infrastructure/include_parser/include.pest"]
+struct IncludeParser;
 
 pub fn parse_code(code: &str) {
-    let pairs = IdentParser::parse(Rule::imports, code).unwrap_or_else(|e| panic!("{}", e));
+    let pairs = IncludeParser::parse(Rule::c_import, code).unwrap_or_else(|e| panic!("{}", e));
 
     println!("{:?}", pairs);
     for pair in pairs {

@@ -10,4 +10,4 @@ ident = { (alpha | digit)+ }
 
 source = { (alpha | ".")+ }
 
-imports = { "#" ~ WHITESPACE* ~ "include" ~ WHITESPACE* ~ ("<" | "\"") ~ source ~ (">" | "\"")}
+c_import = { "#" ~ WHITESPACE* ~ "include" ~ WHITESPACE* ~ ("<" | "\"") ~ source ~ (">" | "\"")}
