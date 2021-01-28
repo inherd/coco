@@ -18,14 +18,14 @@ jobs:
           git submodule sync --recursive
           git -c "http.extraheader=$auth_header" -c protocol.version=2 submodule update --init --force --recursive --depth=1
 
-      - name: Get rust nightly
-        run: rustup install nightly
-
-      - name: Set rust nightly as default for cargo
-        run: rustup default nightly
+      - name: Install Just
+        run: curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to DEST
 
       - name: Build
         run: ${{matrix.ENV_VARS}} cargo build --verbose --release
 
-      - name: Run tests
-        run: ${{matrix.ENV_VARS}} cargo test --verbose --all
+      - name: Run unit tests
+        run: ${{matrix.ENV_VARS}} just tests
+
+      - name: Run e2e
+        run: ${{matrix.ENV_VARS}} just e2e
