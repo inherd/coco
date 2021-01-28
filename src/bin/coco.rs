@@ -37,7 +37,7 @@ fn main() {
             let mut repo = vec![];
             let current = env::current_dir().unwrap();
             repo.push(RepoConfig {
-                url: format!("{:?}", current),
+                url: current.into_os_string().to_str().unwrap().to_string(),
             });
             config = CocoConfig { repo: repo }
         }

@@ -40,8 +40,8 @@ mod tests {
     }
 
     #[test]
-    fn should_run_coco_binary() {
+    fn should_exe_coco_failure_when_in_e2e_path() {
         let mut cmd = Command::cargo_bin("coco").unwrap();
-        cmd.assert().success();
+        cmd.assert().failure();
     }
 }
