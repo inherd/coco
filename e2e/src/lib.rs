@@ -1,10 +1,6 @@
 use std::env;
 use std::path::PathBuf;
 
-fn main() {
-    println!("Hello, world!");
-}
-
 // Path to cargo executables
 pub fn cargo_dir() -> PathBuf {
     env::var_os("CARGO_BIN_PATH")
