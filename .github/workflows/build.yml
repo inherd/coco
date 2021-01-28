@@ -24,8 +24,8 @@ jobs:
       - name: Build
         run: ${{matrix.ENV_VARS}} cargo build --verbose --release
 
-      - name: Build
-        run: ${{matrix.ENV_VARS}} cargo build --debug
+      - name: Build Debug for Testing
+        run: ${{matrix.ENV_VARS}} cargo build
 
       - name: Run unit tests
         run: ${{matrix.ENV_VARS}} just tests
