@@ -1,29 +1,10 @@
 use assert_cmd::Command;
+use std::fs;
 use std::path::PathBuf;
-use std::{env, fs};
 
 pub struct CliSupport {}
 
 impl CliSupport {
-    pub fn cargo_dir() -> PathBuf {
-        env::var_os("CARGO_BIN_PATH")
-            .map(PathBuf::from)
-            .or_else(|| {
-                env::current_exe().ok().map(|mut path| {
-                    path.pop();
-                    if path.ends_with("deps") {
-                        path.pop();
-                    }
-                    path
-                })
-            })
-            .unwrap_or_else(|| panic!("CARGO_BIN_PATH wasn't set. Cannot continue running test"))
-    }
-
-    pub fn exe() -> PathBuf {
-        CliSupport::cargo_dir().join(format!("coco{}", env::consts::EXE_SUFFIX))
-    }
-
     pub fn command(path: PathBuf) -> Command {
         let mut cmd = Command::cargo_bin("coco").unwrap();
 
@@ -50,11 +31,6 @@ mod tests {
     use crate::CliSupport;
     use assert_cmd::Command;
     use std::path::PathBuf;
-
-    #[test]
-    fn should_find_coco_bin_path() {
-        assert!(format!("{:?}", CliSupport::exe()).contains("coco"));
-    }
 
     #[test]
     fn should_exe_coco_failure_when_in_e2e_path() {
