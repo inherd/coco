@@ -8,6 +8,6 @@ digit = { '0'..'9' }
 
 ident = { (alpha | digit)+ }
 
-sharp = _{ "#" }
+source = { (alpha | ".")+ }
 
-imports = { sharp ~ "include" ~ "<" ~ (alpha)+ ~ "." ~ "h" ~ ">"}
+imports = { "#" ~ WHITESPACE* ~ "include" ~ WHITESPACE* ~ ("<" | "\"") ~ source ~ (">" | "\"")}

@@ -21,7 +21,11 @@ mod test {
 
     #[test]
     fn should_parse_c_include() {
-        let include = "#include<stdio.h>";
-        parse_code(include);
+        parse_code("#include<stdio.h>");
+        parse_code("#include \"stdio.h\"");
+        parse_code(
+            "#include
+        \"stdio.h\"",
+        );
     }
 }
