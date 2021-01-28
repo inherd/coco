@@ -42,6 +42,6 @@ mod tests {
     #[test]
     fn should_run_coco_binary() {
         let mut cmd = Command::cargo_bin("coco").unwrap();
-        // cmd.assert().success();
+        cmd.assert().success();
     }
 }

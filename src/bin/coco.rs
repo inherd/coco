@@ -1,4 +1,4 @@
-use std::fs;
+use std::{env, fs};
 
 use clap::{App, Arg};
 use rayon::prelude::*;
@@ -35,8 +35,9 @@ fn main() {
         }
         Err(_) => {
             let mut repo = vec![];
+            let current = env::current_dir().unwrap();
             repo.push(RepoConfig {
-                url: ".".to_string(),
+                url: format!("{:?}", current),
             });
             config = CocoConfig { repo: repo }
         }
