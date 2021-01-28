@@ -209,6 +209,8 @@ dependencies = [
  "git2",
  "ignore",
  "lazy_static",
+ "pest",
+ "pest_derive",
  "rayon",
  "regex",
  "serde",
