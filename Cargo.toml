@@ -21,6 +21,20 @@ exclude = [
   ".gitattributes",
   ".adr.json",
 ]
+#
+#
+#[features]
+#actix = ["actix-web", "mime_guess"]
+#
+#[[visual]]
+#name = "actix"
+#path = "src/bin/visual.rs"
+#required-features = ["actix"]
+#
+#[[visual]]
+#name = "actix"
+#path = "src/app/visual/local_server.rs"
+#required-features = ["actix"]
 
 [dependencies]
 lazy_static = "1.4.0"
@@ -64,6 +78,10 @@ pest_derive = "2.1.0"
 
 # embed file
 rust-embed="5.9.0"
+
+# visual for web
+actix-web = { version = "3", default-features = false }
+mime_guess = { version = "2" }
 
 [dependencies.framework]
 path = "framework"
