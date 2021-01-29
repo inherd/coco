@@ -1,11 +1,13 @@
 use std::borrow::Cow;
+use std::fs;
 
-use crate::settings::Settings;
 use actix_web::body::Body;
 use actix_web::{get, web, App, HttpRequest, HttpResponse, HttpServer};
 use mime_guess::from_path;
 use rust_embed::RustEmbed;
-use std::fs;
+
+use crate::settings::Settings;
+use actix_web::dev::Service;
 
 #[derive(RustEmbed)]
 #[folder = "web/"]
@@ -42,13 +44,14 @@ pub fn data(req: HttpRequest) -> HttpResponse {
     let project_file = format!("{}.json", project);
     let output_path = Settings::reporter_dir(Some(coco_type.as_str())).join(project_file);
 
-    println!("request file: {:?}", output_path);
     let content = fs::read_to_string(output_path.clone()).unwrap();
 
-    return HttpResponse::Ok().body(content.into_bytes());
+    return HttpResponse::Ok()
+        .content_type("application/json")
+        .body(content.into_bytes());
 }
 
-pub async fn start(port: &str, _project: &str) -> std::io::Result<()> {
+pub async fn start(port: &str, project: &str) -> std::io::Result<()> {
     return HttpServer::new(|| {
         App::new()
             .service(web::resource("/").route(web::get().to(index)))
