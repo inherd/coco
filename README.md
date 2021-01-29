@@ -295,6 +295,4 @@ Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/mas
 License
 ---
 
-[![Phodal's Idea](https://brand.phodal.com/shields/idea-small.svg)](https://ideas.phodal.com/)
-
-@ 2020~2021 A [Phodal Huang](https://www.phodal.com)'s [Idea](http://github.com/phodal/ideas).  This code is distributed under the MIT license. See `LICENSE` in this directory.
+@ 2020~2021 This code is distributed under the MIT license. See `LICENSE` in this directory.
