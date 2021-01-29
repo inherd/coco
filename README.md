@@ -187,6 +187,11 @@ reporter
 
 #### suggest and case study
 
+### Tech
+
+ - AST Parser: `include_parser/mod.rs` 
+ - Web Server: `light_server.rs`
+ - CLI: `visual.rs`, `coco.rs`, `suggest.rs`
 
 ## Todo
 
