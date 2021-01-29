@@ -15,13 +15,15 @@ async fn main() -> std::io::Result<()> {
             Arg::with_name("export")
                 .short("e")
                 .long("export")
-                .help("export static files"),
+                .help("export static files")
+                .takes_value(true),
         )
         .arg(
             Arg::with_name("server")
                 .short("s")
                 .long("server")
-                .help("run visual server"),
+                .help("run visual server")
+                .takes_value(true),
         )
         .get_matches();
 
@@ -30,6 +32,7 @@ async fn main() -> std::io::Result<()> {
     }
 
     if let Some(_port) = matches.value_of("server") {
+        println!("start web server: http://127.0.0.1:8000");
         return HttpServer::new(|| {
             App::new()
                 .service(web::resource("/").route(web::get().to(local_server::index)))
