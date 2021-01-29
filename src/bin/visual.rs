@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use coco::app::visual::local_server;
+use coco::app::visual::{local_server, output_static};
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -9,19 +9,11 @@ async fn main() -> std::io::Result<()> {
         .version(VERSION)
         .author("Inherd Group")
         .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
-        .arg(
-            Arg::with_name("export")
-                .short("e")
-                .long("export")
-                .help("export static files")
-                .takes_value(true),
-        )
-        .arg(
-            Arg::with_name("server")
-                .short("s")
-                .long("server")
-                .help("run visual server")
-                .takes_value(true),
+        .subcommand(
+            App::new("export")
+                .about("export")
+                .version(VERSION)
+                .author("Inherd Group"),
         )
         .subcommand(
             App::new("server")
@@ -37,8 +29,8 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
-    if let Some(i) = matches.value_of("export") {
-        println!("Export Static: {}", i);
+    if let Some(ref matches) = matches.subcommand_matches("export") {
+        output_static::run();
     }
 
     if let Some(ref matches) = matches.subcommand_matches("server") {
@@ -48,7 +40,6 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-
         return local_server::start(port).await;
     }
 
