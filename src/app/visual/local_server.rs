@@ -37,6 +37,7 @@ pub async fn start(port: &str) -> std::io::Result<()> {
         App::new()
             .service(web::resource("/").route(web::get().to(index)))
             .service(web::resource("/{_:.*}").route(web::get().to(dist)))
+            .service(web::resource("/public/{_:.*}").route(web::get().to(dist)))
     })
     .bind(format!("127.0.0.1:{}", port))?
     .run()
