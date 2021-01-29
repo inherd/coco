@@ -124,7 +124,7 @@ let Menu = {
   }
 }
 
-d3.json("cloc.json").then(function (json) {
+d3.json("data/cloc.json").then(function (json) {
   var data;
   var maxlen = 0;
   for (let i = 0; i < json.length; i++) {
@@ -138,7 +138,7 @@ d3.json("cloc.json").then(function (json) {
   renderNestedTreemap(data["reports"])
 });
 
-d3.json("branches.json").then(function (json) {
+d3.json("data/branches.json").then(function (json) {
   let data = [];
   for (let datum of json) {
     data.push({
