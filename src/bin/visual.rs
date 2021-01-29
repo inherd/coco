@@ -64,7 +64,7 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-        return local_server::start(port, project.to_string()).await;
+        return local_server::start(port, project).await;
     }
 
     Ok(())
