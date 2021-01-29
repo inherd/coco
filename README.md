@@ -248,12 +248,17 @@ reporter
 
 Visual and Reporter
 
- - visual
+ - visual api
+     - [x] static files server
+        - [x] http server: [actix_web](https://github.com/actix/actix-web)
+        - [x] static server: [Rust Embed](https://github.com/pyros2097/rust-embed)
+     - [x] export assets
+     - [ ] query JSON API
+     - [ ] CLI JSON API
+ - visual web
      - [ ] spike d3.js code organization
      - [ ] typescript with frontend framework
         - [ ] use deno ?
-     - [ ] static files server
-        - [ ] [Rust Embed](https://github.com/pyros2097/rust-embed)
      - [ ] architecture
         - [x] first demo
         - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
