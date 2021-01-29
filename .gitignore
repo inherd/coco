@@ -13,3 +13,5 @@ Cargo.lock
 .coco
 web/d3.min.js
 web/hack.js
+
+coco_static

@@ -13,7 +13,13 @@ async fn main() -> std::io::Result<()> {
             App::new("export")
                 .about("export")
                 .version(VERSION)
-                .author("Inherd Group"),
+                .author("Inherd Group")
+                .arg(
+                    Arg::with_name("path")
+                        .short("p")
+                        .help("output path")
+                        .takes_value(true),
+                ),
         )
         .subcommand(
             App::new("server")
@@ -30,7 +36,12 @@ async fn main() -> std::io::Result<()> {
         .get_matches();
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
-        output_static::run();
+        let mut path = "coco_static";
+        if let Some(input) = matches.value_of("path") {
+            path = input
+        }
+
+        output_static::run(path);
     }
 
     if let Some(ref matches) = matches.subcommand_matches("server") {
