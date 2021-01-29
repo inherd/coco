@@ -38,6 +38,16 @@ pub fn dist(path: web::Path<String>) -> HttpResponse {
 #[get("/data/{coco_type}.json")]
 pub fn data(req: HttpRequest, data: web::Data<ProjectData>) -> HttpResponse {
     let project = data.name;
+    return lookup_coco_reporter(req, project);
+}
+
+#[get("/data/{project}/{coco_type}.json")]
+pub fn api(req: HttpRequest) -> HttpResponse {
+    let project: String = req.match_info().get("project").unwrap().parse().unwrap();
+    return lookup_coco_reporter(req, project.as_str());
+}
+
+fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
     let coco_type: String = req.match_info().query("coco_type").parse().unwrap();
 
     let project_file = format!("{}.json", project);
@@ -62,6 +72,7 @@ pub async fn start(port: &str, project: &'static str) -> std::io::Result<()> {
             .data(ProjectData { name: project })
             .service(web::resource("/").route(web::get().to(index)))
             .service(data)
+            .service(api)
             .service(web::resource("/{_:.*}").route(web::get().to(dist)))
             .service(web::resource("/public/{_:.*}").route(web::get().to(dist)))
     })
