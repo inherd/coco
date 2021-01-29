@@ -138,7 +138,7 @@ d3.json("data/cloc.json").then(function (json) {
   renderNestedTreemap(data["reports"])
 });
 
-d3.json("data/branches.json").then(function (json) {
+d3.json("data/git.json").then(function (json) {
   let data = [];
   for (let datum of json) {
     data.push({

@@ -7,7 +7,6 @@ use mime_guess::from_path;
 use rust_embed::RustEmbed;
 
 use crate::settings::Settings;
-use actix_web::dev::Service;
 
 #[derive(RustEmbed)]
 #[folder = "web/"]
@@ -36,14 +35,15 @@ pub fn dist(path: web::Path<String>) -> HttpResponse {
     handle_embedded_file(&path.0)
 }
 
-#[get("/data/{project}/{coco_type}.json")] // <- define path parameters
-pub fn data(req: HttpRequest) -> HttpResponse {
-    let project: String = req.match_info().get("project").unwrap().parse().unwrap();
+#[get("/data/{coco_type}.json")]
+pub fn data(req: HttpRequest, data: web::Data<ProjectData>) -> HttpResponse {
+    let project = data.name;
     let coco_type: String = req.match_info().query("coco_type").parse().unwrap();
 
     let project_file = format!("{}.json", project);
     let output_path = Settings::reporter_dir(Some(coco_type.as_str())).join(project_file);
 
+    println!("lookup file: {:?}", output_path.clone());
     let content = fs::read_to_string(output_path.clone()).unwrap();
 
     return HttpResponse::Ok()
@@ -51,9 +51,15 @@ pub fn data(req: HttpRequest) -> HttpResponse {
         .body(content.into_bytes());
 }
 
-pub async fn start(port: &str, project: &str) -> std::io::Result<()> {
-    return HttpServer::new(|| {
+#[derive(Clone, Copy)]
+pub struct ProjectData {
+    pub name: &'static str,
+}
+
+pub async fn start(port: &str, project: &'static str) -> std::io::Result<()> {
+    return HttpServer::new(move || {
         App::new()
+            .data(ProjectData { name: project })
             .service(web::resource("/").route(web::get().to(index)))
             .service(data)
             .service(web::resource("/{_:.*}").route(web::get().to(dist)))
