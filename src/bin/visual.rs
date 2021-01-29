@@ -1,13 +1,11 @@
-use actix_web::{web, App, HttpServer};
-use clap::App as ClapApp;
-use clap::Arg;
+use clap::{App, Arg};
 use coco::app::visual::local_server;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
-    let matches = ClapApp::new("Coco Visual")
+    let matches = App::new("Coco Visual")
         .version(VERSION)
         .author("Inherd Group")
         .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
@@ -26,7 +24,7 @@ async fn main() -> std::io::Result<()> {
                 .takes_value(true),
         )
         .subcommand(
-            ClapApp::new("server")
+            App::new("server")
                 .about("server")
                 .version(VERSION)
                 .author("Inherd Group")
@@ -51,14 +49,7 @@ async fn main() -> std::io::Result<()> {
 
         println!("start server: http://127.0.0.1:{}", port);
 
-        return HttpServer::new(|| {
-            App::new()
-                .service(web::resource("/").route(web::get().to(local_server::index)))
-                .service(web::resource("/{_:.*}").route(web::get().to(local_server::dist)))
-        })
-        .bind(format!("127.0.0.1:{}", port))?
-        .run()
-        .await;
+        return local_server::start(port).await;
     }
 
     Ok(())

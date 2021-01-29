@@ -1,9 +1,9 @@
+use std::borrow::Cow;
+
 use actix_web::body::Body;
-use actix_web::{web, HttpResponse};
+use actix_web::{web, App, HttpResponse, HttpServer};
 use mime_guess::from_path;
 use rust_embed::RustEmbed;
-
-use std::borrow::Cow;
 
 #[derive(RustEmbed)]
 #[folder = "web/"]
@@ -30,4 +30,15 @@ pub fn index() -> HttpResponse {
 
 pub fn dist(path: web::Path<String>) -> HttpResponse {
     handle_embedded_file(&path.0)
+}
+
+pub async fn start(port: &str) -> std::io::Result<()> {
+    return HttpServer::new(|| {
+        App::new()
+            .service(web::resource("/").route(web::get().to(index)))
+            .service(web::resource("/{_:.*}").route(web::get().to(dist)))
+    })
+    .bind(format!("127.0.0.1:{}", port))?
+    .run()
+    .await;
 }
