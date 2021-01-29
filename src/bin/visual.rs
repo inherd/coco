@@ -33,7 +33,7 @@ async fn main() -> std::io::Result<()> {
         return HttpServer::new(|| {
             App::new()
                 .service(web::resource("/").route(web::get().to(local_server::index)))
-                .service(web::resource("/dist/{_:.*}").route(web::get().to(local_server::dist)))
+                .service(web::resource("/{_:.*}").route(web::get().to(local_server::dist)))
         })
         .bind("127.0.0.1:8000")?
         .run()
