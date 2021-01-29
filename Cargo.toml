@@ -83,6 +83,9 @@ rust-embed="5.9.0"
 actix-web = { version = "3", default-features = false }
 mime_guess = { version = "2" }
 
+# cli prompt
+dialoguer = "0.7.1"
+
 [dependencies.framework]
 path = "framework"
 

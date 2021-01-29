@@ -1,4 +1,6 @@
 use clap::{App, Arg};
+use dialoguer::{theme::ColorfulTheme, Select};
+
 use coco::app::visual::{local_server, output_static};
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
@@ -35,12 +37,23 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
+    let selections = &["default", "coco.fixtures", "coco.fixtures2"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("pick project")
+        .default(0)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    let project = selections[selection];
+
     if let Some(ref matches) = matches.subcommand_matches("export") {
         let mut path = "coco_static";
         if let Some(input) = matches.value_of("path") {
             path = input
         }
 
+        // todo: make really output
         output_static::run(path);
     }
 
@@ -51,7 +64,7 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-        return local_server::start(port).await;
+        return local_server::start(port, project.to_string()).await;
     }
 
     Ok(())
