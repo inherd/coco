@@ -253,6 +253,7 @@ Visual and Reporter
         - [x] http server: [actix_web](https://github.com/actix/actix-web)
         - [x] static server: [Rust Embed](https://github.com/pyros2097/rust-embed)
      - [x] export assets
+     - [ ] cli prompt for projects
      - [ ] query JSON API
      - [ ] CLI JSON API
  - visual web

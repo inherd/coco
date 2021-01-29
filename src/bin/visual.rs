@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use dialoguer::{theme::ColorfulTheme, Select};
+// use dialoguer::{theme::ColorfulTheme, Select};
 
 use coco::app::visual::{local_server, output_static};
 
@@ -37,15 +37,15 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
-    let selections = &["default", "coco.fixtures", "coco.fixtures2"];
-    let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("pick project")
-        .default(0)
-        .items(&selections[..])
-        .interact()
-        .unwrap();
-
-    let project = selections[selection];
+    // let selections = &["default", "coco.fixtures", "coco.fixtures2"];
+    // let selection = Select::with_theme(&ColorfulTheme::default())
+    //     .with_prompt("pick project")
+    //     .default(0)
+    //     .items(&selections[..])
+    //     .interact()
+    //     .unwrap();
+    //
+    // let project = selections[selection];
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
         let mut path = "coco_static";
@@ -64,7 +64,7 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-        return local_server::start(port, project).await;
+        return local_server::start(port, "default").await;
     }
 
     Ok(())
