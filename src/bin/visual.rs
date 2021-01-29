@@ -25,20 +25,38 @@ async fn main() -> std::io::Result<()> {
                 .help("run visual server")
                 .takes_value(true),
         )
+        .subcommand(
+            ClapApp::new("server")
+                .about("server")
+                .version(VERSION)
+                .author("Inherd Group")
+                .arg(
+                    Arg::with_name("port")
+                        .short("p")
+                        .help("http server port")
+                        .takes_value(true),
+                ),
+        )
         .get_matches();
 
     if let Some(i) = matches.value_of("export") {
         println!("Export Static: {}", i);
     }
 
-    if let Some(_port) = matches.value_of("server") {
-        println!("start web server: http://127.0.0.1:8000");
+    if let Some(ref matches) = matches.subcommand_matches("server") {
+        let mut port = "8000";
+        if let Some(input) = matches.value_of("port") {
+            port = input
+        }
+
+        println!("start server: http://127.0.0.1:{}", port);
+
         return HttpServer::new(|| {
             App::new()
                 .service(web::resource("/").route(web::get().to(local_server::index)))
                 .service(web::resource("/{_:.*}").route(web::get().to(local_server::dist)))
         })
-        .bind("127.0.0.1:8000")?
+        .bind(format!("127.0.0.1:{}", port))?
         .run()
         .await;
     }
