@@ -65,16 +65,12 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
 #[derive(Clone, Copy)]
 pub struct ProjectData {
     pub name: &'static str,
-    pub config: CocoConfig,
 }
 
-pub async fn start(port: &str, project: &'static str, config: CocoConfig) -> std::io::Result<()> {
+pub async fn start(port: &str, project: &'static str) -> std::io::Result<()> {
     return HttpServer::new(move || {
         App::new()
-            .data(ProjectData {
-                name: project,
-                config,
-            })
+            .data(ProjectData { name: project })
             .service(web::resource("/").route(web::get().to(index)))
             // todo: add config api
             .service(data)
