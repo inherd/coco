@@ -2,6 +2,7 @@ use clap::{App, Arg};
 use dialoguer::{theme::ColorfulTheme, Select};
 
 use coco::app::visual::{local_server, output_static};
+use coco::domain::config::CocoConfig;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -57,6 +58,9 @@ async fn main() -> std::io::Result<()> {
         output_static::run(path);
     }
 
+    // todo: add load config
+    let config = CocoConfig::default();
+
     if let Some(ref matches) = matches.subcommand_matches("server") {
         let mut port = "8000";
         if let Some(input) = matches.value_of("port") {
@@ -64,7 +68,7 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-        return local_server::start(port, project).await;
+        return local_server::start(port, project, config).await;
     }
 
     Ok(())

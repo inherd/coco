@@ -6,6 +6,7 @@ use actix_web::{get, web, App, HttpRequest, HttpResponse, HttpServer};
 use mime_guess::from_path;
 use rust_embed::RustEmbed;
 
+use crate::domain::config::CocoConfig;
 use crate::settings::Settings;
 
 #[derive(RustEmbed)]
@@ -64,13 +65,18 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
 #[derive(Clone, Copy)]
 pub struct ProjectData {
     pub name: &'static str,
+    pub config: CocoConfig,
 }
 
-pub async fn start(port: &str, project: &'static str) -> std::io::Result<()> {
+pub async fn start(port: &str, project: &'static str, config: CocoConfig) -> std::io::Result<()> {
     return HttpServer::new(move || {
         App::new()
-            .data(ProjectData { name: project })
+            .data(ProjectData {
+                name: project,
+                config,
+            })
             .service(web::resource("/").route(web::get().to(index)))
+            // todo: add config api
             .service(data)
             .service(api)
             .service(web::resource("/{_:.*}").route(web::get().to(dist)))
