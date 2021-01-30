@@ -1,15 +1,27 @@
-use crate::settings::Settings;
-use actix_web::dev::Path;
 use std::path::PathBuf;
+
 use walkdir::WalkDir;
+
+use crate::settings::Settings;
 
 pub fn search_git_projects(path: &PathBuf) -> Vec<String> {
     return search_projects(path, ".git");
 }
 
-pub fn lookup_reporter() {
-    // let root = Path::new(Settings::root_dir());
-    // for entry in WalkDir::new(&path).max_depth(1) {}
+pub fn lookup_projects() -> Vec<String> {
+    let mut projects = vec![];
+    let arch = Settings::architecture();
+    for entry in WalkDir::new(&arch).max_depth(1) {
+        let entry = entry.unwrap();
+        let file_name = entry.file_name().to_os_string();
+        if file_name.to_str().unwrap().contains(".json") {
+            let file_name = file_name.to_str().unwrap();
+            let project = file_name.replace(".json", "");
+            projects.push(project);
+        }
+    }
+
+    return projects;
 }
 
 pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {
@@ -40,8 +52,9 @@ pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::file_scanner::search_projects;
     use std::path::PathBuf;
+
+    use crate::infrastructure::file_scanner::search_projects;
 
     #[test]
     fn should_list_local_git() {

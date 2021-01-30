@@ -68,7 +68,7 @@ async fn main() -> std::io::Result<()> {
 }
 
 pub fn select_project_prompt() -> &'static str {
-    // file_scanner::lookup_reporter();
+    // file_scanner::lookup_projects();
     let selections = &["default", "coco.fixtures", "coco.fixtures2"];
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("pick project")
