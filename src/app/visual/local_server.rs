@@ -37,8 +37,8 @@ pub fn dist(path: web::Path<String>) -> HttpResponse {
 
 #[get("/data/{coco_type}.json")]
 pub fn data(req: HttpRequest, data: web::Data<ProjectData>) -> HttpResponse {
-    let project = data.name;
-    return lookup_coco_reporter(req, project);
+    let project = data.name.clone();
+    return lookup_coco_reporter(req, String::from_utf8(project).unwrap().as_str());
 }
 
 #[get("/data/{project}/{coco_type}.json")]
@@ -61,15 +61,17 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
         .body(content.into_bytes());
 }
 
-#[derive(Clone, Copy)]
+#[derive(Clone)]
 pub struct ProjectData {
-    pub name: &'static str,
+    pub name: Vec<u8>,
 }
 
-pub async fn start(port: &str, project: &'static str) -> std::io::Result<()> {
+pub async fn start(port: &str, project: String) -> std::io::Result<()> {
     return HttpServer::new(move || {
         App::new()
-            .data(ProjectData { name: project })
+            .data(ProjectData {
+                name: project.as_bytes().to_vec(),
+            })
             .service(web::resource("/").route(web::get().to(index)))
             // todo: add config api
             .service(data)
