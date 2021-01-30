@@ -3,6 +3,7 @@ use dialoguer::{theme::ColorfulTheme, Select};
 
 use coco::app::visual::{local_server, output_static};
 use coco::domain::config::CocoConfig;
+use coco::infrastructure::file_scanner;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -38,15 +39,7 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
-    let selections = &["default", "coco.fixtures", "coco.fixtures2"];
-    let selection = Select::with_theme(&ColorfulTheme::default())
-        .with_prompt("pick project")
-        .default(0)
-        .items(&selections[..])
-        .interact()
-        .unwrap();
-
-    let project = selections[selection];
+    let project = select_project_prompt();
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
         let mut path = "coco_static";
@@ -59,7 +52,7 @@ async fn main() -> std::io::Result<()> {
     }
 
     // todo: add load config
-    let config = CocoConfig::default();
+    let _config = CocoConfig::default();
 
     if let Some(ref matches) = matches.subcommand_matches("server") {
         let mut port = "8000";
@@ -72,4 +65,18 @@ async fn main() -> std::io::Result<()> {
     }
 
     Ok(())
+}
+
+pub fn select_project_prompt() -> &'static str {
+    // file_scanner::lookup_reporter();
+    let selections = &["default", "coco.fixtures", "coco.fixtures2"];
+    let selection = Select::with_theme(&ColorfulTheme::default())
+        .with_prompt("pick project")
+        .default(0)
+        .items(&selections[..])
+        .interact()
+        .unwrap();
+
+    let project = selections[selection];
+    project
 }

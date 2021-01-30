@@ -1,8 +1,15 @@
+use crate::settings::Settings;
+use actix_web::dev::Path;
 use std::path::PathBuf;
 use walkdir::WalkDir;
 
 pub fn search_git_projects(path: &PathBuf) -> Vec<String> {
     return search_projects(path, ".git");
+}
+
+pub fn lookup_reporter() {
+    // let root = Path::new(Settings::root_dir());
+    // for entry in WalkDir::new(&path).max_depth(1) {}
 }
 
 pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {

@@ -40,4 +40,20 @@ impl Settings {
             }
         }
     }
+
+    pub fn git() -> PathBuf {
+        Settings::reporter_dir(Some("git"))
+    }
+
+    pub fn cloc() -> PathBuf {
+        Settings::reporter_dir(Some("cloc"))
+    }
+
+    pub fn architecture() -> PathBuf {
+        Settings::reporter_dir(Some("architecture"))
+    }
+
+    pub fn framework() -> PathBuf {
+        Settings::reporter_dir(Some("framework"))
+    }
 }
