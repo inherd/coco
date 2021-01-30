@@ -6,7 +6,6 @@ use actix_web::{get, web, App, HttpRequest, HttpResponse, HttpServer};
 use mime_guess::from_path;
 use rust_embed::RustEmbed;
 
-use crate::domain::config::CocoConfig;
 use crate::settings::Settings;
 
 #[derive(RustEmbed)]

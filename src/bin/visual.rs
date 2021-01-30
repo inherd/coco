@@ -61,15 +61,15 @@ async fn main() -> std::io::Result<()> {
         }
 
         println!("start server: http://127.0.0.1:{}", port);
-        return local_server::start(port, project).await;
+        println!("project: {}", project);
+        return local_server::start(port, "default").await;
     }
 
     Ok(())
 }
 
-pub fn select_project_prompt() -> &'static str {
-    // file_scanner::lookup_projects();
-    let selections = &["default", "coco.fixtures", "coco.fixtures2"];
+pub fn select_project_prompt() -> String {
+    let selections = file_scanner::lookup_projects();
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("pick project")
         .default(0)
@@ -77,6 +77,6 @@ pub fn select_project_prompt() -> &'static str {
         .interact()
         .unwrap();
 
-    let project = selections[selection];
+    let project = selections[selection].clone();
     project
 }
