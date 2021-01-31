@@ -157,6 +157,12 @@ reporter
  - [ ] case study
  - [ ] todo scan
     - [ ] merge from [coca](https://github.com/inherd/coca/blob/master/pkg/application/todo/astitodo/astitodo.go)
+ - [ ] multiple platform support
+    - [x] macOS
+    - [ ] GNU/Linux 
+    - [ ] Windows
+       - [ ] fix tests
+       - [ ] make it works
 
 Visual and Reporter
 
