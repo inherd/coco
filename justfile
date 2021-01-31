@@ -26,5 +26,5 @@ clean:
 	find . -type f -name "*.bk" -exec rm {} \;
 	find . -type f -name ".*~" -exec rm {} \;
 
-changelog
+changelog:
   conventional-changelog -p angular -i CHANGELOG.md -s
