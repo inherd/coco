@@ -59,104 +59,11 @@ commit-message:
   samples: feature/JIR-124:test commit message
 ```
 
-#### Config
-
-## Development
-
-**IDE**: [Clion](https://www.jetbrains.com/clion/) (Recommended) / [IntelliJ](https://www.jetbrains.com/idea/) + [IntelliJ Rust plugin](https://intellij-rust.github.io/)
-
-**Rust**: Verison >= 1.49.0 
-
-
-If you already have older version installed ,please update Rust version by:
-```
-rustup update
-```
-
-### Setup
-
-1.install Rust
-
-follow [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools/install)
-
-2.install `justfile`
-
-follow: [https://github.com/casey/just](https://github.com/casey/just)
-
-3.Run tests
-
-```
-just tests
-```
-
-4.test Command
-
-```
-cargo run --bin coco
-```
-
-#### Setup for Windows Subsystem for Linux (Debian)
-
-1. install rust
-
-```
-apt-get install curl
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-```
-
-2. install just
-
-```
-cargo install just
-```
-
-3. install dependency package
-
-```
-sudo apt-get install gcc cmake g++ pkg-config libssl-dev 
-sudo apt-get install libfreetype6-dev expat libxml2 libasound2-dev libexpat1-dev libxcb-composite0-dev
-```
-
-4. Run tests
-
-```
-just tests
-```
-
-#### Setup for macOS with HomeBrew
-
-1. install rust
-
-```
-brew install rustup
-rustup-init
-```
-restart shell，or execute ``` source $HOME/.cargo/env ```
-
-
-2. install just
-
-```
-brew install just
-```
-
-3.Run tests
-
-```
-just tests
-```
-
-
-### Architecture
-
-![Architecture](docs/images/coco-architecture.svg)
-
-### Contribute
-
-we need you coding in TDD. You can use this repo to learn TDD :
-[rust-fizzbuzz](https://github.com/jtong/rust-fizzbuzz)
-
 ## Documents
+
+### Development
+
+See in [DEVELOPMENT.md](DEVELOPMENT.md)
 
 ### Online video
 
