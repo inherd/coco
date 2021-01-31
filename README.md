@@ -163,6 +163,8 @@ reporter
     - [ ] Windows
        - [ ] fix tests
        - [ ] make it works
+ - [ ] C4 Model
+    - [ ] graphviz call chain 
 
 Visual and Reporter
 
