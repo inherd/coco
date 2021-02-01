@@ -162,10 +162,15 @@ mod test {
     #[test]
     pub fn should_support_mode_change() {
         let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (18fc5c7,52d26f5) build: init package 20      0       package.json";
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) build: init package 20      0       package.json";
 
         let regex = Regex::new(
-            r"\[(?P<commit_id>[\d|a-f]{5,12})]\s(?P<author>.*?)<(?P<email>.*?)>\s(?P<date>\d{10})\s\((?P<parents>[\d|a-f]{5,12}),(?P<tree>[\d|a-f]{5,12})\)\s.*",
+            r"(?x)
+\[(?P<commit_id>[\d|a-f]{5,12})\]
+\s(?P<author>.*?)<(?P<email>.*?)>
+\s(?P<date>\d{10})
+\s\((?P<parents>([\d|a-f]{5,12}|\s)*),(?P<tree>[\d|a-f]{5,12})\) # parents hash + tree hash
+\s.* # commit messages",
         )
         .unwrap();
         match regex.captures(input) {
