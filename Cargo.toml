@@ -1,6 +1,6 @@
 [package]
 name = "coco"
-version = "0.1.1"
+version = "0.1.2"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
 license = "MIT"
