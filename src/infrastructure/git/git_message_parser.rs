@@ -136,6 +136,7 @@ impl GitMessageParser {
 #[cfg(test)]
 mod test {
     use crate::infrastructure::git::git_message_parser::GitMessageParser;
+    use regex::Regex;
 
     #[test]
     pub fn should_success_parse_one_line_log() {
@@ -160,15 +161,21 @@ mod test {
 
     #[test]
     pub fn should_support_mode_change() {
-        let input = "[828fe39523] Phodal HUANG 1575388800 refactor: extract vars
-0       0       adapter/JavaCallListener2.go
- delete mode 100644 adapter/JavaCallListener2.go
+        let input =
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (18fc5c7,52d26f5) build: init package 20      0       package.json";
 
-";
-
-        let commits = GitMessageParser::parse(input);
-        assert_eq!(1, commits[0].changes.len());
-        assert_eq!("delete", commits[0].changes[0].mode)
+        let regex = Regex::new(
+            r"\[(?P<commit_id>[\d|a-f]{5,12})]\s(?P<author>.*?)<(?P<email>.*?)>\s(?P<date>\d{10})\s\((?P<parents>[\d|a-f]{5,12}),(?P<tree>[\d|a-f]{5,12})\)\s.*",
+        )
+        .unwrap();
+        match regex.captures(input) {
+            None => {
+                println!("none");
+            }
+            Some(caps) => {
+                println!("{:?}", caps);
+            }
+        }
     }
 
     #[test]
