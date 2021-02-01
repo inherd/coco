@@ -72,12 +72,13 @@ fn analysis_framework(url_str: &str) {
 }
 
 fn analysis_git(url_str: &str) {
-    let branches_info = git_analysis::branches_info(url_str);
+    let branches = git_analysis::branches_info(url_str);
     let file_name = url_format::from(url_str);
 
+    let result = serde_json::to_string_pretty(&branches).unwrap();
     let output_file = Settings::git().join(file_name);
 
-    fs::write(output_file, branches_info).expect("cannot write file");
+    fs::write(output_file, result).expect("cannot write file");
 }
 
 fn analysis_cloc(url_str: &str) {
