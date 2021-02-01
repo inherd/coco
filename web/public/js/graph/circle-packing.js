@@ -1,5 +1,5 @@
 function renderPacking(originData) {
-  var dMap = {}
+  let dMap = {};
 
   for (let datum of originData) {
     let path = CodeSupport.convertPath(datum.path)
@@ -10,10 +10,10 @@ function renderPacking(originData) {
     }
   }
 
-  var jdata = Object.values(dMap)
-  var data = CodeSupport.hierarchy(jdata);
+  let jdata = Object.values(dMap)
+  let data = CodeSupport.hierarchy(jdata);
 
-  var pack = function (data) {
+  let pack = function (data) {
     return d3.pack()
       .size([width, height])
       .padding(3)
@@ -22,10 +22,9 @@ function renderPacking(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  var width = 1200;
-  var height = width;
-  var format = d3.format(",d")
-  var color = d3.scaleLinear()
+  let width = 1200;
+  let height = width;
+  let color = d3.scaleLinear()
     .domain([0, 5])
     .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
     .interpolate(d3.interpolateHcl)
@@ -35,7 +34,7 @@ function renderPacking(originData) {
   let focus = root;
   let view;
 
-  const svg = d3.select("#packing").append("svg")
+  const svg = d3.select("#circle-packing").append("svg")
     .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`)
     .style("display", "block")
     // .style("margin", "0 -14px")
@@ -88,7 +87,6 @@ function renderPacking(originData) {
   }
 
   function zoom(d) {
-    const focus0 = focus;
     focus = d;
 
     label

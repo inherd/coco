@@ -93,7 +93,7 @@ function renderBranches(csv) {
   let names = d3.group(data, d => d.name);
   let color = d3.scaleOrdinal(d3.schemeSet2).domain(names)
 
-  const svg = d3.select("#timeline").append("svg")
+  const svg = d3.select("#branch-timeline").append("svg")
     .attr("viewBox", `0 0 ${width} ${height}`)
 
   const g = svg.append("g").attr("transform", (d, i) => `translate(${margin.left} ${margin.top})`);
@@ -146,7 +146,7 @@ function renderBranches(csv) {
       .style("top", y + "px")
   })
 
-  let element = document.getElementById("timeline");
+  let element = document.getElementById("branch-timeline");
   element.appendChild(svg.node());
   element.appendChild(tooltip.node());
   element.groups = groups;

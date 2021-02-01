@@ -7,12 +7,12 @@
   <link rel="icon" type="image/x-icon" href="public/images/favicon.ico">
   <title>Coco Reporter - {{title}}</title>
   <style>
-    #packing, #nested-treemap, #timeline {
+    #circle-packing, #nested-treemap, #branch-timeline {
       width: 1200px;
       height: auto;
     }
 
-    #timeline svg {
+    #branch-timeline svg {
       font: 12px sans-serif;
       line-height: 20px;
     }
@@ -35,9 +35,9 @@
 <body>
 <h1>Coco Reporter</h1>
 <h2>Branch History</h2>
-<div id="timeline"></div>
+<div id="branch-timeline"></div>
 <h2>Package by Size 1</h2>
-<div id="packing"></div>
+<div id="circle-packing"></div>
 <h2>Package by Size 2</h2>
 <div id="nested-treemap"></div>
 
