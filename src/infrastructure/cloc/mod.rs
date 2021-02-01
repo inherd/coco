@@ -7,6 +7,7 @@ pub fn by_dir<P: AsRef<Path>>(path: P) -> Languages {
     let excluded = &vec![];
 
     let mut config = Config::default();
+    // todo: thinking in custom sort?
     config.sort = Some(Sort::Code);
 
     let mut languages = Languages::new();

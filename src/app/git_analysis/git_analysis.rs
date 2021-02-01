@@ -2,7 +2,7 @@ use crate::app::git_analysis::FormatBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
-pub fn branches_info(url: &str) -> Vec<FormatBranch> {
+pub fn analysis(url: &str) -> Vec<FormatBranch> {
     let repo = GitRepository::open(url);
     let mut branches = vec![];
 
@@ -15,12 +15,12 @@ pub fn branches_info(url: &str) -> Vec<FormatBranch> {
 
 #[cfg(test)]
 mod test {
-    use crate::app::git_analysis::branches_info;
+    use crate::app::git_analysis::analysis;
 
     #[ignore]
     #[test]
     fn local_project_test() {
-        let branches = branches_info(".");
+        let branches = analysis(".");
         assert!(branches.len() >= 2);
     }
 }

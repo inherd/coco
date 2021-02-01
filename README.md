@@ -143,6 +143,7 @@ reporter
     - [ ] participle（分词）
     - [ ] tags generate
  - [ ] suggestion API
+    - [ ] document manage system
     - [ ] suggest to ledge
     - [ ] suggest to coco.server ?
     - [ ] online suggest
@@ -155,6 +156,8 @@ reporter
     - [ ] jenkins api analysis
     - [ ] test coverage integration
  - [ ] case study
+    - [x] homepage: [https://github.com/inherd/cases](https://github.com/inherd/cases)
+    - [ ] auto clone and auto deploy
  - [ ] todo scan
     - [ ] merge from [coca](https://github.com/inherd/coca/blob/master/pkg/application/todo/astitodo/astitodo.go)
  - [ ] multiple platform support

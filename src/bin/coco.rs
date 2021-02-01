@@ -72,7 +72,7 @@ fn analysis_framework(url_str: &str) {
 }
 
 fn analysis_git(url_str: &str) {
-    let branches = git_analysis::branches_info(url_str);
+    let branches = git_analysis::analysis(url_str);
     let file_name = url_format::from(url_str);
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
