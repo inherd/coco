@@ -148,6 +148,8 @@ reporter
     - [ ] suggest to coco.server ?
     - [ ] online suggest
        - [ ] link daily checking
+    - [ ] cases collection
+    - [ ] architecture design rules
  - [ ] tools
     - [ ] tools config identify
     - [ ] tools suggest (identify old tools)
