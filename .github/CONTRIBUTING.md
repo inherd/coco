@@ -13,7 +13,7 @@ today! As a contributor, here are the guidelines we would like you to follow:
 
 ## <a name="coc"></a> Code of Conduct
 
-TODO
+Help us keep coco open and inclusive. Please read and follow our [Code of Conduct][coc].
 
 ## <a name="question"></a> Got a Question or Problem?
 
@@ -232,6 +232,7 @@ A detailed explanation can be found in this [document][commit-message-format].
 Tools like [commit-formatter](https://github.com/Eliot00/commit-formatter) may be helpful.
 
 
+[coc]: https://github.com/inherd/coco/blob/master/CODE_OF_CONDUCT.md
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
 [github]: https://github.com/inherd/coco
 [plunker]: http://plnkr.co/edit
