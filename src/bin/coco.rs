@@ -11,6 +11,17 @@ use coco::settings::Settings;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
+#[derive(Debug, Clone)]
+pub struct CocoCliOption {
+    pub branches: bool,
+}
+
+impl Default for CocoCliOption {
+    fn default() -> Self {
+        CocoCliOption { branches: false }
+    }
+}
+
 fn main() {
     let matches = App::new("Coco")
         .version(VERSION)
@@ -28,6 +39,8 @@ fn main() {
 
     let config_file = matches.value_of("config").unwrap_or("coco.yml");
 
+    let cli_option = CocoCliOption::default();
+
     let config: CocoConfig;
     match fs::read_to_string(config_file) {
         Ok(content) => {
@@ -39,22 +52,23 @@ fn main() {
             repo.push(RepoConfig {
                 url: current.into_os_string().to_str().unwrap().to_string(),
             });
-            config = CocoConfig { repo: repo }
+            config = CocoConfig { repo }
         }
     }
 
     println!("found config file: {}", config_file);
 
-    run_analysis(config.repo.clone());
+    run_analysis(config.repo, cli_option);
 }
 
-fn run_analysis(repos: Vec<RepoConfig>) {
+fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
     // todo: add tasks for parallel run analysis tasks for one or more repos
     repos.par_iter().for_each(|repo| {
         let url_str = repo.url.as_str();
 
         // todo: thinking in refactor to patterns
         analysis_git(url_str);
+
         analysis_framework(url_str);
         analysis_cloc(url_str);
         analysis_architecture(url_str);
@@ -101,6 +115,3 @@ fn analysis_architecture(url_str: &str) {
 
     fs::write(output_file, branches_info).expect("cannot write file");
 }
-
-#[cfg(test)]
-mod test {}
