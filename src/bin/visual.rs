@@ -1,5 +1,6 @@
 use clap::{App, Arg};
 use dialoguer::{theme::ColorfulTheme, Select};
+use webbrowser;
 
 use coco::app::visual::{local_server, output_static};
 use coco::domain::config::CocoConfig;
@@ -60,12 +61,20 @@ async fn main() -> std::io::Result<()> {
             port = input
         }
 
-        println!("start server: http://127.0.0.1:{}", port);
+        let url = format!("http://127.0.0.1:{}", port);
+        println!("start server: {}", url);
+        open_url(url.as_str());
         println!("project: {}", project);
         return local_server::start(port, project).await;
     }
 
     Ok(())
+}
+
+pub fn open_url(url: &str) {
+    if webbrowser::open(url).is_ok() {
+        //
+    }
 }
 
 pub fn select_project_prompt() -> String {
