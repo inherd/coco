@@ -17,9 +17,9 @@ pub fn branches_info(url: &str) -> Vec<FormatBranch> {
 mod test {
     use crate::app::git_analysis::branches_info;
 
-    #[ignore]
     #[test]
     fn local_project_test() {
-        branches_info(".");
+        let branches = branches_info(".");
+        assert!(branches.len() >= 2);
     }
 }
