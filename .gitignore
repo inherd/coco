@@ -11,7 +11,7 @@ Cargo.lock
 **/*.rs.bk
 .idea
 .coco
-web/public/js/d3.min.js
+web/public/js/libs/d3.min.js
 web/hack.js
 
 coco_static

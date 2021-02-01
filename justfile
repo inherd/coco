@@ -8,8 +8,11 @@ build:
   cargo build
 
 release:
-  wget https://cdn.bootcdn.net/ajax/libs/d3/6.3.1/d3.min.js -P web/public/js/
+  just setup
   cargo build --verbose --release
+
+setup:
+  wget https://cdn.bootcdn.net/ajax/libs/d3/6.3.1/d3.min.js -P web/public/js/libs/
 
 @bench:
 	cargo bench
