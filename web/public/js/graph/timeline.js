@@ -135,7 +135,6 @@ function renderBranches(csv) {
     .attr("transform", (d, i) => `translate(${margin.left} ${height - margin.bottom})`)
     .call(axisBottom)
 
-
   svg.on("mousemove", function (event, d) {
     let [x, y] = d3.pointer(event);
     line.attr("transform", `translate(${x} 0)`);
@@ -146,7 +145,6 @@ function renderBranches(csv) {
       .style("left", x + "px")
       .style("top", y + "px")
   })
-
 
   let element = document.getElementById("timeline");
   element.appendChild(svg.node());
