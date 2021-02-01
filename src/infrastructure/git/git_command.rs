@@ -1,9 +1,11 @@
 use std::process::Command;
 
 pub fn get_commit_message() -> String {
+    // git log --pretty="format:%H%n%aN%n%at%n%P%n%T%n--------%n%s" --date=short --numstat --summary --date=unix --reverse
     let command = Command::new("git")
         .arg("log")
-        .arg("--pretty=\"format:[%h] %aN %at %s\"")
+        // -------- is the placeholder for parser object
+        .arg("--pretty=\"format:%H%n%aN%n%at%n%P%n%T%n--------%n%s\"")
         .arg("--date=short")
         .arg("--numstat")
         .arg("--reverse")
