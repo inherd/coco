@@ -1,4 +1,18 @@
-# [](https://github.com/phodal/cocoj/compare/v0.1.1...v) (2021-01-31)
+# [](https://github.com/phodal/cocoj/compare/v0.1.2...v) (2021-02-01)
+
+
+
+## [0.1.2](https://github.com/phodal/cocoj/compare/v0.1.1...v0.1.2) (2021-02-01)
+
+
+### Bug Fixes
+
+* fix release issue ([5714447](https://github.com/phodal/cocoj/commit/57144473bda3233a2693cc9af750070eb0b71f52))
+
+
+### Features
+
+* add open urls in browser support ([2a1b9d8](https://github.com/phodal/cocoj/commit/2a1b9d8723184f81950e28f54c97ff587533d7e9))
 
 
 

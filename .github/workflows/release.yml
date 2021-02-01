@@ -47,6 +47,9 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Install Just
+        run: cargo install just
+
       - name: Install wget for Windows
         run:  |
           if [ "$RUNNER_OS" == "Windows" ]; then
