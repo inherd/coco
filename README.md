@@ -164,7 +164,8 @@ reporter
        - [ ] fix tests
        - [ ] make it works
  - [ ] C4 Model
-    - [ ] graphviz call chain 
+    - [ ] graphviz call chain
+       - [ ] symbol design - IsA, Use-In-The-Interface, Uses-In-The-Implementation  
 
 Visual and Reporter
 
