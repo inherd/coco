@@ -22,6 +22,7 @@ d3.json("data/git.json").then(function (json) {
       end: datum.last_commit_date,
       format_start: datum.first_commit_str,
       format_end: datum.last_commit_str,
+      commits: datum.commits,
     })
   }
 

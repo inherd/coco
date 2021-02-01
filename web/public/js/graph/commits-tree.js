@@ -18,9 +18,51 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
+let renderCommitsTree = function (data) {
+  let color = d3.scaleOrdinal(d3.schemeSet2).domain(data)
+  let shaMap = {};
+  let idx = 1;
+  let column = 1;
+  let lastSha = "";
+  for (let datum of data) {
+    if (!datum.commits) {
+      return;
+    }
 
-let renderCommitsTree = function(data) {
-  let tree = [{"color":"#5aa1be","column":0,"id":"1","idx":0,"parents":["4"],"parents_paths":[{"id":"4","path":[{"x":0,"y":0,"type":0},{"x":0,"y":3,"type":0}],"color":"#5aa1be"}]},{"color":"#c065b8","column":1,"id":"2","idx":1,"parents":["4"],"parents_paths":[{"id":"4","path":[{"x":1,"y":1,"type":0},{"x":1,"y":3,"type":1},{"x":0,"y":3,"type":0}],"color":"#c065b8"}]},{"color":"#c0ab5f","column":2,"id":"3","idx":2,"parents":["4"],"parents_paths":[{"id":"4","path":[{"x":2,"y":2,"type":0},{"x":2,"y":3,"type":1},{"x":0,"y":3,"type":0}],"color":"#c0ab5f"}]},{"color":"#5aa1be","column":0,"id":"4","idx":3,"parents":["6"],"parents_paths":[{"id":"6","path":[{"x":0,"y":3,"type":0},{"x":0,"y":5,"type":0}],"color":"#5aa1be"}]},{"color":"#59bc95","column":1,"id":"5","idx":4,"parents":["6"],"parents_paths":[{"id":"6","path":[{"x":1,"y":4,"type":0},{"x":1,"y":5,"type":1},{"x":0,"y":5,"type":0}],"color":"#59bc95"}]},{"color":"#5aa1be","column":0,"id":"6","idx":5,"parents":[],"parents_paths":[]}]
+    for (let commit of datum.commits) {
+      let short = commit.substr(0, 6);
+
+      if (!shaMap[short]) {
+        shaMap[short] = {
+          idx: idx,
+          id: short,
+          column: column,
+          color: color(column),
+          parents_paths: lastSha ? [] : [
+            {
+              "id": lastSha,
+              path: [{
+                x: lastSha.id,
+                y: lastSha.column,
+                type: 0,
+              }]
+            }
+          ]
+        };
+        idx++;
+
+      }
+
+      lastSha = shaMap[short];
+    }
+
+    column++;
+  }
+
+  let tree = [];
+  for (let value in shaMap) {
+    tree.push(shaMap[value]);
+  }
 
   let xGap = 11;
   let yGap = 20;
@@ -29,14 +71,18 @@ let renderCommitsTree = function(data) {
   let shaMargin = 60;
 
   let svg = d3.select("#commits-tree").append("svg")
-  svg.style('height', 20 * yGap + 2 * radius + 'px');
+  svg.style('height', (tree.length + 1) * yGap + 2 * radius + 'px');
   svg.selectAll('*').remove();
   let sg = svg.append('g')
-    .attr('transform', 'translate(0, ' + radius + ')' )
+    .attr('transform', 'translate(0, ' + radius + ')')
 
   let lineFunction = d3.line()
-    .x(function(d) { return d.x; })
-    .y(function(d) { return d.y; })
+    .x(function (d) {
+      return d.x;
+    })
+    .y(function (d) {
+      return d.y;
+    })
     .curve(d3.curveMonotoneX)
 
   let commitGroup = sg.selectAll('commitGroup')
@@ -45,10 +91,12 @@ let renderCommitsTree = function(data) {
     .append('g');
 
   commitGroup.selectAll('lines')
-    .data(function(d) { return d.parents_paths; })
+    .data(function (d) {
+      return d.parents_paths;
+    })
     .enter()
     .append('path')
-    .attr('d', function(path) {
+    .attr('d', function (path) {
       let d = [];
       for (let node of path.path) {
         let point = {x: 5 + node.x * xGap + shaMargin, y: 5 + node.y * yGap};
@@ -68,7 +116,7 @@ let renderCommitsTree = function(data) {
     })
     .attr('stroke-width', 2)
     .attr('fill', 'none')
-    .attr('stroke', function(path) {
+    .attr('stroke', function (path) {
       return path.color || '#5aa1be';
     });
 
@@ -77,13 +125,17 @@ let renderCommitsTree = function(data) {
     .enter()
     .append('circle')
     .attr('r', radius)
-    .attr('fill', function(commit) {
+    .attr('fill', function (commit) {
       return commit.color || '#5aa1be';
     })
     .attr('stroke', 'black')
-    .attr('cx', function(commit) { return 5 + commit.column * xGap + shaMargin; })
-    .attr('cy', function(commit, idx) { return 5 + commit.idx * yGap; })
-    .on('mouseover', function(commit) {
+    .attr('cx', function (commit) {
+      return 5 + commit.column * xGap + shaMargin;
+    })
+    .attr('cy', function (commit, idx) {
+      return 5 + commit.idx * yGap;
+    })
+    .on('mouseover', function (commit) {
       console.log(commit.debug);
     });
 
@@ -92,11 +144,15 @@ let renderCommitsTree = function(data) {
     .enter()
     .append('text')
     .attr('font-size', 12)
-    .attr('x', function(commit) { return 0; })
-    .attr('y', function(commit, idx) { return 5 + commit.idx * yGap; })
+    .attr('x', function (commit) {
+      return 0;
+    })
+    .attr('y', function (commit, idx) {
+      return 5 + commit.idx * yGap;
+    })
     .attr('alignment-baseline', 'middle')
     .attr('font-family', 'Consolas, "Liberation Mono", Menlo, Courier, monospace')
-    .text(function(commit) {
+    .text(function (commit) {
       return commit.id.substr(0, 7);
     });
 };
