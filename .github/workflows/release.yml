@@ -47,6 +47,13 @@ jobs:
     steps:
       - uses: actions/checkout@v1
 
+      - name: Install wget for Windows
+        run:  |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+              choco install wget --no-progress
+          fi
+        shell: bash
+
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal

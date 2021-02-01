@@ -22,7 +22,7 @@ jobs:
         run: cargo install just
 
       - name: Build
-        run: ${{matrix.ENV_VARS}} cargo build --verbose --release
+        run: ${{matrix.ENV_VARS}} cargo release
 
       - name: Build Debug for Testing
         run: ${{matrix.ENV_VARS}} cargo build

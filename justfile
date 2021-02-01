@@ -5,7 +5,11 @@ e2e:
   cargo test --package e2e
 
 build:
-    cargo build
+  cargo build
+
+release:
+  wget https://cdn.bootcdn.net/ajax/libs/d3/6.3.1/d3.min.js -P web/public/js/
+  cargo build --verbose --release
 
 @bench:
 	cargo bench
