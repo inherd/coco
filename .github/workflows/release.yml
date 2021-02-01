@@ -38,7 +38,7 @@ jobs:
           - name: windows coco
             os: windows-latest
             artifact_name: coco.exe
-            asset_name: coco-windows
+            asset_name: coco-windows.exe
           - name: macos coco
             os: macos-latest
             artifact_name: coco
