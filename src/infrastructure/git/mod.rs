@@ -86,5 +86,6 @@ mod test {
         let first = &vec[0];
         assert_eq!("Initial commit", first.message);
         assert_eq!(3, first.changes.len());
+        assert_eq!("origin/gh-pages", first.branch);
     }
 }

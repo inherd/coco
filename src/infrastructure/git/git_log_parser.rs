@@ -12,6 +12,7 @@ lazy_static! {
 \s(?P<author>.*?)<(?P<email>.*?)>
 \s(?P<date>\d{10})
 \s\((?P<parent_hashes>([\d|a-f]{5,12}|\s)*),(?P<tree_hash>[\d|a-f]{5,12})\) # parents hash + tree hash
+\s\#(?P<branch>.*)\#    # branch
 \s(?P<message>.*) # commit messages"
     )
     .unwrap();
@@ -126,6 +127,7 @@ impl GitMessageParser {
         let author = &captures["author"];
         let date_str = &captures["date"];
         let message = &captures["message"];
+        let branch = &captures["branch"];
 
         let mut parent_hashes = vec![];
         if let Some(_) = captures.name("parent_hashes") {
@@ -139,7 +141,7 @@ impl GitMessageParser {
 
         let date = date_str.parse::<i64>().unwrap();
         CocoCommit {
-            branch: "".to_string(),
+            branch: branch.to_string(),
             commit_id: commit_id.to_string(),
             author: author.to_string(),
             committer: "".to_string(),
@@ -158,7 +160,7 @@ mod test {
 
     #[test]
     pub fn should_success_parse_one_line_log() {
-        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) Consistently use releaseBody in DefaultWebClient
+        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# Consistently use releaseBody in DefaultWebClient
 5       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/ClientResponse.java
 1       1       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java
 9       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/WebClient.java
@@ -179,7 +181,7 @@ mod test {
 
     #[test]
     pub fn should_success_parse_multiple_line_log() {
-        let input = "[d00f0124d] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5)  update files
+        let input = "[d00f0124d] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# update files
 0       0       core/domain/bs/BadSmellApp.go
 
 [1d00f0124b] Phodal Huang 1575388800 update files
@@ -201,7 +203,7 @@ mod test {
 
     #[test]
     pub fn should_support_multiple_change_mode_change() {
-        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) fix: fix test
+        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# fix: fix test
 7       0       README.md
 13      0       learn_go_suite_test.go
 3       3       imp/imp_test.go => learn_go_test.go
@@ -224,7 +226,7 @@ mod test {
     #[test]
     pub fn should_support_parent_hashes() {
         let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) build: init package 20      0       package.json
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# build: init package 20      0       package.json
 ";
 
         let commits = GitMessageParser::parse(input);
@@ -238,7 +240,7 @@ mod test {
     #[test]
     pub fn should_handle_empty_parents() {
         let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (,52d26f5) build: init package 20      0       package.json
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (,52d26f5) #origin/main# build: init package 20      0       package.json
 ";
 
         let commits = GitMessageParser::parse(input);
