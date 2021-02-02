@@ -75,10 +75,16 @@ mod test {
     fn should_url_to_path() {
         let url = "http://github.com/coco-rs/coco.fixtures";
         let string = uri_to_path(url);
-        assert_eq!(
-            ".coco/github.com/coco-rs/coco.fixtures",
-            string.to_str().unwrap()
-        );
+
+        let path = PathBuf::from(".coco");
+        let local_url = path
+            .join("github.com")
+            .join("coco-rs")
+            .join("coco.fixtures");
+
+        let local_str = format!("{}", local_url.display());
+
+        assert_eq!(local_str, string.to_str().unwrap());
     }
 
     #[test]
