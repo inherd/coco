@@ -130,7 +130,9 @@ impl GitMessageParser {
         let mut parent_hashes = vec![];
         if let Some(_) = captures.name("parent_hashes") {
             let hashes = &captures["parent_hashes"];
-            parent_hashes = hashes.split(" ").map(|str| str.to_string()).collect()
+            if hashes != "" {
+                parent_hashes = hashes.split(" ").map(|str| str.to_string()).collect()
+            }
         }
 
         let tree_hash = captures["tree_hash"].to_string();
@@ -231,5 +233,16 @@ mod test {
         assert_eq!("52d26f5", commits[0].parent_hashes[0]);
         assert_eq!("1389e51", commits[0].parent_hashes[1]);
         assert_eq!("52d26f5", commits[0].tree_hash);
+    }
+
+    #[test]
+    pub fn should_handle_empty_parents() {
+        let input =
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (,52d26f5) build: init package 20      0       package.json
+";
+
+        let commits = GitMessageParser::parse(input);
+
+        assert_eq!(0, commits[0].parent_hashes.len());
     }
 }
