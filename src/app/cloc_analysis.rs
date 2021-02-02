@@ -67,7 +67,7 @@ mod test {
 
         assert_eq!("HelloWorld.java", languages[0].reports[0].file_name);
 
-        let path = Path::new("github.com").join("coco.fixtures");
+        let path = Path::new("app").join("HelloWorld.java");
 
         assert_eq!(format!("{}", path.display()), languages[0].reports[0].path);
     }
