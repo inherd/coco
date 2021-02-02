@@ -4,14 +4,24 @@ use url::Url;
 
 use crate::settings::Settings;
 
-pub fn from(text: &str) -> String {
+pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
+    let mut suffix = "";
+    if let Some(suf) = suffix_str {
+        suffix = suf;
+    }
+
     let uri_path = match Url::parse(text) {
         Ok(url) => url,
         Err(_e) => {
             let path = Path::new(text);
             return match path.file_name() {
                 Some(name) => {
-                    format!("{}.{}", name.to_str().unwrap().to_string(), "json")
+                    format!(
+                        "{}{}.{}",
+                        name.to_str().unwrap().to_string(),
+                        suffix,
+                        "json"
+                    )
                 }
                 None => {
                     format!("default.{}", "json")
@@ -25,7 +35,11 @@ pub fn from(text: &str) -> String {
         .map(|c| c.collect::<Vec<_>>())
         .unwrap();
 
-    return format!("{}.{}", paths.last().unwrap(), "json");
+    return format!("{}{}.{}", paths.last().unwrap(), suffix, "json");
+}
+
+pub fn json_filename(text: &str) -> String {
+    json_filename_suffix(text, None)
 }
 
 pub fn uri_to_path(url: &str) -> PathBuf {
@@ -53,12 +67,12 @@ pub fn uri_to_path(url: &str) -> PathBuf {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::url_format::{from, uri_to_path};
+    use crate::infrastructure::url_format::{json_filename, json_filename_suffix, uri_to_path};
     use std::path::PathBuf;
 
     #[test]
     fn should_format_github_with_url_http() {
-        let string = from("http://github.com/coco-rs/coco.fixtures");
+        let string = json_filename("http://github.com/coco-rs/coco.fixtures");
         assert_eq!("coco.fixtures.json", string);
     }
 
@@ -67,8 +81,18 @@ mod test {
         let path = PathBuf::from(".coco");
         let framework_path = path.join("framework");
 
-        let string = from(&*format!("{}", framework_path.display()));
+        let string = json_filename(&*format!("{}", framework_path.display()));
         assert_eq!("framework.json", string);
+    }
+
+    #[test]
+    fn should_format_with_suffix() {
+        let path = PathBuf::from(".coco");
+        let framework_path = path.join("git");
+
+        let string =
+            json_filename_suffix(&*format!("{}", framework_path.display()), Some("-commits"));
+        assert_eq!("git-commits.json", string);
     }
 
     #[test]

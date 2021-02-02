@@ -77,7 +77,7 @@ fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
 
 fn analysis_framework(url_str: &str) {
     let path_buf = url_format::uri_to_path(url_str);
-    let file_name = url_format::from(url_str);
+    let file_name = url_format::json_filename(url_str);
 
     let frameworks = framework_analysis::analysis(path_buf);
     let output_file = Settings::framework().join(file_name);
@@ -87,7 +87,7 @@ fn analysis_framework(url_str: &str) {
 
 fn analysis_git(url_str: &str) {
     let branches = git_analysis::analysis(url_str);
-    let file_name = url_format::from(url_str);
+    let file_name = url_format::json_filename(url_str);
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
     let output_file = Settings::git().join(file_name);
@@ -98,7 +98,7 @@ fn analysis_git(url_str: &str) {
 fn analysis_cloc(url_str: &str) {
     let path_buf = url_format::uri_to_path(url_str);
     let languages = cloc_analysis::analysis(path_buf);
-    let file_name = url_format::from(url_str);
+    let file_name = url_format::json_filename(url_str);
 
     let result = serde_json::to_string_pretty(&languages).unwrap();
     let output_file = Settings::cloc().join(file_name);
@@ -109,7 +109,7 @@ fn analysis_cloc(url_str: &str) {
 fn analysis_architecture(url_str: &str) {
     let path_buf = url_format::uri_to_path(url_str);
     let branches_info = architecture_analysis::analysis(path_buf);
-    let file_name = url_format::from(url_str);
+    let file_name = url_format::json_filename(url_str);
 
     let output_file = Settings::architecture().join(file_name);
 
