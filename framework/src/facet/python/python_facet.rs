@@ -16,7 +16,6 @@ impl PythonFacet {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
