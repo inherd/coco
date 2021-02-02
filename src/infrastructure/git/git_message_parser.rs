@@ -6,6 +6,15 @@ use crate::domain::git::coco_commit::FileChange;
 use crate::domain::git::CocoCommit;
 
 lazy_static! {
+    static ref COMMIT_INFO: Regex = Regex::new(
+        r"(?x)
+\[(?P<commit_id>[\d|a-f]{5,12})\]
+\s(?P<author>.*?)<(?P<email>.*?)>
+\s(?P<date>\d{10})
+\s\((?P<parents>([\d|a-f]{5,12}|\s)*),(?P<tree>[\d|a-f]{5,12})\) # parents hash + tree hash
+\s(?P<message>.*) # commit messages"
+    )
+    .unwrap();
     static ref COMMIT_ID: Regex = Regex::new(r"\[(?P<commit_id>[\d|a-f]{5,12})\]").unwrap();
     static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{10}").unwrap();
     static ref DATE: Regex = Regex::new(r"(?P<date>\d{10})").unwrap();
@@ -48,8 +57,8 @@ impl GitMessageParser {
 
     pub fn parse_log_by_line(&mut self, text: &str) {
         // COMMIT_ID -> CHANGES -> CHANGE_MODEL -> Push to Commits
-        if let Some(captures) = COMMIT_ID.captures(text) {
-            self.current_commit = GitMessageParser::create_commit(text, &captures)
+        if let Some(captures) = COMMIT_INFO.captures(text) {
+            self.current_commit = GitMessageParser::create_commit(&captures)
         } else if let Some(caps) = CHANGES.captures(text) {
             let filename = caps["filename"].to_string();
             let file_change = GitMessageParser::create_file_change(filename.clone(), caps);
@@ -102,23 +111,11 @@ impl GitMessageParser {
         }
     }
 
-    fn create_commit(text: &str, captures: &Captures) -> CocoCommit {
+    fn create_commit(captures: &Captures) -> CocoCommit {
         let commit_id = &captures["commit_id"];
-        let without_rev = text
-            .split(&format!("[{}] ", commit_id))
-            .collect::<Vec<&str>>()[1];
-
-        let author = &AUTHOR.captures(without_rev).unwrap()["author"];
-        let without_author = without_rev
-            .split(&format!("{} ", author))
-            .collect::<Vec<&str>>()[1];
-
-        let date_str = &DATE.captures(without_author).unwrap()["date"];
-        let without_date = without_author
-            .split(&format!("{} ", date_str))
-            .collect::<Vec<&str>>()[1];
-
-        let message = without_date;
+        let author = &captures["author"];
+        let date_str = &captures["date"];
+        let message = &captures["message"];
 
         let date = date_str.parse::<i64>().unwrap();
         CocoCommit {
@@ -140,7 +137,7 @@ mod test {
 
     #[test]
     pub fn should_success_parse_one_line_log() {
-        let input = "[828fe39523] Rossen Stoyanchev 1575388800 Consistently use releaseBody in DefaultWebClient
+        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) Consistently use releaseBody in DefaultWebClient
 5       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/ClientResponse.java
 1       1       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/DefaultWebClient.java
 9       3       spring-webflux/core/main/java/org/springframework/web/reactive/function/client/WebClient.java
@@ -150,8 +147,8 @@ mod test {
         let commits = GitMessageParser::parse(input);
         assert_eq!(1, commits.len());
         assert_eq!("828fe39523", commits[0].commit_id);
-        assert_eq!("Rossen Stoyanchev", commits[0].author);
-        assert_eq!(1575388800, commits[0].date);
+        assert_eq!("Phodal Huang", commits[0].author);
+        assert_eq!(1606612935, commits[0].date);
         assert_eq!(
             "Consistently use releaseBody in DefaultWebClient",
             commits[0].message
@@ -185,7 +182,7 @@ mod test {
 
     #[test]
     pub fn should_success_parse_multiple_line_log() {
-        let input = "[d00f0124d] Phodal Huang 1575388800 update files
+        let input = "[d00f0124d] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5)  update files
 0       0       core/domain/bs/BadSmellApp.go
 
 [1d00f0124b] Phodal Huang 1575388800 update files
@@ -208,7 +205,7 @@ mod test {
 
     #[test]
     pub fn should_support_multiple_change_mode_change() {
-        let input = "[828fe39523] Phodal HUANG 1575388800 fix: fix test
+        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) fix: fix test
 7       0       README.md
 13      0       learn_go_suite_test.go
 3       3       imp/imp_test.go => learn_go_test.go
