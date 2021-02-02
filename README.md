@@ -12,29 +12,20 @@ Support OS: macOS, Windows, GNU/Linux
 
 特性（features in Chinese）：
 
- - 改进建议（英语）
+ - [x] 可交互式架构分析
+ - 团队/项目健康值分析
  - 框架检测与分析
  - 云原生成熟度分析
- - 项目健康值分析
- - 图形可视化和报表生成
  - 多项目**并行**分析
  - 分支生命周期和可视化
-
-features:
-
- - automatic suggestion (online).
- - framework detector and analysis
- - branch lifecycle and visual
- - cloud-native analysis
- - team health analysis
- - graph visual and reporter
- - multiple-repo **parallel**
+ - 改进建议（在线）
 
 ## Usage
 
 1. create `coco.yml` in projects.
 2. config `coco.yml`
 3. run `coco`
+4. run `visual`
 
 ### coco.yml
 
