@@ -8,6 +8,8 @@ Online Reporter Demo: [https://inherd.github.io/coco/web/](https://inherd.github
 
 Case Studies: [Coco cases](https://inherd.github.io/cases/)
 
+Support OS: macOS, Windows, GNU/Linux
+
 特性（features in Chinese）：
 
  - 改进建议（英语）
@@ -165,9 +167,9 @@ reporter
  - [ ] multiple platform support
     - [x] macOS
     - [ ] GNU/Linux 
-    - [ ] Windows
-       - [ ] fix tests
-       - [ ] make it works
+    - [x] Windows
+       - [x] fix tests
+       - [x] make it works
  - [ ] C4 Model
     - [ ] graphviz call chain
        - [ ] symbol design - IsA, Use-In-The-Interface, Uses-In-The-Implementation  
