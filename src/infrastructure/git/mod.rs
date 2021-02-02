@@ -26,8 +26,12 @@ mod test {
         initialize();
         let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
         let path_str = repo.path().to_str().unwrap();
-        let path = Path::new("github.com/coco-rs/coco.fixtures");
-        assert!(path_str.contains(path.to_str().unwrap()));
+
+        let host = Path::new("github.com")
+            .join("coco-rs")
+            .join("coco.fixtures");
+
+        assert!(path_str.contains(host.to_str().unwrap()));
     }
 
     #[test]

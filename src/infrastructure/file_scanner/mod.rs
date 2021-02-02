@@ -52,7 +52,7 @@ pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {
 
 #[cfg(test)]
 mod test {
-    use std::path::PathBuf;
+    use std::path::{Path, PathBuf};
 
     use crate::infrastructure::file_scanner::search_projects;
 
@@ -76,7 +76,10 @@ mod test {
         assert_eq!(2, projects.len());
         projects.sort_by(|a, b| a.to_lowercase().cmp(&b.to_lowercase()));
 
-        assert_eq!("app1/.gittest", projects[0]);
-        assert_eq!("app2/.gittest", projects[1]);
+        let proj1 = Path::new("app1").join(".gittest");
+        let proj2 = Path::new("app2").join(".gittest");
+
+        assert_eq!(format!("{}", proj1.display()), projects[0]);
+        assert_eq!(format!("{}", proj2.display()), projects[1]);
     }
 }

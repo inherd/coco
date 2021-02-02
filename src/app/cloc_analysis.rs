@@ -39,7 +39,7 @@ pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
 #[cfg(test)]
 mod test {
     use crate::app::cloc_analysis;
-    use std::path::PathBuf;
+    use std::path::{Path, PathBuf};
 
     fn fixtures_dir() -> PathBuf {
         return PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("_fixtures");
@@ -66,6 +66,9 @@ mod test {
         let languages = cloc_analysis::analysis(buf);
 
         assert_eq!("HelloWorld.java", languages[0].reports[0].file_name);
-        assert_eq!("app/HelloWorld.java", languages[0].reports[0].path);
+
+        let path = Path::new("github.com").join("coco.fixtures");
+
+        assert_eq!(format!("{}", path.display()), languages[0].reports[0].path);
     }
 }
