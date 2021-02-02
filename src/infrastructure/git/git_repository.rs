@@ -1,6 +1,7 @@
 use git2::Repository;
 
 use crate::infrastructure::url_format;
+use std::fs;
 
 pub struct GitRepository {}
 
@@ -19,7 +20,7 @@ impl GitRepository {
             return repo;
         };
 
-        // for windows https://github.com/rust-lang/git2-rs/issues/475
+        let _ = fs::create_dir_all(&local_path.parent().unwrap());
         let repo = match Repository::clone(url, local_path) {
             Ok(repo) => repo,
             Err(e) => panic!("failed to clone: {}", e),
