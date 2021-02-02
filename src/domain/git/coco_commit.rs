@@ -9,6 +9,8 @@ pub struct CocoCommit {
     pub date: i64,
     pub message: String,
     pub changes: Vec<FileChange>,
+    pub parent_hashes: Vec<String>,
+    pub tree_hash: String,
 }
 
 impl Default for CocoCommit {
@@ -21,6 +23,8 @@ impl Default for CocoCommit {
             date: 0,
             message: "".to_string(),
             changes: vec![],
+            parent_hashes: vec![],
+            tree_hash: "".to_string(),
         }
     }
 }

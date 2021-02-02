@@ -11,7 +11,7 @@ lazy_static! {
 \[(?P<commit_id>[\d|a-f]{5,12})\]
 \s(?P<author>.*?)<(?P<email>.*?)>
 \s(?P<date>\d{10})
-\s\((?P<parents>([\d|a-f]{5,12}|\s)*),(?P<tree>[\d|a-f]{5,12})\) # parents hash + tree hash
+\s\((?P<parent_hashes>([\d|a-f]{5,12}|\s)*),(?P<tree_hash>[\d|a-f]{5,12})\) # parents hash + tree hash
 \s(?P<message>.*) # commit messages"
     )
     .unwrap();
@@ -127,6 +127,14 @@ impl GitMessageParser {
         let date_str = &captures["date"];
         let message = &captures["message"];
 
+        let mut parent_hashes = vec![];
+        if let Some(_) = captures.name("parent_hashes") {
+            let hashes = &captures["parent_hashes"];
+            parent_hashes = hashes.split(" ").map(|str| str.to_string()).collect()
+        }
+
+        let tree_hash = captures["tree_hash"].to_string();
+
         let date = date_str.parse::<i64>().unwrap();
         CocoCommit {
             branch: "".to_string(),
@@ -136,6 +144,8 @@ impl GitMessageParser {
             date,
             message: message.to_string(),
             changes: vec![],
+            parent_hashes,
+            tree_hash,
         }
     }
 }
@@ -143,7 +153,6 @@ impl GitMessageParser {
 #[cfg(test)]
 mod test {
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
-    use regex::Regex;
 
     #[test]
     pub fn should_success_parse_one_line_log() {
@@ -167,30 +176,6 @@ mod test {
     }
 
     #[test]
-    pub fn should_support_mode_change() {
-        let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) build: init package 20      0       package.json";
-
-        let regex = Regex::new(
-            r"(?x)
-\[(?P<commit_id>[\d|a-f]{5,12})\]
-\s(?P<author>.*?)<(?P<email>.*?)>
-\s(?P<date>\d{10})
-\s\((?P<parents>([\d|a-f]{5,12}|\s)*),(?P<tree>[\d|a-f]{5,12})\) # parents hash + tree hash
-\s.* # commit messages",
-        )
-        .unwrap();
-        match regex.captures(input) {
-            None => {
-                println!("none");
-            }
-            Some(caps) => {
-                println!("{:?}", caps);
-            }
-        }
-    }
-
-    #[test]
     pub fn should_success_parse_multiple_line_log() {
         let input = "[d00f0124d] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5)  update files
 0       0       core/domain/bs/BadSmellApp.go
@@ -209,7 +194,6 @@ mod test {
 ";
 
         let commits = GitMessageParser::parse(input);
-        println!("{:?}", commits);
         assert_eq!(4, commits.len());
     }
 
@@ -233,5 +217,19 @@ mod test {
         assert_eq!("delete", changes[0].mode);
         assert_eq!("rename", changes[2].mode);
         assert_eq!("create", changes[3].mode);
+    }
+
+    #[test]
+    pub fn should_support_parent_hashes() {
+        let input =
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) build: init package 20      0       package.json
+";
+
+        let commits = GitMessageParser::parse(input);
+
+        assert_eq!(2, commits[0].parent_hashes.len());
+        assert_eq!("52d26f5", commits[0].parent_hashes[0]);
+        assert_eq!("1389e51", commits[0].parent_hashes[1]);
+        assert_eq!("52d26f5", commits[0].tree_hash);
     }
 }
