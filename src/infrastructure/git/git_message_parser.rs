@@ -15,15 +15,14 @@ lazy_static! {
 \s(?P<message>.*) # commit messages"
     )
     .unwrap();
-    static ref COMMIT_ID: Regex = Regex::new(r"\[(?P<commit_id>[\d|a-f]{5,12})\]").unwrap();
-    static ref AUTHOR: Regex = Regex::new(r"(?P<author>.*?)\s\d{10}").unwrap();
-    static ref DATE: Regex = Regex::new(r"(?P<date>\d{10})").unwrap();
     static ref CHANGES: Regex =
         Regex::new(r"(?P<deleted>[\d-]+)[\t\s]+(?P<added>[\d-]+)[\t\s]+(?P<filename>.*)").unwrap();
-    static ref COMPLEXMOVEREGSTR: Regex = Regex::new(r"(.*)\{(.*)\s=>\s(.*)\}(.*)").unwrap();
-    static ref BASICMOVEREGSTR: Regex = Regex::new(r"(.*)\s=>\s(.*)").unwrap();
     static ref CHANGEMODEL: Regex =
         Regex::new(r"\s(\w{1,6})\s(mode 100(\d){3})?\s?(.*)(\s\(\d{2}%\))?").unwrap();
+
+    // for rename
+    // static ref COMPLEXMOVEREGSTR: Regex = Regex::new(r"(.*)\{(.*)\s=>\s(.*)\}(.*)").unwrap();
+    // static ref BASICMOVEREGSTR: Regex = Regex::new(r"(.*)\s=>\s(.*)").unwrap();
 }
 
 pub struct GitMessageParser {
