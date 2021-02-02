@@ -1,4 +1,4 @@
-use crate::facet::jvm_facet::JvmFacet;
+use crate::facet::java::jvm_facet::JvmFacet;
 use regex::Regex;
 
 lazy_static! {
