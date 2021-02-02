@@ -102,9 +102,20 @@ impl GitMessageParser {
     }
 
     fn create_file_change(filename: String, caps: Captures) -> FileChange {
+        let mut added = 0;
+        let mut deleted = 0;
+
+        if let Ok(value) = caps["added"].parse::<i32>() {
+            added = value
+        }
+
+        if let Ok(value) = caps["deleted"].parse::<i32>() {
+            deleted = value
+        }
+
         FileChange {
-            added: caps["added"].parse::<i32>().unwrap(),
-            deleted: caps["deleted"].parse::<i32>().unwrap(),
+            added,
+            deleted,
             file: filename,
             mode: "".to_string(),
         }
