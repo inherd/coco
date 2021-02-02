@@ -4,7 +4,7 @@ use regex::Regex;
 lazy_static! {
     static ref CONVENTIONAL: Regex = Regex::new(
         r"(?x)(?P<type>build|chore|ci|docs|feat|fix|perf|refactor|revert|style|test) # type
-(?P<scope>(?:\([^()\r\n]*\)|\()?(?P<breaking>!)?)  # scope
+(?:\((?P<scope>[^()\r\n]*)\)|\()?(?P<breaking>!)? # scope
 :\s?
 (?P<subject>.*)? # message
 "
@@ -35,8 +35,20 @@ mod test {
     use crate::infrastructure::git::git_commit_message::parse_builtin;
 
     #[test]
-    fn should_parse_conventional_message() {
-        let msg = parse_builtin("build(zz): init project").unwrap();
+    fn should_parse_normal_conventional_message() {
+        let msg = parse_builtin("build(visual): init project").unwrap();
         assert_eq!("build", msg.type_);
+        assert_eq!("init project", msg.subject);
+        assert_eq!("visual", msg.scope);
+        assert_eq!(false, msg.breaking);
+    }
+
+    #[test]
+    fn should_parse_breaking_conventional_message() {
+        let msg = parse_builtin("build(visual)!: init project").unwrap();
+        assert_eq!("build", msg.type_);
+        assert_eq!("init project", msg.subject);
+        assert_eq!("visual", msg.scope);
+        assert_eq!(true, msg.breaking);
     }
 }
