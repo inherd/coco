@@ -1,8 +1,13 @@
 use std::process::Command;
+use std::str;
 
 pub fn get_commit_message(exec_path: Option<String>) -> String {
     // git log --pretty="format:[%h] %aN<%ae> %at (%p,%t) %s" --date=short --numstat --summary --date=unix --reverse --branches
     let mut command = Command::new("git");
+
+    if let Some(path) = exec_path {
+        command.arg("-C").arg(path);
+    }
 
     let git_cmd = command
         .arg("log")
@@ -14,20 +19,15 @@ pub fn get_commit_message(exec_path: Option<String>) -> String {
         // `%P`: parent hashes
         // `%T`: tree hash
         // `%s`: subject
-        .arg("--pretty=\"format:[%h] %aN<%ae> %at (%p,%t) %s\"")
+        .arg("--pretty=format:[%h] %aN<%ae> %at (%p,%t) %s")
         .arg("--date=short")
         .arg("--numstat")
         .arg("--reverse")
         .arg("--summary")
         .arg("--date=unix");
 
-    if let Some(path) = exec_path {
-        git_cmd.arg("-C").arg(path);
-    }
-
     let output = git_cmd.output().expect("ls command failed to start");
-
-    return format!("{:?}", output.stdout);
+    return str::from_utf8(&*output.stdout).unwrap().to_string();
 }
 
 #[cfg(test)]

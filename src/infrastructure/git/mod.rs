@@ -8,9 +8,14 @@ pub mod git_repository;
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::git::git_branch::GitBranch;
-    use crate::infrastructure::git::GitRepository;
+    use std::path::PathBuf;
     use std::sync::Once;
+
+    use crate::infrastructure::git::git_branch::GitBranch;
+    use crate::infrastructure::git::git_command::get_commit_message;
+    use crate::infrastructure::git::git_log_parser::GitMessageParser;
+    use crate::infrastructure::git::GitRepository;
+    use crate::infrastructure::url_format;
 
     static INIT: Once = Once::new();
 
@@ -64,5 +69,22 @@ mod test {
         let branch = GitBranch::get("master", repo).unwrap();
 
         assert!(branch.commits_count >= 2);
+    }
+
+    #[test]
+    fn should_summary_all_commits() {
+        initialize();
+
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+        let local_path = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
+        let abs_path = root.join(local_path);
+
+        let messages = get_commit_message(Some(format!("{}", abs_path.display())));
+        let vec = GitMessageParser::parse(messages.as_str());
+        assert!(vec.len() >= 3);
+
+        let first = &vec[0];
+        assert_eq!("Initial commit", first.message);
+        assert_eq!(3, first.changes.len());
     }
 }
