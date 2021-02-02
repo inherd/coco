@@ -20,6 +20,13 @@ jobs:
       - name: Install Just
         run: cargo install just
 
+      - name: Install wget for Windows
+        run:  |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+              choco install wget --no-progress
+          fi
+        shell: bash
+
       - name: Build
         run: ${{matrix.ENV_VARS}} just release
 
