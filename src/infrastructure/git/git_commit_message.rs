@@ -1,3 +1,4 @@
+use crate::domain::git::coco_commit_message::ConventionalMessage;
 use regex::Regex;
 
 lazy_static! {
@@ -11,17 +12,22 @@ lazy_static! {
     .unwrap();
 }
 
-pub struct ConventionalLog {
-    pub type_: String,
-    pub scope: String,
-    pub breaking: bool,
-    pub subject: String,
-}
+pub fn parse_builtin(message: &str) -> Option<ConventionalMessage> {
+    let mut commit_message = ConventionalMessage::default();
+    if let Some(caps) = CONVENTIONAL.captures(message) {
+        commit_message.type_ = (&caps["type"]).to_string();
+        commit_message.subject = (&caps["subject"]).to_string();
+        if let Some(_breaking) = caps.name("breaking") {
+            commit_message.breaking = true;
+        }
+        if let Some(_scope) = caps.name("scope") {
+            commit_message.scope = (&caps["scope"]).to_string();
+        }
 
-pub fn parse_builtin(message: &str) {
-    if let Some(capts) = CONVENTIONAL.captures(message) {
-        println!("{:?}", capts);
+        return Some(commit_message);
     }
+
+    return None;
 }
 
 #[cfg(test)]
@@ -30,7 +36,7 @@ mod test {
 
     #[test]
     fn should_parse_conventional_message() {
-        let message = "build: init project";
-        parse_builtin(message);
+        let msg = parse_builtin("build(zz): init project").unwrap();
+        assert_eq!("build", msg.type_);
     }
 }
