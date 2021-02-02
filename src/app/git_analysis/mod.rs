@@ -1,5 +1,6 @@
+pub use branch_analysis::analysis;
 pub use format_branch::FormatBranch;
-pub use git_analysis::analysis;
 
+pub mod branch_analysis;
+pub mod commit_analysis;
 pub mod format_branch;
-pub mod git_analysis;

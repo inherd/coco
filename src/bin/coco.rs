@@ -3,7 +3,8 @@ use std::{env, fs};
 use clap::{App, Arg};
 use rayon::prelude::*;
 
-use coco::app::{architecture_analysis, git_analysis};
+use coco::app::architecture_analysis;
+use coco::app::git_analysis::{branch_analysis, commit_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
@@ -67,7 +68,8 @@ fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
         let url_str = repo.url.as_str();
 
         // todo: thinking in refactor to patterns
-        analysis_git(url_str);
+        analysis_branches(url_str);
+        analysis_commits(url_str);
 
         analysis_framework(url_str);
         analysis_cloc(url_str);
@@ -85,9 +87,19 @@ fn analysis_framework(url_str: &str) {
     fs::write(output_file, frameworks).expect("cannot write file");
 }
 
-fn analysis_git(url_str: &str) {
-    let branches = git_analysis::analysis(url_str);
+fn analysis_branches(url_str: &str) {
+    let branches = branch_analysis::analysis(url_str);
     let file_name = url_format::json_filename(url_str);
+
+    let result = serde_json::to_string_pretty(&branches).unwrap();
+    let output_file = Settings::git().join(file_name);
+
+    fs::write(output_file, result).expect("cannot write file");
+}
+
+fn analysis_commits(url_str: &str) {
+    let branches = commit_analysis::analysis(url_str);
+    let file_name = url_format::json_filename_suffix(url_str, Some("-commits"));
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
     let output_file = Settings::git().join(file_name);
