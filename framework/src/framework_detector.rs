@@ -126,18 +126,16 @@ mod tests {
 
     use crate::framework_detector::FrameworkDetector;
 
-    fn build_test_detector<'a>() -> FrameworkDetector<'a> {
+    fn build_test_detector<'a>(project_path: Vec<&str>) -> FrameworkDetector<'a> {
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
             .to_path_buf();
+        let mut test_project_dir = root_dir.clone();
 
-        let test_project_dir = root_dir
-            .clone()
-            .join("_fixtures")
-            .join("projects")
-            .join("java")
-            .join("simple");
+        for path in project_path.into_iter() {
+            test_project_dir.push(path);
+        }
 
         let mut detector = FrameworkDetector::new();
         detector.run(test_project_dir.display().to_string());
@@ -146,7 +144,7 @@ mod tests {
 
     #[test]
     fn should_detect_java_gradle_project() {
-        let detector = build_test_detector();
+        let detector = build_test_detector(vec!["_fixtures", "projects", "java", "simple"]);
 
         assert!(detector.tags.get("workspace.java.gradle").unwrap());
         assert!(detector
@@ -158,8 +156,24 @@ mod tests {
 
     #[test]
     fn should_build_framework_info() {
-        let detector = build_test_detector();
+        let detector = build_test_detector(vec!["_fixtures", "projects", "java", "hello"]);
 
         assert_eq!(1, detector.java_facets.len());
+    }
+
+    #[test]
+    fn should_detect_go_project() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "go", "hello"]);
+        assert_eq!(&true, detector.tags.get("workspace.go").unwrap());
+
+        let detector = build_test_detector(vec!["_fixtures", "projects", "go", "simple"]);
+        assert_eq!(&true, detector.tags.get("workspace.go").unwrap());
+    }
+
+    #[test]
+    fn should_detect_rust_cargo_project() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "rust", "cargo"]);
+
+        assert_eq!(&true, detector.tags.get("workspace.rust.cargo").unwrap());
     }
 }

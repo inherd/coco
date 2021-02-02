@@ -37,7 +37,7 @@ mod test {
 
         let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
         let branches = GitBranch::list(repo);
-        assert!(branches.len() > 5);
+        assert!(branches.len() >= 5);
     }
 
     #[test]
