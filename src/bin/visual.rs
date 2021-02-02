@@ -75,12 +75,16 @@ pub fn open_url(url: &str) {
 
 pub fn select_project_prompt() -> String {
     let selections = file_scanner::lookup_projects();
+    if selections.len() == 0 {
+        panic!("Please run coco first!");
+    }
+
     let selection = Select::with_theme(&ColorfulTheme::default())
         .with_prompt("pick project")
         .default(0)
         .items(&selections[..])
         .interact()
-        .unwrap();
+        .expect("1. Windows Users need to run with Windows Shell, such as PowerShell");
 
     let project = selections[selection].clone();
     project
