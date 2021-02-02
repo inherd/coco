@@ -10,7 +10,6 @@ pub mod git_repository;
 mod test {
     use crate::infrastructure::git::git_branch::GitBranch;
     use crate::infrastructure::git::GitRepository;
-    use std::path::Path;
     use std::sync::Once;
 
     static INIT: Once = Once::new();
@@ -25,13 +24,11 @@ mod test {
     fn should_verify_github_dir() {
         initialize();
         let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
-        let path_str = repo.path().to_str().unwrap();
+        let path_str: &str = repo.path().to_str().unwrap();
 
-        let host = Path::new("github.com")
-            .join("coco-rs")
-            .join("coco.fixtures");
-
-        assert!(path_str.contains(host.to_str().unwrap()));
+        assert!(path_str.contains("github.com"));
+        assert!(path_str.contains("coco-rs"));
+        assert!(path_str.contains("coco.fixtures"));
     }
 
     #[test]
