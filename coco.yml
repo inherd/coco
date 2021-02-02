@@ -5,6 +5,8 @@ repo:
 
 commit:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
+  # link url: https://regex101.com/r/V5J8kh/1
+  #
   # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
   # jira test case: feature/JIR-124:test commit message
   regex: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])

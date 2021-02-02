@@ -2,8 +2,8 @@ pub use git_repository::GitRepository;
 
 pub mod git_branch;
 pub mod git_command;
-pub mod git_commit;
-pub mod git_message_parser;
+pub mod git_commit_message;
+pub mod git_log_parser;
 pub mod git_repository;
 
 #[cfg(test)]

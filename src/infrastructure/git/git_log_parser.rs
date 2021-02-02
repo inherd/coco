@@ -131,7 +131,7 @@ impl GitMessageParser {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::git::git_message_parser::GitMessageParser;
+    use crate::infrastructure::git::git_log_parser::GitMessageParser;
     use regex::Regex;
 
     #[test]
