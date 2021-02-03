@@ -55,14 +55,14 @@ async fn main() -> std::io::Result<()> {
     // todo: add load config
     let _config = CocoConfig::default();
 
-    let mut port = "8000";
-    if let Some(input) = matches.value_of("port") {
-        port = input
-    }
+    let port = match matches.value_of("port") {
+        Some(input) => input,
+        None => "8000"
+    };
 
     let url = format!("http://127.0.0.1:{}", port);
     println!("start server: {}", url);
-    open_url(url.as_str());
+    open_url(&url);
     println!("project: {}", project);
     return local_server::start(port, project).await;
 }
