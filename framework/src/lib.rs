@@ -8,8 +8,7 @@ extern crate serde_derive;
 extern crate regex;
 extern crate serde;
 
-pub mod framework_detector;
-
 pub mod content_root;
 pub mod dependency;
+pub mod detector;
 pub mod facet;
