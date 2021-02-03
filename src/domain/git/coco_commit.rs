@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct CocoCommit {
     pub branch: String,
-    pub commit_sha: String,
+    pub commit_id: String,
     pub author: String,
     pub committer: String,
     pub date: i64,
@@ -17,7 +17,7 @@ impl Default for CocoCommit {
     fn default() -> Self {
         CocoCommit {
             branch: "".to_string(),
-            commit_sha: "".to_string(),
+            commit_id: "".to_string(),
             author: "".to_string(),
             committer: "".to_string(),
             date: 0,
