@@ -2,6 +2,7 @@ use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
 
+use crate::detector::LangDetectors;
 use crate::facet::{JavaFacet, JvmFacet};
 use std::path::Path;
 
@@ -30,14 +31,15 @@ pub struct FrameworkDetector<'a> {
 impl<'a> FrameworkDetector<'a> {
     pub fn new() -> Self {
         FrameworkDetector {
-            tags: Default::default(),
+            tags: BTreeMap::default(),
             frameworks: vec![],
             java_facets: vec![],
         }
     }
 
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
-        self.light_detector(path);
+        let detectors = LangDetectors::new();
+        self.light_detector(&detectors, path);
         self.build_project_info();
     }
 
@@ -67,35 +69,11 @@ impl<'a> FrameworkDetector<'a> {
         self.tags.contains_key(key)
     }
 
-    fn light_detector<P: AsRef<Path>>(&mut self, path: P) {
+    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: P) {
+        //todo: js detector tests.
         let sets = FrameworkDetector::build_level_one_name_set(path);
-        // todo: refactor to polymorphism
-
-        self.tags
-            .insert("workspace.java.gradle", sets.contains("build.gradle"));
-        self.tags.insert(
-            "workspace.java.gradle.composite",
-            sets.contains("build.gradle") && sets.contains("settings.gradle"),
-        );
-        self.tags
-            .insert("workspace.java.pom", sets.contains("pom.xml"));
-
-        self.tags.insert(
-            "workspace.bower",
-            sets.contains("bower.json") || sets.contains("bower_components"),
-        );
-        self.tags.insert(
-            "workspace.npm",
-            sets.contains("package.json") || sets.contains("node_modules"),
-        );
-
-        self.tags.insert(
-            "workspace.go",
-            sets.contains("go.mod") || sets.contains("main.go"),
-        );
-
-        self.tags
-            .insert("workspace.rust.cargo", sets.contains("Cargo.toml"));
+        let mut lang_tags = detectors.light_detect(&sets);
+        self.tags.append(&mut lang_tags);
     }
 
     pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
