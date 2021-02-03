@@ -19,7 +19,7 @@ impl ShortCommit {
     pub fn convert(commit: CocoCommit) -> ShortCommit {
         Self {
             branch: commit.branch,
-            commit_id: commit.commit_id,
+            commit_id: commit.commit_sha,
             author: commit.author,
             date: commit.date,
             message: commit.message,
