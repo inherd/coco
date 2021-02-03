@@ -20,49 +20,53 @@
 // IN THE SOFTWARE.
 let renderCommitsTree = function (data) {
   let color = d3.scaleOrdinal(d3.schemeSet2).domain(data)
-  let shaMap = {};
   let idx = 1;
   let column = 1;
-  let lastSha = "";
+
+  let shaMap = {};
+  let branchMap = {};
   for (let datum of data) {
-    if (!datum.commits) {
-      return;
+    shaMap[datum["commit_id"]] = datum;
+    if (!branchMap[datum["branch"]]) {
+      branchMap[datum["branch"]] = column;
+      column++;
     }
+  }
 
-    for (let commit of datum.commits) {
-      let short = commit.substr(0, 6);
-
-      if (!shaMap[short]) {
-        shaMap[short] = {
-          idx: idx,
-          id: short,
-          column: column,
-          color: color(column),
-          parents_paths: lastSha ? [] : [
-            {
-              "id": lastSha,
-              path: [{
-                x: lastSha.id,
-                y: lastSha.column,
-                type: 0,
-              }]
-            }
-          ]
-        };
-        idx++;
-
+  for (let datum of data) {
+    let short = datum["commit_id"];
+    let parent_hashes = [];
+    for (let hash of datum["parent_hashes"]) {
+      let item = shaMap[hash];
+      if (item) {
+        parent_hashes.push({
+          id: hash,
+          path: [{
+            x: item.id,
+            y: branchMap[item["branch"]],
+            type: 0,
+          }]
+        })
       }
-
-      lastSha = shaMap[short];
     }
 
-    column++;
+    shaMap[short] = {
+      idx: idx,
+      id: short,
+      column: branchMap[datum["branch"]],
+      color: color(branchMap[datum["branch"]]),
+      parents_paths: parent_hashes
+    };
+
+    idx++;
   }
 
   let tree = [];
   for (let value in shaMap) {
     tree.push(shaMap[value]);
   }
+
+  console.log(tree);
 
   let xGap = 11;
   let yGap = 20;

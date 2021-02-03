@@ -27,6 +27,9 @@ d3.json("data/git.json").then(function (json) {
   }
 
   renderBranches(data)
+});
+
+d3.json("data/git-commits.json").then(function (data) {
   renderCommitsTree(data)
 });
 
