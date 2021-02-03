@@ -122,9 +122,8 @@ impl<'a> FrameworkDetector<'a> {
 
 #[cfg(test)]
 mod tests {
+    use crate::detector::FrameworkDetector;
     use std::path::PathBuf;
-
-    use crate::framework_detector::FrameworkDetector;
 
     fn build_test_detector<'a>(project_path: Vec<&str>) -> FrameworkDetector<'a> {
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
