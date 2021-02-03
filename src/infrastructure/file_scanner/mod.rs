@@ -10,6 +10,7 @@ pub fn search_git_projects(path: &PathBuf) -> Vec<String> {
 
 pub fn lookup_projects() -> Vec<String> {
     let mut projects = vec![];
+    // looking for one type
     let arch = Settings::architecture();
     for entry in WalkDir::new(&arch).max_depth(1) {
         let entry = entry.unwrap();

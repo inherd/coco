@@ -16,12 +16,8 @@ pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
             let path = Path::new(text);
             return match path.file_name() {
                 Some(name) => {
-                    format!(
-                        "{}{}.{}",
-                        name.to_str().unwrap().to_string(),
-                        suffix,
-                        "json"
-                    )
+                    let filename = name.to_str().unwrap().to_string();
+                    format!("{}{}.{}", filename, suffix, "json")
                 }
                 None => {
                     format!("default.{}", "json")

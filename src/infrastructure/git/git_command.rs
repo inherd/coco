@@ -1,7 +1,7 @@
 use std::process::Command;
 
 pub fn get_commit_message(exec_path: Option<String>) -> String {
-    // git log --pretty="format:[%h] %aN<%ae> %at (%p,%t) #%S# %s" --date=short --numstat --summary --date=unix --reverse --branches --remotes
+    // git log --pretty="format:[%h] %aN<%ae> %at (%p,%t) #%gn# %s" --date=short --numstat --summary --date=unix --reverse --branches --remotes
     // more docs see in: https://git-scm.com/docs/git-log#_pretty_formats
     let mut command = Command::new("git");
 
@@ -19,6 +19,7 @@ pub fn get_commit_message(exec_path: Option<String>) -> String {
         // `%P`: parent hashes
         // `%T`: tree hash
         // `%s`: subject
+        // todo: resolve ref names  issues
         .arg("--pretty=format:[%h] %aN<%ae> %at (%p,%t) #%S# %s")
         .arg("--date=short")
         .arg("--numstat")
