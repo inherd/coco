@@ -1,5 +1,4 @@
 use std::process::Command;
-use std::str;
 
 pub fn get_commit_message(exec_path: Option<String>) -> String {
     // git log --pretty="format:[%h] %aN<%ae> %at (%p,%t) #%S# %s" --date=short --numstat --summary --date=unix --reverse --branches --remotes
@@ -30,7 +29,7 @@ pub fn get_commit_message(exec_path: Option<String>) -> String {
         .arg("--remotes");
 
     let output = git_cmd.output().expect("ls command failed to start");
-    return str::from_utf8(&*output.stdout).unwrap().to_string();
+    return String::from_utf8_lossy(&*output.stdout).to_string();
 }
 
 #[cfg(test)]
