@@ -20,7 +20,7 @@ pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
                     format!("{}{}.{}", filename, suffix, "json")
                 }
                 None => {
-                    format!("default.{}", "json")
+                    format!("default{}.{}", suffix, "json")
                 }
             };
         }
@@ -89,6 +89,15 @@ mod test {
         let string =
             json_filename_suffix(&*format!("{}", framework_path.display()), Some("-commits"));
         assert_eq!("git-commits.json", string);
+    }
+
+    #[test]
+    fn should_format_with_default_suffix() {
+        let path = PathBuf::from(".");
+
+        let string =
+            json_filename_suffix(&*format!("{}", path.display()), Some("-commits"));
+        assert_eq!("default-commits.json", string);
     }
 
     #[test]
