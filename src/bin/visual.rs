@@ -5,6 +5,8 @@ use webbrowser;
 use coco::app::visual::{local_server, output_static};
 use coco::domain::config::CocoConfig;
 use coco::infrastructure::file_scanner;
+use std::process::Output;
+use std::io::Error;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -62,14 +64,16 @@ async fn main() -> std::io::Result<()> {
 
     let url = format!("http://127.0.0.1:{}", port);
     println!("start server: {}", url);
+
     open_url(&url);
+
     println!("project: {}", project);
     return local_server::start(port, project).await;
 }
 
 pub fn open_url(url: &str) {
-    if webbrowser::open(url).is_ok() {
-        //
+    if let Err(err) = webbrowser::open(url) {
+        println!("failure to open in browser: {}", err);
     }
 }
 
