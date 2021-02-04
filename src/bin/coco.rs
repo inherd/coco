@@ -3,25 +3,15 @@ use std::{env, fs};
 use clap::{App, Arg};
 use rayon::prelude::*;
 
-use coco::app::architecture_analysis;
-use coco::app::git_analysis::{branch_analysis, commit_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
+use coco::app::architecture_analysis;
+use coco::app::cmd::CocoCliOption;
+use coco::app::git_analysis::{branch_analysis, commit_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
-
-#[derive(Debug, Clone)]
-pub struct CocoCliOption {
-    pub branches: bool,
-}
-
-impl Default for CocoCliOption {
-    fn default() -> Self {
-        CocoCliOption { branches: false }
-    }
-}
 
 fn main() {
     let matches = App::new("Coco")
