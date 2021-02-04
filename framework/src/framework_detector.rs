@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
 
-use crate::facet::{Facet, JavaFacet, JvmFacet};
+use crate::facet::{Facet, FacetsBuilder};
 use crate::lang::LangDetectors;
 use std::path::Path;
 
@@ -49,25 +49,9 @@ impl<'a> FrameworkDetector<'a> {
     }
 
     fn build_project_info(&mut self) {
-        if self.is_contains("workspace.java.gradle") || self.is_contains("workspace.java.pom") {
-            let facet = JavaFacet {
-                jvm: JvmFacet {
-                    is_gradle: self.is_contains("workspace.java.gradle"),
-                    is_maven: self.is_contains("workspace.java.pom"),
-                    has_java: false,
-                    has_groovy: false,
-                    has_kotlin: false,
-                    has_scala: false,
-                },
-                include_test: false,
-            };
-
-            self.java_facets.push(Box::new(facet));
-        }
-    }
-
-    fn is_contains(&self, key: &str) -> bool {
-        self.tags.contains_key(key)
+        let builder = FacetsBuilder::new();
+        let mut facets = builder.build(&self.tags);
+        self.java_facets.append(&mut facets);
     }
 
     fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: &P) {

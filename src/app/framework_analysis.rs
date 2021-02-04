@@ -26,6 +26,7 @@ mod test {
             .join("java")
             .join("simple");
         let result = framework_analysis::analysis(test_project_dir);
+        println!("{}", result);
         assert_ne!("", result);
     }
 }
