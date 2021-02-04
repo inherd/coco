@@ -58,7 +58,7 @@ async fn main() -> std::io::Result<()> {
 
     let port = match matches.value_of("port") {
         Some(input) => input,
-        None => "8000"
+        None => "8000",
     };
 
     return start_local_server(project, port).await

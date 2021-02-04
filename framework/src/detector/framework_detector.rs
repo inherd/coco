@@ -153,4 +153,18 @@ mod tests {
 
         assert_eq!(&true, detector.tags.get("workspace.rust.cargo").unwrap());
     }
+
+    #[test]
+    fn should_detect_bower_project() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "js", "bowerproject"]);
+
+        assert_eq!(&true, detector.tags.get("workspace.bower").unwrap());
+    }
+
+    #[test]
+    fn should_detect_npm_project() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "js", "npmproject"]);
+
+        assert_eq!(&true, detector.tags.get("workspace.npm").unwrap());
+    }
 }
