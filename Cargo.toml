@@ -47,9 +47,6 @@ git2 = "0.13"
 # for cli usage
 clap = "2.33.3"
 
-# for git clone
-tempdir = "0.3"
-
 # parse for url
 url = "2.2.0"
 
