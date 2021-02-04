@@ -1,12 +1,14 @@
 use crate::facet::java::jvm_facet::JvmFacet;
+use crate::facet::Facet;
 use regex::Regex;
+use std::collections::BTreeMap;
 
 lazy_static! {
     static ref JAVA_TEST: Regex = Regex::new(r".*(Tests|Test).java").unwrap();
     static ref MAVEN_TEST: Regex = Regex::new(r".*pom.xml").unwrap();
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[derive(Serialize)]
 pub struct JavaFacet {
     pub jvm: JvmFacet,
     pub include_test: bool,
@@ -25,6 +27,24 @@ impl JavaFacet {
     pub fn is_maven(path: &str) -> bool {
         return MAVEN_TEST.is_match(path);
     }
+}
+
+pub fn creator(tags: &BTreeMap<&str, bool>) -> Option<Box<Facet>> {
+    if tags.contains_key("workspace.java.gradle") || tags.contains_key("workspace.java.pom") {
+        let facet = JavaFacet {
+            jvm: JvmFacet {
+                is_gradle: tags.contains_key("workspace.java.gradle"),
+                is_maven: tags.contains_key("workspace.java.pom"),
+                has_java: false,
+                has_groovy: false,
+                has_kotlin: false,
+                has_scala: false,
+            },
+            include_test: false,
+        };
+        return Some(Box::new(facet));
+    }
+    None
 }
 
 #[cfg(test)]

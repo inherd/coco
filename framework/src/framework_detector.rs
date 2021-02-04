@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
 
-use crate::facet::{JavaFacet, JvmFacet};
+use crate::facet::{Facet, FacetsBuilder};
 use crate::lang::LangDetectors;
 use std::path::Path;
 
@@ -21,11 +21,11 @@ pub struct Framework {
     pub languages: Vec<String>,
 }
 
-#[derive(Serialize, PartialEq, Debug, Clone)]
+#[derive(Serialize)]
 pub struct FrameworkDetector<'a> {
     pub tags: BTreeMap<&'a str, bool>,
     pub frameworks: Vec<Framework>,
-    pub java_facets: Vec<JavaFacet>,
+    pub java_facets: Vec<Box<Facet>>,
 }
 
 impl<'a> FrameworkDetector<'a> {
@@ -39,38 +39,22 @@ impl<'a> FrameworkDetector<'a> {
 
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
         let detectors = LangDetectors::new();
-        self.light_detector(&detectors, path);
+        self.light_detector(&detectors, &path);
+        self.deep_detector(&detectors, &path);
         self.build_project_info();
     }
 
-    fn deep_detector(&mut self, _path: String) {
+    fn deep_detector<P: AsRef<Path>>(&mut self, _detectors: &LangDetectors<'a>, _path: &P) {
         // todo: thinking in merge with cloc?
     }
 
     fn build_project_info(&mut self) {
-        if self.is_contains("workspace.java.gradle") || self.is_contains("workspace.java.pom") {
-            let facet = JavaFacet {
-                jvm: JvmFacet {
-                    is_gradle: self.is_contains("workspace.java.gradle"),
-                    is_maven: self.is_contains("workspace.java.pom"),
-                    has_java: false,
-                    has_groovy: false,
-                    has_kotlin: false,
-                    has_scala: false,
-                },
-                include_test: false,
-            };
-
-            self.java_facets.push(facet)
-        }
+        let builder = FacetsBuilder::new();
+        let mut facets = builder.build(&self.tags);
+        self.java_facets.append(&mut facets);
     }
 
-    fn is_contains(&self, key: &str) -> bool {
-        self.tags.contains_key(key)
-    }
-
-    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: P) {
-        //todo: js detector tests.
+    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: &P) {
         let sets = FrameworkDetector::build_level_one_name_set(path);
         let mut lang_tags = detectors.light_detect(&sets);
         self.tags.append(&mut lang_tags);
