@@ -9,3 +9,4 @@
 * [7. regex-match-commit-message-design](0007-regex-match-commit-message-design.md)
 * [8. virualenv-for-runtime](0008-virualenv-for-runtime.md)
 * [9. git-http-server](0009-git-http-server.md)
+* [10. limit-git-changes-by-time](0010-limit-git-changes-by-time.md)
