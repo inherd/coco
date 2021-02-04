@@ -5,8 +5,6 @@ use webbrowser;
 use coco::app::visual::{local_server, output_static};
 use coco::domain::config::CocoConfig;
 use coco::infrastructure::file_scanner;
-use std::process::Output;
-use std::io::Error;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -52,6 +50,7 @@ async fn main() -> std::io::Result<()> {
 
         // todo: make really output
         output_static::run(path);
+        return Ok(());
     }
 
     // todo: add load config
@@ -62,6 +61,10 @@ async fn main() -> std::io::Result<()> {
         None => "8000"
     };
 
+    return start_local_server(project, port).await
+}
+
+async fn start_local_server(project: String, port: &str) -> std::io::Result<()> {
     let url = format!("http://127.0.0.1:{}", port);
     println!("start server: {}", url);
 

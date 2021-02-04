@@ -21,13 +21,19 @@ follow [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools
 
 follow: [https://github.com/casey/just](https://github.com/casey/just)
 
-3.Run tests
+3.run setup
+
+```
+just setup
+```
+
+4.run tests
 
 ```
 just tests
 ```
 
-4.test Command
+5.test command
 
 ```
 cargo run --bin coco
@@ -83,7 +89,6 @@ brew install just
 ```
 just tests
 ```
-
 
 ### Architecture
 
