@@ -51,7 +51,7 @@ impl<'a> FrameworkDetector<'a> {
     }
 
     fn build_project_info(&mut self) {
-        let builder = FacetsBuilder::new();
+        let builder = FacetsBuilder::default();
         let mut facets = builder.build(&self.tags);
         self.facets.append(&mut facets);
     }
