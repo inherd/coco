@@ -6,6 +6,8 @@ Date: 2021-01-19
 
 2021-01-19 proposed
 
+2021-02-04 done
+
 ## Context
 
 Gitlab Docs: [https://docs.gitlab.com/ee/push_rules/push_rules.html](https://docs.gitlab.com/ee/push_rules/push_rules.html)
