@@ -25,7 +25,7 @@ impl Settings {
         let root = Path::new(Settings::root_dir());
         let reporter_path = root.join("reporter");
         if !reporter_path.exists() {
-            let _ = fs::create_dir_all(reporter_path.clone());
+            let _ = fs::create_dir_all(&reporter_path);
         }
 
         match child {
@@ -33,7 +33,7 @@ impl Settings {
             Some(str) => {
                 let child_path = reporter_path.join(str);
                 if !child_path.exists() {
-                    let _ = fs::create_dir_all(child_path.clone());
+                    let _ = fs::create_dir_all(&child_path);
                 }
 
                 child_path
