@@ -81,6 +81,7 @@ rust-embed="5.9.0"
 
 # visual for web
 actix-web = { version = "3", default-features = false }
+actix-rt = "2.0.0"
 mime_guess = { version = "2" }
 
 # cli prompt

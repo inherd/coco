@@ -89,3 +89,28 @@ pub async fn start(port: &str, project: String) -> std::io::Result<()> {
     .run()
     .await;
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use actix_web::{test, web, App};
+
+    #[actix_rt::test]
+    async fn test_index_get() {
+        let app = App::new()
+            .data(ProjectData {
+                name: Vec::from("default"),
+            })
+            .service(web::resource("/").route(web::get().to(index)))
+            .service(data)
+            .service(api)
+            .service(web::resource("/{_:.*}").route(web::get().to(dist)))
+            .service(web::resource("/public/{_:.*}").route(web::get().to(dist)));
+
+        let mut app = test::init_service(app).await;
+        let req = test::TestRequest::with_header("content-type", "text/plain").to_request();
+        let resp = test::call_service(&mut app, req).await;
+
+        assert!(resp.status().is_success());
+    }
+}
