@@ -1,8 +1,9 @@
-pub use framework_detector::FrameworkDetector;
 use std::collections::{BTreeMap, HashSet};
 
-pub mod framework_detector;
-pub mod lang;
+pub mod go;
+pub mod java;
+pub mod js;
+pub mod rust;
 
 type LightDetect<'a> = fn(&HashSet<String>) -> BTreeMap<&'a str, bool>;
 
@@ -19,16 +20,16 @@ impl<'a> LangDetectors<'a> {
         LangDetectors {
             detectors: vec![
                 LangDetector {
-                    light: lang::java::light_detect,
+                    light: java::light_detect,
                 },
                 LangDetector {
-                    light: lang::go::light_detect,
+                    light: go::light_detect,
                 },
                 LangDetector {
-                    light: lang::rust::light_detect,
+                    light: rust::light_detect,
                 },
                 LangDetector {
-                    light: lang::js::light_detect,
+                    light: js::light_detect,
                 },
             ],
         }
