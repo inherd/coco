@@ -9,7 +9,7 @@ pub struct CocoBranch {
     pub duration: i64,
     pub commits_count: usize,
     pub commits: Vec<String>,
-    pub latest_changeset: String
+    pub latest_changeset: String,
 }
 
 impl CocoBranch {
@@ -22,7 +22,7 @@ impl CocoBranch {
             duration: 0,
             commits_count: 0,
             commits: vec![],
-            latest_changeset: "".to_string()
+            latest_changeset: "".to_string(),
         }
     }
 }

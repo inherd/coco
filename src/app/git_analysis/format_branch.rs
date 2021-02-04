@@ -11,7 +11,7 @@ pub struct FormatBranch {
     pub first_commit_date: i64,
     pub last_commit_date: i64,
     pub commits: Vec<String>,
-    pub latest_changeset: String
+    pub latest_changeset: String,
 }
 
 impl FormatBranch {
@@ -23,7 +23,7 @@ impl FormatBranch {
             first_commit_date: br.first_commit_date,
             last_commit_date: br.last_commit_date,
             commits: br.commits,
-            latest_changeset: br.latest_changeset
+            latest_changeset: br.latest_changeset,
         }
     }
 }
