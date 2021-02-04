@@ -72,7 +72,7 @@ let renderCommitsTree = function (data) {
   let xGap = 11;
   let yGap = 20;
   let gap = 2 / 5 * yGap;
-  let radius = 4;
+  let radius = 5;
   let shaMargin = 60;
 
   let width = 1440;
@@ -143,8 +143,8 @@ let renderCommitsTree = function (data) {
     .attr('cy', function (commit, idx) {
       return 5 + commit.idx * yGap;
     })
-    .on('mouseover', function (commit) {
-      console.log(commit.debug);
+    .on('mouseover', function (event, commit) {
+      console.log(commit);
     });
 
   sg.selectAll('sha')
@@ -160,7 +160,7 @@ let renderCommitsTree = function (data) {
     })
     .attr('alignment-baseline', 'middle')
     .text(function (commit) {
-      return commit.id.substr(0, 7);
+      return commit.id;
     });
 
   sg.selectAll('sha')
