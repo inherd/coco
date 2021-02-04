@@ -39,11 +39,12 @@ impl<'a> FrameworkDetector<'a> {
 
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
         let detectors = LangDetectors::new();
-        self.light_detector(&detectors, path);
+        self.light_detector(&detectors, &path);
+        self.deep_detector(&detectors, &path);
         self.build_project_info();
     }
 
-    fn deep_detector(&mut self, _path: String) {
+    fn deep_detector<P: AsRef<Path>>(&mut self, _detectors: &LangDetectors<'a>, _path: &P) {
         // todo: thinking in merge with cloc?
     }
 
@@ -69,8 +70,7 @@ impl<'a> FrameworkDetector<'a> {
         self.tags.contains_key(key)
     }
 
-    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: P) {
-        //todo: js detector tests.
+    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: &P) {
         let sets = FrameworkDetector::build_level_one_name_set(path);
         let mut lang_tags = detectors.light_detect(&sets);
         self.tags.append(&mut lang_tags);
