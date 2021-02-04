@@ -61,7 +61,7 @@ async fn main() -> std::io::Result<()> {
         None => "8000",
     };
 
-    return start_local_server(project, port).await
+    return start_local_server(project, port).await;
 }
 
 async fn start_local_server(project: String, port: &str) -> std::io::Result<()> {

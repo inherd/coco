@@ -1,4 +1,4 @@
-use framework::detector::FrameworkDetector;
+use framework::framework_detector::FrameworkDetector;
 use std::path::PathBuf;
 
 pub fn analysis(path: PathBuf) -> String {

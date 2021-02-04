@@ -2,8 +2,8 @@ use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
 
-use crate::detector::LangDetectors;
 use crate::facet::{JavaFacet, JvmFacet};
+use crate::lang::LangDetectors;
 use std::path::Path;
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
@@ -100,7 +100,7 @@ impl<'a> FrameworkDetector<'a> {
 
 #[cfg(test)]
 mod tests {
-    use crate::detector::FrameworkDetector;
+    use crate::framework_detector::FrameworkDetector;
     use std::path::PathBuf;
 
     fn build_test_detector<'a>(project_path: Vec<&str>) -> FrameworkDetector<'a> {
