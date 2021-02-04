@@ -30,13 +30,15 @@ pub struct FacetsBuilder {
     facets: Vec<FacetCreator>,
 }
 
-impl FacetsBuilder {
-    pub fn new() -> Self {
+impl Default for FacetsBuilder {
+    fn default() -> Self {
         FacetsBuilder {
             facets: vec![java_facet::creator],
         }
     }
+}
 
+impl FacetsBuilder {
     pub fn build(self, tags: &BTreeMap<&str, bool>) -> Vec<Box<Facet>> {
         let mut facets = Vec::new();
         for creator in self.facets.iter() {
