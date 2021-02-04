@@ -48,9 +48,15 @@ pub fn api(req: HttpRequest) -> HttpResponse {
 }
 
 fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
-    let coco_type: String = req.match_info().query("coco_type").parse().unwrap();
+    let mut coco_type: String = req.match_info().query("coco_type").parse().unwrap();
 
-    let project_file = format!("{}.json", project);
+    let mut project_file = format!("{}.json", project);
+    // todo: temp way for pass cases
+    if coco_type.ends_with("-commits") {
+        coco_type = "git".to_string();
+        project_file = format!("{}-commits.json", project);
+    }
+
     let output_path = Settings::reporter_dir(Some(coco_type.as_str())).join(project_file);
 
     println!("lookup file: {:?}", output_path.clone());
