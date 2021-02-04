@@ -33,7 +33,7 @@ let renderCommitsTree = function (data) {
     }
   }
 
-  for (let datum of data) {
+  for (let datum of data.reverse()) {
     let short = datum["commit_id"];
     let parent_hashes = [];
     for (let hash of datum["parent_hashes"]) {
@@ -53,6 +53,9 @@ let renderCommitsTree = function (data) {
     shaMap[short] = {
       idx: idx,
       id: short,
+      date: datum.date,
+      author: datum.author,
+      message: datum.message,
       column: branchMap[datum["branch"]],
       color: color(branchMap[datum["branch"]]),
       parents_paths: parent_hashes
@@ -66,17 +69,18 @@ let renderCommitsTree = function (data) {
     tree.push(shaMap[value]);
   }
 
-  console.log(tree);
-
   let xGap = 11;
   let yGap = 20;
   let gap = 2 / 5 * yGap;
   let radius = 4;
   let shaMargin = 60;
 
+  let width = 1440;
   let svg = d3.select("#commits-tree").append("svg")
-  svg.style('height', (tree.length + 1) * yGap + 2 * radius + 'px');
+  svg.style('height', (tree.length + 1) * yGap + 2 * radius + 'px')
+  svg.style('width', width);
   svg.selectAll('*').remove();
+
   let sg = svg.append('g')
     .attr('transform', 'translate(0, ' + radius + ')')
 
@@ -155,8 +159,23 @@ let renderCommitsTree = function (data) {
       return 5 + commit.idx * yGap;
     })
     .attr('alignment-baseline', 'middle')
-    .attr('font-family', 'Consolas, "Liberation Mono", Menlo, Courier, monospace')
     .text(function (commit) {
       return commit.id.substr(0, 7);
+    });
+
+  sg.selectAll('sha')
+    .data(tree)
+    .enter()
+    .append('text')
+    .attr('font-size', 12)
+    .attr('x', function (commit) {
+      return 200;
+    })
+    .attr('y', function (commit, idx) {
+      return 5 + commit.idx * yGap;
+    })
+    .attr('alignment-baseline', 'middle')
+    .text(function (commit) {
+      return formatDate(commit.date) + ", " + commit.author + ": " + commit.message;
     });
 };
