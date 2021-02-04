@@ -50,6 +50,7 @@ impl GitBranch {
             panic!("not found commits");
         }
 
+        branch.latest_changeset = branch.commits.last().unwrap().to_string();
         branch.last_commit_date = commit_times[0];
         branch.commits_count = commit_times.len();
         branch.first_commit_date = *commit_times.last().unwrap();
