@@ -25,7 +25,7 @@ pub struct Framework {
 pub struct FrameworkDetector<'a> {
     pub tags: BTreeMap<&'a str, bool>,
     pub frameworks: Vec<Framework>,
-    pub java_facets: Vec<Box<Facet>>,
+    pub facets: Vec<Box<Facet>>,
 }
 
 impl<'a> FrameworkDetector<'a> {
@@ -33,7 +33,7 @@ impl<'a> FrameworkDetector<'a> {
         FrameworkDetector {
             tags: BTreeMap::default(),
             frameworks: vec![],
-            java_facets: vec![],
+            facets: vec![],
         }
     }
 
@@ -51,7 +51,7 @@ impl<'a> FrameworkDetector<'a> {
     fn build_project_info(&mut self) {
         let builder = FacetsBuilder::new();
         let mut facets = builder.build(&self.tags);
-        self.java_facets.append(&mut facets);
+        self.facets.append(&mut facets);
     }
 
     fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: &P) {
@@ -119,7 +119,7 @@ mod tests {
     fn should_build_framework_info() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "java", "hello"]);
 
-        assert_eq!(1, detector.java_facets.len());
+        assert_eq!(1, detector.facets.len());
     }
 
     #[test]
