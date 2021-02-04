@@ -15,8 +15,8 @@ pub struct LangDetectors<'a> {
     detectors: Vec<LangDetector<'a>>,
 }
 
-impl<'a> LangDetectors<'a> {
-    pub fn new() -> Self {
+impl<'a> Default for LangDetectors<'a> {
+    fn default() -> Self {
         LangDetectors {
             detectors: vec![
                 LangDetector {
@@ -34,7 +34,9 @@ impl<'a> LangDetectors<'a> {
             ],
         }
     }
+}
 
+impl<'a> LangDetectors<'a> {
     pub fn light_detect(&self, names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
         let mut tags = BTreeMap::new();
         for detector in self.detectors.iter() {

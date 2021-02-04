@@ -28,17 +28,19 @@ pub struct FrameworkDetector<'a> {
     pub facets: Vec<Box<Facet>>,
 }
 
-impl<'a> FrameworkDetector<'a> {
-    pub fn new() -> Self {
+impl<'a> Default for FrameworkDetector<'a> {
+    fn default() -> Self {
         FrameworkDetector {
             tags: BTreeMap::default(),
             frameworks: vec![],
             facets: vec![],
         }
     }
+}
 
+impl<'a> FrameworkDetector<'a> {
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
-        let detectors = LangDetectors::new();
+        let detectors = LangDetectors::default();
         self.light_detector(&detectors, &path);
         self.deep_detector(&detectors, &path);
         self.build_project_info();
@@ -98,7 +100,7 @@ mod tests {
             test_project_dir.push(path);
         }
 
-        let mut detector = FrameworkDetector::new();
+        let mut detector = FrameworkDetector::default();
         detector.run(test_project_dir.display().to_string());
         detector
     }
