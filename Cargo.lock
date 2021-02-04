@@ -898,6 +898,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "erased-serde"
+version = "0.3.13"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0465971a8cc1fa2455c8465aaa377131e1f1cf4983280f474a13e68793aa770c"
+dependencies = [
+ "serde",
+]
+
+[[package]]
 name = "fake-simd"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -923,6 +932,7 @@ dependencies = [
 name = "framework"
 version = "0.2.0"
 dependencies = [
+ "erased-serde",
  "lazy_static",
  "regex",
  "serde",

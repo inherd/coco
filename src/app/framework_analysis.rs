@@ -10,8 +10,22 @@ pub fn analysis(path: PathBuf) -> String {
 
 #[cfg(test)]
 mod test {
+    use crate::app::framework_analysis;
+    use std::path::PathBuf;
+
     #[test]
     fn should_return_json() {
-        // todo:
+        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        let test_project_dir = root_dir
+            .clone()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .join("simple");
+        let result = framework_analysis::analysis(test_project_dir);
+        assert_ne!("", result);
     }
 }

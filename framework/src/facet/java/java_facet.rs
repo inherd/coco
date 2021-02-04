@@ -6,7 +6,7 @@ lazy_static! {
     static ref MAVEN_TEST: Regex = Regex::new(r".*pom.xml").unwrap();
 }
 
-#[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
+#[derive(Serialize)]
 pub struct JavaFacet {
     pub jvm: JvmFacet,
     pub include_test: bool,

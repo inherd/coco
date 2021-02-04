@@ -2,7 +2,7 @@ use std::collections::{BTreeMap, HashSet};
 
 use walkdir::WalkDir;
 
-use crate::facet::{JavaFacet, JvmFacet};
+use crate::facet::{Facet, JavaFacet, JvmFacet};
 use crate::lang::LangDetectors;
 use std::path::Path;
 
@@ -21,11 +21,11 @@ pub struct Framework {
     pub languages: Vec<String>,
 }
 
-#[derive(Serialize, PartialEq, Debug, Clone)]
+#[derive(Serialize)]
 pub struct FrameworkDetector<'a> {
     pub tags: BTreeMap<&'a str, bool>,
     pub frameworks: Vec<Framework>,
-    pub java_facets: Vec<JavaFacet>,
+    pub java_facets: Vec<Box<Facet>>,
 }
 
 impl<'a> FrameworkDetector<'a> {
@@ -62,7 +62,7 @@ impl<'a> FrameworkDetector<'a> {
                 include_test: false,
             };
 
-            self.java_facets.push(facet)
+            self.java_facets.push(Box::new(facet));
         }
     }
 

@@ -20,3 +20,5 @@ pub mod go;
 
 /// rust
 pub mod rust;
+
+pub type Facet = dyn erased_serde::Serialize;
