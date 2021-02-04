@@ -57,7 +57,7 @@ async fn main() -> std::io::Result<()> {
 
     let port = match matches.value_of("port") {
         Some(input) => input,
-        None => "8000"
+        None => "8000",
     };
 
     let url = format!("http://127.0.0.1:{}", port);
