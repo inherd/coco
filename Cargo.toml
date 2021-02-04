@@ -90,6 +90,9 @@ dialoguer = "0.7.1"
 # open URLs in browsers
 webbrowser = "0.5.5"
 
+# handle for shell path like ~
+shellexpand = "2.1.0"
+
 [dependencies.framework]
 path = "framework"
 
