@@ -1,4 +1,4 @@
-use crate::content_root::ContentRoot;
+use crate::facet::java::content_root::ContentRoot;
 
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub struct JavaModuleData {
