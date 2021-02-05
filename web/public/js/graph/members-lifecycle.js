@@ -12,7 +12,7 @@ function renderMembersTimeline(data) {
   let id = "#members-lifecycle";
   let elementId = "members-lifecycle"
 
-  let height = data.length * 30;
+  let height = data.length * 20;
   let width = 1200;
 
   let margin = {
