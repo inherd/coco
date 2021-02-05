@@ -136,6 +136,7 @@ impl GitMessageParser {
         let author = &captures["author"];
         let date_str = &captures["date"];
         let message = &captures["message"];
+        let email = &captures["email"];
         let branch = &captures["branch"];
 
         let mut parent_hashes = vec![];
@@ -153,6 +154,7 @@ impl GitMessageParser {
             branch: branch.to_string(),
             commit_id: commit_id.to_string(),
             author: author.to_string(),
+            email: email.to_string(),
             committer: "".to_string(),
             date,
             message: message.to_string(),
@@ -276,5 +278,6 @@ mod test {
         let commits = GitMessageParser::parse(input);
         assert_eq!(23, commits[0].total_added);
         assert_eq!(3, commits[0].total_deleted);
+        assert_eq!("h@phodal.com", commits[0].email);
     }
 }
