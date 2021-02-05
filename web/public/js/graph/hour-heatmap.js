@@ -69,6 +69,31 @@ const renderHeatmapChart = function (data) {
 
   cards.append("title");
 
+  // create a tooltip
+  let tooltip = d3.select("#hour-heatmap")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "white")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+  // Three function that change the tooltip when user hover / move / leave a cell
+  let mouseover = function (event, d) {
+    tooltip.style("opacity", 1)
+  }
+  let mousemove = function (event, d) {
+    tooltip
+      .html("commits: " + d.value)
+      .style("left", event.pageX + 20 + "px")
+      .style("top", event.pageY + "px")
+  }
+  let mouseleave = function (event, d) {
+    tooltip.style("opacity", 0)
+  }
+
   cards.enter().append("rect")
     .attr("x", (d) => (d.hour - 1) * gridSize)
     .attr("y", (d) => (d.day - 1) * gridSize)
@@ -77,6 +102,9 @@ const renderHeatmapChart = function (data) {
     .attr("class", "hour bordered")
     .attr("width", gridSize)
     .attr("height", gridSize)
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
     .style("fill", colors[0])
     .merge(cards)
     .transition()
