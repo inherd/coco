@@ -21,6 +21,26 @@
       font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
     }
 
+    /*  for hour heatmap*/
+    rect.bordered {
+      stroke: #E6E6E6;
+      stroke-width: 4px;
+    }
+
+    text.mono {
+      font-size: 10pt;
+      font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      fill: #aaa;
+    }
+
+    text.axis-workweek {
+      fill: #000;
+    }
+
+    text.axis-worktime {
+      fill: #000;
+    }
+
     .contextMenu {
       stroke: #00557d;
       fill: #ffffff;
@@ -49,7 +69,7 @@
 <h2>Commits Tree</h2>
 <div id="commits-tree"></div>
 
-<script src="public/js/libs/d3.min.js" ></script>
+<script src="public/js/libs/d3.min.js"></script>
 
 <script src="public/js/code-support.js"></script>
 <script src="public/js/dom-support.js"></script>
