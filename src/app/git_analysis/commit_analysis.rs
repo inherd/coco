@@ -13,6 +13,8 @@ pub struct ShortCommit {
     pub message: String,
     pub parent_hashes: Vec<String>,
     pub tree_hash: String,
+    pub total_added: i32,
+    pub total_deleted: i32,
 }
 
 impl ShortCommit {
@@ -25,6 +27,8 @@ impl ShortCommit {
             message: commit.message,
             parent_hashes: commit.parent_hashes,
             tree_hash: commit.tree_hash,
+            total_added: commit.total_added,
+            total_deleted: commit.total_deleted,
         }
     }
 }

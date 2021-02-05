@@ -17,7 +17,7 @@ lazy_static! {
     )
     .unwrap();
     static ref CHANGES: Regex =
-        Regex::new(r"(?P<deleted>[\d-]+)[\t\s]+(?P<added>[\d-]+)[\t\s]+(?P<filename>.*)").unwrap();
+        Regex::new(r"(?P<added>[\d-]+)[\t\s]+(?P<deleted>[\d-]+)[\t\s]+(?P<filename>.*)").unwrap();
     static ref CHANGEMODEL: Regex =
         Regex::new(r"\s(\w{1,6})\s(mode 100(\d){3})?\s?(.*)(\s\(\d{2}%\))?").unwrap();
 
@@ -71,11 +71,20 @@ impl GitMessageParser {
     }
 
     fn push_to_commits(&mut self) {
+        self.current_file_change = vec![];
         for (_filename, change) in &self.current_file_change_map {
             self.current_file_change.push(change.clone());
         }
 
         self.current_commit.changes = self.current_file_change.clone();
+
+        self.current_commit.total_added = 0;
+        self.current_commit.total_deleted = 0;
+        for change in &self.current_commit.changes {
+            self.current_commit.total_added = self.current_commit.total_added + change.added;
+            self.current_commit.total_deleted = self.current_commit.total_deleted + change.deleted;
+        }
+
         self.commits.push(self.current_commit.clone());
 
         self.current_file_change_map.clear();
@@ -150,6 +159,8 @@ impl GitMessageParser {
             changes: vec![],
             parent_hashes,
             tree_hash,
+            total_added: 0,
+            total_deleted: 0,
         }
     }
 }
@@ -226,7 +237,8 @@ mod test {
     #[test]
     pub fn should_support_parent_hashes() {
         let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# build: init package 20      0       package.json
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# build: init package
+20      0       package.json
 ";
 
         let commits = GitMessageParser::parse(input);
@@ -240,11 +252,29 @@ mod test {
     #[test]
     pub fn should_handle_empty_parents() {
         let input =
-            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (,52d26f5) #origin/main# build: init package 20      0       package.json
+            "[1389e51] Phodal Huang<h@phodal.com> 1606612935 (,52d26f5) #origin/main# build: init package
+20      0       package.json
 ";
 
         let commits = GitMessageParser::parse(input);
 
         assert_eq!(0, commits[0].parent_hashes.len());
+    }
+
+    #[test]
+    pub fn should_find_file_change() {
+        let input = "[828fe39523] Phodal Huang<h@phodal.com> 1606612935 (52d26f5 1389e51,52d26f5) #origin/main# fix: fix test
+7       0       README.md
+13      0       learn_go_suite_test.go
+3       3       imp/imp_test.go => learn_go_test.go
+ create mode 100644 learn_go_suite_test.go
+ rename imp/imp_test.go => learn_go_test.go (70%)
+ delete mode 100644 adapter/call/visitor/JavaCallVisitor.go
+
+";
+
+        let commits = GitMessageParser::parse(input);
+        assert_eq!(23, commits[0].total_added);
+        assert_eq!(3, commits[0].total_deleted);
     }
 }
