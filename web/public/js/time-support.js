@@ -12,7 +12,7 @@ function commit_to_hour_date(data) {
   for (let datum of data) {
     let date = new Date(datum.date * 1000);
     let day = date.getDay() + 1;
-    let hour = date.getHours();
+    let hour = date.getHours() + 1;
 
     if (dateMap[day][hour] === undefined) {
       let day_hours = 24;
