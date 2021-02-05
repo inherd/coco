@@ -1,4 +1,4 @@
-use clap::{App, Arg};
+use clap::{App, Arg, ArgMatches};
 use dialoguer::{theme::ColorfulTheme, Select};
 use webbrowser;
 
@@ -43,13 +43,7 @@ async fn main() -> std::io::Result<()> {
     let project = select_project_prompt();
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
-        let mut path = "coco_static";
-        if let Some(input) = matches.value_of("path") {
-            path = input
-        }
-
-        // todo: make really output
-        output_static::run(path);
+        start_export_reporter(matches);
         return Ok(());
     }
 
@@ -62,6 +56,16 @@ async fn main() -> std::io::Result<()> {
     };
 
     return start_local_server(project, port).await;
+}
+
+fn start_export_reporter(matches: &&ArgMatches) {
+    let mut path = "coco_static";
+    if let Some(input) = matches.value_of("path") {
+        path = input
+    }
+
+    // todo: make really output
+    output_static::run(path);
 }
 
 async fn start_local_server(project: String, port: &str) -> std::io::Result<()> {
