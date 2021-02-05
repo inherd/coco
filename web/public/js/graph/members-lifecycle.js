@@ -13,13 +13,13 @@ function renderMembersTimeline(data) {
   let elementId = "members-lifecycle"
 
   let height = data.length * 30;
-  let width = 1000;
+  let width = 1200;
 
   let margin = {
     top: 30,
-    right: 30,
+    right: 120,
     bottom: 30,
-    left: 30
+    left: 120
   }
 
   let y = d3.scaleBand()
