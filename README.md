@@ -128,6 +128,9 @@ reporter
        - [ ] languages support.
  - [ ] team analysis
     - [ ] join time & life time
+       - 以加入时间开始度量平均提交：上手成本分析
+       - 平均加入时长
+       - 成员加入时间点
     - [ ] member growth
     - [ ] count system size & learning curve
     - [ ] micro services size
