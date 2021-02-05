@@ -6,7 +6,12 @@ let formatDate = function (d) {
   return year + "-" + month + "-" + day
 };
 
-function commit_to_hour_date(data) {
+function commit_to_hour_date(data, options) {
+  let startDate = 0;
+  if(options && options.before_month) {
+    startDate = new Date(new Date().valueOf() - (options.before_month * 30 * 24 * 60 * 60 * 1000));
+  }
+
   let hourDate = [];
   let dateMap = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}};
   for (let datum of data) {
@@ -22,6 +27,10 @@ function commit_to_hour_date(data) {
 
       dateMap[day][hour] = 1;
     } else {
+      if (date <= startDate) {
+        continue;
+      }
+
       dateMap[day][hour]++;
     }
   }
