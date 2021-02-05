@@ -135,6 +135,7 @@ reporter
     - [ ] count system size & learning curve
     - [ ] micro services size
  - [ ] commit analysis
+    - [ ] commit times analysis (hours)
     - [ ] rule regex support in config
     - [ ] participle（分词）
     - [ ] tags generate
