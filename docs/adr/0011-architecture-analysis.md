@@ -27,6 +27,8 @@ DSL logger
 Integration
 
  - Swagger Parser
+    - [OpenAPI](https://github.com/softprops/openapi). Rust crate for serializing and deserializing open api documents
+
  
 Samples
 
