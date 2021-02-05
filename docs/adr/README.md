@@ -11,3 +11,4 @@
 * [9. git-http-server](0009-git-http-server.md)
 * [10. limit-git-changes-by-time](0010-limit-git-changes-by-time.md)
 * [11. architecture-analysis](0011-architecture-analysis.md)
+* [12. file-change-count](0012-file-change-count.md)
