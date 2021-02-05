@@ -1,11 +1,11 @@
 // based on: http://bl.ocks.org/ganezasan/dfe585847d65d0742ca7d0d1913d50e1
 const renderHeatmapChart = function (id, data) {
-  const margin = {top: 50, right: 0, bottom: 100, left: 30},
+  const margin = {top: 50, right: 0, bottom: 20, left: 30},
     width = 960 - margin.left - margin.right,
-    height = 430 - margin.top - margin.bottom,
-    gridSize = Math.floor(width / 24),
+    height = 300 - margin.top - margin.bottom,
+    gridSize = Math.floor(width / 30),
     legendElementWidth = gridSize * 2,
-    buckets = 9,
+    buckets = 8,
     colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"], // alternatively colorbrewer.YlGnBu[9]
     days = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"],
     times = ["1a", "2a", "3a", "4a", "5a", "6a", "7a", "8a", "9a", "10a", "11a", "12a", "1p", "2p", "3p", "4p", "5p", "6p", "7p", "8p", "9p", "10p", "11p", "12p"];
