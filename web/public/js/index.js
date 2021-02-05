@@ -33,3 +33,6 @@ d3.json("data/git-commits.json").then(function (data) {
   renderCommitsTree(data)
 });
 
+d3.json("data/commit-time.json").then(function (data) {
+  renderHeatmapChart(data);
+})
