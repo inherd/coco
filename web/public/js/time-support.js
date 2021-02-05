@@ -47,3 +47,25 @@ function commit_to_hour_date(data, options) {
   }
   return hourDate;
 }
+
+function commit_to_author_map(data) {
+  let authors = [];
+  let authorMap = {}
+  for (let datum of data) {
+    if (!authorMap[datum.email]) {
+      authorMap[datum.email] = {
+        name: datum.author,
+        start: datum.date,
+        end: datum.date,
+        email: datum.email,
+      }
+    } else {
+      authorMap[datum.email].start = datum.date;
+    }
+  }
+
+  for (let author in authorMap) {
+    authors.push(authorMap[author])
+  }
+  return authors;
+}

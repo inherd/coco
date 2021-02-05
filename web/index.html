@@ -7,12 +7,14 @@
   <link rel="icon" type="image/x-icon" href="public/images/favicon.ico">
   <title>Coco Reporter - {{title}}</title>
   <style>
-    #circle-packing, #nested-treemap, #branch-timeline {
+    #circle-packing, #nested-treemap, #branch-timeline, #members-lifecycle {
       width: 1200px;
       height: auto;
+      position: relative;
     }
 
-    #branch-timeline svg {
+    #branch-timeline svg,
+    #members-lifecycle svg {
       font: 12px sans-serif;
       line-height: 20px;
     }
@@ -72,6 +74,10 @@
 <div id="circle-packing"></div>
 <h2>Package by Size 2</h2>
 <div id="nested-treemap"></div>
+
+<h2>Member Lifecycle</h2>
+<div id="members-lifecycle"></div>
+
 <h2>Hour Heatmap</h2>
 <div id="hour-heatmap"></div>
 <h2>Hour Heatmap (Half Year)</h2>
@@ -93,6 +99,7 @@
 <script src="public/js/graph/branch-timeline.js"></script>
 <script src="public/js/graph/commits-tree.js"></script>
 <script src="public/js/graph/hour-heatmap.js"></script>
+<script src="public/js/graph/members-lifecycle.js"></script>
 
 <script src="public/js/index.js"></script>
 </body>

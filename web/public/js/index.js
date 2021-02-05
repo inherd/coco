@@ -32,7 +32,9 @@ d3.json("data/git.json").then(function (json) {
 d3.json("data/git-commits.json").then(function (data) {
   renderCommitsTree(data);
 
+  renderMembersTimeline(commit_to_author_map(data));
+
   renderHeatmapChart("#hour-heatmap", commit_to_hour_date(data));
-  renderHeatmapChart("#hour-heatmap-half-year", commit_to_hour_date(data, { before_month: 6 }));
-  renderHeatmapChart("#hour-heatmap-three-month", commit_to_hour_date(data, { before_month: 3 }));
+  renderHeatmapChart("#hour-heatmap-half-year", commit_to_hour_date(data, {before_month: 6}));
+  renderHeatmapChart("#hour-heatmap-three-month", commit_to_hour_date(data, {before_month: 3}));
 });
