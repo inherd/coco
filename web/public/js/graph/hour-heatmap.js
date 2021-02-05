@@ -1,9 +1,9 @@
 // based on: http://bl.ocks.org/ganezasan/dfe585847d65d0742ca7d0d1913d50e1
 const renderHeatmapChart = function (id, data) {
-  const margin = {top: 50, right: 0, bottom: 20, left: 30},
-    width = 960 - margin.left - margin.right,
-    height = 300 - margin.top - margin.bottom,
-    gridSize = Math.floor(width / 30),
+  const margin = {top: 20, right: 0, bottom: 20, left: 40},
+    width = 1200 - margin.left - margin.right,
+    height = 320 - margin.top - margin.bottom,
+    gridSize = Math.floor(width / 40),
     legendElementWidth = gridSize * 2,
     buckets = 8,
     colors = ["#ffffd9", "#edf8b1", "#c7e9b4", "#7fcdbb", "#41b6c4", "#1d91c0", "#225ea8", "#253494", "#081d58"], // alternatively colorbrewer.YlGnBu[9]
@@ -109,7 +109,7 @@ const renderHeatmapChart = function (id, data) {
 
   legend_g.append("rect")
     .attr("x", (d, i) => legendElementWidth * i)
-    .attr("y", height)
+    .attr("y", height - 50)
     .attr("width", legendElementWidth)
     .attr("height", gridSize / 2)
     .style("fill", (d, i) => colors[i]);
@@ -118,7 +118,7 @@ const renderHeatmapChart = function (id, data) {
     .attr("class", "mono")
     .text((d) => "≥ " + Math.round(d))
     .attr("x", (d, i) => legendElementWidth * i)
-    .attr("y", height + gridSize);
+    .attr("y", height + gridSize - 50);
 
   legend.exit().remove();
 }
