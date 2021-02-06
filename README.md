@@ -147,6 +147,11 @@ reporter
        - [ ] link daily checking
     - [ ] cases collection
     - [ ] architecture design rules
+ - [ ] architecture 
+    - [ ] tech stack version check (more than 3 years ?) 
+       - [ ] Maven Center 
+       - [ ] NPM Server 
+       - [ ] Go Server 
  - [ ] tools
     - [ ] tools config identify
     - [ ] tools suggest (identify old tools)
