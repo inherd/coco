@@ -5,11 +5,16 @@ use std::path::PathBuf;
 pub struct CliSupport {}
 
 impl CliSupport {
-    pub fn command(path: PathBuf) -> Command {
+    pub fn coco(path: PathBuf) -> Command {
         let mut cmd = Command::cargo_bin("coco").unwrap();
 
         cmd.arg("-c")
             .arg(format!("{}", path.into_os_string().to_str().unwrap()));
+        cmd
+    }
+
+    pub fn visual() -> Command {
+        let mut cmd = Command::cargo_bin("visual").unwrap();
         cmd
     }
 
@@ -42,7 +47,7 @@ mod tests {
     fn should_build_fixtures_code() {
         let mut path = PathBuf::from("_fixtures");
         path.push("coco-fixtures.yml");
-        let mut cmd = CliSupport::command(path);
+        let mut cmd = CliSupport::coco(path);
         cmd.assert().success();
 
         assert!(CliSupport::read_reporter("cloc").len() > 0);
