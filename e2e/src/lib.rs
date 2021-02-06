@@ -14,7 +14,7 @@ impl CliSupport {
     }
 
     pub fn visual() -> Command {
-        let mut cmd = Command::cargo_bin("visual").unwrap();
+        let cmd = Command::cargo_bin("visual").unwrap();
         cmd
     }
 
@@ -54,5 +54,16 @@ mod tests {
         assert!(CliSupport::read_reporter("architecture").len() > 0);
         assert!(CliSupport::read_reporter("framework").len() > 0);
         assert!(CliSupport::read_reporter("git").len() > 0);
+    }
+
+    #[test]
+    fn should_run_export() {
+        let mut cmd = CliSupport::visual();
+        cmd.arg("--name").arg("default");
+
+        cmd.arg("export");
+        cmd.arg("-p").arg("default");
+
+        cmd.assert().success();
     }
 }
