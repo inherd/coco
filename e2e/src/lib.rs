@@ -36,6 +36,7 @@ mod tests {
     use crate::CliSupport;
     use assert_cmd::Command;
     use std::path::PathBuf;
+    use std::process;
 
     #[test]
     fn should_exe_coco_failure_when_in_e2e_path() {
@@ -62,8 +63,21 @@ mod tests {
         cmd.arg("--name").arg("default");
 
         cmd.arg("export");
-        cmd.arg("-p").arg("default");
 
         cmd.assert().success();
+    }
+
+    #[ignore]
+    #[test]
+    fn should_run_http_server() {
+        let mut cmd = CliSupport::visual();
+        cmd.arg("--name").arg("default");
+
+        cmd.arg("server");
+        cmd.arg("-p").arg("9000");
+
+        cmd.assert().success();
+
+        process::exit(1);
     }
 }
