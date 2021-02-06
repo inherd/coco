@@ -14,6 +14,14 @@ async fn main() -> std::io::Result<()> {
         .version(VERSION)
         .author("Inherd Group")
         .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
+        .arg(
+            Arg::with_name("name")
+                .short("n")
+                .long("name")
+                .value_name("PROJECT name")
+                .help("project name")
+                .takes_value(true),
+        )
         .subcommand(
             App::new("export")
                 .about("export")
@@ -40,7 +48,15 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
-    let project = select_project_prompt();
+    let project;
+    match matches.value_of("name") {
+        None => {
+            project = select_project_prompt();
+        }
+        Some(proj) => {
+            project = proj.to_string();
+        }
+    }
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
         start_export_reporter(matches);
