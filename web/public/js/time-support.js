@@ -6,13 +6,13 @@ let formatDate = function (d) {
   return year + "-" + month + "-" + day
 };
 
-function commit_to_hour_date(data, options) {
+function commit_to_hours_data(data, options) {
   let startDate = 0;
   if(options && options.before_month) {
     startDate = new Date(new Date().valueOf() - (options.before_month * 30 * 24 * 60 * 60 * 1000));
   }
 
-  let hourDate = [];
+  let hoursDate = [];
   let dateMap = {1: {}, 2: {}, 3: {}, 4: {}, 5: {}, 6: {}, 7: {}};
   for (let datum of data) {
     let date = new Date(datum.date * 1000);
@@ -38,14 +38,14 @@ function commit_to_hour_date(data, options) {
   for (let day in dateMap) {
     let day_hours = 24;
     for (let i = 1; i <= day_hours; i++) {
-      hourDate.push({
+      hoursDate.push({
         day: day,
         hour: i,
         value: dateMap[day][i]
       })
     }
   }
-  return hourDate;
+  return hoursDate;
 }
 
 function commit_to_author_map(data) {
