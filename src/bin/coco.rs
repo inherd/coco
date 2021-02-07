@@ -33,6 +33,14 @@ fn main() {
 
     let cli_option = CocoCliOption::default();
 
+    let config = create_config(config_file);
+
+    println!("found config file: {}", config_file);
+
+    run_analysis(config.repo, cli_option);
+}
+
+fn create_config(config_file: &str) -> CocoConfig {
     let config: CocoConfig;
     match fs::read_to_string(config_file) {
         Ok(content) => {
@@ -47,10 +55,7 @@ fn main() {
             config = CocoConfig { repo }
         }
     }
-
-    println!("found config file: {}", config_file);
-
-    run_analysis(config.repo, cli_option);
+    config
 }
 
 fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
@@ -120,4 +125,20 @@ fn analysis_architecture(url_str: &str) {
     let output_file = Settings::architecture().join(file_name);
 
     fs::write(output_file, branches_info).expect("cannot write file");
+}
+
+#[cfg(test)]
+mod test {
+    use crate::create_config;
+    use std::env;
+
+    #[test]
+    fn should_set_default_config() {
+        let config = create_config("");
+        let current = env::current_dir().unwrap();
+        let url = current.into_os_string().to_str().unwrap().to_string();
+
+        assert_eq!(config.repo.len(), 1);
+        assert_eq!(url, config.repo[0].url);
+    }
 }
