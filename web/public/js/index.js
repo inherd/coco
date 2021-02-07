@@ -35,6 +35,38 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart("#hour-heatmap", commit_to_hours_data(data));
   renderHeatmapChart("#hour-heatmap-half-year", commit_to_hours_data(data, {before_month: 6}));
   renderHeatmapChart("#hour-heatmap-three-month", commit_to_hours_data(data, {before_month: 3}));
+
+  let usermap = {};
+  let datamap = {};
+  let range = 30;
+  for (let i = 0; i < range; i++) {
+    datamap[i] = {};
+  }
+  for (let datum of data.reverse()) {
+    if (!usermap[datum.email]) {
+      usermap[datum.email] = {
+        name: datum.author,
+        email: datum.email,
+        joinTime: datum.date,
+        data: datamap
+      }
+      usermap[datum.email].data[0] = 1;
+    } else {
+      let week = (datum.date - usermap[datum.email].joinTime) / (24 * 60 * 60) / 7;
+      let currentWeek = Math.round(week);
+      if (currentWeek < 30) {
+        if (!usermap[datum.email].data[currentWeek]) {
+          usermap[datum.email].data[currentWeek] = 1;
+        } else {
+          usermap[datum.email].data[currentWeek]++;
+        }
+      }
+    }
+  }
+
+  console.log(usermap);
 });
 
-d3.json("data/data.js").then(renderLearningCurve);
+d3.json("data/data.js").then(function (data) {
+  renderLearningCurve(data);
+});
