@@ -46,8 +46,8 @@ impl<'a> FrameworkDetector<'a> {
 
     fn lang_detect<P: AsRef<Path>>(&mut self, path: P) {
         let names = FrameworkDetector::build_level_one_name_set(path);
-        let detectors = LangDetectors::default();
-        let mut lang_tags = detectors.detect(&names);
+        let lang_detectors = LangDetectors::default();
+        let mut lang_tags = lang_detectors.detect(&names);
         self.tags.append(&mut lang_tags);
     }
 
@@ -57,7 +57,7 @@ impl<'a> FrameworkDetector<'a> {
         self.facets.append(&mut facets);
     }
 
-    pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
+    pub fn build_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
         let mut name_sets: HashSet<String> = HashSet::new();
         let walk_dir = WalkDir::new(path);
         for dir_entry in walk_dir.into_iter() {
