@@ -615,6 +615,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "coco_struct_analysis"
+version = "0.1.0"
+
+[[package]]
 name = "coco_swagger"
 version = "0.1.0"
 

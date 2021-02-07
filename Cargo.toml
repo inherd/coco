@@ -97,5 +97,6 @@ path = "framework"
 members = [
   'framework',
   'e2e',
-  'plugins/coco_swagger'
+  'plugins/coco_swagger',
+  'plugins/coco_struct_analysis',
 ]
