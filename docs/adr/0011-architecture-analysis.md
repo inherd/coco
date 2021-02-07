@@ -41,6 +41,25 @@ Samples
   - ViewController
   - Layout
 
+From: Software Architecture Evaluation: A Systematic Mapping Study
+
+Contribution Type
+
+ - Domain Model
+ - Framework
+ - Method
+ - Model
+ - Process
+ - Tool
+
+Empirical Type
+
+ - Case Study
+ - Survey
+ - Experiment
+ - Theory
+ - Other
+
 ## Decision
 
 Decision here...
