@@ -32,7 +32,7 @@ var svg = d3.select("#learning-curve").append("svg")
     "translate(" + margin.left + "," + margin.top + ")");
 
 // Get the data
-d3.csv("data/data.csv").then(function(data) {
+d3.json("data/data.js").then(function(data) {
   // format the data
   data.forEach(function(d) {
     d.date = parseTime(d.date);
