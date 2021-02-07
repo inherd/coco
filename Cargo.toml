@@ -96,5 +96,7 @@ path = "framework"
 [workspace]
 members = [
   'framework',
-  'e2e'
+  'e2e',
+  'plugins/coco_swagger',
+  'plugins/coco_struct_analysis',
 ]

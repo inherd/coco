@@ -38,6 +38,8 @@ Support OS: macOS, Windows, GNU/Linux
 repo:
   - url: https://github.com/coco-rs/coco.fixtures
   - url: https://github.com/coco-rs/coco.fixtures2
+  - url: .
+  - url: ~/clone/nginx
 
 # 提交信息格式
 commit-message:

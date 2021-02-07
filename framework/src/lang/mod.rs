@@ -1,46 +1,34 @@
 use std::collections::{BTreeMap, HashSet};
 
 pub mod go;
-pub mod java;
 pub mod js;
+pub mod jvm;
 pub mod rust;
 
-type LightDetect<'a> = fn(&HashSet<String>) -> BTreeMap<&'a str, bool>;
-
-struct LangDetector<'a> {
-    light: LightDetect<'a>,
-}
+type DetectAction<'a> = fn(&HashSet<String>) -> BTreeMap<&'a str, bool>;
 
 pub struct LangDetectors<'a> {
-    detectors: Vec<LangDetector<'a>>,
+    detectors: Vec<DetectAction<'a>>,
 }
 
 impl<'a> Default for LangDetectors<'a> {
     fn default() -> Self {
         LangDetectors {
             detectors: vec![
-                LangDetector {
-                    light: java::light_detect,
-                },
-                LangDetector {
-                    light: go::light_detect,
-                },
-                LangDetector {
-                    light: rust::light_detect,
-                },
-                LangDetector {
-                    light: js::light_detect,
-                },
+                jvm::detect,
+                go::light_detect,
+                rust::light_detect,
+                js::light_detect,
             ],
         }
     }
 }
 
 impl<'a> LangDetectors<'a> {
-    pub fn light_detect(&self, names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
-        let mut tags = BTreeMap::new();
+    pub fn detect(&self, names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
+        let mut tags = BTreeMap::default();
         for detector in self.detectors.iter() {
-            let mut lang_tags = (detector.light)(names);
+            let mut lang_tags = (detector)(names);
             tags.append(&mut lang_tags)
         }
         tags

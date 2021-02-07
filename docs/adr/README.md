@@ -12,3 +12,6 @@
 * [10. limit-git-changes-by-time](0010-limit-git-changes-by-time.md)
 * [11. architecture-analysis](0011-architecture-analysis.md)
 * [12. file-change-count](0012-file-change-count.md)
+* [13. suggest-design](0013-suggest-design.md)
+* [14. organization-description-languages](0014-organization-description-languages.md)
+* [15. struct-analysis](0015-struct-analysis.md)
