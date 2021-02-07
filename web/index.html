@@ -65,6 +65,20 @@
       font-size: 12px;
       stroke: #00557d;
     }
+
+    /*  layout */
+    .grid2x2 {
+      display: flex;
+      flex-flow: row wrap;
+      list-style: none;
+    }
+
+    .grid2x2 > div {
+      flex-basis: calc(50% - 20px);
+      width: 50%;
+      height: auto;
+    }
+
   </style>
 </head>
 <body>
@@ -79,12 +93,21 @@
 <h2>Member Lifecycle</h2>
 <div id="members-lifecycle"></div>
 
-<h2>Hour Heatmap</h2>
-<div id="hour-heatmap"></div>
-<h2>Hour Heatmap (Half Year)</h2>
-<div id="hour-heatmap-half-year"></div>
-<h2>Hour Heatmap (Three Month)</h2>
-<div id="hour-heatmap-three-month"></div>
+<div class="grid2x2">
+  <div>
+    <h2>Hour Heatmap</h2>
+    <div id="hour-heatmap"></div>
+  </div>
+  <div>
+    <h2>Hour Heatmap (Half Year)</h2>
+    <div id="hour-heatmap-half-year"></div>
+  </div>
+  <div>
+    <h2>Hour Heatmap (Three Month)</h2>
+    <div id="hour-heatmap-three-month"></div>
+  </div>
+</div>
+
 <h2>Commits Tree</h2>
 <div id="commits-tree"></div>
 
