@@ -79,10 +79,21 @@
       height: auto;
     }
 
+    /*  line chart */
+
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 2px;
+    }
   </style>
 </head>
 <body>
 <h1>Coco Reporter</h1>
+<h2>Learning Curve</h2>
+
+<svg id="learning-curve" width="850" height="410"></svg>
+
 <h2>Branch History</h2>
 <div id="branch-timeline"></div>
 <h2>Package by Size 1</h2>
@@ -124,6 +135,7 @@
 <script src="public/js/graph/git/commits-tree.js"></script>
 <script src="public/js/graph/git/hour-heatmap.js"></script>
 <script src="public/js/graph/git/members-lifecycle.js"></script>
+<script src="public/js/graph/git/learning-curve.js"></script>
 
 <script src="public/js/index.js"></script>
 </body>
