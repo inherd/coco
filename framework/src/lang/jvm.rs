@@ -64,6 +64,7 @@ fn detect_build_tool(names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
 }
 
 fn detect_source_file(file_names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
+    //todo: optimize performance to remove duplicate detection?
     for file_name in file_names.iter() {
         for (key, detect_action) in DETECT_LIST.iter() {
             if (detect_action)(file_name) {
