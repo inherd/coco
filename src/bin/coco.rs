@@ -10,6 +10,7 @@ use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
+use std::time::Instant;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -54,6 +55,7 @@ fn main() {
 
 fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
     // todo: add tasks for parallel run analysis tasks for one or more repos
+    let start = Instant::now();
     repos.par_iter().for_each(|repo| {
         let url_str = repo.url.as_str();
 
@@ -65,6 +67,8 @@ fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
         analysis_cloc(url_str);
         analysis_architecture(url_str);
     });
+
+    println!("finish process in {:?}ms", start.elapsed().as_millis());
 }
 
 fn analysis_framework(url_str: &str) {
