@@ -6,7 +6,7 @@ pub const WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE: &'static str =
     "workspace.framework.gradle.composite";
 pub const WORKSPACE_FRAMEWORK_POM: &'static str = "workspace.framework.pom";
 
-pub const WORKSPACE_SOURCE_TEST: &'static str = "workspace.source.test";
+pub const WORKSPACE_HAS_TEST: &'static str = "workspace.source.test";
 pub const WORKSPACE_SOURCE_JAVA: &'static str = "workspace.source.java";
 pub const WORKSPACE_SOURCE_GROOVY: &'static str = "workspace.source.groovy";
 pub const WORKSPACE_SOURCE_KOTLIN: &'static str = "workspace.source.kotlin";
@@ -18,20 +18,31 @@ lazy_static! {
     static ref GROOVY_SOURCE_TEST: Regex = Regex::new(r".*.groovy").unwrap();
     static ref KOTLIN_SOURCE_TEST: Regex = Regex::new(r".*.kt").unwrap();
     static ref SCALA_SOURCE_TEST: Regex = Regex::new(r".*.scala").unwrap();
+    static ref DETECT_LIST: Vec<(&'static str, fn(&str) -> bool)> = vec![
+        (WORKSPACE_HAS_TEST, is_test),
+        (WORKSPACE_SOURCE_JAVA, is_java_source_file),
+        (WORKSPACE_SOURCE_GROOVY, is_groovy_source_file),
+        (WORKSPACE_SOURCE_KOTLIN, is_kotlin_source_file),
+        (WORKSPACE_SOURCE_SCALA, is_scala_source_file)
+    ];
 }
 
 pub fn is_test(path: &str) -> bool {
     return JAVA_TEST.is_match(path);
 }
+
 pub fn is_java_source_file(path: &str) -> bool {
     return JAVA_SOURCE_TEST.is_match(path);
 }
+
 pub fn is_groovy_source_file(path: &str) -> bool {
     return GROOVY_SOURCE_TEST.is_match(path);
 }
+
 pub fn is_kotlin_source_file(path: &str) -> bool {
     return KOTLIN_SOURCE_TEST.is_match(path);
 }
+
 pub fn is_scala_source_file(path: &str) -> bool {
     return SCALA_SOURCE_TEST.is_match(path);
 }
@@ -54,20 +65,10 @@ fn detect_build_tool(names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
 
 fn detect_source_file(file_names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
     for file_name in file_names.iter() {
-        if is_test(file_name) {
-            tags.insert(WORKSPACE_SOURCE_TEST, true);
-        }
-        if is_java_source_file(file_name) {
-            tags.insert(WORKSPACE_SOURCE_JAVA, true);
-        }
-        if is_groovy_source_file(file_name) {
-            tags.insert(WORKSPACE_SOURCE_GROOVY, true);
-        }
-        if is_kotlin_source_file(file_name) {
-            tags.insert(WORKSPACE_SOURCE_KOTLIN, true);
-        }
-        if is_scala_source_file(file_name) {
-            tags.insert(WORKSPACE_SOURCE_SCALA, true);
+        for (key, detect_action) in DETECT_LIST.iter() {
+            if (detect_action)(file_name) {
+                tags.insert(key, true);
+            }
         }
     }
 }

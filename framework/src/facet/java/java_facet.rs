@@ -30,7 +30,7 @@ pub fn creator(tags: &BTreeMap<&str, bool>) -> Option<Box<Facet>> {
                 has_kotlin: tags.contains_key(jvm::WORKSPACE_SOURCE_KOTLIN),
                 has_scala: tags.contains_key(jvm::WORKSPACE_SOURCE_SCALA),
             },
-            include_test: tags.contains_key(jvm::WORKSPACE_SOURCE_TEST),
+            include_test: tags.contains_key(jvm::WORKSPACE_HAS_TEST),
         };
         return Some(Box::new(facet));
     }
