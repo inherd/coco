@@ -1,3 +1,7 @@
+if (!window.d3) {
+  alert("please run just setup in your project");
+}
+
 d3.json("data/cloc.json").then(function (json) {
   var data;
   var maxlen = 0;
