@@ -14,3 +14,4 @@
 * [12. file-change-count](0012-file-change-count.md)
 * [13. suggest-design](0013-suggest-design.md)
 * [14. organization-description-languages](0014-organization-description-languages.md)
+* [15. struct-analysis](0015-struct-analysis.md)
