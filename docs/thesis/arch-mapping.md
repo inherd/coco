@@ -3,8 +3,8 @@
 specific activities 
 
 - Architectural Analysis (AA) is aimed at defining the problems an architecture must solve. The outcome of this activity is a set of architecturally significant requirements (ASRs) (Hofmeister et al., 2007).
-- Architectural Synthesis (AS) proposes candidate architecture so- lutions to address the ASRs collected in AA, thus this activity moves from the problem to the solution space (Hofmeister et al., 2007).
-- Architectural Evaluation (AE) ensures that the architectural de- sign decisions made are the right ones, and the candidate archi- tectural solutions proposed in AS are measured against the ASRs collected in AA (Hofmeister et al., 2007).
+- Architectural Synthesis (AS) proposes candidate architecture solutions to address the ASRs collected in AA, thus this activity moves from the problem to the solution space (Hofmeister et al., 2007).
+- Architectural Evaluation (AE) ensures that the architectural design decisions made are the right ones, and the candidate archi- tectural solutions proposed in AS are measured against the ASRs collected in AA (Hofmeister et al., 2007).
 - Architectural Implementation (AI) realizes the architecture by creating a detailed design (Tang et al., 2010).
 - Architectural Maintenance and Evolution (AME): Architectural maintenance is to change an architecture for the purpose of fix- ing faults (ISO, 2006, ISO, 2011) and architectural evolution is to respond to new requirements at architectural level (Postma et al., 2004). In this SMS, we simply considered architectural mainte- nance and architectural evolution as one activity, in which an ar- chitecture is changed either to fix faults or to implement new re- quirements.
 
