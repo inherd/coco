@@ -40,14 +40,15 @@ impl<'a> Default for FrameworkDetector<'a> {
 
 impl<'a> FrameworkDetector<'a> {
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
-        let detectors = LangDetectors::default();
-        self.light_detector(&detectors, &path);
-        self.deep_detector(&detectors, &path);
+        self.lang_detect(path);
         self.build_project_info();
     }
 
-    fn deep_detector<P: AsRef<Path>>(&mut self, _detectors: &LangDetectors<'a>, _path: &P) {
-        // todo: thinking in merge with cloc?
+    fn lang_detect<P: AsRef<Path>>(&mut self, path: P) {
+        let names = FrameworkDetector::build_level_one_name_set(path);
+        let detectors = LangDetectors::default();
+        let mut lang_tags = detectors.detect(&names);
+        self.tags.append(&mut lang_tags);
     }
 
     fn build_project_info(&mut self) {
@@ -56,16 +57,10 @@ impl<'a> FrameworkDetector<'a> {
         self.facets.append(&mut facets);
     }
 
-    fn light_detector<P: AsRef<Path>>(&mut self, detectors: &LangDetectors<'a>, path: &P) {
-        let sets = FrameworkDetector::build_level_one_name_set(path);
-        let mut lang_tags = detectors.light_detect(&sets);
-        self.tags.append(&mut lang_tags);
-    }
-
     pub fn build_level_one_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
         let mut name_sets: HashSet<String> = HashSet::new();
         let walk_dir = WalkDir::new(path);
-        for dir_entry in walk_dir.max_depth(1).into_iter() {
+        for dir_entry in walk_dir.into_iter() {
             if dir_entry.is_err() {
                 continue;
             }
@@ -77,6 +72,7 @@ impl<'a> FrameworkDetector<'a> {
             }
 
             let file_name = entry.path().file_name().unwrap();
+
             name_sets.insert(file_name.to_str().unwrap().to_string());
         }
 
@@ -109,11 +105,8 @@ mod tests {
     fn should_detect_java_gradle_project() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "java", "simple"]);
 
-        assert!(detector.tags.get("workspace.java.gradle").unwrap());
-        assert!(detector
-            .tags
-            .get("workspace.java.gradle.composite")
-            .unwrap());
+        assert!(detector.tags.get("workspace.gradle").unwrap());
+        assert!(detector.tags.get("workspace.gradle.composite").unwrap());
         assert_eq!(&false, detector.tags.get("workspace.npm").unwrap());
     }
 
@@ -152,5 +145,26 @@ mod tests {
         let detector = build_test_detector(vec!["_fixtures", "projects", "js", "npmproject"]);
 
         assert_eq!(&true, detector.tags.get("workspace.npm").unwrap());
+    }
+
+    #[test]
+    fn should_detect_jvm_project() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
+
+        let facets_json = serde_json::to_string_pretty(&detector.facets).unwrap();
+        let expect_json = r#"[
+  {
+    "jvm": {
+      "is_gradle": true,
+      "is_maven": true,
+      "has_java": true,
+      "has_groovy": true,
+      "has_kotlin": true,
+      "has_scala": true
+    },
+    "include_test": true
+  }
+]"#;
+        assert_eq!(expect_json, facets_json)
     }
 }

@@ -1,12 +1,6 @@
 use crate::facet::java::jvm_facet::JvmFacet;
 use crate::facet::Facet;
-use regex::Regex;
 use std::collections::BTreeMap;
-
-lazy_static! {
-    static ref JAVA_TEST: Regex = Regex::new(r".*(Tests|Test).java").unwrap();
-    static ref MAVEN_TEST: Regex = Regex::new(r".*pom.xml").unwrap();
-}
 
 #[derive(Serialize)]
 pub struct JavaFacet {
@@ -21,48 +15,26 @@ impl JavaFacet {
             include_test: false,
         }
     }
-    pub fn is_test(path: &str) -> bool {
-        return JAVA_TEST.is_match(path);
-    }
-    pub fn is_maven(path: &str) -> bool {
-        return MAVEN_TEST.is_match(path);
-    }
 }
 
 pub fn creator(tags: &BTreeMap<&str, bool>) -> Option<Box<Facet>> {
-    if tags.contains_key("workspace.java.gradle") || tags.contains_key("workspace.java.pom") {
+    if is_jvm_project(tags) {
         let facet = JavaFacet {
             jvm: JvmFacet {
-                is_gradle: tags.contains_key("workspace.java.gradle"),
-                is_maven: tags.contains_key("workspace.java.pom"),
-                has_java: false,
-                has_groovy: false,
-                has_kotlin: false,
-                has_scala: false,
+                is_gradle: tags.contains_key("workspace.gradle"),
+                is_maven: tags.contains_key("workspace.pom"),
+                has_java: tags.contains_key("workspace.source.java"),
+                has_groovy: tags.contains_key("workspace.source.groovy"),
+                has_kotlin: tags.contains_key("workspace.source.kotlin"),
+                has_scala: tags.contains_key("workspace.source.scala"),
             },
-            include_test: false,
+            include_test: tags.contains_key("workspace.source.test"),
         };
         return Some(Box::new(facet));
     }
     None
 }
 
-#[cfg(test)]
-mod tests {
-    use crate::facet::JavaFacet;
-
-    #[test]
-    fn should_ident_test_java_file() {
-        assert_eq!(false, JavaFacet::is_test("Hello.java"));
-        assert_eq!(true, JavaFacet::is_test("HelloTest.java"));
-        assert_eq!(true, JavaFacet::is_test("HelloTests.java"));
-    }
-
-    #[test]
-    fn should_ident_maven_project() {
-        assert_eq!(true, JavaFacet::is_maven("parent/model/pom.xml"));
-        assert_eq!(true, JavaFacet::is_maven("parent/pom.xml"));
-        assert_eq!(false, JavaFacet::is_maven("parent/Pom.xml"));
-        assert_eq!(false, JavaFacet::is_maven("parent/model/Pom.xml"));
-    }
+fn is_jvm_project(tags: &BTreeMap<&str, bool>) -> bool {
+    tags.contains_key("workspace.gradle") || tags.contains_key("workspace.pom")
 }
