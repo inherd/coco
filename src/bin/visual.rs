@@ -18,7 +18,7 @@ async fn main() -> std::io::Result<()> {
             Arg::with_name("name")
                 .short("n")
                 .long("name")
-                .value_name("PROJECT name")
+                .value_name("project name")
                 .help("project name")
                 .takes_value(true),
         )
@@ -34,17 +34,12 @@ async fn main() -> std::io::Result<()> {
                         .takes_value(true),
                 ),
         )
-        .subcommand(
-            App::new("server")
-                .about("server")
-                .version(VERSION)
-                .author("Inherd Group")
-                .arg(
-                    Arg::with_name("port")
-                        .short("p")
-                        .help("http server port")
-                        .takes_value(true),
-                ),
+        .arg(
+            Arg::with_name("port")
+                .short("p")
+                .long("port")
+                .help("http server port")
+                .takes_value(true),
         )
         .get_matches();
 
@@ -65,7 +60,6 @@ async fn main() -> std::io::Result<()> {
 
     // todo: add load config
     let _config = CocoConfig::default();
-
     let port = match matches.value_of("port") {
         Some(input) => input,
         None => "8000",
