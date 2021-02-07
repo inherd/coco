@@ -1,6 +1,17 @@
 use regex::Regex;
 use std::collections::{BTreeMap, HashSet};
 
+pub const WORKSPACE_FRAMEWORK_GRADLE: &'static str = "workspace.framework.gradle";
+pub const WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE: &'static str =
+    "workspace.framework.gradle.composite";
+pub const WORKSPACE_FRAMEWORK_POM: &'static str = "workspace.framework.pom";
+
+pub const WORKSPACE_SOURCE_TEST: &'static str = "workspace.source.test";
+pub const WORKSPACE_SOURCE_JAVA: &'static str = "workspace.source.java";
+pub const WORKSPACE_SOURCE_GROOVY: &'static str = "workspace.source.groovy";
+pub const WORKSPACE_SOURCE_KOTLIN: &'static str = "workspace.source.kotlin";
+pub const WORKSPACE_SOURCE_SCALA: &'static str = "workspace.source.scala";
+
 lazy_static! {
     static ref JAVA_TEST: Regex = Regex::new(r".*(Tests|Test).java").unwrap();
     static ref JAVA_SOURCE_TEST: Regex = Regex::new(r".*.java").unwrap();
@@ -25,7 +36,7 @@ pub fn is_scala_source_file(path: &str) -> bool {
     return SCALA_SOURCE_TEST.is_match(path);
 }
 
-pub fn light_detect<'a>(file_names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
+pub fn detect<'a>(file_names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
     let mut tags = BTreeMap::new();
     detect_build_tool(file_names, &mut tags);
     detect_source_file(file_names, &mut tags);
@@ -33,30 +44,30 @@ pub fn light_detect<'a>(file_names: &HashSet<String>) -> BTreeMap<&'a str, bool>
 }
 
 fn detect_build_tool(names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
-    tags.insert("workspace.gradle", names.contains("build.gradle"));
+    tags.insert(WORKSPACE_FRAMEWORK_GRADLE, names.contains("build.gradle"));
     tags.insert(
-        "workspace.gradle.composite",
+        WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE,
         names.contains("build.gradle") && names.contains("settings.gradle"),
     );
-    tags.insert("workspace.pom", names.contains("pom.xml"));
+    tags.insert(WORKSPACE_FRAMEWORK_POM, names.contains("pom.xml"));
 }
 
 fn detect_source_file(file_names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
     for file_name in file_names.iter() {
         if is_test(file_name) {
-            tags.insert("workspace.source.test", true);
+            tags.insert(WORKSPACE_SOURCE_TEST, true);
         }
         if is_java_source_file(file_name) {
-            tags.insert("workspace.source.java", true);
+            tags.insert(WORKSPACE_SOURCE_JAVA, true);
         }
         if is_groovy_source_file(file_name) {
-            tags.insert("workspace.source.groovy", true);
+            tags.insert(WORKSPACE_SOURCE_GROOVY, true);
         }
         if is_kotlin_source_file(file_name) {
-            tags.insert("workspace.source.kotlin", true);
+            tags.insert(WORKSPACE_SOURCE_KOTLIN, true);
         }
         if is_scala_source_file(file_name) {
-            tags.insert("workspace.source.scala", true);
+            tags.insert(WORKSPACE_SOURCE_SCALA, true);
         }
     }
 }

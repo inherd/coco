@@ -15,7 +15,7 @@ impl<'a> Default for LangDetectors<'a> {
     fn default() -> Self {
         LangDetectors {
             detectors: vec![
-                jvm::light_detect,
+                jvm::detect,
                 go::light_detect,
                 rust::light_detect,
                 js::light_detect,

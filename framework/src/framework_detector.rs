@@ -45,7 +45,7 @@ impl<'a> FrameworkDetector<'a> {
     }
 
     fn lang_detect<P: AsRef<Path>>(&mut self, path: P) {
-        let names = FrameworkDetector::build_level_one_name_set(path);
+        let names = FrameworkDetector::build_name_set(path);
         let lang_detectors = LangDetectors::default();
         let mut lang_tags = lang_detectors.detect(&names);
         self.tags.append(&mut lang_tags);
@@ -83,6 +83,7 @@ impl<'a> FrameworkDetector<'a> {
 #[cfg(test)]
 mod tests {
     use crate::framework_detector::FrameworkDetector;
+    use crate::lang::jvm;
     use std::path::PathBuf;
 
     fn build_test_detector<'a>(project_path: Vec<&str>) -> FrameworkDetector<'a> {
@@ -105,8 +106,11 @@ mod tests {
     fn should_detect_java_gradle_project() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "java", "simple"]);
 
-        assert!(detector.tags.get("workspace.gradle").unwrap());
-        assert!(detector.tags.get("workspace.gradle.composite").unwrap());
+        assert!(detector.tags.get(jvm::WORKSPACE_FRAMEWORK_GRADLE).unwrap());
+        assert!(detector
+            .tags
+            .get(jvm::WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE)
+            .unwrap());
         assert_eq!(&false, detector.tags.get("workspace.npm").unwrap());
     }
 
