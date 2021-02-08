@@ -1,7 +1,8 @@
 function commit_to_hours_data(data, options) {
   let startDate = 0;
   if (options && options.before_month) {
-    startDate = new Date(new Date().valueOf() - (options.before_month * 30 * 24 * 60 * 60 * 1000));
+    let one_month = 30;
+    startDate = new Date(new Date().valueOf() - (options.before_month * one_month * 24 * 60 * 60 * 1000));
   }
 
   let hoursDate = [];
