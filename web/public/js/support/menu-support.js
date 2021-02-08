@@ -1,4 +1,3 @@
-
 let MenuHandle = {
   copyText: function (text) {
     let ta = document.createElement("textarea");
@@ -13,13 +12,18 @@ let MenuHandle = {
 }
 
 let MenuSupport = {
-  menuFactory: function (x, y, menuItems, data, svg) {
+  menuFactory: function (x, y, menuItems, data, svg, offsetOptions) {
     d3.select(".contextMenu").remove();
 
     // Draw the menu
     svg.append('g')
       .attr('class', "contextMenu")
-      .attr('transform', 'translate(0, 10)')
+      .attr('transform', function (d) {
+        if (!!offsetOptions && offsetOptions.width) {
+          return 'translate(' + offsetOptions.width + ',' + offsetOptions.height + ')'
+        }
+        return 'translate(0, 10)';
+      })
       .selectAll('tmp')
       .data(menuItems).enter()
       .append('g').attr('class', "menuEntry")
@@ -60,8 +64,8 @@ let MenuSupport = {
         d3.select(".contextMenu").remove();
       });
   },
-  createContextMenu: function (event, d, menuItems, svg) {
-    MenuSupport.menuFactory(event.layerX, event.layerY, menuItems, d, svg);
+  createContextMenu: function (event, d, menuItems, svg, offsetOptions) {
+    MenuSupport.menuFactory(event.layerX, event.layerY, menuItems, d, svg, offsetOptions);
     event.preventDefault();
   },
   defaultMenuItems: [

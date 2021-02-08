@@ -60,7 +60,11 @@ function renderPacking(originData) {
     })
     .on("click", (event, d) => focus !== d && (zoom(d), event.stopPropagation()))
     .on("contextmenu", (event, d) => {
-      MenuSupport.createContextMenu(event, d, MenuSupport.defaultMenuItems, svg);
+      console.log(event, d);
+      MenuSupport.createContextMenu(event, d, MenuSupport.defaultMenuItems, svg, {
+        width: -width / 2,
+        height: -height / 2
+      });
       event.stopPropagation();
     })
 
