@@ -20,7 +20,7 @@ let MenuSupport = {
     d3.select(svgId)
       .append('g')
       .attr('class', "contextMenu")
-      .attr('transform', 'translate(' + (width - 600) + ',-' + (height + 100) + ')')
+      .attr('transform', 'translate(0, 10)')
       .selectAll('tmp')
       .data(menuItems).enter()
       .append('g').attr('class', "menuEntry")
@@ -62,7 +62,7 @@ let MenuSupport = {
       });
   },
   createContextMenu: function (event, d, menuItems, width, height, svgId) {
-    MenuSupport.menuFactory(event.pageX - width / 2, event.pageY - height / 1.5, menuItems, d, svgId, width, height);
+    MenuSupport.menuFactory(event.layerX, event.layerY, menuItems, d, svgId, width, height);
     event.preventDefault();
   }
 }
