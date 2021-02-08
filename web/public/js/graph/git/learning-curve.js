@@ -21,8 +21,8 @@ function renderLearningCurve(data) {
     })
 
     let margin = {top: 10, right: 100, bottom: 30, left: 30},
-        width = 960 - margin.left - margin.right,
-        height = 400 - margin.top - margin.bottom;
+        width = GraphConfig.width - margin.left - margin.right,
+        height = GraphConfig.height - margin.top - margin.bottom;
 
     let myColor = d3.scaleOrdinal()
         .domain(data)

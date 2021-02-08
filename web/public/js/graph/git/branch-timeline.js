@@ -18,7 +18,7 @@ function renderBranches(csv) {
   }).sort((a, b) => a.start - b.start);
 
   let height = csv.length * 30;
-  let width = 1000;
+  let width = GraphConfig.width;
 
   let margin = {
     top: 30,

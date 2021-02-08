@@ -1,8 +1,8 @@
 // based on: http://bl.ocks.org/ganezasan/dfe585847d65d0742ca7d0d1913d50e1
 const renderHeatmapChart = function (id, data) {
   const margin = {top: 20, right: 0, bottom: 20, left: 40},
-    width = 1200 - margin.left - margin.right,
-    height = 320 - margin.top - margin.bottom,
+    width = (GraphConfig.width * 4 / 5) - margin.left - margin.right,
+    height = GraphConfig.height / 2.5 - margin.top - margin.bottom,
     gridSize = Math.floor(width / 40),
     legendElementWidth = gridSize * 2,
     buckets = 8,

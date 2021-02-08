@@ -22,8 +22,9 @@ function renderPacking(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  let width = 1200;
+  let width = GraphConfig.width;
   let height = width;
+
   let color = d3.scaleLinear()
     .domain([0, 5])
     .range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])

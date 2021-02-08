@@ -5,8 +5,8 @@ function renderNestedTreemap(originData) {
     .interpolate(d3.interpolateHcl);
 
   const format = d3.format(",d");
-  const width = 1200;
-  const height = 960;
+  const width = GraphConfig.width;
+  const height = GraphConfig.height;
   const x = d3.scaleLinear().rangeRound([0, width]);
   const y = d3.scaleLinear().rangeRound([0, height]);
 

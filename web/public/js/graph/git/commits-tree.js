@@ -75,7 +75,7 @@ let renderCommitsTree = function (data) {
   let radius = 5;
   let shaMargin = 60;
 
-  let width = 1440;
+  let width = GraphConfig.width;
   let svg = d3.select("#commits-tree").append("svg")
   svg.style('height', (tree.length + 1) * yGap + 2 * radius + 'px')
   svg.style('width', width);
