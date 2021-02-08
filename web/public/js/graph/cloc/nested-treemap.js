@@ -42,22 +42,6 @@ function renderNestedTreemap(originData) {
   let group = svg.append("g")
     .call(render, treemap(data));
 
-  const menuItems = [
-    {
-      title: 'Copy Path',
-      action: (d) => {
-        MenuHandle.copyText(d.data.path);
-      }
-    },
-    {
-      title: 'Open In Idea (Todo)',
-      action: (d) => {
-        // todo: add identify idea projects support
-        window.open("jetbrains://open?url=" + d.data.path);
-      }
-    }
-  ];
-
   function render(group, root) {
     const shadow = DOM.uid("shadow");
 
@@ -79,8 +63,7 @@ function renderNestedTreemap(originData) {
       .join("g")
       .attr("transform", d => `translate(${d.x0},${d.y0})`)
       .on("contextmenu", (event, d) => {
-        console.log(event, d);
-        MenuSupport.createContextMenu(event, d, menuItems, width, height, '#graphSvg');
+        MenuSupport.createContextMenu(event, d, MenuSupport.defaultMenuItems, svg);
       })
 
     node.append("title")
