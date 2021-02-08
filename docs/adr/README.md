@@ -16,3 +16,4 @@
 * [14. organization-description-languages](0014-organization-description-languages.md)
 * [15. struct-analysis](0015-struct-analysis.md)
 * [16. plugin-system](0016-plugin-system.md)
+* [17. usr-cargo-make-for-custom-tasks-sets](0017-usr-cargo-make-for-custom-tasks-sets.md)
