@@ -39,7 +39,5 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart("#hour-heatmap", commit_to_hours_data(data));
   renderHeatmapChart("#hour-heatmap-half-year", commit_to_hours_data(data, {before_month: 6}));
   renderHeatmapChart("#hour-heatmap-three-month", commit_to_hours_data(data, {before_month: 3}));
-  let usersData = range_commits_by_users(data, 30);
-
-  renderLearningCurve(usersData);
+  renderLearningCurve(range_commits_by_users(data, 30));
 });

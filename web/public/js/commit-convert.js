@@ -1,6 +1,6 @@
 function commit_to_hours_data(data, options) {
   let startDate = 0;
-  if(options && options.before_month) {
+  if (options && options.before_month) {
     startDate = new Date(new Date().valueOf() - (options.before_month * 30 * 24 * 60 * 60 * 1000));
   }
 
@@ -62,7 +62,7 @@ function commit_to_author_map(data) {
   return authors;
 }
 
-function range_commits_by_users(data, range = 30) {
+function range_commits_by_users(data, range) {
   let usermap = {};
   for (let datum of data.reverse()) {
     if (!usermap[datum.email]) {
