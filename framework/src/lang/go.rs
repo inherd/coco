@@ -1,10 +1,9 @@
-use std::collections::{BTreeMap, HashSet};
+use walkdir::DirEntry;
 
-pub fn light_detect<'a>(names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
-    let mut tags = BTreeMap::new();
-    tags.insert(
-        "workspace.go",
-        names.contains("go.mod") || names.contains("main.go"),
-    );
-    tags
+pub fn get_tag<'a>(entry: &DirEntry) -> Option<&'a str> {
+    let file_name = entry.file_name().to_str().unwrap();
+    match file_name {
+        "go.mod" | "main.go" => Some("workspace.go"),
+        _ => None,
+    }
 }

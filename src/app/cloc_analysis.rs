@@ -50,7 +50,7 @@ mod test {
         let buf = fixtures_dir().join("projects").join("java").join("hello");
         let languages = cloc_analysis::analysis(buf);
 
-        assert_eq!(1, languages.len());
+        assert_eq!(2, languages.len());
         assert_eq!("Java", languages[0].language);
         assert_eq!(1, languages[0].blanks);
         assert_eq!(6, languages[0].code);

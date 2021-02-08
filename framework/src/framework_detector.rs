@@ -1,9 +1,6 @@
-use std::collections::{BTreeMap, HashSet};
-
-use walkdir::WalkDir;
-
 use crate::facet::{Facet, FacetsBuilder};
 use crate::lang::LangDetectors;
+use std::collections::BTreeMap;
 use std::path::Path;
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
@@ -45,38 +42,16 @@ impl<'a> FrameworkDetector<'a> {
     }
 
     fn lang_detect<P: AsRef<Path>>(&mut self, path: P) {
-        let names = FrameworkDetector::build_name_set(path);
-        let lang_detectors = LangDetectors::default();
-        let mut lang_tags = lang_detectors.detect(&names);
-        self.tags.append(&mut lang_tags);
+        let mut lang_detectors = LangDetectors::default();
+        lang_detectors.detect(&path);
+
+        self.tags.append(&mut lang_detectors.tags);
     }
 
     fn build_project_info(&mut self) {
         let builder = FacetsBuilder::default();
         let mut facets = builder.build(&self.tags);
         self.facets.append(&mut facets);
-    }
-
-    pub fn build_name_set<P: AsRef<Path>>(path: P) -> HashSet<String> {
-        let mut name_sets: HashSet<String> = HashSet::new();
-        let walk_dir = WalkDir::new(path);
-        for dir_entry in walk_dir.into_iter() {
-            if dir_entry.is_err() {
-                continue;
-            }
-
-            let entry = dir_entry.unwrap();
-            if entry.path().file_name().is_none() {
-                println!("none file_name {:?}", entry.path());
-                continue;
-            }
-
-            let file_name = entry.path().file_name().unwrap();
-
-            name_sets.insert(file_name.to_str().unwrap().to_string());
-        }
-
-        name_sets
     }
 }
 
@@ -111,7 +86,6 @@ mod tests {
             .tags
             .get(jvm::WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE)
             .unwrap());
-        assert_eq!(&false, detector.tags.get("workspace.npm").unwrap());
     }
 
     #[test]
@@ -134,7 +108,7 @@ mod tests {
     fn should_detect_rust_cargo_project() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "rust", "cargo"]);
 
-        assert_eq!(&true, detector.tags.get("workspace.rust.cargo").unwrap());
+        assert_eq!(&true, detector.tags.get("workspace.cargo").unwrap());
     }
 
     #[test]
