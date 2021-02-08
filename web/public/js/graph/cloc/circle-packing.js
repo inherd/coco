@@ -22,7 +22,7 @@ function renderPacking(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  let width = GraphConfig.width;
+  let width = GraphConfig.height;
   let height = width;
 
   let color = d3.scaleLinear()

@@ -68,6 +68,7 @@ let renderCommitsTree = function (data) {
   for (let value in shaMap) {
     tree.push(shaMap[value]);
   }
+  let branch_num = Object.keys(branchMap).length;
 
   let xGap = 11;
   let yGap = 20;
@@ -169,7 +170,7 @@ let renderCommitsTree = function (data) {
     .append('text')
     .attr('font-size', 12)
     .attr('x', function (commit) {
-      return 200;
+      return branch_num * 20;
     })
     .attr('y', function (commit, idx) {
       return 5 + commit.idx * yGap;
