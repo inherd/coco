@@ -1,5 +1,9 @@
 function renderNestedTreemap(originData) {
-  const color = d3.scaleSequential([8, 0], d3.interpolateMagma);
+  let color = d3.scaleLinear()
+    .domain([0, 4])
+    .range(["hsl(0,0%,100%)", "hsl(197,73%,45%)"])
+    .interpolate(d3.interpolateHcl);
+
   const format = d3.format(",d");
   const width = 1200;
   const height = 960;
@@ -75,6 +79,7 @@ function renderNestedTreemap(originData) {
       .join("g")
       .attr("transform", d => `translate(${d.x0},${d.y0})`)
       .on("contextmenu", (event, d) => {
+        console.log(event, d);
         MenuSupport.createContextMenu(event, d, menuItems, width, height, '#graphSvg');
       })
 
