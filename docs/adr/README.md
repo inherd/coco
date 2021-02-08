@@ -15,3 +15,4 @@
 * [13. suggest-design](0013-suggest-design.md)
 * [14. organization-description-languages](0014-organization-description-languages.md)
 * [15. struct-analysis](0015-struct-analysis.md)
+* [16. plugin-system](0016-plugin-system.md)
