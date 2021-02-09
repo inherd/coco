@@ -11,20 +11,20 @@ lazy_static! {
     .unwrap();
 }
 
-pub struct GitLogParser {
+pub struct GitTagParser {
     tags: Vec<CocoTag>,
 }
 
-impl Default for GitLogParser {
+impl Default for GitTagParser {
     fn default() -> Self {
-        GitLogParser { tags: vec![] }
+        GitTagParser { tags: vec![] }
     }
 }
 
-impl GitLogParser {
+impl GitTagParser {
     pub fn parse(str: &str) -> Vec<CocoTag> {
         let split = str.split("\n");
-        let mut parser = GitLogParser::default();
+        let mut parser = GitTagParser::default();
 
         for line in split {
             parser.parse_log_by_line(line)
@@ -59,7 +59,7 @@ impl GitLogParser {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::git::git_tag_parser::GitLogParser;
+    use crate::infrastructure::git::git_tag_parser::GitTagParser;
 
     #[test]
     pub fn should_parse_commit_id() {
@@ -67,7 +67,7 @@ mod test {
 1fec6a3c 1570655888
 71db1ab2 1541570931";
 
-        let tags = GitLogParser::parse(input);
+        let tags = GitTagParser::parse(input);
         assert_eq!(1, tags.len());
         assert_eq!("92fffa9b", &tags[0].commit_id);
         assert_eq!(1571521692, tags[0].date);
@@ -77,7 +77,7 @@ mod test {
     #[test]
     pub fn should_not_parse_branch() {
         let input = "817b444 1611642635  (origin/add-license-1)";
-        let tags = GitLogParser::parse(input);
+        let tags = GitTagParser::parse(input);
 
         assert_eq!(0, tags.len());
     }
@@ -85,7 +85,7 @@ mod test {
     #[test]
     pub fn should_parse_multiple_tags() {
         let input = "0f152d07 1582212561  (tag: v0.34.0, tag: std/0.34.0)";
-        let tags = GitLogParser::parse(input);
+        let tags = GitTagParser::parse(input);
 
         assert_eq!(2, tags.len());
         assert_eq!("std/0.34.0", tags[1].name);
