@@ -33,6 +33,31 @@ function renderTagsTimeline(data) {
   svg.append("g")
     .call(d3.axisLeft(y));
 
+  // create a tooltip
+  let tooltip = d3.select("#tags-timeline")
+    .append("div")
+    .style("opacity", 0)
+    .attr("class", "tooltip")
+    .style("background-color", "#ddd")
+    .style("border", "solid")
+    .style("border-width", "2px")
+    .style("border-radius", "5px")
+    .style("padding", "5px")
+
+  // Three function that change the tooltip when user hover / move / leave a cell
+  let mouseover = function (event, d) {
+    tooltip.style("opacity", 1)
+  }
+  let mousemove = function (event, d) {
+    tooltip
+      .html("tag: " + d.name + "<br/> time: " + formatDate(d.date))
+      .style("left", event.pageX + 20 + "px")
+      .style("top", event.pageY + "px")
+  }
+  let mouseleave = function (event, d) {
+    tooltip.style("opacity", 0)
+  }
+
   svg.append('g')
     .selectAll("dot")
     .data(data)
@@ -44,6 +69,9 @@ function renderTagsTimeline(data) {
     .attr("cy", function (d) {
       return y(d.date * 1000);
     })
-    .attr("r", 3)
+    .attr("r", 5)
     .style("fill", "#69b3a2")
+    .on("mouseover", mouseover)
+    .on("mousemove", mousemove)
+    .on("mouseleave", mouseleave)
 }
