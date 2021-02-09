@@ -8,7 +8,6 @@ build:
   cargo build
 
 release:
-  just setup
   cargo build --verbose --release
 
 @bench:

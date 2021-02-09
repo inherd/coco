@@ -21,19 +21,13 @@ follow [https://www.rust-lang.org/tools/install](https://www.rust-lang.org/tools
 
 follow: [https://github.com/casey/just](https://github.com/casey/just)
 
-3.run setup
-
-```
-just setup
-```
-
-4.run tests
+3.run tests
 
 ```
 just tests
 ```
 
-5.test command
+4.test command
 
 ```
 cargo run --bin coco
