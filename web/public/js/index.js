@@ -32,7 +32,7 @@ d3.json("data/git.json").then(function (json) {
 });
 
 d3.json("data/git-tags.json").then(function (json) {
-  console.log(json);
+  renderTagsTimeline(json);
 });
 
 d3.json("data/git-commits.json").then(function (data) {
