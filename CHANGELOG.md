@@ -1,4 +1,68 @@
-# [](https://github.com/phodal/coco/compare/v0.1.3...v) (2021-02-02)
+# [](https://github.com/phodal/coco/compare/v0.2.0...v) (2021-02-09)
+
+
+
+# [0.2.0](https://github.com/phodal/coco/compare/v0.1.3...v0.2.0) (2021-02-09)
+
+
+### Bug Fixes
+
+* add dirty solution for relove commits ([036faf5](https://github.com/phodal/coco/commit/036faf57ba3e8d44561999a3aec1a330ee88a6ad))
+* add git tags command ([fc1777a](https://github.com/phodal/coco/commit/fc1777a90e3c766da76de6bfd765c652fddfe46b))
+* fix branch override issue ([d7e7553](https://github.com/phodal/coco/commit/d7e7553cbc3322d5eb0cf20201ff8b3e1f38ef19))
+* fix command issue ([ca359d2](https://github.com/phodal/coco/commit/ca359d26e7908059333b30aa242d230170b79c3a))
+* fix default not suffix issues ([cfc9266](https://github.com/phodal/coco/commit/cfc9266c4955f2359dbcf7c2a99bafc1dfc60a62))
+* fix first date lost time issues ([6614c0f](https://github.com/phodal/coco/commit/6614c0f5c993bfd2bc0dd87442b554b7e4b26941))
+* fix nested treemap position issue ([5af8a1d](https://github.com/phodal/coco/commit/5af8a1db45872e5f43bdfdfdb67129fc87cebb87))
+* remove unused server subcommand ([148c95e](https://github.com/phodal/coco/commit/148c95e3c411faac5fe9ae26adfd6d370eb35a59))
+* **visual:** fix console log issues ([bb3ab9f](https://github.com/phodal/coco/commit/bb3ab9f3426358eccd5a3e033ce99d5d89379145))
+* **visual:** update data ([eb2627c](https://github.com/phodal/coco/commit/eb2627c3c6c7ee4c28741b221d512656fbf62d5f))
+* fix parse i32 issue ([20dc86d](https://github.com/phodal/coco/commit/20dc86d81c8d46217e1206c309ef5ba8df2d4422))
+* fix tests ([9c9ce0f](https://github.com/phodal/coco/commit/9c9ce0f5c7e566d020f3dbeb51ddf9b45d742195))
+* handle for parent hashes empty issue ([d08efbe](https://github.com/phodal/coco/commit/d08efbe5e00d519994567fcb008216d0f08de7f6))
+* some file format ([a1bc309](https://github.com/phodal/coco/commit/a1bc3097c79460cf6841e15c99f2aabd04125027))
+
+
+### Features
+
+* **visual:** add api for fetch git-tags.json to project ([ae9f0c2](https://github.com/phodal/coco/commit/ae9f0c2ca34fba09d2d127f34c342d2d0836926a))
+* **visual:** add first version tag history ([1558e85](https://github.com/phodal/coco/commit/1558e8576b42f1c45fa39ffa341912ab7bdbc5a5))
+* **visual:** add hover effect for tag history ([42975a1](https://github.com/phodal/coco/commit/42975a146254830d0889d6c0b1affea3205abb9d))
+* **visual:** add select for git tags history ([5ef5e54](https://github.com/phodal/coco/commit/5ef5e541f102c397c4915dbebb3963d483669bca))
+* **visual:** add select tags by years ([136e71c](https://github.com/phodal/coco/commit/136e71c8c195116087175c77b23631c8be0c41a7))
+* **visual:** add short text for less tags ([4c366d1](https://github.com/phodal/coco/commit/4c366d1e3c673cddc5c9b81bd23d95e9c46757f8))
+* **visual:** add tag time for display ([f6900fc](https://github.com/phodal/coco/commit/f6900fccfc5cc4c753c8a646e5c7dd313f9813e1))
+* add basic parse for git tag ([49a8860](https://github.com/phodal/coco/commit/49a886049470e10f8a3e2e0c96e1c8c037b6ead8))
+* add basic support for packinmg chart ([d69c249](https://github.com/phodal/coco/commit/d69c2491b374e9da09e982f02a4bdffa94215f75))
+* add basic timeline support ([8ebaaa7](https://github.com/phodal/coco/commit/8ebaaa791c347ba78abf4c70f177b58d3586dc1b))
+* add count for current commit change line ([c72b321](https://github.com/phodal/coco/commit/c72b3211be66ee285bcb438b9bac6a44c34b446e))
+* add email as field for generate date ([8c4f9e1](https://github.com/phodal/coco/commit/8c4f9e11e02864bf0a406b73ebda386b34e210cd))
+* add exec_path as paramter for multiple projects run ([c9408f9](https://github.com/phodal/coco/commit/c9408f9ac340a39d0b62e581793a3867d76734dd))
+* add expand function for convert such as ~ path ([6f1c7da](https://github.com/phodal/coco/commit/6f1c7da02da96e9898a58374a360ccbaf6339a5c))
+* add latest_changeset to branch ([04ebf1c](https://github.com/phodal/coco/commit/04ebf1c00b5b2181a9b24362b7aa3d4fb364f44e))
+* add members lifecyle ([227bf63](https://github.com/phodal/coco/commit/227bf63ae0d8733428b55e570d0fe61b1a70aa78))
+* add parents hashes for commit mode ([ef09582](https://github.com/phodal/coco/commit/ef095828d896f8683ce6d9e446e6edaf7a671b48))
+* add parse for tag name ([658b655](https://github.com/phodal/coco/commit/658b655f414c8851d4f752d6e57097b309b9a852))
+* add renderLearningCurve without mousehover effect ([b8512f3](https://github.com/phodal/coco/commit/b8512f341d9f5f782ded383c60277548988593d0))
+* add tooltip for counts ([4ddf2ef](https://github.com/phodal/coco/commit/4ddf2efa1104d0b40f43675b3251323454eb2148))
+* detect jvm language. ([021732b](https://github.com/phodal/coco/commit/021732bf27217937e98686a191bac8e9212d8bd4))
+* init tag analysis apps ([01842c2](https://github.com/phodal/coco/commit/01842c286fd62bc3cacc2a2087499d8fa6545ac4))
+* intergration to app ([9b0d929](https://github.com/phodal/coco/commit/9b0d929afe29cdcd6c0e3c848319d2d725434385))
+* make build naming commit maps ([36444b9](https://github.com/phodal/coco/commit/36444b9e8cee54591d74427459fb90d7b69ffbac))
+* **visual:** add demo ofr learning curve chart ([ccfb71f](https://github.com/phodal/coco/commit/ccfb71f4267e98794120caca60e2a1e16168c7a7))
+* make cli support for name as paramter ([ce27460](https://github.com/phodal/coco/commit/ce2746048491f9836fb6418e54104a3d1e8af1da))
+* make commit to working days works ([b3b23b8](https://github.com/phodal/coco/commit/b3b23b88b59c37d03834adcf67bca00da55d4e75))
+* make test for e2e export ([63512df](https://github.com/phodal/coco/commit/63512dff5c7020cab4069229b09d5b050c12b209))
+* **git:** add branch to git log command ([b42a908](https://github.com/phodal/coco/commit/b42a908a3c54eced73319f73982923315d7f9921))
+* **visual:** add basic branch line output demo ([b39d827](https://github.com/phodal/coco/commit/b39d8270084970c53a9d57c6bd40b9e18c26c9cb))
+* **visual:** add before moenth ([81cc9cd](https://github.com/phodal/coco/commit/81cc9cd875b41ffce0833b4442b8ba7804ea2864))
+* add output commits support ([c6289b5](https://github.com/phodal/coco/commit/c6289b544661a47c6583acbf1e41eae1d5754a36))
+* create conventional message log ([c09aa49](https://github.com/phodal/coco/commit/c09aa49031ef8d4d689c1584ac2350c158076b22))
+
+
+### Reverts
+
+* Revert "refactor: rename commit to commit_sha to match results" ([dec4f48](https://github.com/phodal/coco/commit/dec4f488d6ee89ce5cc341df368080c975d0d4e9))
 
 
 
