@@ -40,6 +40,7 @@ impl GitTagParser {
             let date_str = &captures["date"];
             let date = date_str.parse::<i64>().unwrap();
 
+            let mut share_index = 1;
             for tag in tags {
                 if !tag.contains("tag:") {
                     continue;
@@ -50,8 +51,10 @@ impl GitTagParser {
                     name: tag.to_string(),
                     display_name: tag.to_string(),
                     commit_id: commit_id.to_string(),
-                    date: date,
-                })
+                    date,
+                    share_index,
+                });
+                share_index = share_index + 1;
             }
         }
     }

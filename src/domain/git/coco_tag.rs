@@ -6,6 +6,7 @@ pub struct CocoTag {
     pub display_name: String,
     pub commit_id: String,
     pub date: i64,
+    pub share_index: i64,
 }
 
 impl Default for CocoTag {
@@ -15,6 +16,7 @@ impl Default for CocoTag {
             display_name: "".to_string(),
             commit_id: "".to_string(),
             date: 0,
+            share_index: 0,
         }
     }
 }
