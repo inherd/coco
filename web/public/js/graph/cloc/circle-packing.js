@@ -69,7 +69,7 @@ function renderPacking(originData) {
     })
 
   const label = svg.append("g")
-    .style("font", "18px sans-serif")
+    .style("font", "12px sans-serif")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
     .selectAll("text")
