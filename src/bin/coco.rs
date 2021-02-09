@@ -5,7 +5,7 @@ use rayon::prelude::*;
 
 use coco::app::architecture_analysis;
 use coco::app::cmd::CocoCliOption;
-use coco::app::git_analysis::{branch_analysis, commit_analysis};
+use coco::app::git_analysis::{branch_analysis, commit_analysis, tag_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
 use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
@@ -63,10 +63,12 @@ fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {
     let start = Instant::now();
     repos.par_iter().for_each(|repo| {
         let url_str = repo.url.as_str();
-
         // todo: thinking in refactor to patterns
+
+        // todo: merge to one app?
         analysis_branches(url_str);
         analysis_commits(url_str);
+        analysis_tags(url_str);
 
         analysis_framework(url_str);
         analysis_cloc(url_str);
@@ -89,6 +91,16 @@ fn analysis_framework(url_str: &str) {
 fn analysis_branches(url_str: &str) {
     let branches = branch_analysis::analysis(url_str);
     let file_name = url_format::json_filename(url_str);
+
+    let result = serde_json::to_string_pretty(&branches).unwrap();
+    let output_file = Settings::git().join(file_name);
+
+    fs::write(output_file, result).expect("cannot write file");
+}
+
+fn analysis_tags(url_str: &str) {
+    let branches = tag_analysis::analysis(url_str);
+    let file_name = url_format::json_filename_suffix(url_str, Some("-tags"));
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
     let output_file = Settings::git().join(file_name);
