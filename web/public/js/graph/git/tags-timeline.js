@@ -152,7 +152,7 @@ function renderTagsTimeline(data) {
           return x(d.index);
         })
         .attr("y", function (d) {
-          return y(d.date);
+          return y(d.date) - 10;
         })
         .style("text-anchor", "middle")
         .style("font-size", "12px")
