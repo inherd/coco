@@ -12,7 +12,7 @@ mod test {
     use std::sync::Once;
 
     use crate::infrastructure::git::git_branch::GitBranch;
-    use crate::infrastructure::git::git_command::get_commit_message;
+    use crate::infrastructure::git::git_command::commit_message;
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
     use crate::infrastructure::git::GitRepository;
     use crate::infrastructure::url_format;
@@ -79,7 +79,7 @@ mod test {
         let local_path = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
         let abs_path = root.join(local_path);
 
-        let messages = get_commit_message(Some(format!("{}", abs_path.display())));
+        let messages = commit_message(Some(format!("{}", abs_path.display())));
         let vec = GitMessageParser::parse(messages.as_str());
         assert!(vec.len() >= 3);
 
