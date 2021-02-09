@@ -44,10 +44,40 @@ function renderTagsTimeline(data) {
     .style("border-radius", "5px")
     .style("padding", "5px")
 
+  let line = d3.line()
+    .x(function (d) {
+      return x(d.date * 1000);
+    })
+    .y(function (d) {
+      return y(d.index);
+    });
+
   // Three function that change the tooltip when user hover / move / leave a cell
   let mouseover = function (event, d) {
+
+    g.selectAll("#tooltip_path")
+      .data([d]).enter().append("line")
+      .attr("id", "tooltip_path")
+      .attr("class", "dot-line")
+      .attr("d", line)
+      .attr("x1", function (d) {
+        return 0
+      })
+      .attr("y1", function (d) {
+        return y(d.date * 1000)
+      })
+      .attr("x2", function (d) {
+        return x(d.index)
+      })
+      .attr("y2", function (d) {
+        return y(d.date * 1000)
+      })
+      .attr("stroke", "black")
+      .style("stroke-dasharray", ("3, 3"));
+
     tooltip.style("opacity", 1)
   }
+
   let mousemove = function (event, d) {
     tooltip
       .html("tag: " + d.name + "<br/> time: " + formatDate(d.date))
@@ -55,11 +85,12 @@ function renderTagsTimeline(data) {
       .style("top", event.pageY + "px")
   }
   let mouseleave = function (event, d) {
-    tooltip.style("opacity", 0)
+    tooltip.style("opacity", 0);
+    g.selectAll("#tooltip_path").remove();
   }
 
-  svg.append('g')
-    .selectAll("dot")
+  let g = svg.append('g');
+  g.selectAll("dot")
     .data(data)
     .enter()
     .append("circle")
