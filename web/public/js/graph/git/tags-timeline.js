@@ -54,7 +54,6 @@ function renderTagsTimeline(data) {
 
   // Three function that change the tooltip when user hover / move / leave a cell
   let mouseover = function (event, d) {
-
     g.selectAll("#tooltip_path")
       .data([d]).enter().append("line")
       .attr("id", "tooltip_path")
@@ -100,9 +99,26 @@ function renderTagsTimeline(data) {
     .attr("cy", function (d) {
       return y(d.date * 1000);
     })
-    .attr("r", 5)
+    .attr("r", 3)
     .style("fill", "#69b3a2")
     .on("mouseover", mouseover)
     .on("mousemove", mousemove)
     .on("mouseleave", mouseleave)
+
+  // limit display tags number
+  if (data.length <= 20) {
+    g.selectAll("dot")
+      .data(data)
+      .enter()
+      .append("text")
+      .text((d) => d.name)
+      .attr("x", function (d) {
+        return x(d.index);
+      })
+      .attr("y", function (d) {
+        return y(d.date * 1000);
+      })
+      .style("text-anchor", "middle")
+      .style("font-size", "12px")
+  }
 }
