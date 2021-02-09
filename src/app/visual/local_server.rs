@@ -55,6 +55,9 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
     if coco_type.ends_with("-commits") {
         coco_type = "git".to_string();
         project_file = format!("{}-commits.json", project);
+    } else if coco_type.ends_with("-tags") {
+        coco_type = "git".to_string();
+        project_file = format!("{}-tags.json", project);
     }
 
     let output_path = Settings::reporter_dir(Some(coco_type.as_str())).join(project_file);
