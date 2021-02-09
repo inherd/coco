@@ -3,6 +3,7 @@ function renderTagsTimeline(data) {
 
   let i = 0;
   data.forEach(function (d) {
+    d.date = d.date * 1000;
     d.index = i;
     i++;
   });
@@ -27,7 +28,7 @@ function renderTagsTimeline(data) {
     .call(d3.axisBottom(x));
 
   let y = d3.scaleTime()
-    .domain([data[0].date * 1000, Date.now()])
+    .domain([data[0].date, Date.now()])
     .range([height, 0]);
 
   svg.append("g")
@@ -46,7 +47,7 @@ function renderTagsTimeline(data) {
 
   let line = d3.line()
     .x(function (d) {
-      return x(d.date * 1000);
+      return x(d.date);
     })
     .y(function (d) {
       return y(d.index);
@@ -63,13 +64,13 @@ function renderTagsTimeline(data) {
         return 0
       })
       .attr("y1", function (d) {
-        return y(d.date * 1000)
+        return y(d.date)
       })
       .attr("x2", function (d) {
         return x(d.index)
       })
       .attr("y2", function (d) {
-        return y(d.date * 1000)
+        return y(d.date)
       })
       .attr("stroke", "black")
       .style("stroke-dasharray", ("3, 3"));
@@ -97,7 +98,7 @@ function renderTagsTimeline(data) {
       return x(d.index);
     })
     .attr("cy", function (d) {
-      return y(d.date * 1000);
+      return y(d.date);
     })
     .attr("r", 3)
     .style("fill", "#69b3a2")
@@ -116,7 +117,7 @@ function renderTagsTimeline(data) {
         return x(d.index);
       })
       .attr("y", function (d) {
-        return y(d.date * 1000);
+        return y(d.date);
       })
       .style("text-anchor", "middle")
       .style("font-size", "12px")
