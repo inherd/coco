@@ -115,7 +115,7 @@ function renderTagsTimeline(data) {
 
     let mousemove = function (event, d) {
       tooltip
-        .html("tag: " + d.name + "<br/> time: " + standardFormatDate(d.date))
+        .html("tag: " + d.name + "<br/>time: " + standardFormatDate(d.date) + "<br/> id: " + d.commit_id)
         .style("left", event.pageX + 20 + "px")
         .style("top", event.pageY + "px")
     }
@@ -123,6 +123,10 @@ function renderTagsTimeline(data) {
       tooltip.style("opacity", 0);
       g.selectAll("#tooltip_path").remove();
     }
+
+    let color = d3.scaleLinear()
+      .domain([0, 2])
+      .range(["#00F", "#F00"]);
 
     g.selectAll("dot")
       .data(selectData)
@@ -136,7 +140,9 @@ function renderTagsTimeline(data) {
         return y(d.date);
       })
       .attr("r", 3)
-      .style("fill", "#69b3a2")
+      .style("fill", function (d) {
+        return color(d.share_index);
+      })
       .on("mouseover", mouseover)
       .on("mousemove", mousemove)
       .on("mouseleave", mouseleave)
