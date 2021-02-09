@@ -125,8 +125,8 @@ function renderTagsTimeline(data) {
     }
 
     let color = d3.scaleLinear()
-      .domain([0, 2])
-      .range(["#00F", "#F00"]);
+      .domain([0, 5])
+      .range(["#F00", "#000"]);
 
     g.selectAll("dot")
       .data(selectData)
