@@ -148,7 +148,7 @@ function renderTagsTimeline(data) {
       .on("mouseleave", mouseleave)
 
     // limit display tags number
-    if (selectData.length <= 20) {
+    if (selectData.length <= 50) {
       g.selectAll("dot")
         .data(selectData)
         .enter()
