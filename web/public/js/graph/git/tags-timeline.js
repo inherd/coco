@@ -1,14 +1,5 @@
-function renderTagsTimeline(data) {
-  data = data.reverse();
-
-  let i = 0;
-  data.forEach(function (d) {
-    d.date = d.date * 1000;
-    d.index = i;
-    i++;
-  });
-
-  let startDate = new Date(data[0].date);
+function buildYearOptions(date) {
+  let startDate = new Date(date);
   let startYear = startDate.getFullYear();
   let currentYear = new Date().getFullYear();
 
@@ -16,6 +7,16 @@ function renderTagsTimeline(data) {
   for (let i = startYear; i <= currentYear; i++) {
     yearOptions.push(i);
   }
+  return yearOptions;
+}
+
+function renderTagsTimeline(data) {
+  data = data.reverse();
+  data.forEach(function (d) {
+    d.date = d.date * 1000;
+  });
+
+  let yearOptions = buildYearOptions(data[0].date);
 
   d3.select("#tags-timeline-select")
     .selectAll('myOptions')
@@ -24,7 +25,7 @@ function renderTagsTimeline(data) {
     .append('option')
     .text(function (d) {
       return d;
-    }) // text showed in the menu
+    })
     .attr("value", function (d) {
       return d;
     })
@@ -37,12 +38,12 @@ function renderTagsTimeline(data) {
     render(selectDate)
   })
 
-  let margin = {top: 20, right: 20, bottom: 30, left: 50},
-    width = GraphConfig.width - margin.left - margin.right,
-    height = 500 - margin.top - margin.bottom;
-
   function render(selectData) {
     d3.select("#tags-timeline svg").remove();
+
+    let margin = {top: 20, right: 20, bottom: 30, left: 50},
+      width = GraphConfig.width - margin.left - margin.right,
+      height = 500 - margin.top - margin.bottom;
 
     // create a tooltip
     let tooltip = d3.select("#tags-timeline")
@@ -114,7 +115,7 @@ function renderTagsTimeline(data) {
 
     let mousemove = function (event, d) {
       tooltip
-        .html("tag: " + d.name + "<br/> time: " + formatDate(d.date))
+        .html("tag: " + d.name + "<br/> time: " + standardFormatDate(d.date))
         .style("left", event.pageX + 20 + "px")
         .style("top", event.pageY + "px")
     }
@@ -127,8 +128,9 @@ function renderTagsTimeline(data) {
       .data(selectData)
       .enter()
       .append("circle")
-      .attr("cx", function (d) {
-        return x(d.index);
+      .attr("cx", function (d, i) {
+        d.index = i;
+        return x(i);
       })
       .attr("cy", function (d) {
         return y(d.date);
