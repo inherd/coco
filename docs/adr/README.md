@@ -17,3 +17,4 @@
 * [15. struct-analysis](0015-struct-analysis.md)
 * [16. plugin-system](0016-plugin-system.md)
 * [17. usr-cargo-make-for-custom-tasks-sets](0017-usr-cargo-make-for-custom-tasks-sets.md)
+* [18. cocomo-analysis-plugin](0018-cocomo-analysis-plugin.md)
