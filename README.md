@@ -101,6 +101,10 @@ reporter
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
     - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
+    - [ ] change
+       - [ ] line change
+       - [ ] changed file
+       - [ ] commit number
     - [x] git branch analysis
        - [x] branch history
        - [ ] branch visual. such as [https://app.gfc.io/github/nvie/gitflow](https://app.gfc.io/github/nvie/gitflow)
