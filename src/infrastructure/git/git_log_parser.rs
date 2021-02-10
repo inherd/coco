@@ -78,8 +78,10 @@ impl GitMessageParser {
 
         self.current_commit.changes = self.current_file_change.clone();
 
+        self.current_commit.changed_file_count = self.current_commit.changes.len() as i32;
         self.current_commit.total_added = 0;
         self.current_commit.total_deleted = 0;
+
         for change in &self.current_commit.changes {
             self.current_commit.total_added = self.current_commit.total_added + change.added;
             self.current_commit.total_deleted = self.current_commit.total_deleted + change.deleted;
@@ -95,6 +97,7 @@ impl GitMessageParser {
         if caps.len() > change_model_index {
             let mode = caps.get(1).unwrap().as_str();
             let file_name = caps.get(4).unwrap().as_str();
+
             if self.current_file_change_map.get(file_name).is_some() {
                 let change = self.current_file_change_map.get_mut(file_name).unwrap();
                 change.mode = mode.to_string();
@@ -163,6 +166,7 @@ impl GitMessageParser {
             tree_hash,
             total_added: 0,
             total_deleted: 0,
+            changed_file_count: 0,
         }
     }
 }
@@ -261,6 +265,7 @@ mod test {
         let commits = GitMessageParser::parse(input);
 
         assert_eq!(0, commits[0].parent_hashes.len());
+        assert_eq!(1, commits[0].changed_file_count);
     }
 
     #[test]
@@ -279,5 +284,6 @@ mod test {
         assert_eq!(23, commits[0].total_added);
         assert_eq!(3, commits[0].total_deleted);
         assert_eq!("h@phodal.com", commits[0].email);
+        assert_eq!(5, commits[0].changed_file_count);
     }
 }

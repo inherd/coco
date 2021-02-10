@@ -14,6 +14,7 @@ pub struct CocoCommit {
     pub tree_hash: String,
     pub total_added: i32,
     pub total_deleted: i32,
+    pub changed_file_count: i32,
 }
 
 impl Default for CocoCommit {
@@ -31,6 +32,7 @@ impl Default for CocoCommit {
             tree_hash: "".to_string(),
             total_added: 0,
             total_deleted: 0,
+            changed_file_count: 0,
         }
     }
 }

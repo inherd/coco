@@ -16,6 +16,7 @@ pub struct ShortCommit {
     pub tree_hash: String,
     pub total_added: i32,
     pub total_deleted: i32,
+    pub changed_file_count: i32,
 }
 
 impl ShortCommit {
@@ -31,6 +32,7 @@ impl ShortCommit {
             tree_hash: commit.tree_hash,
             total_added: commit.total_added,
             total_deleted: commit.total_deleted,
+            changed_file_count: commit.changed_file_count,
         }
     }
 }
