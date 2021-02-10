@@ -113,7 +113,7 @@ reporter
  - [ ] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
     - [ ] history cloc changes
-    - [ ] commit cloc changes
+    - [x] commit cloc changes
  - [ ] framework analysis.
     - framework detector
     - [x] merge from [scie-detector](https://github.com/datum-lang/scie/tree/master/scie-detector)
@@ -129,7 +129,7 @@ reporter
        - [x] code parser: [pest](https://github.com/pest-parser/pest)
        - [ ] languages support.
  - [ ] team analysis
-    - [ ] join time & life time
+    - [x] join time & life time
        - 以加入时间开始度量平均提交：上手成本分析
        - 平均加入时长
        - 成员加入时间点
