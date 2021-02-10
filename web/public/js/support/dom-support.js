@@ -1,4 +1,4 @@
-var count = 0;
+let count = 0;
 
 function Id(id) {
   this.id = id;

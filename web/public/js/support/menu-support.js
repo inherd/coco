@@ -1,16 +1,3 @@
-let MenuHandle = {
-  copyText: function (text) {
-    let ta = document.createElement("textarea");
-    ta.value = text;
-    ta.style.position = 'absolute';
-    ta.style.left = "-999999999px";
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-  }
-}
-
 let MenuSupport = {
   menuFactory: function (x, y, menuItems, data, svg, offsetOptions) {
     d3.select(".contextMenu").remove();
@@ -68,11 +55,21 @@ let MenuSupport = {
     MenuSupport.menuFactory(event.layerX, event.layerY, menuItems, d, svg, offsetOptions);
     event.preventDefault();
   },
+  copyText: function (text) {
+    let ta = document.createElement("textarea");
+    ta.value = text;
+    ta.style.position = 'absolute';
+    ta.style.left = "-999999999px";
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  },
   defaultMenuItems: [
     {
       title: 'Copy Path',
       action: (d) => {
-        MenuHandle.copyText(d.data.path);
+        MenuSupport.copyText(d.data.path);
       }
     },
     {
