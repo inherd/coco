@@ -75,6 +75,7 @@ let renderCommitsTree = function (data) {
   let gap = 2 / 5 * yGap;
   let radius = 5;
   let shaMargin = 60;
+  let commitMargin = 10;
 
   let width = GraphConfig.width;
   let svg = d3.select("#commits-tree").append("svg")
@@ -168,7 +169,7 @@ let renderCommitsTree = function (data) {
     .enter()
     .append('text')
     .attr('x', function (commit) {
-      return branch_num * 20;
+      return 5 + commit.column * xGap + shaMargin + commitMargin;
     })
     .attr('y', function (commit, idx) {
       return 5 + commit.idx * yGap;
