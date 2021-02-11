@@ -22,7 +22,7 @@ function renderBranches(csv) {
 
   let margin = {
     top: 30,
-    right: 30,
+    right: 150,
     bottom: 30,
     left: 30
   }
