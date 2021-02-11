@@ -152,7 +152,6 @@ let renderCommitsTree = function (data) {
     .data(tree)
     .enter()
     .append('text')
-    .attr('font-size', 12)
     .attr('x', function (commit) {
       return 0;
     })
@@ -168,7 +167,6 @@ let renderCommitsTree = function (data) {
     .data(tree)
     .enter()
     .append('text')
-    .attr('font-size', 12)
     .attr('x', function (commit) {
       return branch_num * 20;
     })

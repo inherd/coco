@@ -39,10 +39,9 @@ function renderPacking(originData) {
     .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`);
 
   svg.style("display", "block")
-    // .style("margin", "0 -14px")
+    .style("margin", "0 -14px")
     .style("background", color(0))
     .style("cursor", "pointer")
-    .style("font", "14px sans-serif")
     .attr("text-anchor", "middle")
     .on("click", () => zoom(root));
 
@@ -69,7 +68,6 @@ function renderPacking(originData) {
     })
 
   const label = svg.append("g")
-    .style("font", "12px sans-serif")
     .attr("pointer-events", "none")
     .attr("text-anchor", "middle")
     .selectAll("text")

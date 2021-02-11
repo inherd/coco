@@ -46,9 +46,6 @@ function renderBranches(csv) {
       .style("background", "white")
       .style("border-radius", "5px")
       .style("box-shadow", "0 0 10px rgba(0,0,0,.25)")
-      .style("padding", "10px")
-      .style("line-height", "1.3")
-      .style("font", "12px sans-serif")
   }
 
   let getRect = function (d) {
