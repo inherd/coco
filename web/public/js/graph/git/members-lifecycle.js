@@ -34,15 +34,10 @@ function renderMembersTimeline(data) {
 
   let createTooltip = function (el) {
     el
-      .style("position", "absolute")
+      .attr("class", "tooltip")
       .style("pointer-events", "none")
       .style("top", 0)
       .style("opacity", 0)
-      .style("background", "white")
-      .style("border-radius", "5px")
-      .style("box-shadow", "0 0 10px rgba(0,0,0,.25)")
-      .style("padding", "10px")
-      .style("line-height", "1.3")
   }
 
   let getRect = function (d) {

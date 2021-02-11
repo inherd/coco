@@ -15,7 +15,8 @@
 
     #circle-packing text,
     #branch-timeline svg,
-    #members-lifecycle svg {
+    #members-lifecycle svg,
+    .tooltip {
       font: 12px sans-serif;
       line-height: 20px;
       font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
@@ -47,9 +48,15 @@
 
     /* tooltip */
 
-    div.tooltip {
+    .tooltip {
+      font-size: 14px;
       position: absolute;
-      text-align: center;
+      text-align: left;
+      background: white;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0,0,0,.25);
+      line-height: 1.3;
+      padding: 5px;
     }
 
     /* circle-packing: menu */

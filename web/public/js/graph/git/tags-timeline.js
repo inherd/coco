@@ -50,11 +50,6 @@ function renderTagsTimeline(data) {
       .append("div")
       .style("opacity", 0)
       .attr("class", "tooltip")
-      .style("background-color", "#ddd")
-      .style("border", "solid")
-      .style("border-width", "2px")
-      .style("border-radius", "5px")
-      .style("padding", "5px")
 
     let svg = d3.select("#tags-timeline").append("svg")
       .attr("width", width + margin.left + margin.right)
