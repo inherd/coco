@@ -13,7 +13,8 @@ let MenuSupport = {
       })
       .selectAll('tmp')
       .data(menuItems).enter()
-      .append('g').attr('class', "menuEntry")
+      .append('g')
+      .attr('class', "menuEntry")
       .style({'cursor': 'pointer'});
 
     // Draw menu entries

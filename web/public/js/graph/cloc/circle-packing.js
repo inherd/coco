@@ -22,7 +22,7 @@ function renderPacking(originData) {
         .sort((a, b) => b.value - a.value))
   }
 
-  let width = GraphConfig.height;
+  let width = GraphConfig.width;
   let height = width;
 
   let color = d3.scaleLinear()
@@ -39,7 +39,6 @@ function renderPacking(originData) {
     .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`);
 
   svg.style("display", "block")
-    .style("margin", "0 -14px")
     .style("background", color(0))
     .style("cursor", "pointer")
     .attr("text-anchor", "middle")
@@ -59,7 +58,6 @@ function renderPacking(originData) {
     })
     .on("click", (event, d) => focus !== d && (zoom(d), event.stopPropagation()))
     .on("contextmenu", (event, d) => {
-      console.log(event, d);
       MenuSupport.createContextMenu(event, d, MenuSupport.defaultMenuItems, svg, {
         width: -width / 2,
         height: -height / 2
