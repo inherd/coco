@@ -65,7 +65,13 @@ function renderTagsTimeline(data) {
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
 
-    let first_year = new Date(selectData[0].date).getFullYear();
+    let first_year;
+    if (selectData.length > 0) {
+      first_year = new Date(selectData[0].date).getFullYear();
+    } else {
+      first_year = new Date().getFullYear();
+    }
+
     let startDate = new Date(first_year, 0, 1);
     let y = d3.scaleTime()
       .domain([startDate, Date.now()])
