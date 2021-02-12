@@ -33,7 +33,7 @@ function renderTagsTimeline(data) {
   // When the button is changed, run the updateChart function
   d3.select("#tags-timeline-select").on("change", function (d) {
     let selectedOption = d3.select(this).property("value")
-    let selectYear = new Date(selectedOption, 0, 0, 0, 0, 0, 0);
+    let selectYear = new Date(selectedOption, 0, 1);
     let selectDate = data.filter((d) => d.date > selectYear);
     render(selectDate)
   })
@@ -58,14 +58,15 @@ function renderTagsTimeline(data) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     let x = d3.scaleLinear()
-      .domain([0, selectData.length])
+      .domain([0, selectData.length + 1])
       .range([0, width]);
 
     svg.append("g")
       .attr("transform", "translate(0," + height + ")")
       .call(d3.axisBottom(x));
 
-    let startDate = selectData[0].date;
+    let first_year = new Date(selectData[0].date).getFullYear();
+    let startDate = new Date(first_year, 0, 1);
     let y = d3.scaleTime()
       .domain([startDate, Date.now()])
       .range([height, 0]);
@@ -78,7 +79,7 @@ function renderTagsTimeline(data) {
         return x(d.date);
       })
       .y(function (d) {
-        return y(d.index);
+        return y(d.index + 1);
       });
 
     let g = svg.append('g');
@@ -97,7 +98,7 @@ function renderTagsTimeline(data) {
           return y(d.date)
         })
         .attr("x2", function (d) {
-          return x(d.index)
+          return x(d.index + 1)
         })
         .attr("y2", function (d) {
           return y(d.date)
@@ -129,7 +130,7 @@ function renderTagsTimeline(data) {
       .append("circle")
       .attr("cx", function (d, i) {
         d.index = i;
-        return x(i);
+        return x(i + 1);
       })
       .attr("cy", function (d) {
         return y(d.date);
@@ -150,7 +151,7 @@ function renderTagsTimeline(data) {
         .append("text")
         .text((d) => d.name)
         .attr("x", function (d) {
-          return x(d.index);
+          return x(d.index + 1);
         })
         .attr("y", function (d) {
           return y(d.date) - 10;
