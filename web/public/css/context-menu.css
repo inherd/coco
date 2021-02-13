@@ -1,0 +1,13 @@
+.context-menu {
+  stroke: #00557d;
+  fill: #ffffff;
+}
+
+.menu-entry {
+  cursor: pointer;
+}
+
+.menu-entry text {
+  font-size: 12px;
+  stroke: #00557d;
+}

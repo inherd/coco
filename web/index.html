@@ -7,6 +7,9 @@
   <link rel="icon" type="image/x-icon" href="public/images/favicon.ico">
   <title>Coco Reporter - {{title}}</title>
   <link rel="stylesheet" href="public/css/reset.css">
+  <link rel="stylesheet" href="public/css/tooltip.css">
+  <link rel="stylesheet" href="public/css/context-menu.css">
+  <link rel="stylesheet" href="public/css/layout.css">
   <style>
     #circle-packing, #nested-treemap, #branch-timeline, #members-lifecycle {
       width: 1200px;
@@ -17,7 +20,7 @@
     #circle-packing text,
     #branch-timeline svg,
     #members-lifecycle svg,
-    .menuEntry rect,
+    .menu-entry rect,
     .tooltip {
       font: 12px sans-serif;
       line-height: 20px;
@@ -46,47 +49,6 @@
 
     text.axis-worktime {
       fill: #000;
-    }
-
-    /* tooltip */
-
-    .tooltip {
-      font-size: 14px;
-      position: absolute;
-      text-align: left;
-      background: white;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0,0,0,.25);
-      line-height: 1.3;
-      padding: 5px;
-    }
-
-    /* circle-packing: menu */
-    .contextMenu {
-      stroke: #00557d;
-      fill: #ffffff;
-    }
-
-    .menuEntry {
-      cursor: pointer;
-    }
-
-    .menuEntry text {
-      font-size: 12px;
-      stroke: #00557d;
-    }
-
-    /*  hour-heatmap: layout */
-    .grid2x2 {
-      display: flex;
-      flex-flow: row wrap;
-      list-style: none;
-    }
-
-    .grid2x2 > div {
-      flex-basis: calc(50% - 20px);
-      width: 50%;
-      height: auto;
     }
 
     /* learning-curve: line chart */
@@ -123,7 +85,7 @@
 <h2>Member Lifecycle</h2>
 <div id="members-lifecycle"></div>
 
-<div class="grid2x2">
+<div class="layout-grid2x2">
   <div>
     <h2>Hour Heatmap</h2>
     <div id="hour-heatmap"></div>

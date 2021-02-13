@@ -1,10 +1,10 @@
 let MenuSupport = {
   menuFactory: function (x, y, menuItems, data, svg, offsetOptions) {
-    d3.select(".contextMenu").remove();
+    d3.select(".context-menu").remove();
 
     // Draw the menu
     svg.append('g')
-      .attr('class', "contextMenu")
+      .attr('class', "context-menu")
       .attr('transform', function (d) {
         if (!!offsetOptions && offsetOptions.width) {
           return 'translate(' + offsetOptions.width + ',' + offsetOptions.height + ')'
@@ -14,11 +14,11 @@ let MenuSupport = {
       .selectAll('tmp')
       .data(menuItems).enter()
       .append('g')
-      .attr('class', "menuEntry")
+      .attr('class', "menu-entry")
       .style({'cursor': 'pointer'});
 
     // Draw menu entries
-    d3.selectAll(`.menuEntry`)
+    d3.selectAll(`.menu-entry`)
       .append('rect')
       .attr('x', x)
       .attr('y', (d, i) => {
@@ -31,7 +31,7 @@ let MenuSupport = {
         d.action(data)
       });
 
-    d3.selectAll(`.menuEntry`)
+    d3.selectAll(`.menu-entry`)
       .append('text')
       .text((d) => {
         return d.title;
@@ -49,7 +49,7 @@ let MenuSupport = {
     // Other interactions
     d3.select('body')
       .on('click', () => {
-        d3.select(".contextMenu").remove();
+        d3.select(".context-menu").remove();
       });
   },
   createContextMenu: function (event, d, menuItems, svg, offsetOptions) {
