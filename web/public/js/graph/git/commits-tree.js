@@ -68,7 +68,6 @@ let renderCommitsTree = function (data) {
   for (let value in shaMap) {
     tree.push(shaMap[value]);
   }
-  let branch_num = Object.keys(branchMap).length;
 
   let xGap = 11;
   let yGap = 20;
@@ -100,6 +99,8 @@ let renderCommitsTree = function (data) {
     .enter()
     .append('g');
 
+  let defaultStrokeColor = '#5aa1be';
+
   commitGroup.selectAll('lines')
     .data(function (d) {
       return d.parents_paths;
@@ -127,7 +128,7 @@ let renderCommitsTree = function (data) {
     .attr('stroke-width', 2)
     .attr('fill', 'none')
     .attr('stroke', function (path) {
-      return path.color || '#5aa1be';
+      return path.color || defaultStrokeColor;
     });
 
   sg.selectAll('commit')
@@ -136,7 +137,7 @@ let renderCommitsTree = function (data) {
     .append('circle')
     .attr('r', radius)
     .attr('fill', function (commit) {
-      return commit.color || '#5aa1be';
+      return commit.color || defaultStrokeColor;
     })
     .attr('stroke', 'black')
     .attr('cx', function (commit) {
