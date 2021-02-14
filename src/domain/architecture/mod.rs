@@ -20,3 +20,21 @@ pub struct ArchitectureFitness {
     pub tests: String,
     pub tests_coverage: i32,
 }
+
+pub enum Practise {
+    /// ?
+    TDD,
+}
+
+pub enum LayerArchitecture {
+    /// PresentationDomainDataLayering
+    FlatMVC,
+    /// Domain/PresentationDomainDataLayering
+    NestedMVC,
+    /// Domain-driven design
+    DDD,
+    /// Model with Behavior
+    DomainObject,
+    /// Model Object
+    ModelObject,
+}
