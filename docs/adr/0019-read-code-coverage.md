@@ -16,7 +16,8 @@ Code coverage is a way for fitness, we need to collect test information in our p
 
 ## Decision
 
-Use [Grcov](https://github.com/mozilla/grcov) to collects and aggregates code coverage information.
+1. Use [Grcov](https://github.com/mozilla/grcov) to collects and aggregates code coverage information.
+2. Try integration it, if size it big, split as plugins. 
 
 ## Consequences
 
