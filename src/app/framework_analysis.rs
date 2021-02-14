@@ -1,5 +1,6 @@
-use framework::framework_detector::FrameworkDetector;
 use std::path::PathBuf;
+
+use framework::framework_detector::FrameworkDetector;
 
 pub fn analysis(path: PathBuf) -> String {
     let mut detector = FrameworkDetector::default();
@@ -10,8 +11,9 @@ pub fn analysis(path: PathBuf) -> String {
 
 #[cfg(test)]
 mod test {
-    use crate::app::framework_analysis;
     use std::path::PathBuf;
+
+    use crate::app::framework_analysis;
 
     #[test]
     fn should_return_json() {
@@ -19,14 +21,15 @@ mod test {
             .parent()
             .unwrap()
             .to_path_buf();
+
         let test_project_dir = root_dir
             .clone()
             .join("_fixtures")
             .join("projects")
             .join("java")
             .join("simple");
+
         let result = framework_analysis::analysis(test_project_dir);
-        println!("{}", result);
         assert_ne!("", result);
     }
 }
