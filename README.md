@@ -12,7 +12,7 @@ Support OS: macOS, Windows, GNU/Linux
 
 特性（features in Chinese）：
 
- - [x] 可交互式架构分析
+ - 可交互式架构分析
  - 团队/项目健康值分析
  - 框架检测与分析
  - 云原生成熟度分析
@@ -22,10 +22,13 @@ Support OS: macOS, Windows, GNU/Linux
 
 ## Usage
 
+0. install or download Coco
 1. create `coco.yml` in projects.
 2. config `coco.yml`
-3. run `coco`
-4. run `visual`
+3. run Coco
+   - `coco`, gather data from source
+   - `visual`, visualization of data
+   - `suggest`, generate suggestion
 
 ### coco.yml
 
