@@ -42,9 +42,9 @@ tera = "1"
 
 [dev-dependencies]
 pretty_assertions = "^0.6"
-
-[profile.release]
-lto = "thin"
+#
+#[profile.release]
+#lto = "thin"
 
 [target.'cfg(unix)'.dependencies]
 #tcmalloc = { version = "^0.3", features = ["bundled"] }
