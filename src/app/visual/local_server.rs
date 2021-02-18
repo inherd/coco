@@ -6,7 +6,7 @@ use actix_web::{get, web, App, HttpRequest, HttpResponse, HttpServer};
 use mime_guess::from_path;
 use rust_embed::RustEmbed;
 
-use crate::settings::Settings;
+use core_model::Settings;
 
 #[derive(RustEmbed)]
 #[folder = "web/"]

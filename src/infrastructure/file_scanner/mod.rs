@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use walkdir::WalkDir;
 
-use crate::settings::Settings;
+use core_model::Settings;
 
 pub fn search_git_projects(path: &PathBuf) -> Vec<String> {
     return search_projects(path, ".git");
