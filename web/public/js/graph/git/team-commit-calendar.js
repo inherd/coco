@@ -33,7 +33,19 @@ function renderTeamCommitCalendar(data) {
   let formatMonth = d3.utcFormat("%b");
 
   const max = d3.quantile(data, 0.9975, d => Math.abs(d.value));
-  let color = d3.scaleSequential(d3.interpolatePiYG).domain([-max, +max])
+  let color = d3.scaleSequential(d3.interpolateGreens).domain([0, +max])
+
+  legend(
+    {
+      color,
+      title: "Daily commits",
+      ticks: 10,
+      tickFormat: function (d) {
+        return d;
+      }
+    },
+    d3.select("#commit-calendar")
+  )
 
   let years = d3.groups(data, d => d.date.getUTCFullYear()).reverse();
 
