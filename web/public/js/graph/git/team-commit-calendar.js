@@ -89,7 +89,9 @@ function renderTeamCommitCalendar(data) {
     .attr("fill", d => color(d.value))
     .append("title")
     .text(d => `date: ${standardFormatDate(d.date)}
-commits: ${d.value}`);
+commits: ${d.value}
+${d.commits.map(commit => `${commit.author}: ${commit.message}`).join(`
+`)}`);
 
   const month = year.append("g")
     .selectAll("g")

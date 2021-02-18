@@ -69,10 +69,12 @@ function commit_by_days(data) {
     let day = formatDate(datum.date);
     if (dayMap[day]) {
       dayMap[day].value++;
+      dayMap[day].commits.push(datum);
     } else {
       dayMap[day] = {
         date: new Date(datum.date * 1000),
         value: 1,
+        commits: [datum]
       }
     }
   }
