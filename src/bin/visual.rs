@@ -3,8 +3,8 @@ use dialoguer::{theme::ColorfulTheme, Select};
 use webbrowser;
 
 use coco::app::visual::{local_server, output_static};
-use coco::domain::config::CocoConfig;
 use coco::infrastructure::file_scanner;
+use core_model::CocoConfig;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 

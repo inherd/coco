@@ -93,6 +93,9 @@ shellexpand = "2.1.0"
 [dependencies.framework]
 path = "framework"
 
+[dependencies.core_model]
+path = "core_model"
+
 [workspace]
 members = [
   'framework',

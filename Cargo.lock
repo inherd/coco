@@ -634,6 +634,7 @@ dependencies = [
  "actix-web",
  "chrono",
  "clap",
+ "core_model",
  "dialoguer",
  "framework",
  "git2",
@@ -749,6 +750,11 @@ checksum = "a2df960f5d869b2dd8532793fde43eb5427cceb126c929747a26823ab0eeb536"
 [[package]]
 name = "core_model"
 version = "0.1.0"
+dependencies = [
+ "serde",
+ "serde_json",
+ "serde_yaml",
+]
 
 [[package]]
 name = "cpp_demangle"

@@ -7,9 +7,9 @@ use coco::app::architecture_analysis;
 use coco::app::cmd::CocoCliOption;
 use coco::app::git_analysis::{branch_analysis, commit_analysis, tag_analysis};
 use coco::app::{cloc_analysis, framework_analysis};
-use coco::domain::config::{CocoConfig, RepoConfig};
 use coco::infrastructure::url_format;
 use coco::settings::Settings;
+use core_model::{CocoConfig, RepoConfig};
 use std::time::Instant;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
