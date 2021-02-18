@@ -60,7 +60,7 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
         project_file = format!("{}-tags.json", project);
     }
 
-    let output_path = Settings::reporter_dir(Some(coco_type.as_str())).join(project_file);
+    let output_path = Settings::reporter(Some(coco_type.as_str())).join(project_file);
 
     println!("lookup file: {:?}", output_path);
     let content = fs::read_to_string(output_path).unwrap();

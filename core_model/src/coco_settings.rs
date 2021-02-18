@@ -10,6 +10,14 @@ lazy_static! {
     };
 }
 
+/// a collections of dir for projects
+/// - `root()`, which is `.coco`
+/// - `reporter()`, which is `.coco/reporter`
+/// under `.coco/reporter`
+/// - `architecture()`
+/// - `git()`
+/// - `cloc()`
+/// - `framework()`
 pub struct Settings {}
 
 impl Settings {
@@ -17,12 +25,12 @@ impl Settings {
         return COCO_CONFIG.get(key).unwrap();
     }
 
-    pub fn root_dir() -> &'static str {
+    pub fn root() -> &'static str {
         return Settings::global_config("dir");
     }
 
-    pub fn reporter_dir(child: Option<&str>) -> PathBuf {
-        let root = Path::new(Settings::root_dir());
+    pub fn reporter(child: Option<&str>) -> PathBuf {
+        let root = Path::new(Settings::root());
         let reporter_path = root.join("reporter");
         if !reporter_path.exists() {
             let _ = fs::create_dir_all(&reporter_path);
@@ -42,18 +50,18 @@ impl Settings {
     }
 
     pub fn git() -> PathBuf {
-        Settings::reporter_dir(Some("git"))
+        Settings::reporter(Some("git"))
     }
 
     pub fn cloc() -> PathBuf {
-        Settings::reporter_dir(Some("cloc"))
+        Settings::reporter(Some("cloc"))
     }
 
     pub fn architecture() -> PathBuf {
-        Settings::reporter_dir(Some("architecture"))
+        Settings::reporter(Some("architecture"))
     }
 
     pub fn framework() -> PathBuf {
-        Settings::reporter_dir(Some("framework"))
+        Settings::reporter(Some("framework"))
     }
 }

@@ -46,7 +46,7 @@ pub fn uri_to_path(url: &str) -> PathBuf {
         }
     };
 
-    let root = Path::new(Settings::root_dir());
+    let root = Path::new(Settings::root());
     let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
     let segments = uri_path

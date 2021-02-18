@@ -4,6 +4,7 @@ repo:
   - url: .
   - url: https://github.com/datum-lang/scie
 
+# todo: add commit
 commit:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
   # link url: https://regex101.com/r/V5J8kh/1
@@ -17,6 +18,7 @@ commit:
     - id
   samples: feature/JIR-124:test commit message
 
+# todo: add team
 team:
   type: platform
   member:
