@@ -7,3 +7,9 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+[dependencies.core_model]
+path = "../../core_model"
+
+[dependencies.plugin_interface]
+path = "../../plugin_interface"

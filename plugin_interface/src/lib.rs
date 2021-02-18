@@ -1,1 +1,2 @@
-pub mod plugin_interface;
+pub use interface::PluginInterface;
+pub mod interface;
