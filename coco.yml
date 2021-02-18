@@ -31,3 +31,7 @@ team:
         - h2@phodal.com
     - name: Zero
       email: zero@inherd.com
+
+# todo plugins
+plugins:
+  - swagger

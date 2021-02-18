@@ -20,3 +20,4 @@
 * [18. cocomo-analysis-plugin](0018-cocomo-analysis-plugin.md)
 * [19. read-code-coverage](0019-read-code-coverage.md)
 * [20. output-for-plugins](0020-output-for-plugins.md)
+* [21. plugin-config](0021-plugin-config.md)
