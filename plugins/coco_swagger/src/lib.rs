@@ -16,3 +16,14 @@ impl PluginInterface for CocoSwagger {
         println!("{:?}", config);
     }
 }
+
+impl Default for CocoSwagger {
+    fn default() -> Self {
+        CocoSwagger {}
+    }
+}
+
+#[no_mangle]
+pub fn plugin() -> Box<dyn PluginInterface> {
+    Box::new(CocoSwagger::default())
+}

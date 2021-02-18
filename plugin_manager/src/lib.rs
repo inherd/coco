@@ -1,9 +1,5 @@
-pub mod plugin_manager;
+extern crate dlopen;
+#[macro_use]
+extern crate dlopen_derive;
 
-#[cfg(test)]
-mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
-}
+pub mod plugin_manager;
