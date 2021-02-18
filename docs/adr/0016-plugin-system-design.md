@@ -1,4 +1,4 @@
-# 16. plugin-system
+# 16. plugin system design
 
 Date: 2021-02-08
 
