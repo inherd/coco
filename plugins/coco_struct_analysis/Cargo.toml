@@ -8,6 +8,12 @@ edition = "2018"
 
 [dependencies]
 
+[dependencies.core_model]
+path = "../../core_model"
+
+[dependencies.plugin_interface]
+path = "../../plugin_interface"
+
 [lib]
 name = "coco_struct_analysis"
 crate-type = ["cdylib"]

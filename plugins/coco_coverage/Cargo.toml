@@ -50,6 +50,11 @@ pretty_assertions = "^0.6"
 #tcmalloc = { version = "^0.3", features = ["bundled"] }
 tcmalloc = { version = "^0.3", optional = true }
 
+[dependencies.core_model]
+path = "../../core_model"
+
+[dependencies.plugin_interface]
+path = "../../plugin_interface"
 
 [lib]
 name = "coco_coverage"

@@ -663,6 +663,7 @@ dependencies = [
  "cargo-binutils",
  "chrono",
  "clap",
+ "core_model",
  "crossbeam",
  "flate2",
  "fomat-macros",
@@ -673,6 +674,7 @@ dependencies = [
  "log",
  "md-5",
  "num_cpus",
+ "plugin_interface",
  "pretty_assertions",
  "quick-xml 0.21.0",
  "rayon",
@@ -697,6 +699,10 @@ dependencies = [
 [[package]]
 name = "coco_struct_analysis"
 version = "0.1.0"
+dependencies = [
+ "core_model",
+ "plugin_interface",
+]
 
 [[package]]
 name = "coco_swagger"
