@@ -19,55 +19,7 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 let renderCommitsTree = function (data) {
-  let color = d3.scaleOrdinal(d3.schemeSet2).domain(data)
-  let idx = 1;
-  let column = 1;
-
-  let shaMap = {};
-  let branchMap = {};
-  for (let datum of data) {
-    shaMap[datum["commit_id"]] = datum;
-    if (!branchMap[datum["branch"]]) {
-      branchMap[datum["branch"]] = column;
-      column++;
-    }
-  }
-
-  for (let datum of data.reverse()) {
-    let short = datum["commit_id"];
-    let parent_hashes = [];
-    for (let hash of datum["parent_hashes"]) {
-      let item = shaMap[hash];
-      if (item) {
-        parent_hashes.push({
-          id: hash,
-          path: [{
-            x: item.id,
-            y: branchMap[item["branch"]],
-            type: 0,
-          }]
-        })
-      }
-    }
-
-    shaMap[short] = {
-      idx: idx,
-      id: short,
-      date: datum.date,
-      author: datum.author,
-      message: datum.message,
-      column: branchMap[datum["branch"]],
-      color: color(branchMap[datum["branch"]]),
-      parents_paths: parent_hashes
-    };
-
-    idx++;
-  }
-
-  let tree = [];
-  for (let value in shaMap) {
-    tree.push(shaMap[value]);
-  }
+  let tree = buildTree(data);
 
   let xGap = 11;
   let yGap = 20;
@@ -180,3 +132,64 @@ let renderCommitsTree = function (data) {
       return formatDate(commit.date) + ", " + commit.author + ": " + commit.message;
     });
 };
+
+function buildTree(data) {
+  let color = d3.scaleOrdinal(d3.schemeSet2).domain(data)
+  let idx = 1;
+  let column = 1;
+
+  let shaMap = {};
+  let branchMap = {};
+  for (let datum of data) {
+    shaMap[datum["commit_id"]] = datum;
+    if (!branchMap[datum["branch"]]) {
+      branchMap[datum["branch"]] = column;
+      column++;
+    }
+  }
+
+  for (let datum of data.reverse()) {
+    let short = datum["commit_id"];
+    let parent_hashes = [];
+
+    shaMap[short] = {
+      idx: idx,
+      id: short,
+      date: datum.date,
+      author: datum.author,
+      message: datum.message,
+      branch: datum.branch,
+      column: branchMap[datum["branch"]],
+      color: color(branchMap[datum["branch"]]),
+      parents_paths: parent_hashes
+    };
+
+    idx++;
+  }
+
+  for (let datum of data.reverse()) {
+    let short = datum["commit_id"];
+    let parent_hashes = [];
+    for (let hash of datum["parent_hashes"]) {
+      let item = shaMap[hash];
+      if (item) {
+        parent_hashes.push({
+          id: hash,
+          path: [{
+            x: item.column,
+            y: item.idx,
+            type: 0,
+          },{x: shaMap[short].column, y: shaMap[short].idx, type: 0}]
+        })
+      }
+    }
+    shaMap[short].parents_paths = parent_hashes
+  }
+
+  let result = [];
+  for (let value in shaMap) {
+    result.push(shaMap[value]);
+  }
+
+  return result
+}
