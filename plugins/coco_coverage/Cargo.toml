@@ -50,3 +50,7 @@ pretty_assertions = "^0.6"
 #tcmalloc = { version = "^0.3", features = ["bundled"] }
 tcmalloc = { version = "^0.3", optional = true }
 
+
+[lib]
+name = "coco_coverage"
+crate-type = ["cdylib"]

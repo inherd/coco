@@ -29,6 +29,7 @@ use std::{process, thread};
 
 use grcov::*;
 
+#[allow(dead_code)]
 fn main() {
     let default_num_threads = 1.max(num_cpus::get() - 1).to_string();
 
