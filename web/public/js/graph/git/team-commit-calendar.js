@@ -33,7 +33,9 @@ function renderTeamCommitCalendar(data) {
   let formatMonth = d3.utcFormat("%b");
 
   const max = d3.quantile(data, 0.9975, d => Math.abs(d.value));
-  let color = d3.scaleSequential(d3.interpolateGreens).domain([0, +max])
+  let color = d3.scaleLinear()
+    .domain([0, +max])
+    .range(["#9be9a8", "#216e39"])
 
   legend(
     {
@@ -86,6 +88,8 @@ function renderTeamCommitCalendar(data) {
     .attr("height", cellSize - 1)
     .attr("x", d => timeWeek.count(d3.utcYear(d.date), d.date) * cellSize + 0.5)
     .attr("y", d => countDay(d.date.getUTCDay()) * cellSize + 0.5)
+    .attr("rx", 2)
+    .attr("ry", 2)
     .attr("fill", d => color(d.value))
     .append("title")
     .text(d => `date: ${standardFormatDate(d.date)}
@@ -101,7 +105,7 @@ ${d.commits.map(commit => `${commit.author}: ${commit.message}`).join(`
   month.filter((d, i) => i).append("path")
     .attr("fill", "none")
     .attr("stroke", "#fff")
-    .attr("stroke-width", 3)
+    .attr("stroke-width", 1)
     .attr("d", pathMonth);
 
   month.append("text")
