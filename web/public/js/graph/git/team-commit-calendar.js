@@ -14,7 +14,7 @@
 function renderTeamCommitCalendar(data) {
   let weekday;
 
-  let cellSize = 17;
+  let cellSize = 10;
   let width = GraphConfig.width;
   let height = cellSize * (weekday === "weekday" ? 7 : 9)
   let timeWeek = weekday === "sunday" ? d3.utcSunday : d3.utcMonday;
@@ -29,13 +29,9 @@ function renderTeamCommitCalendar(data) {
         : `M${(w + 1) * cellSize},0V${d * cellSize}H${w * cellSize}`}V${n * cellSize}`;
   }
 
-  let formatValue = d3.format("+.2%");
-  let formatClose = d3.format("$,.2f");
-  let formatDate = d3.utcFormat("%x");
   let formatDay = i => "SMTWTFS"[i];
   let formatMonth = d3.utcFormat("%b");
 
-  // color
   const max = d3.quantile(data, 0.9975, d => Math.abs(d.value));
   let color = d3.scaleSequential(d3.interpolatePiYG).domain([-max, +max])
 
@@ -80,9 +76,8 @@ function renderTeamCommitCalendar(data) {
     .attr("y", d => countDay(d.date.getUTCDay()) * cellSize + 0.5)
     .attr("fill", d => color(d.value))
     .append("title")
-    .text(d => `${formatDate(d.date)}
-${formatValue(d.value)}${d.close === undefined ? "" : `
-${formatClose(d.close)}`}`);
+    .text(d => `date: ${standardFormatDate(d.date)}
+commits: ${d.value}`);
 
   const month = year.append("g")
     .selectAll("g")

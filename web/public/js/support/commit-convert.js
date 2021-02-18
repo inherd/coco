@@ -63,6 +63,28 @@ function commit_to_author_map(data) {
   return authors;
 }
 
+function commit_by_days(data) {
+  let dayMap = {};
+  for (let datum of data.reverse()) {
+    let day = formatDate(datum.date);
+    if (dayMap[day]) {
+      dayMap[day].value++;
+    } else {
+      dayMap[day] = {
+        date: new Date(datum.date * 1000),
+        value: 1,
+      }
+    }
+  }
+
+  let result = [];
+  for (let key in dayMap) {
+    result.push(dayMap[key])
+  }
+
+  return result;
+}
+
 function range_commits_by_users(data, range) {
   let usermap = {};
   for (let datum of data.reverse()) {
