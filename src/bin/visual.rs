@@ -43,15 +43,10 @@ async fn main() -> std::io::Result<()> {
         )
         .get_matches();
 
-    let project;
-    match matches.value_of("name") {
-        None => {
-            project = select_project_prompt();
-        }
-        Some(proj) => {
-            project = proj.to_string();
-        }
-    }
+    let project = match matches.value_of("name") {
+        Some(proj) => proj.to_string(),
+        None => select_project_prompt(),
+    };
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
         start_export_reporter(matches);
