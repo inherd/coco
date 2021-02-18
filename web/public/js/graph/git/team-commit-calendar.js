@@ -34,10 +34,10 @@ function renderTeamCommitCalendar(data) {
   let formatDate = d3.utcFormat("%x");
   let formatDay = i => "SMTWTFS"[i];
   let formatMonth = d3.utcFormat("%b");
-  let color = function () {
-    const max = d3.quantile(data, 0.9975, d => Math.abs(d.value));
-    return d3.scaleSequential(d3.interpolatePiYG).domain([-max, +max]);
-  }
+
+  // color
+  const max = d3.quantile(data, 0.9975, d => Math.abs(d.value));
+  let color = d3.scaleSequential(d3.interpolatePiYG).domain([-max, +max])
 
   let years = d3.groups(data, d => d.date.getUTCFullYear()).reverse();
 
