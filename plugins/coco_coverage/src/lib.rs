@@ -29,8 +29,38 @@ use std::{process, thread};
 
 use grcov::*;
 
+use core_model::CocoConfig;
+use plugin_interface::PluginInterface;
+
+pub struct CocoCoverage {}
+
+impl PluginInterface for CocoCoverage {
+    fn name(&self) -> &'static str {
+        "coco.coverage"
+    }
+
+    fn on_plugin_load(&self) {}
+
+    fn on_plugin_unload(&self) {}
+
+    fn execute(&self, config: CocoConfig) {
+        println!("{:?}", config);
+    }
+}
+
+impl Default for CocoCoverage {
+    fn default() -> Self {
+        CocoCoverage {}
+    }
+}
+
+#[no_mangle]
+pub fn plugin() -> Box<dyn PluginInterface> {
+    Box::new(CocoCoverage::default())
+}
+
 #[allow(dead_code)]
-fn main() {
+fn run() {
     let default_num_threads = 1.max(num_cpus::get() - 1).to_string();
 
     let matches = App::new("grcov")
