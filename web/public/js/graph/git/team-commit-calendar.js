@@ -90,7 +90,12 @@ function renderTeamCommitCalendar(data) {
     .attr("y", d => countDay(d.date.getUTCDay()) * cellSize + 0.5)
     .attr("rx", 2)
     .attr("ry", 2)
-    .attr("fill", d => color(d.value))
+    .attr("fill", (d) => {
+      if (d.value === 0) {
+        return '#EBEDF0'
+      }
+      return color(d.value)
+    })
     .append("title")
     .text(d => `date: ${standardFormatDate(d.date)}
 commits: ${d.value}

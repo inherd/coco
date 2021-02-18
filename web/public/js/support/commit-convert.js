@@ -65,7 +65,21 @@ function commit_to_author_map(data) {
 
 function commit_by_days(data) {
   let dayMap = {};
-  for (let datum of data.reverse()) {
+  let reverse = data.reverse();
+
+  let range = reverse[0].date * 1000;
+  let last_date = reverse[reverse.length - 1].date * 1000;
+  while (range <= last_date) {
+    range = range + 24 * 60 * 60 * 1000;
+    let day = formatDate(range);
+    dayMap[day] = {
+      date: new Date(range),
+      value: 0,
+      commits: []
+    }
+  }
+
+  for (let datum of reverse) {
     let day = formatDate(datum.date);
     if (dayMap[day]) {
       dayMap[day].value++;
