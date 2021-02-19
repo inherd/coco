@@ -44,7 +44,8 @@ function commit_to_hours_data(data, options) {
 function commit_to_author_map(data) {
   let authors = [];
   let authorMap = {}
-  for (let datum of data) {
+  for (let i = data.length - 1; i >= 0; i--) {
+    let datum = data[i];
     if (!authorMap[datum.email]) {
       authorMap[datum.email] = {
         name: datum.author,
@@ -65,10 +66,10 @@ function commit_to_author_map(data) {
 
 function commit_by_days(data) {
   let dayMap = {};
-  let reverse = data.reverse();
 
-  let range = reverse[0].date * 1000;
-  let last_date = reverse[reverse.length - 1].date * 1000;
+  let last_date = data[data.length - 1].date * 1000;
+  let range = data[0].date * 1000;
+
   while (range <= last_date) {
     range = range + 24 * 60 * 60 * 1000;
     let day = formatDate(range);
@@ -79,7 +80,8 @@ function commit_by_days(data) {
     }
   }
 
-  for (let datum of reverse) {
+  for (let i = 0; i < data.length; i++) {
+    let datum = data[i];
     let day = formatDate(datum.date);
     if (dayMap[day]) {
       dayMap[day].value++;
@@ -103,11 +105,10 @@ function commit_by_days(data) {
 
 function commit_by_weeks(data) {
   let weekMap = {};
-  let reverse = data.reverse();
 
-  let start_date = reverse[0].date * 1000;
-  let range = reverse[0].date * 1000;
-  let last_date = reverse[reverse.length - 1].date * 1000;
+  let start_date = data[0].date * 1000;
+  let last_date = data[data.length - 1].date * 1000;
+  let range = data[0].date * 1000;
   let index = 1;
   while (range <= last_date) {
     weekMap[index] = {
@@ -121,7 +122,8 @@ function commit_by_weeks(data) {
     index++;
   }
 
-  for (let datum of reverse) {
+  for (let i = data.length - 1; i >= 0; i--) {
+    let datum = data[i];
     let week = Math.floor((datum.date * 1000 - start_date) / (24 * 60 * 60 * 1000 * 7)) + 1;
     if (weekMap[week]) {
       weekMap[week].added = weekMap[week].added + datum.total_added;
@@ -146,7 +148,8 @@ function commit_by_weeks(data) {
 
 function range_commits_by_users(data, range) {
   let usermap = {};
-  for (let datum of data.reverse()) {
+  for (let i = data.length - 1; i >= 0; i--) {
+    let datum = data[i];
     if (!usermap[datum.email]) {
       usermap[datum.email] = {
         name: datum.author,

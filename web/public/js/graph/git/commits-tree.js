@@ -148,7 +148,8 @@ function buildTree(data) {
     }
   }
 
-  for (let datum of data.reverse()) {
+  for (let i = data.length - 1; i >= 0; i--) {
+    let datum = data[i];
     let short = datum["commit_id"];
     let parent_hashes = [];
 
@@ -167,7 +168,8 @@ function buildTree(data) {
     idx++;
   }
 
-  for (let datum of data.reverse()) {
+  for (let i = data.length - 1; i >= 0; i--) {
+    let datum = data[i];
     let short = datum["commit_id"];
     let parent_hashes = [];
     for (let hash of datum["parent_hashes"]) {

@@ -47,7 +47,6 @@ d3.json("data/git-commits.json").then(function (data) {
 
   renderTeamFrequency(commit_by_weeks(data));
 
-  // has reverse;
   renderTeamCommitCalendar(commit_by_days(data), "#commit-calendar");
 });
 

@@ -10,11 +10,13 @@ function buildYearOptions(date) {
   return yearOptions;
 }
 
-function renderTagsTimeline(data) {
-  data = data.reverse();
-  data.forEach(function (d) {
-    d.date = d.date * 1000;
-  });
+function renderTagsTimeline(originData) {
+  let data = [];
+  for (let i = originData.length - 1; i >= 0; i--) {
+    let datum = originData[i]
+    datum.date = datum.date * 1000;
+    data.push(datum);
+  }
 
   let yearOptions = buildYearOptions(data[0].date);
 
