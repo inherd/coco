@@ -11,7 +11,7 @@ function renderCommitContributions(data, elementId) {
       .range([margin.left, width - margin.right])
 
     let y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)]).nice()
+      .domain([0, d3.max(data, d => d.value)])
       .range([height - margin.bottom, margin.top])
 
     let xAxis = g => g
@@ -34,7 +34,9 @@ function renderCommitContributions(data, elementId) {
 
     svg.append("path")
       .datum(data)
-      .attr("fill", "steelblue")
+      .attr("fill", "#cce5df")
+      .attr("stroke", "#69b3a2")
+      .attr("stroke-width", 1.5)
       .attr("d", d3.area()
         .curve(d3.curveLinear)
         .x(d => x(d.date))

@@ -71,13 +71,14 @@ function commit_by_days(data) {
   let range = data[0].date * 1000;
 
   while (range <= last_date) {
-    range = range + 24 * 60 * 60 * 1000;
-    let day = formatDate(range);
+    let day = standardFormatDate(range);
     dayMap[day] = {
       date: new Date(range),
       value: 0,
       commits: []
     }
+
+    range = range + 24 * 60 * 60 * 1000;
   }
 
   for (let i = 0; i < data.length; i++) {

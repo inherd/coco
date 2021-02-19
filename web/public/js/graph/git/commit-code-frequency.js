@@ -10,12 +10,8 @@ function renderCodeFrequency(data) {
     .data(yearOptions)
     .enter()
     .append('option')
-    .text(function (d) {
-      return d;
-    })
-    .attr("value", function (d) {
-      return d;
-    })
+    .text(d => d)
+    .attr("value", d => d)
 
   // When the button is changed, run the updateChart function
   d3.select("#code-frequency-select").on("change", function (d) {
@@ -68,13 +64,9 @@ function renderCodeFrequency(data) {
       .datum(data)
       .attr("fill", "#2cbe4e")
       .attr("d", d3.area()
-        .x(function (d) {
-          return x(d.date);
-        })
-        .y1(function (d) {
-          return y1(d.added);
-        })
+        .x(d => x(d.date))
         .y0(height / 2)
+        .y1(d => y1(d.added))
       );
 
     svg.append("path")
@@ -82,13 +74,9 @@ function renderCodeFrequency(data) {
       .datum(data)
       .attr("fill", "#cb2431")
       .attr("d", d3.area()
-        .x(function (d) {
-          return x(d.date);
-        })
+        .x(d => x(d.date))
         .y0(height / 2)
-        .y1(function (d) {
-          return y2(d.deleted);
-        })
+        .y1(d => y2(d.deleted))
       );
 
     svg.append("circle").attr("cx", 290).attr("cy", 30).attr("r", 6).style("fill", "#2cbe4e")

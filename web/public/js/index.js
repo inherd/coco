@@ -47,8 +47,8 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart(commits_by_hours(data, {before_month: 3}), "#hour-heatmap-three-month");
 
   let commitByDays = commit_by_days(data);
-  console.log(commitByDays);
-  // renderCommitCalendar(commitByDays, "#commit-calendar");
+
+  renderCommitCalendar(commitByDays, "#commit-calendar");
   renderCommitContributions(commitByDays, '#commit-contributions');
 
   renderCodeFrequency(commit_by_weeks(data));
