@@ -47,3 +47,7 @@ d3.json("data/git-commits.json").then(function (data) {
 
   renderTeamCommitCalendar(commit_by_days(data), "#commit-calendar");
 });
+
+d3.csv("data/demo.csv", {typed: true}).then(function (data) {
+  renderTeamFrequency(data);
+});
