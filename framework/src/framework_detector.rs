@@ -78,11 +78,19 @@ impl Frameworks {
             .append(&mut frameworks.frameworks.borrow_mut())
     }
 
-    pub(crate) fn add_settings_file(&self, framework_name: &str, file_path: &str, file_name: &str) {
+    pub fn add_settings_file(&self, framework_name: &str, file_path: &str, file_name: &str) {
         for framework in self.frameworks.borrow_mut().iter() {
             if file_path.starts_with(&framework.path) && framework.name.eq(framework_name) {
                 framework.files.borrow_mut().push(file_name.to_string());
             }
+        }
+    }
+
+    pub fn get(&self, index: usize) -> Option<Framework> {
+        let frameworks = self.frameworks.borrow();
+        match frameworks.get(index) {
+            Some(framework) => Some(framework.clone()),
+            _ => None,
         }
     }
 }
@@ -234,41 +242,30 @@ mod tests {
         assert_eq!(expect_json, facets_json)
     }
 
-    #[ignore]
     #[test]
     fn should_detect_jvm_frameworks() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
+        let frameworks = detector.frameworks;
 
-        let framework_json = serde_json::to_string_pretty(&detector.frameworks).unwrap();
-        let expect_json = r#"{
-  "frameworks": [
-    {
-      "name": "Gradle",
-      "path": "/Users/mac/git/coco/_fixtures/projects/jvm",
-      "files": [
-        "build.gradle",
-        "settings.gradle"
-      ],
-      "languages": [
-        "Scala",
-        "Groovy",
-        "Kotlin",
-        "Java"
-      ]
-    },
-    {
-      "name": "Maven",
-      "path": "/Users/mac/git/coco/_fixtures/projects/jvm/mavenproject",
-      "files": [
-        "pom.xml"
-      ],
-      "languages": [
-        "Java",
-        "Kotlin"
-      ]
-    }
-  ]
-}"#;
-        assert_eq!(expect_json, framework_json);
+        let framework = frameworks.get(0).unwrap();
+        let name = framework.name.to_string();
+        let files = framework.files.borrow();
+        let languages = framework.languages.borrow();
+        assert_eq!(name, "Gradle");
+        assert_eq!(files.get(0).unwrap().as_str(), "build.gradle");
+        assert_eq!(files.get(1).unwrap().as_str(), "settings.gradle");
+        assert_eq!(languages.get(0).unwrap().as_str(), "Scala");
+        assert_eq!(languages.get(1).unwrap().as_str(), "Groovy");
+        assert_eq!(languages.get(2).unwrap().as_str(), "Kotlin");
+        assert_eq!(languages.get(3).unwrap().as_str(), "Java");
+
+        let framework = frameworks.get(1).unwrap();
+        let name = framework.name.to_string();
+        let files = framework.files.borrow();
+        let languages = framework.languages.borrow();
+        assert_eq!(name, "Maven");
+        assert_eq!(files.get(0).unwrap().as_str(), "pom.xml");
+        assert_eq!(languages.get(0).unwrap().as_str(), "Java");
+        assert_eq!(languages.get(1).unwrap().as_str(), "Kotlin");
     }
 }
