@@ -36,7 +36,7 @@ d3.json("data/git-tags.json").then(function (json) {
 });
 
 d3.json("data/git-commits.json").then(function (data) {
-  renderCommitsTree(data);
+  renderBranchTree(data);
 
   renderMembersTimeline(commits_by_authors(data));
 
@@ -45,7 +45,7 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart("#hour-heatmap-three-month", commits_by_hours(data, {before_month: 3}));
   renderLearningCurve(commits_by_users_with_range(data, 30));
 
-  renderTeamCommitCalendar(commit_by_days(data), "#commit-calendar");
-  renderTeamFrequency(commit_by_weeks(data));
+  renderCommitCalendar(commit_by_days(data), "#commit-calendar");
+  renderCodeFrequency(commit_by_weeks(data));
 });
 
