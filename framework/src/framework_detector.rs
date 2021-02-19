@@ -4,7 +4,7 @@ use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::path::Path;
 
-#[derive(Serialize, PartialEq, Debug, Clone)]
+#[derive(Serialize, PartialEq, Debug, Clone, Ord, PartialOrd, Eq)]
 pub struct Framework {
     pub name: String,
     pub path: String,
@@ -36,16 +36,14 @@ impl Frameworks {
         if !self.frameworks.borrow().contains(&framework) {
             self.associate_with_source_files(&framework);
             self.frameworks.borrow_mut().push(framework);
+            self.frameworks.borrow_mut().sort();
         }
     }
 
     fn associate_with_source_files(&self, framework: &Framework) {
         for temp_source_file in self.temp_source_files.borrow().iter() {
             if temp_source_file.file_path.starts_with(&framework.path) {
-                framework
-                    .languages
-                    .borrow_mut()
-                    .push(temp_source_file.language.clone());
+                Frameworks::add_language_to_framework(temp_source_file.language.clone(), framework)
             }
         }
     }
@@ -55,14 +53,19 @@ impl Frameworks {
         self.cache_source_file(file_path, language);
     }
 
-    fn add_language_to_frameworks(&self, file_path: &str, language: &&str) {
+    fn add_language_to_frameworks(&self, file_path: &str, language: &str) {
         for framework in self.frameworks.borrow_mut().iter() {
             if file_path.starts_with(&framework.path)
                 && !framework.languages.borrow().contains(&language.to_string())
             {
-                framework.languages.borrow_mut().push(language.to_string());
+                Frameworks::add_language_to_framework(language.to_string(), framework);
             }
         }
+    }
+
+    fn add_language_to_framework(language: String, framework: &Framework) {
+        framework.languages.borrow_mut().push(language);
+        framework.languages.borrow_mut().sort();
     }
 
     fn cache_source_file(&self, file_path: &str, language: &str) {
@@ -82,6 +85,7 @@ impl Frameworks {
         for framework in self.frameworks.borrow_mut().iter() {
             if file_path.starts_with(&framework.path) && framework.name.eq(framework_name) {
                 framework.files.borrow_mut().push(file_name.to_string());
+                framework.files.borrow_mut().sort();
             }
         }
     }
@@ -242,7 +246,6 @@ mod tests {
         assert_eq!(expect_json, facets_json)
     }
 
-    #[ignore]
     #[test]
     fn should_detect_jvm_frameworks() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
@@ -255,10 +258,10 @@ mod tests {
         assert_eq!(name, "Gradle");
         assert_eq!(files.get(0).unwrap().as_str(), "build.gradle");
         assert_eq!(files.get(1).unwrap().as_str(), "settings.gradle");
-        assert_eq!(languages.get(0).unwrap().as_str(), "Scala");
-        assert_eq!(languages.get(1).unwrap().as_str(), "Groovy");
+        assert_eq!(languages.get(0).unwrap().as_str(), "Groovy");
+        assert_eq!(languages.get(1).unwrap().as_str(), "Java");
         assert_eq!(languages.get(2).unwrap().as_str(), "Kotlin");
-        assert_eq!(languages.get(3).unwrap().as_str(), "Java");
+        assert_eq!(languages.get(3).unwrap().as_str(), "Scala");
 
         let framework = frameworks.get(1).unwrap();
         let name = framework.name.to_string();
