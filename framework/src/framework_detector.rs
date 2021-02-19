@@ -1,7 +1,7 @@
 use crate::facet::{Facet, FacetsBuilder};
 use crate::lang::LangDetectors;
 use std::cell::RefCell;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashSet};
 use std::path::Path;
 
 #[derive(Serialize, PartialEq, Debug, Clone)]
@@ -12,9 +12,9 @@ pub struct Framework {
     // |   languages |   files    |
     // |-------------|------------|
     // | Java        | build.gradle, settings.gradle |
-    pub files: RefCell<Vec<String>>,
+    pub files: RefCell<HashSet<String>>,
     // in JVM projects, has different languages, such as Java, Groovy, Kotlin...
-    pub languages: RefCell<Vec<String>>,
+    pub languages: RefCell<HashSet<String>>,
 }
 
 #[derive(Serialize)]
@@ -42,10 +42,7 @@ impl Frameworks {
     fn associate_with_source_files(&self, framework: &Framework) {
         for temp_source_file in self.temp_source_files.borrow().iter() {
             if temp_source_file.file_path.starts_with(&framework.path) {
-                framework
-                    .languages
-                    .borrow_mut()
-                    .push(temp_source_file.language.clone());
+                Frameworks::add_language_to_framework(temp_source_file.language.clone(), framework)
             }
         }
     }
@@ -55,14 +52,17 @@ impl Frameworks {
         self.cache_source_file(file_path, language);
     }
 
-    fn add_language_to_frameworks(&self, file_path: &str, language: &&str) {
+    fn add_language_to_frameworks(&self, file_path: &str, language: &str) {
         for framework in self.frameworks.borrow_mut().iter() {
             if file_path.starts_with(&framework.path)
-                && !framework.languages.borrow().contains(&language.to_string())
             {
-                framework.languages.borrow_mut().push(language.to_string());
+                Frameworks::add_language_to_framework(language.to_string(), framework);
             }
         }
+    }
+
+    fn add_language_to_framework(language: String, framework: &Framework) {
+        framework.languages.borrow_mut().insert(language);
     }
 
     fn cache_source_file(&self, file_path: &str, language: &str) {
@@ -81,7 +81,7 @@ impl Frameworks {
     pub fn add_settings_file(&self, framework_name: &str, file_path: &str, file_name: &str) {
         for framework in self.frameworks.borrow_mut().iter() {
             if file_path.starts_with(&framework.path) && framework.name.eq(framework_name) {
-                framework.files.borrow_mut().push(file_name.to_string());
+                framework.files.borrow_mut().insert(file_name.to_string());
             }
         }
     }
@@ -242,7 +242,6 @@ mod tests {
         assert_eq!(expect_json, facets_json)
     }
 
-    #[ignore]
     #[test]
     fn should_detect_jvm_frameworks() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
@@ -253,20 +252,20 @@ mod tests {
         let files = framework.files.borrow();
         let languages = framework.languages.borrow();
         assert_eq!(name, "Gradle");
-        assert_eq!(files.get(0).unwrap().as_str(), "build.gradle");
-        assert_eq!(files.get(1).unwrap().as_str(), "settings.gradle");
-        assert_eq!(languages.get(0).unwrap().as_str(), "Scala");
-        assert_eq!(languages.get(1).unwrap().as_str(), "Groovy");
-        assert_eq!(languages.get(2).unwrap().as_str(), "Kotlin");
-        assert_eq!(languages.get(3).unwrap().as_str(), "Java");
+        assert_eq!(files.contains("build.gradle"), true);
+        assert_eq!(files.contains("settings.gradle"), true);
+        assert_eq!(languages.contains("Groovy"), true);
+        assert_eq!(languages.contains("Java"), true);
+        assert_eq!(languages.contains("Kotlin"), true);
+        assert_eq!(languages.contains("Scala"), true);
 
         let framework = frameworks.get(1).unwrap();
         let name = framework.name.to_string();
         let files = framework.files.borrow();
         let languages = framework.languages.borrow();
         assert_eq!(name, "Maven");
-        assert_eq!(files.get(0).unwrap().as_str(), "pom.xml");
-        assert_eq!(languages.get(0).unwrap().as_str(), "Java");
-        assert_eq!(languages.get(1).unwrap().as_str(), "Kotlin");
+        assert_eq!(files.contains("pom.xml"), true);
+        assert_eq!(languages.contains("Java"), true);
+        assert_eq!(languages.contains("Kotlin"), true);
     }
 }

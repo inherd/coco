@@ -66,8 +66,8 @@ pub fn framework_analysis(entry: &DirEntry, frameworks: &Frameworks) {
         frameworks.add_framework(Framework {
             name: ident_framework_name(file_name).to_string(),
             path: entry.path().parent().unwrap().to_str().unwrap().to_string(),
-            files: RefCell::new(vec![file_name.to_string()]),
-            languages: RefCell::new(vec![]),
+            files: RefCell::new(hashset! {file_name.to_string()}),
+            languages: RefCell::new(hashset! {}),
         });
     }
 

@@ -31,3 +31,5 @@ lazy_static = "1.2"
 walkdir = "2"
 
 regex = "1"
+
+maplit="0.1.6"
