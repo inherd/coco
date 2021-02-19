@@ -40,12 +40,16 @@ d3.json("data/git-commits.json").then(function (data) {
 
   renderMembersTimeline(commits_by_authors(data));
 
-  renderHeatmapChart("#hour-heatmap", commits_by_hours(data));
-  renderHeatmapChart("#hour-heatmap-half-year", commits_by_hours(data, {before_month: 6}));
-  renderHeatmapChart("#hour-heatmap-three-month", commits_by_hours(data, {before_month: 3}));
   renderLearningCurve(commits_by_users_with_range(data, 30));
 
-  renderCommitCalendar(commit_by_days(data), "#commit-calendar");
+  renderHeatmapChart(commits_by_hours(data), "#hour-heatmap");
+  renderHeatmapChart(commits_by_hours(data, {before_month: 6}), "#hour-heatmap-half-year");
+  renderHeatmapChart(commits_by_hours(data, {before_month: 3}), "#hour-heatmap-three-month");
+
+  let commitByDays = commit_by_days(data);
+  renderCommitCalendar(commitByDays, "#commit-calendar");
+  renderCommitContributions(commitByDays, '#commit-contributions');
+
   renderCodeFrequency(commit_by_weeks(data));
 });
 

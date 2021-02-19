@@ -10,3 +10,15 @@ let standardFormatDate = function (d) {
   let day = date.getUTCDate();
   return year + "-" + month + "-" + day
 };
+
+let buildYearOptions = function (date) {
+  let startDate = new Date(date);
+  let startYear = startDate.getFullYear();
+  let currentYear = new Date().getFullYear();
+
+  let yearOptions = [];
+  for (let i = startYear; i <= currentYear; i++) {
+    yearOptions.push(i);
+  }
+  return yearOptions;
+}

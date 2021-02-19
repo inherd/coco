@@ -1,15 +1,3 @@
-function buildYearOptions(date) {
-  let startDate = new Date(date);
-  let startYear = startDate.getFullYear();
-  let currentYear = new Date().getFullYear();
-
-  let yearOptions = [];
-  for (let i = startYear; i <= currentYear; i++) {
-    yearOptions.push(i);
-  }
-  return yearOptions;
-}
-
 function renderTagsTimeline(originData) {
   let data = [];
   for (let i = originData.length - 1; i >= 0; i--) {
