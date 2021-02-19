@@ -1,5 +1,5 @@
 function renderTeamFrequency(data) {
-  let margin = {top: 30, right: 30, bottom: 30, left: 60},
+  let margin = {top: 30, right: 30, bottom: 30, left: 80},
     width = GraphConfig.width - margin.left - margin.right,
     height = GraphConfig.height - margin.top - margin.bottom;
 
