@@ -32,36 +32,45 @@ function renderCommitContributions(data, elementId) {
       .append("svg")
       .attr("viewBox", [0, 0, width, height]);
 
-    svg.append("path")
+    function area(x, y) {
+      return d3.area()
+        .curve(d3.curveMonotoneX)
+        .x(d => x(d.date))
+        .y0(y(0))
+        .y1(d => y(d.value));
+    }
+
+    let path = svg.append("path")
       .datum(data)
       .attr("fill", "#cce5df")
       .attr("stroke", "#69b3a2")
       .attr("stroke-width", 1.5)
-      .attr("d", d3.area()
-        .curve(d3.curveLinear)
-        .x(d => x(d.date))
-        .y0(y(0))
-        .y1(d => y(d.value))
-      );
+      .attr("d", area(x, y));
 
-    svg.append("g")
+    let gx = svg.append("g")
       .call(xAxis);
 
-    svg.append("g")
+    let gy = svg.append("g")
       .call(yAxis);
 
-    return svg.node();
+    return Object.assign(svg.node(), {
+      update(focusX, focusY) {
+        gx.call(xAxis, focusX, height);
+        gy.call(yAxis, focusY, width);
+        path.attr("d", area(focusX, focusY));
+      }
+    })
   })();
 
+  let x = d3.scaleUtc()
+    .domain(d3.extent(data, d => d.date))
+    .range([margin.left, width - margin.right])
+
+  let y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([height - margin.bottom, margin.top])
+
   let focus = (function () {
-    let x = d3.scaleUtc()
-      .domain(d3.extent(data, d => d.date))
-      .range([margin.left, width - margin.right])
-
-    let y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)])
-      .range([height - margin.bottom, margin.top])
-
     let xAxis = (g) => g
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
@@ -101,7 +110,7 @@ function renderCommitContributions(data, elementId) {
 
     svg.append("path")
       .datum(data)
-      .attr("fill", "steelblue")
+      .attr("fill", "#cce5df")
       .attr("d", area(x, y.copy().range([focusHeight - margin.bottom, 4])));
 
     const gb = svg.append("g")
@@ -124,7 +133,12 @@ function renderCommitContributions(data, elementId) {
     return svg.node();
   })();
 
-  // const [minX, maxX] = focus;
-  // const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.value : NaN);
-  // chart.update(x.copy().domain(focus), y.copy().domain([0, maxY]));
+  let svg = d3.select(focus);
+  svg.on("input", function (event) {
+    let domain = svg.property("value");
+    const [minX, maxX] = domain;
+    const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.value : NaN);
+    console.log(minX, maxX, maxY);
+    chart.update(x.copy().domain(domain), y.copy().domain([0, maxY]));
+  })
 }
