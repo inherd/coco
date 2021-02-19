@@ -28,10 +28,6 @@ function renderCommitContributions(data, elementId) {
         .attr("font-weight", "bold")
         .text(data.y))
 
-    const svg = d3.select(elementId)
-      .append("svg")
-      .attr("viewBox", [0, 0, width, height]);
-
     function area(x, y) {
       return d3.area()
         .curve(d3.curveMonotoneX)
@@ -40,23 +36,23 @@ function renderCommitContributions(data, elementId) {
         .y1(d => y(d.value));
     }
 
+    const svg = d3.select(elementId)
+      .append("svg")
+      .attr("viewBox", [0, 0, width, height]);
+
     let path = svg.append("path")
       .datum(data)
       .attr("fill", "#cce5df")
       .attr("stroke", "#69b3a2")
       .attr("stroke-width", 1.5)
-      .attr("d", area(x, y));
 
-    let gx = svg.append("g")
-      .call(xAxis);
-
-    let gy = svg.append("g")
-      .call(yAxis);
+    const gx = svg.append("g");
+    const gy = svg.append("g");
 
     return Object.assign(svg.node(), {
       update(focusX, focusY) {
         gx.call(xAxis, focusX, height);
-        gy.call(yAxis, focusY, width);
+        gy.call(yAxis, focusY, data.y);
         path.attr("d", area(focusX, focusY));
       }
     })
@@ -72,7 +68,7 @@ function renderCommitContributions(data, elementId) {
 
   let focus = (function () {
     let xAxis = (g) => g
-      .attr("transform", `translate(0,${height - margin.bottom})`)
+      .attr("transform", `translate(0,${focusHeight - margin.bottom})`)
       .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
 
     let yAxis = (g, title) => g
@@ -134,11 +130,17 @@ function renderCommitContributions(data, elementId) {
   })();
 
   let svg = d3.select(focus);
-  svg.on("input", function (event) {
+
+  function renderChart() {
     let domain = svg.property("value");
     const [minX, maxX] = domain;
     const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.value : NaN);
-    console.log(minX, maxX, maxY);
     chart.update(x.copy().domain(domain), y.copy().domain([0, maxY]));
+  }
+
+  svg.on("input", function (event) {
+    renderChart();
   })
+
+  renderChart();
 }
