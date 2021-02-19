@@ -267,6 +267,9 @@ mod tests {
         let name = framework.name.to_string();
         let files = framework.files.borrow();
         let languages = framework.languages.borrow();
+        for lang in languages.iter() {
+            println!("{}", lang);
+        }
         assert_eq!(name, "Maven");
         assert_eq!(files.get(0).unwrap().as_str(), "pom.xml");
         assert_eq!(languages.get(0).unwrap().as_str(), "Java");
