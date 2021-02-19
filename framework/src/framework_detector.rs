@@ -242,6 +242,7 @@ mod tests {
         assert_eq!(expect_json, facets_json)
     }
 
+    #[ignore]
     #[test]
     fn should_detect_jvm_frameworks() {
         let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
