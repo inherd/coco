@@ -1167,6 +1167,7 @@ version = "0.2.0"
 dependencies = [
  "erased-serde",
  "lazy_static",
+ "maplit 0.1.6",
  "regex",
  "serde",
  "serde_derive",
@@ -1724,6 +1725,12 @@ dependencies = [
 
 [[package]]
 name = "maplit"
+version = "0.1.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "22593015b8df7747861c69c28acd32589fb96c1686369f3b661d12e409d4cf65"
+
+[[package]]
+name = "maplit"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3e2e65a1a2e43cfcb47a895c4c8b10d1f4a61097f9f254f183aee60cad9c651d"
@@ -2080,7 +2087,7 @@ version = "2.1.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "54be6e404f5317079812fc8f9f5279de376d8856929e21c184ecf6bbd692a11d"
 dependencies = [
- "maplit",
+ "maplit 1.0.2",
  "pest",
  "sha-1 0.8.2",
 ]
