@@ -33,7 +33,7 @@ function renderTeamFrequency(data) {
 
   let y2 = d3.scaleLinear()
     .range([height / 2, height])
-    .domain([0, -max_deleted]);
+    .domain([0, max_deleted]);
   svg.append("g")
     .attr("transform", "translate(-20,0)")
     .call(d3.axisLeft(y2));
@@ -76,7 +76,7 @@ function renderTeamFrequency(data) {
         return x(d.date);
       })
       .y(function (d) {
-        return y2(-d.deleted);
+        return y2(d.deleted);
       })
     );
 
@@ -90,7 +90,7 @@ function renderTeamFrequency(data) {
       })
       .y0(height / 2)
       .y1(function (d) {
-        return y2(-d.deleted);
+        return y2(d.deleted);
       })
     );
 
