@@ -1,3 +1,4 @@
+use crate::framework_detector::Frameworks;
 use walkdir::DirEntry;
 
 pub fn get_tag<'a>(entry: &DirEntry) -> Option<&'a str> {
@@ -7,3 +8,5 @@ pub fn get_tag<'a>(entry: &DirEntry) -> Option<&'a str> {
         _ => None,
     }
 }
+
+pub fn framework_analysis(_entry: &DirEntry, _frameworks: &Frameworks) {}

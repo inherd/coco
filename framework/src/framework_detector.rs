@@ -1,5 +1,6 @@
 use crate::facet::{Facet, FacetsBuilder};
 use crate::lang::LangDetectors;
+use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::path::Path;
 
@@ -7,21 +8,98 @@ use std::path::Path;
 pub struct Framework {
     pub name: String,
     pub path: String,
-    // for find the projects
-    pub relative_path: String,
     // in some languages has different framework file
     // |   languages |   files    |
     // |-------------|------------|
     // | Java        | build.gradle, settings.gradle |
-    pub files: Vec<String>,
+    pub files: RefCell<Vec<String>>,
     // in JVM projects, has different languages, such as Java, Groovy, Kotlin...
-    pub languages: Vec<String>,
+    pub languages: RefCell<Vec<String>>,
+}
+
+#[derive(Serialize)]
+struct SourceFile {
+    file_path: String,
+    language: String,
+}
+
+#[derive(Serialize)]
+pub struct Frameworks {
+    frameworks: RefCell<Vec<Framework>>,
+
+    #[serde(skip_serializing)]
+    temp_source_files: RefCell<Vec<SourceFile>>,
+}
+
+impl Frameworks {
+    pub fn add_framework(&self, framework: Framework) {
+        if !self.frameworks.borrow().contains(&framework) {
+            self.associate_with_source_files(&framework);
+            self.frameworks.borrow_mut().push(framework);
+        }
+    }
+
+    fn associate_with_source_files(&self, framework: &Framework) {
+        for temp_source_file in self.temp_source_files.borrow().iter() {
+            if temp_source_file.file_path.starts_with(&framework.path) {
+                framework
+                    .languages
+                    .borrow_mut()
+                    .push(temp_source_file.language.clone());
+            }
+        }
+    }
+
+    pub fn add_language(&self, file_path: &str, language: &str) {
+        self.add_language_to_frameworks(file_path, &language);
+        self.cache_source_file(file_path, language);
+    }
+
+    fn add_language_to_frameworks(&self, file_path: &str, language: &&str) {
+        for framework in self.frameworks.borrow_mut().iter() {
+            if file_path.starts_with(&framework.path)
+                && !framework.languages.borrow().contains(&language.to_string())
+            {
+                framework.languages.borrow_mut().push(language.to_string());
+            }
+        }
+    }
+
+    fn cache_source_file(&self, file_path: &str, language: &str) {
+        self.temp_source_files.borrow_mut().push(SourceFile {
+            file_path: file_path.to_string(),
+            language: language.to_string(),
+        });
+    }
+
+    pub fn append(&self, frameworks: &Frameworks) {
+        self.frameworks
+            .borrow_mut()
+            .append(&mut frameworks.frameworks.borrow_mut())
+    }
+
+    pub(crate) fn add_settings_file(&self, framework_name: &str, file_path: &str, file_name: &str) {
+        for framework in self.frameworks.borrow_mut().iter() {
+            if file_path.starts_with(&framework.path) && framework.name.eq(framework_name) {
+                framework.files.borrow_mut().push(file_name.to_string());
+            }
+        }
+    }
+}
+
+impl Default for Frameworks {
+    fn default() -> Self {
+        Frameworks {
+            frameworks: RefCell::new(vec![]),
+            temp_source_files: RefCell::new(vec![]),
+        }
+    }
 }
 
 #[derive(Serialize)]
 pub struct FrameworkDetector<'a> {
     pub tags: BTreeMap<&'a str, bool>,
-    pub frameworks: Vec<Framework>,
+    pub frameworks: Frameworks,
     pub facets: Vec<Box<Facet>>,
 }
 
@@ -29,7 +107,7 @@ impl<'a> Default for FrameworkDetector<'a> {
     fn default() -> Self {
         FrameworkDetector {
             tags: BTreeMap::default(),
-            frameworks: vec![],
+            frameworks: Frameworks::default(),
             facets: vec![],
         }
     }
@@ -37,21 +115,31 @@ impl<'a> Default for FrameworkDetector<'a> {
 
 impl<'a> FrameworkDetector<'a> {
     pub fn run<P: AsRef<Path>>(&mut self, path: P) {
-        self.lang_detect(path);
-        self.build_project_info();
+        let mut lang_detectors = FrameworkDetector::detect(&path);
+
+        self.add_tags(&mut lang_detectors);
+        self.add_frameworks(&mut lang_detectors);
+        self.add_facets();
     }
 
-    fn lang_detect<P: AsRef<Path>>(&mut self, path: P) {
+    fn detect<P: AsRef<Path>>(path: P) -> LangDetectors<'a> {
         let mut lang_detectors = LangDetectors::default();
         lang_detectors.detect(&path);
-
-        self.tags.append(&mut lang_detectors.tags);
+        lang_detectors
     }
 
-    fn build_project_info(&mut self) {
+    fn add_tags(&mut self, detectors: &mut LangDetectors<'a>) {
+        self.tags.append(&mut detectors.tags);
+    }
+
+    fn add_facets(&mut self) {
         let builder = FacetsBuilder::default();
         let mut facets = builder.build(&self.tags);
         self.facets.append(&mut facets);
+    }
+
+    fn add_frameworks(&mut self, detectors: &mut LangDetectors<'a>) {
+        self.frameworks.append(&detectors.frameworks);
     }
 }
 
@@ -144,5 +232,42 @@ mod tests {
   }
 ]"#;
         assert_eq!(expect_json, facets_json)
+    }
+
+    #[test]
+    fn should_detect_jvm_frameworks() {
+        let detector = build_test_detector(vec!["_fixtures", "projects", "jvm"]);
+
+        let framework_json = serde_json::to_string_pretty(&detector.frameworks).unwrap();
+        let expect_json = r#"{
+  "frameworks": [
+    {
+      "name": "Gradle",
+      "path": "/Users/mac/git/coco/_fixtures/projects/jvm",
+      "files": [
+        "build.gradle",
+        "settings.gradle"
+      ],
+      "languages": [
+        "Scala",
+        "Groovy",
+        "Kotlin",
+        "Java"
+      ]
+    },
+    {
+      "name": "Maven",
+      "path": "/Users/mac/git/coco/_fixtures/projects/jvm/mavenproject",
+      "files": [
+        "pom.xml"
+      ],
+      "languages": [
+        "Java",
+        "Kotlin"
+      ]
+    }
+  ]
+}"#;
+        assert_eq!(expect_json, framework_json);
     }
 }

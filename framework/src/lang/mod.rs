@@ -1,3 +1,4 @@
+use crate::framework_detector::Frameworks;
 use std::collections::BTreeMap;
 use std::path::Path;
 use walkdir::{DirEntry, WalkDir};
@@ -7,14 +8,17 @@ pub mod js;
 pub mod jvm;
 pub mod rust;
 
-type TagAction<'a> = fn(dir: &DirEntry) -> Option<&'a str>;
+type TaggingAction<'a> = fn(dir: &DirEntry) -> Option<&'a str>;
+type FrameworkAnalysisAction = fn(dir: &DirEntry, frameworks: &Frameworks);
 
 struct LangDetector<'a> {
-    tag_action: TagAction<'a>,
+    tagging: TaggingAction<'a>,
+    framework_analysis: FrameworkAnalysisAction,
 }
 
 pub struct LangDetectors<'a> {
     pub tags: BTreeMap<&'a str, bool>,
+    pub frameworks: Frameworks,
     detectors: Vec<LangDetector<'a>>,
 }
 
@@ -24,18 +28,23 @@ impl<'a> Default for LangDetectors<'a> {
             tags: BTreeMap::default(),
             detectors: vec![
                 LangDetector {
-                    tag_action: jvm::get_tag,
+                    tagging: jvm::get_tag,
+                    framework_analysis: jvm::framework_analysis,
                 },
                 LangDetector {
-                    tag_action: js::get_tag,
+                    tagging: js::get_tag,
+                    framework_analysis: js::framework_analysis,
                 },
                 LangDetector {
-                    tag_action: go::get_tag,
+                    tagging: go::get_tag,
+                    framework_analysis: go::framework_analysis,
                 },
                 LangDetector {
-                    tag_action: rust::get_tag,
+                    tagging: rust::get_tag,
+                    framework_analysis: rust::framework_analysis,
                 },
             ],
+            frameworks: Frameworks::default(),
         }
     }
 }
@@ -43,15 +52,26 @@ impl<'a> Default for LangDetectors<'a> {
 impl<'a> LangDetectors<'a> {
     pub fn detect<P: AsRef<Path>>(&mut self, path: P) {
         traverse_project_directory(path, |dir_entry| {
-            for detector in self.detectors.iter() {
-                match (detector.tag_action)(dir_entry) {
-                    Some(tag) => {
-                        self.tags.insert(tag, true);
-                    }
-                    _ => continue,
-                }
-            }
+            self.tagging(dir_entry);
+            self.framework_analysis(dir_entry);
         })
+    }
+
+    fn tagging(&mut self, dir_entry: &DirEntry) {
+        for detector in self.detectors.iter() {
+            match (detector.tagging)(dir_entry) {
+                Some(tag) => {
+                    self.tags.insert(tag, true);
+                }
+                _ => continue,
+            }
+        }
+    }
+
+    fn framework_analysis(&mut self, dir_entry: &DirEntry) {
+        for detector in self.detectors.iter() {
+            (detector.framework_analysis)(dir_entry, &mut self.frameworks);
+        }
     }
 }
 

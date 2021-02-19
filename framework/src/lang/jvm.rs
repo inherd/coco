@@ -1,4 +1,6 @@
+use crate::framework_detector::{Framework, Frameworks};
 use regex::Regex;
+use std::cell::RefCell;
 use walkdir::DirEntry;
 
 pub const WORKSPACE_FRAMEWORK_GRADLE: &'static str = "workspace.framework.gradle";
@@ -54,6 +56,94 @@ pub fn get_tag<'a>(entry: &DirEntry) -> Option<&'a str> {
         return build_tool_tag;
     }
     get_source_tag(file_name)
+}
+
+pub fn framework_analysis(entry: &DirEntry, frameworks: &Frameworks) {
+    let file_name = entry.file_name().to_str().unwrap();
+    let parent_path = entry.path().parent().unwrap().to_str().unwrap();
+
+    if is_build_file(file_name) {
+        frameworks.add_framework(Framework {
+            name: ident_framework_name(file_name).to_string(),
+            path: entry.path().parent().unwrap().to_str().unwrap().to_string(),
+            files: RefCell::new(vec![file_name.to_string()]),
+            languages: RefCell::new(vec![]),
+        });
+    }
+
+    if is_build_settings_file(file_name) {
+        let framework_name = get_settings_file_framework_name(file_name);
+
+        frameworks.add_settings_file(framework_name, parent_path, file_name);
+    }
+
+    if is_source_file(file_name) {
+        let language = ident_language(file_name);
+
+        match language {
+            Some(lang) => frameworks.add_language(parent_path, lang),
+            _ => {}
+        }
+    }
+}
+
+fn get_settings_file_framework_name(file_name: &str) -> &str {
+    match file_name {
+        "settings.gradle" => "Gradle",
+        _ => "",
+    }
+}
+
+fn is_build_settings_file(file_name: &str) -> bool {
+    match file_name {
+        "settings.gradle" => true,
+        _ => false,
+    }
+}
+
+fn ident_language(file_name: &str) -> Option<&str> {
+    if is_java_source_file(file_name) {
+        return Some("Java");
+    }
+
+    if is_kotlin_source_file(file_name) {
+        return Some("Kotlin");
+    }
+
+    if is_groovy_source_file(file_name) {
+        return Some("Groovy");
+    }
+
+    if is_scala_source_file(file_name) {
+        return Some("Scala");
+    }
+
+    None
+}
+
+fn is_source_file(file_name: &str) -> bool {
+    for (_, detect_action) in SOURCE_DETECT_LIST.iter() {
+        if (detect_action)(file_name) {
+            return true;
+        }
+    }
+    false
+}
+
+fn ident_framework_name(build_file: &str) -> &str {
+    match build_file {
+        "pom.xml" => "Maven",
+        "build.gradle" => "Gradle",
+        _ => "UnKnow",
+    }
+}
+
+fn is_build_file(file_name: &str) -> bool {
+    match file_name {
+        "build.gradle" => true,
+        "pom.xml" => true,
+        _ => false,
+    }
 }
 
 fn get_source_tag<'a>(file_name: &str) -> Option<&'a str> {
