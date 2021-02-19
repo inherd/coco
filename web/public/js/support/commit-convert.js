@@ -110,13 +110,14 @@ function commit_by_weeks(data) {
   let last_date = reverse[reverse.length - 1].date * 1000;
   let index = 1;
   while (range <= last_date) {
-    range = range + 24 * 60 * 60 * 1000 * 7;
     weekMap[index] = {
+      date: range,
       index: index,
       added: 0,
       deleted: 0
     }
 
+    range = range + 24 * 60 * 60 * 1000 * 7;
     index++;
   }
 
@@ -127,6 +128,7 @@ function commit_by_weeks(data) {
       weekMap[week].deleted = weekMap[week].deleted + datum.total_deleted;
     } else {
       weekMap[week] = {
+        date: weekMap[week].range,
         index: weekMap[week].index,
         added: datum.total_added,
         deleted: datum.total_deleted,
