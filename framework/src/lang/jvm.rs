@@ -1,5 +1,7 @@
+use crate::framework_detector::{Framework, Frameworks};
 use regex::Regex;
-use std::collections::{BTreeMap, HashSet};
+use std::cell::RefCell;
+use walkdir::DirEntry;
 
 pub const WORKSPACE_FRAMEWORK_GRADLE: &'static str = "workspace.framework.gradle";
 pub const WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE: &'static str =
@@ -18,7 +20,7 @@ lazy_static! {
     static ref GROOVY_SOURCE_TEST: Regex = Regex::new(r".*.groovy").unwrap();
     static ref KOTLIN_SOURCE_TEST: Regex = Regex::new(r".*.kt").unwrap();
     static ref SCALA_SOURCE_TEST: Regex = Regex::new(r".*.scala").unwrap();
-    static ref DETECT_LIST: Vec<(&'static str, fn(&str) -> bool)> = vec![
+    static ref SOURCE_DETECT_LIST: Vec<(&'static str, fn(&str) -> bool)> = vec![
         (WORKSPACE_HAS_TEST, is_test),
         (WORKSPACE_SOURCE_JAVA, is_java_source_file),
         (WORKSPACE_SOURCE_GROOVY, is_groovy_source_file),
@@ -47,30 +49,118 @@ pub fn is_scala_source_file(path: &str) -> bool {
     return SCALA_SOURCE_TEST.is_match(path);
 }
 
-pub fn detect<'a>(file_names: &HashSet<String>) -> BTreeMap<&'a str, bool> {
-    let mut tags = BTreeMap::new();
-    detect_build_tool(file_names, &mut tags);
-    detect_source_file(file_names, &mut tags);
-    tags
+pub fn get_tag<'a>(entry: &DirEntry) -> Option<&'a str> {
+    let file_name = entry.file_name().to_str().unwrap();
+    let build_tool_tag = get_build_tool_tag(file_name);
+    if !build_tool_tag.is_none() {
+        return build_tool_tag;
+    }
+    get_source_tag(file_name)
 }
 
-fn detect_build_tool(names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
-    tags.insert(WORKSPACE_FRAMEWORK_GRADLE, names.contains("build.gradle"));
-    tags.insert(
-        WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE,
-        names.contains("build.gradle") && names.contains("settings.gradle"),
-    );
-    tags.insert(WORKSPACE_FRAMEWORK_POM, names.contains("pom.xml"));
-}
+pub fn framework_analysis(entry: &DirEntry, frameworks: &Frameworks) {
+    let file_name = entry.file_name().to_str().unwrap();
+    let parent_path = entry.path().parent().unwrap().to_str().unwrap();
 
-fn detect_source_file(file_names: &HashSet<String>, tags: &mut BTreeMap<&str, bool>) {
-    //todo: optimize performance to remove duplicate detection?
-    for file_name in file_names.iter() {
-        for (key, detect_action) in DETECT_LIST.iter() {
-            if (detect_action)(file_name) {
-                tags.insert(key, true);
-            }
+    if is_build_file(file_name) {
+        frameworks.add_framework(Framework {
+            name: ident_framework_name(file_name).to_string(),
+            path: entry.path().parent().unwrap().to_str().unwrap().to_string(),
+            files: RefCell::new(vec![file_name.to_string()]),
+            languages: RefCell::new(vec![]),
+        });
+    }
+
+    if is_build_settings_file(file_name) {
+        let framework_name = get_settings_file_framework_name(file_name);
+
+        frameworks.add_settings_file(framework_name, parent_path, file_name);
+    }
+
+    if is_source_file(file_name) {
+        let language = ident_language(file_name);
+
+        match language {
+            Some(lang) => frameworks.add_language(parent_path, lang),
+            _ => {}
         }
+    }
+}
+
+fn get_settings_file_framework_name(file_name: &str) -> &str {
+    match file_name {
+        "settings.gradle" => "Gradle",
+        _ => "",
+    }
+}
+
+fn is_build_settings_file(file_name: &str) -> bool {
+    match file_name {
+        "settings.gradle" => true,
+        _ => false,
+    }
+}
+
+fn ident_language(file_name: &str) -> Option<&str> {
+    if is_java_source_file(file_name) {
+        return Some("Java");
+    }
+
+    if is_kotlin_source_file(file_name) {
+        return Some("Kotlin");
+    }
+
+    if is_groovy_source_file(file_name) {
+        return Some("Groovy");
+    }
+
+    if is_scala_source_file(file_name) {
+        return Some("Scala");
+    }
+
+    None
+}
+
+fn is_source_file(file_name: &str) -> bool {
+    for (_, detect_action) in SOURCE_DETECT_LIST.iter() {
+        if (detect_action)(file_name) {
+            return true;
+        }
+    }
+    false
+}
+
+fn ident_framework_name(build_file: &str) -> &str {
+    match build_file {
+        "pom.xml" => "Maven",
+        "build.gradle" => "Gradle",
+        _ => "UnKnow",
+    }
+}
+
+fn is_build_file(file_name: &str) -> bool {
+    match file_name {
+        "build.gradle" => true,
+        "pom.xml" => true,
+        _ => false,
+    }
+}
+
+fn get_source_tag<'a>(file_name: &str) -> Option<&'a str> {
+    for (key, detect_action) in SOURCE_DETECT_LIST.iter() {
+        if (detect_action)(file_name) {
+            return Some(key);
+        }
+    }
+    None
+}
+
+fn get_build_tool_tag<'a>(file_name: &str) -> Option<&'a str> {
+    match file_name {
+        "build.gradle" => Some(WORKSPACE_FRAMEWORK_GRADLE),
+        "settings.gradle" => Some(WORKSPACE_FRAMEWORK_GRADLE_COMPOSITE),
+        "pom.xml" => Some(WORKSPACE_FRAMEWORK_POM),
+        _ => None,
     }
 }
 
