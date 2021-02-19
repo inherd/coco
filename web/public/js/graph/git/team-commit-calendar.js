@@ -11,11 +11,11 @@
 // WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 // ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 // OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
-function renderTeamCommitCalendar(data) {
+function renderTeamCommitCalendar(data, elementId = "#commit-calendar") {
   let weekday;
 
   let cellSize = 10;
-  let width = GraphConfig.width;
+  let width = GraphConfig.screen_width;
   let height = cellSize * (weekday === "weekday" ? 7 : 9)
   let timeWeek = weekday === "sunday" ? d3.utcSunday : d3.utcMonday;
   let countDay = weekday === "sunday" ? i => i : i => (i + 6) % 7;
@@ -46,12 +46,12 @@ function renderTeamCommitCalendar(data) {
         return d;
       }
     },
-    d3.select("#commit-calendar")
+    d3.select(elementId)
   )
 
   let years = d3.groups(data, d => d.date.getUTCFullYear()).reverse();
 
-  const svg = d3.select("#commit-calendar").append("svg")
+  const svg = d3.select(elementId).append("svg")
     .attr("viewBox", [0, 0, width, height * years.length])
     .attr("font-family", "sans-serif")
     .attr("font-size", 10);
