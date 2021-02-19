@@ -45,9 +45,9 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart("#hour-heatmap-three-month", commit_to_hours_data(data, {before_month: 3}));
   renderLearningCurve(range_commits_by_users(data, 30));
 
+  renderTeamFrequency(commit_by_weeks(data));
+
+  // has reverse;
   renderTeamCommitCalendar(commit_by_days(data), "#commit-calendar");
 });
 
-d3.csv("data/demo.csv", {typed: true}).then(function (data) {
-  renderTeamFrequency(data);
-});

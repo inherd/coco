@@ -101,6 +101,47 @@ function commit_by_days(data) {
   return result;
 }
 
+function commit_by_weeks(data) {
+  let weekMap = {};
+  let reverse = data.reverse();
+
+  let start_date = reverse[0].date * 1000;
+  let range = reverse[0].date * 1000;
+  let last_date = reverse[reverse.length - 1].date * 1000;
+  let index = 1;
+  while (range <= last_date) {
+    range = range + 24 * 60 * 60 * 1000 * 7;
+    weekMap[index] = {
+      index: index,
+      added: 0,
+      deleted: 0
+    }
+
+    index++;
+  }
+
+  for (let datum of reverse) {
+    let week = Math.floor((datum.date * 1000 - start_date) / (24 * 60 * 60 * 1000 * 7)) + 1;
+    if (weekMap[week]) {
+      weekMap[week].added = weekMap[week].added + datum.total_added;
+      weekMap[week].deleted = weekMap[week].deleted + datum.total_deleted;
+    } else {
+      weekMap[week] = {
+        index: weekMap[week].index,
+        added: datum.total_added,
+        deleted: datum.total_deleted,
+      }
+    }
+  }
+
+  let result = [];
+  for (let key in weekMap) {
+    result.push(weekMap[key])
+  }
+
+  return result;
+}
+
 function range_commits_by_users(data, range) {
   let usermap = {};
   for (let datum of data.reverse()) {
