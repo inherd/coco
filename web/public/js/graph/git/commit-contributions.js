@@ -41,15 +41,6 @@ function renderCommitContributions(data, elementId) {
         .y0(y(0))
         .y1(d => y(d.value))
       );
-    svg.append("path")
-      .datum(data)
-      .attr("fill", "steelblue")
-      .attr("d", d3.area()
-        .curve(d3.curveLinear)
-        .x(d => x(d.date))
-        .y0(y(0))
-        .y1(d => y(d.value))
-      );
 
     svg.append("g")
       .call(xAxis);

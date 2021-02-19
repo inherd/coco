@@ -66,20 +66,6 @@ function renderCodeFrequency(data) {
     svg.append("path")
       .attr("class", "addition")
       .datum(data)
-      .attr("stroke-width", 2)
-      .attr("fill", "none")
-      .attr("d", d3.line()
-        .x(function (d) {
-          return x(d.date);
-        })
-        .y(function (d) {
-          return y1(d.added);
-        })
-      );
-
-    svg.append("path")
-      .attr("class", "addition")
-      .datum(data)
       .attr("fill", "#2cbe4e")
       .attr("d", d3.area()
         .x(function (d) {
@@ -89,20 +75,6 @@ function renderCodeFrequency(data) {
           return y1(d.added);
         })
         .y0(height / 2)
-      );
-
-    svg.append("path")
-      .attr("class", "deletion")
-      .datum(data)
-      .attr("stroke-width", 2)
-      .attr("fill", "none")
-      .attr("d", d3.line()
-        .x(function (d) {
-          return x(d.date);
-        })
-        .y(function (d) {
-          return y2(d.deleted);
-        })
       );
 
     svg.append("path")
