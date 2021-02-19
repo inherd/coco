@@ -1,4 +1,4 @@
-function commit_to_hours_data(data, options) {
+function commits_by_hours(data, options) {
   let startDate = 0;
   if (options && options.before_month) {
     let one_month = 30;
@@ -41,7 +41,7 @@ function commit_to_hours_data(data, options) {
   return hoursDate;
 }
 
-function commit_to_author_map(data) {
+function commits_by_authors(data) {
   let authors = [];
   let authorMap = {}
   for (let i = data.length - 1; i >= 0; i--) {
@@ -146,7 +146,7 @@ function commit_by_weeks(data) {
   return result;
 }
 
-function range_commits_by_users(data, range) {
+function commits_by_users_with_range(data, range) {
   let usermap = {};
   for (let i = data.length - 1; i >= 0; i--) {
     let datum = data[i];

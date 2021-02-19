@@ -38,15 +38,14 @@ d3.json("data/git-tags.json").then(function (json) {
 d3.json("data/git-commits.json").then(function (data) {
   renderCommitsTree(data);
 
-  renderMembersTimeline(commit_to_author_map(data));
+  renderMembersTimeline(commits_by_authors(data));
 
-  renderHeatmapChart("#hour-heatmap", commit_to_hours_data(data));
-  renderHeatmapChart("#hour-heatmap-half-year", commit_to_hours_data(data, {before_month: 6}));
-  renderHeatmapChart("#hour-heatmap-three-month", commit_to_hours_data(data, {before_month: 3}));
-  renderLearningCurve(range_commits_by_users(data, 30));
-
-  renderTeamFrequency(commit_by_weeks(data));
+  renderHeatmapChart("#hour-heatmap", commits_by_hours(data));
+  renderHeatmapChart("#hour-heatmap-half-year", commits_by_hours(data, {before_month: 6}));
+  renderHeatmapChart("#hour-heatmap-three-month", commits_by_hours(data, {before_month: 3}));
+  renderLearningCurve(commits_by_users_with_range(data, 30));
 
   renderTeamCommitCalendar(commit_by_days(data), "#commit-calendar");
+  renderTeamFrequency(commit_by_weeks(data));
 });
 
