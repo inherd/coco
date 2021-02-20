@@ -96,6 +96,9 @@ path = "framework"
 [dependencies.core_model]
 path = "core_model"
 
+[dependencies.plugin_manager]
+path = "plugin_manager"
+
 [workspace]
 members = [
   'framework',

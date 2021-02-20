@@ -643,6 +643,7 @@ dependencies = [
  "mime_guess",
  "pest",
  "pest_derive",
+ "plugin_manager",
  "rayon",
  "regex",
  "rust-embed",

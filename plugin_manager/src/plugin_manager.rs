@@ -11,10 +11,9 @@ struct Wrapper {
 pub struct PluginManager {}
 
 impl PluginManager {
-    #[allow(dead_code)]
-    fn run() {
+    pub fn run(plugin_name: &str) {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let plugin_path = "target/debug/libcoco_swagger.dylib";
+        let plugin_path = format!("target/debug/libcoco_{}.dylib", plugin_name);
         let path = root.parent().unwrap().join(plugin_path);
 
         let cont: Container<Wrapper> =
@@ -32,6 +31,6 @@ mod tests {
     #[ignore]
     #[test]
     fn test_plugin_run_in_local() {
-        PluginManager::run();
+        PluginManager::run("swagger");
     }
 }

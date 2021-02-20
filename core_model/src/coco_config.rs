@@ -4,11 +4,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CocoConfig {
     pub repo: Vec<RepoConfig>,
+    pub plugins: Vec<String>,
 }
 
 impl Default for CocoConfig {
     fn default() -> Self {
-        CocoConfig { repo: vec![] }
+        CocoConfig {
+            repo: vec![],
+            plugins: vec![],
+        }
     }
 }
 
