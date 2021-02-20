@@ -31,8 +31,12 @@ d3.json("data/git.json").then(function (json) {
   renderBranches(data)
 });
 
-d3.json("data/git-tags.json").then(function (json) {
-  renderTagsTimeline(json);
+d3.json("data/git-tags.json").then(function (data) {
+  if (data.length <= 0) {
+    throw Error("not tags");
+  }
+
+  renderTagsTimeline(data);
 });
 
 d3.json("data/git-commits.json").then(function (data) {
