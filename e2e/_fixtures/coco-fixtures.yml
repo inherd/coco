@@ -1,2 +1,6 @@
 repo:
   - url: https://github.com/coco-rs/coco.fixtures
+
+# todo plugins
+plugins:
+  - swagger

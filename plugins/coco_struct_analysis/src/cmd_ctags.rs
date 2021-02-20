@@ -241,7 +241,8 @@ mod tests {
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let mut iter = str::from_utf8(&outputs[0].stdout).unwrap().lines();
 
-        assert!(iter.next().unwrap_or("").starts_with("age"));
+        println!("{:?}", outputs);
+        assert!(iter.next().unwrap_or("").contains("age"));
     }
 
     // #[test]
