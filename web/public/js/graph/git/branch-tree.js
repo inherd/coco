@@ -177,11 +177,18 @@ function buildTree(data) {
       if (item) {
         parent_hashes.push({
           id: hash,
-          path: [{
-            x: item.column,
-            y: item.idx,
-            type: 0,
-          },{x: shaMap[short].column, y: shaMap[short].idx, type: 0}]
+          path: [
+            {
+              x: item.column,
+              y: item.idx,
+              type: 0,
+            },
+            {
+              x: shaMap[short].column,
+              y: shaMap[short].idx,
+              type: 0
+            },
+          ]
         })
       }
     }
