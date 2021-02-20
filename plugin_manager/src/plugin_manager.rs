@@ -36,7 +36,7 @@ impl PluginManager {
 
     #[cfg(target_os = "macos")]
     fn get_plugin_path(plugin_name: &str) -> String {
-        format!("target/{}/libcoco_{}.dylib", BUILD_TYPE, plugin_name)
+        format!("target/{}/lib{}.dylib", BUILD_TYPE, plugin_name)
     }
 
     #[cfg(target_os = "windows")]
@@ -52,6 +52,6 @@ mod tests {
     #[ignore]
     #[test]
     fn test_plugin_run_in_local() {
-        PluginManager::run("swagger");
+        PluginManager::run("coco_swagger");
     }
 }
