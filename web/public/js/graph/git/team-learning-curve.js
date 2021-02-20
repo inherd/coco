@@ -12,7 +12,7 @@ function renderLearningCurve(data) {
             maxCommitNum = minMax[1];
         }
     });
-
+    console.log(data);
     let processData = allGroup.map((d, i) => {
         return {
             name: d.name,
@@ -85,6 +85,8 @@ function renderLearningCurve(data) {
         })
         .enter()
         .append("circle")
+        .attr("class", "curving-point")
+        .attr("cursor", "pointer")
         .attr("cx", function (d, i) {
             return x(i + 1);
         } )
@@ -93,5 +95,22 @@ function renderLearningCurve(data) {
         } )
         .attr("r", 5)
         .attr("stroke", "white");
+
+    const tooltip = d3.select("#learning-curve").append("div")
+        .attr("class", "curve-tooltip")
+        .style("position", "absolute")
+        .style("visibility", "visible")
+        .text("I am the tooltip")
+
+    d3.selectAll(".curving-point")
+        .on("mouseover", function() {
+            return tooltip.style("visibility", "visible");
+        })
+        .on("mousemove", function(event, d) {
+            return tooltip.style("top", (event.pageY-10) + "px").style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function() {
+            return tooltip.style("visibility", "hidden");
+        });
 
 }
