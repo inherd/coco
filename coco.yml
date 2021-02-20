@@ -3,6 +3,7 @@ repo:
   - url: https://github.com/coco-rs/coco.fixtures2
   - url: .
   - url: https://github.com/datum-lang/scie
+  - url: https://github.com/projectfluent/fluent-rs
 
 # todo: add commit
 commit:
