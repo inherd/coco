@@ -12,10 +12,10 @@ function renderLearningCurve(data) {
             maxCommitNum = minMax[1];
         }
     });
-    console.log(data);
     let processData = allGroup.map((d, i) => {
         return {
             name: d.name,
+            email: d.email,
             commitNums: d.data
         };
     })
@@ -66,10 +66,19 @@ function renderLearningCurve(data) {
             return line(d.commitNums);
         })
         .attr("stroke", function (d) {
-            return myColor(d.name);
+            return myColor(d.email);
         })
         .style("stroke-width", 4)
         .style("fill", "none");
+
+    // set tooltip
+    let tooltip = d3.select("#learning-curve").append("div")
+        .attr("class", "curve-tooltip")
+        .style("position", "absolute")
+        .style("white-space", "pre-line")
+        .style("visibility", "visible")
+        .style("font-weight", "bold")
+        .text("I am the tooltip");
 
     // create dots
     svg.selectAll("dots")
@@ -77,11 +86,17 @@ function renderLearningCurve(data) {
         .enter()
         .append('g')
         .style("fill", function (d) {
-            return myColor(d.name);
+            return myColor(d.email);
         })
         .selectAll("points")
         .data(function (d) {
-            return d.commitNums;
+            return d.commitNums.map(res => {
+                return {
+                    name: d.name,
+                    email: d.email,
+                    commitNum: res
+                }
+            });
         })
         .enter()
         .append("circle")
@@ -91,26 +106,19 @@ function renderLearningCurve(data) {
             return x(i + 1);
         } )
         .attr("cy", function (d) {
-            return y(d);
+            return y(d.commitNum);
         } )
         .attr("r", 5)
-        .attr("stroke", "white");
-
-    const tooltip = d3.select("#learning-curve").append("div")
-        .attr("class", "curve-tooltip")
-        .style("position", "absolute")
-        .style("visibility", "visible")
-        .text("I am the tooltip")
-
-    d3.selectAll(".curving-point")
+        .attr("stroke", "white")
         .on("mouseover", function() {
-            return tooltip.style("visibility", "visible");
+            tooltip.style("visibility", "visible");
         })
         .on("mousemove", function(event, d) {
-            return tooltip.style("top", (event.pageY-10) + "px").style("left", (event.pageX + 10) + "px");
+            tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
+            tooltip.text(`commit num: ${d.commitNum} \n author: ${d.name} \n email: ${d.email}`);
         })
         .on("mouseout", function() {
-            return tooltip.style("visibility", "hidden");
+            tooltip.style("visibility", "hidden");
         });
 
 }
