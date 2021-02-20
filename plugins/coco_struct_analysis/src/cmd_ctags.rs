@@ -220,11 +220,9 @@ mod tests {
 
     use super::CmdCtags;
 
-    // need to install ctags in ci
-    #[ignore]
     #[test]
     fn test_call() {
-        let args = vec!["ptags", "-t", "1", "--exclude=README.md"];
+        let args = vec!["ptags", "-t", "1"];
         let opt = Opt::from_iter(args.iter());
         let mut files = vec![];
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -243,7 +241,7 @@ mod tests {
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let mut iter = str::from_utf8(&outputs[0].stdout).unwrap().lines();
 
-        assert!(iter.next().unwrap_or("").starts_with("main"));
+        assert!(iter.next().unwrap_or("").starts_with("age"));
     }
 
     // #[test]

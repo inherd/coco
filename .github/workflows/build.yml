@@ -27,6 +27,23 @@ jobs:
       - name: Build Debug for Testing
         run: ${{matrix.ENV_VARS}} cargo build --all
 
+      - name: Install ctags on Linux
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install exuberant-ctags
+
+      - name: Install ctags on macOS
+        if: matrix.os == 'macOS-latest'
+        run: |
+          brew update
+          brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+
+      - name: Install ctags on Windows
+        if: matrix.os == 'macOS-latest'
+        run: |
+          choco install universal-ctags
+
       - name: Run unit tests
         run: ${{matrix.ENV_VARS}} just tests
 
