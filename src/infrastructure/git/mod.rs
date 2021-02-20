@@ -1,7 +1,7 @@
 pub use git_repository::GitRepository;
 
+pub mod cmd_git;
 pub mod git_branch;
-pub mod git_command;
 pub mod git_commit_message;
 pub mod git_log_parser;
 pub mod git_repository;
@@ -12,8 +12,8 @@ mod test {
     use std::path::PathBuf;
     use std::sync::Once;
 
+    use crate::infrastructure::git::cmd_git::commit_message;
     use crate::infrastructure::git::git_branch::GitBranch;
-    use crate::infrastructure::git::git_command::commit_message;
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
     use crate::infrastructure::git::GitRepository;
     use crate::infrastructure::url_format;

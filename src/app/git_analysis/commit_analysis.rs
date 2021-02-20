@@ -1,5 +1,5 @@
 use crate::domain::git::CocoCommit;
-use crate::infrastructure::git::git_command::commit_message;
+use crate::infrastructure::git::cmd_git::commit_message;
 use crate::infrastructure::git::git_log_parser::GitMessageParser;
 use crate::infrastructure::url_format;
 use serde::{Deserialize, Serialize};
