@@ -21,4 +21,4 @@
 * [19. read-code-coverage](0019-read-code-coverage.md)
 * [20. output-for-plugins](0020-output-for-plugins.md)
 * [21. plugin-config](0021-plugin-config.md)
-* [22. suggest-api-i18n](0022-suggest-api-i18n.md)
+* [22. suggest-with-i18n](0022-suggest-with-i18n.md)
