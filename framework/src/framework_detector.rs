@@ -25,7 +25,7 @@ struct SourceFile {
 
 #[derive(Serialize)]
 pub struct Frameworks {
-    frameworks: RefCell<Vec<Framework>>,
+    entries: RefCell<Vec<Framework>>,
 
     #[serde(skip_serializing)]
     temp_source_files: RefCell<Vec<SourceFile>>,
@@ -33,9 +33,9 @@ pub struct Frameworks {
 
 impl Frameworks {
     pub fn add_framework(&self, framework: Framework) {
-        if !self.frameworks.borrow().contains(&framework) {
+        if !self.entries.borrow().contains(&framework) {
             self.associate_with_source_files(&framework);
-            self.frameworks.borrow_mut().push(framework);
+            self.entries.borrow_mut().push(framework);
         }
     }
 
@@ -53,9 +53,8 @@ impl Frameworks {
     }
 
     fn add_language_to_frameworks(&self, file_path: &str, language: &str) {
-        for framework in self.frameworks.borrow_mut().iter() {
-            if file_path.starts_with(&framework.path)
-            {
+        for framework in self.entries.borrow_mut().iter() {
+            if file_path.starts_with(&framework.path) {
                 Frameworks::add_language_to_framework(language.to_string(), framework);
             }
         }
@@ -73,13 +72,13 @@ impl Frameworks {
     }
 
     pub fn append(&self, frameworks: &Frameworks) {
-        self.frameworks
+        self.entries
             .borrow_mut()
-            .append(&mut frameworks.frameworks.borrow_mut())
+            .append(&mut frameworks.entries.borrow_mut())
     }
 
     pub fn add_settings_file(&self, framework_name: &str, file_path: &str, file_name: &str) {
-        for framework in self.frameworks.borrow_mut().iter() {
+        for framework in self.entries.borrow_mut().iter() {
             if file_path.starts_with(&framework.path) && framework.name.eq(framework_name) {
                 framework.files.borrow_mut().insert(file_name.to_string());
             }
@@ -87,7 +86,7 @@ impl Frameworks {
     }
 
     pub fn get(&self, index: usize) -> Option<Framework> {
-        let frameworks = self.frameworks.borrow();
+        let frameworks = self.entries.borrow();
         match frameworks.get(index) {
             Some(framework) => Some(framework.clone()),
             _ => None,
@@ -98,7 +97,7 @@ impl Frameworks {
 impl Default for Frameworks {
     fn default() -> Self {
         Frameworks {
-            frameworks: RefCell::new(vec![]),
+            entries: RefCell::new(vec![]),
             temp_source_files: RefCell::new(vec![]),
         }
     }

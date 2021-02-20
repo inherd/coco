@@ -17,10 +17,7 @@ mod test {
 
     #[test]
     fn should_return_json() {
-        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .to_path_buf();
+        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).to_path_buf();
 
         let test_project_dir = root_dir
             .clone()
