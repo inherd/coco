@@ -149,7 +149,7 @@ function commit_by_weeks(data) {
 
 function commits_by_users_with_range(data, range) {
   let usermap = {};
-  for (let i = data.length - 1; i >= 0; i--) {
+  for (let i = 0; i < data.length; i++) {
     let datum = data[i];
     if (!usermap[datum.email]) {
       usermap[datum.email] = {
