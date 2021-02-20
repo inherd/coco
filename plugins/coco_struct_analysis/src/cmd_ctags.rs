@@ -242,7 +242,7 @@ mod tests {
         let mut iter = str::from_utf8(&outputs[0].stdout).unwrap().lines();
 
         println!("{:?}", outputs);
-        assert!(iter.next().unwrap_or("").contains("age"));
+        assert!(iter.next().unwrap_or("").contains("main"));
     }
 
     // #[test]
