@@ -7,6 +7,13 @@ edition = "2018"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+nix            = "0.19"
+tempfile       = "3"
+failure        = "0.1"
+serde          = "1"
+serde_derive   = "1"
+structopt      = "0.3"
+structopt-toml = "0.4"
 
 [dependencies.core_model]
 path = "../../core_model"
