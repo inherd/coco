@@ -1,24 +1,24 @@
 // based on: https://observablehq.com/@d3/focus-context
 function renderCommitContributions(data, elementId) {
-  let margin = {top: 30, right: 30, bottom: 30, left: 30},
+  let margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = GraphConfig.width - margin.left - margin.right,
     height = GraphConfig.height / 2 - margin.top - margin.bottom,
     focusHeight = 100;
 
+  let x = d3.scaleUtc()
+    .domain(d3.extent(data, d => d.date))
+    .range([margin.left, width - margin.right])
+
+  let y = d3.scaleLinear()
+    .domain([0, d3.max(data, d => d.value)])
+    .range([height - margin.bottom, margin.top])
+
   let chart = (function () {
-    let x = d3.scaleUtc()
-      .domain(d3.extent(data, d => d.date))
-      .range([margin.left, width - margin.right])
-
-    let y = d3.scaleLinear()
-      .domain([0, d3.max(data, d => d.value)])
-      .range([height - margin.bottom, margin.top])
-
     let xAxis = (g, x, height) => g
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
 
-    let yAxis = (g, y, title) => g
+    let yAxis = (g, y) => g
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y))
       .call(g => g.select(".domain").remove())
@@ -58,14 +58,6 @@ function renderCommitContributions(data, elementId) {
       }
     })
   })();
-
-  let x = d3.scaleUtc()
-    .domain(d3.extent(data, d => d.date))
-    .range([margin.left, width - margin.right])
-
-  let y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)])
-    .range([height - margin.bottom, margin.top])
 
   let focus = (function () {
     let xAxis = (g) => g
