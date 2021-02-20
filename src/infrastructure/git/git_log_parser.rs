@@ -286,4 +286,19 @@ mod test {
         assert_eq!("h@phodal.com", commits[0].email);
         assert_eq!(5, commits[0].changed_file_count);
     }
+
+    #[test]
+    pub fn should_support_bin_file_added() {
+        let input = "[3eff25c] yvettemuki<373628977@qq.com> 1612073308 (,f3e348c) ## initialize
+-       -       build/CMakeFiles/3.19.0/CMakeDetermineCompilerABI_C.bin
+-       -       build/CMakeFiles/3.19.0/CMakeDetermineCompilerABI_CXX.bin
+ create mode 100755 build/CMakeFiles/3.19.0/CMakeDetermineCompilerABI_C.bin
+ create mode 100755 build/CMakeFiles/3.19.0/CMakeDetermineCompilerABI_CXX.bin
+";
+
+        let commits = GitMessageParser::parse(input);
+        assert_eq!(2, commits[0].changes.len());
+        assert_eq!(0, commits[0].total_added);
+        assert_eq!(0, commits[0].total_deleted);
+    }
 }
