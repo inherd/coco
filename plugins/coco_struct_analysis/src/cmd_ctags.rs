@@ -220,6 +220,8 @@ mod tests {
 
     use super::CmdCtags;
 
+    // need to install ctags in ci
+    #[ignore]
     #[test]
     fn test_call() {
         let args = vec!["ptags", "-t", "1", "--exclude=README.md"];
