@@ -141,8 +141,8 @@ fn analysis_architecture(url_str: &str) {
 }
 
 fn run_plugins(config: &CocoConfig) {
-    for plugin in config.plugins.iter() {
-        PluginManager::run(&plugin);
+    for plugin_name in config.plugins.iter() {
+        let _plugin = PluginManager::plugin(&plugin_name);
     }
 }
 
