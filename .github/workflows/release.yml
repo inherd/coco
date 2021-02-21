@@ -50,13 +50,6 @@ jobs:
       - name: Install Just
         run: cargo install just
 
-      - name: Install wget for Windows
-        run:  |
-          if [ "$RUNNER_OS" == "Windows" ]; then
-              choco install wget --no-progress
-          fi
-        shell: bash
-
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal

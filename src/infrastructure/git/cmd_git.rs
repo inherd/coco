@@ -59,17 +59,17 @@ pub fn commit_message(exec_path: Option<String>) -> String {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::git::git_command;
+    use crate::infrastructure::git::cmd_git;
 
     #[test]
     fn should_get_commit_log() {
-        let output = git_command::commit_message(None);
+        let output = cmd_git::commit_message(None);
         assert!(output.len() > 1000);
     }
 
     #[test]
     fn should_get_git_tag() {
-        let output = git_command::tags(None);
+        let output = cmd_git::tags(None);
         assert!(output.contains("0.1.3"));
     }
 }

@@ -1,12 +1,12 @@
 use crate::domain::git::coco_tag::CocoTag;
-use crate::infrastructure::git::git_command;
+use crate::infrastructure::git::cmd_git;
 use crate::infrastructure::git::git_tag_parser::GitTagParser;
 use crate::infrastructure::url_format;
 
 pub fn analysis(url: &str) -> Vec<CocoTag> {
     let local_path = url_format::uri_to_path(url);
 
-    let messages = git_command::tags(Some(format!("{}", local_path.display())));
+    let messages = cmd_git::tags(Some(format!("{}", local_path.display())));
     let results = GitTagParser::parse(messages.as_str());
 
     return results;

@@ -1,9 +1,12 @@
+pub mod cmd_ctags;
+pub mod option_ctags;
+
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
 
-pub struct CocoStructAnslysis {}
+pub struct CocoStructAnalysis {}
 
-impl PluginInterface for CocoStructAnslysis {
+impl PluginInterface for CocoStructAnalysis {
     fn name(&self) -> &'static str {
         "coco.struct_analysis"
     }
@@ -17,13 +20,13 @@ impl PluginInterface for CocoStructAnslysis {
     }
 }
 
-impl Default for CocoStructAnslysis {
+impl Default for CocoStructAnalysis {
     fn default() -> Self {
-        CocoStructAnslysis {}
+        CocoStructAnalysis {}
     }
 }
 
 #[no_mangle]
 pub fn plugin() -> Box<dyn PluginInterface> {
-    Box::new(CocoStructAnslysis::default())
+    Box::new(CocoStructAnalysis::default())
 }

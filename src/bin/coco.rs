@@ -10,6 +10,7 @@ use coco::app::{cloc_analysis, framework_analysis};
 use coco::infrastructure::url_format;
 use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
+use plugin_manager::plugin_manager::PluginManager;
 use std::time::Instant;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
@@ -37,6 +38,7 @@ fn main() {
 
     println!("found config file: {}", config_file);
 
+    run_plugins(&config);
     run_analysis(config.repo, cli_option);
 }
 
@@ -49,7 +51,10 @@ fn create_config(config_file: &str) -> CocoConfig {
             repo.push(RepoConfig {
                 url: current.into_os_string().to_str().unwrap().to_string(),
             });
-            CocoConfig { repo }
+            CocoConfig {
+                repo,
+                plugins: vec![],
+            }
         }
     }
 }
@@ -135,6 +140,12 @@ fn analysis_architecture(url_str: &str) {
     fs::write(output_file, branches_info).expect("cannot write file");
 }
 
+fn run_plugins(config: &CocoConfig) {
+    for plugin in config.plugins.iter() {
+        PluginManager::run(&plugin);
+    }
+}
+
 #[cfg(test)]
 mod test {
     use crate::create_config;
@@ -148,5 +159,6 @@ mod test {
 
         assert_eq!(config.repo.len(), 1);
         assert_eq!(url, config.repo[0].url);
+        assert_eq!(config.plugins.len(), 0);
     }
 }
