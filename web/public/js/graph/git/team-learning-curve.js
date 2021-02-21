@@ -46,7 +46,7 @@ function renderLearningCurve(data) {
 
     let y = d3.scaleLinear()
         .domain([minCommitNum, maxCommitNum])
-        .range([height , 0]);
+        .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
 
@@ -62,6 +62,10 @@ function renderLearningCurve(data) {
         .data(processData)
         .enter()
         .append("path")
+        .attr("id", function (d, i) {
+            d.index = i;
+            return `line-${i}`
+        })
         .attr("d", function (d) {
             return line(d.commitNums);
         })
@@ -69,7 +73,13 @@ function renderLearningCurve(data) {
             return myColor(d.email);
         })
         .style("stroke-width", 4)
-        .style("fill", "none");
+        .style("fill", "none")
+        .on("mouseover", function (event, d) {
+            this.parentNode.appendChild(this);
+            const sel = d3.select(`#point-group-${d.index}`);
+            let pointGroup = sel._groups[0][0];
+            pointGroup.parentNode.appendChild(pointGroup);
+        });
 
     // set tooltip
     let tooltip = d3.select("#learning-curve").append("div")
@@ -88,6 +98,9 @@ function renderLearningCurve(data) {
         .style("fill", function (d) {
             return myColor(d.email);
         })
+        .attr("id", function (d, i) {
+            return `point-group-${i}`
+        })
         .selectAll("points")
         .data(function (d) {
             return d.commitNums.map(res => {
@@ -104,20 +117,20 @@ function renderLearningCurve(data) {
         .attr("cursor", "pointer")
         .attr("cx", function (d, i) {
             return x(i + 1);
-        } )
+        })
         .attr("cy", function (d) {
             return y(d.commitNum);
-        } )
+        })
         .attr("r", 5)
         .attr("stroke", "white")
-        .on("mouseover", function() {
+        .on("mouseover", function () {
             tooltip.style("visibility", "visible");
         })
-        .on("mousemove", function(event, d) {
+        .on("mousemove", function (event, d) {
             tooltip.style("top", (event.pageY - 10) + "px").style("left", (event.pageX + 10) + "px");
             tooltip.text(`commit num: ${d.commitNum} \n author: ${d.name} \n email: ${d.email}`);
         })
-        .on("mouseout", function() {
+        .on("mouseout", function () {
             tooltip.style("visibility", "hidden");
         });
 
