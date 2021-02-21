@@ -17,7 +17,7 @@ struct Wrapper {
 pub struct PluginManager {}
 
 impl PluginManager {
-    pub fn plugin(plugin_name: &str) -> Box<dyn PluginInterface> {
+    pub fn run(plugin_name: &str) {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
         let plugin_path = Self::get_plugin_path(plugin_name);
         let path = root.parent().unwrap().join(plugin_path);
@@ -25,7 +25,8 @@ impl PluginManager {
         let cont: Container<Wrapper> =
             unsafe { Container::load(path) }.expect("Could not open library or load symbols");
 
-        return cont.plugin();
+        let plugin = cont.plugin();
+        println!("{:?}", plugin.name());
     }
 
     #[cfg(target_os = "linux")]
@@ -51,7 +52,6 @@ mod tests {
     #[ignore]
     #[test]
     fn test_plugin_run_in_local() {
-        let plugin = PluginManager::plugin("swagger");
-        assert_eq!("coco.swagger", plugin.name());
+        PluginManager::run("swagger");
     }
 }
