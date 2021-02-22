@@ -17,3 +17,15 @@ pub struct ClassInfo {
     pub members: Vec<MemberInfo>,
     pub method: Vec<MethodInfo>,
 }
+
+impl ClassInfo {
+    pub fn new(class_name: &str) -> Self {
+        ClassInfo {
+            name: class_name.to_string(),
+            id: 0,
+            parents: vec![],
+            members: vec![],
+            method: vec![],
+        }
+    }
+}

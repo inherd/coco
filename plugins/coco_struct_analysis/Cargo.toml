@@ -15,6 +15,10 @@ serde_derive   = "1"
 structopt      = "0.3"
 structopt-toml = "0.4"
 
+lazy_static = "1.4.0"
+
+regex = "1"
+
 # gitignore
 # docs: https://github.com/BurntSushi/ripgrep/tree/master/crates/ignore
 ignore = "0.4"

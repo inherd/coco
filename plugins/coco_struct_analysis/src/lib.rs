@@ -1,3 +1,6 @@
+#[macro_use]
+extern crate lazy_static;
+
 pub mod cmd_ctags;
 pub mod coco_struct;
 pub mod ctags_opt;
