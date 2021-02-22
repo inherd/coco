@@ -12,6 +12,16 @@ pub struct MethodInfo {
     pub return_type: String,
 }
 
+impl MethodInfo {
+    pub fn new(name: &str) -> Self {
+        MethodInfo {
+            name: name.to_string(),
+            access: "".to_string(),
+            return_type: "".to_string(),
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct ClassInfo {
     pub name: String,
