@@ -1,10 +1,10 @@
-
 ## Development
 
 **IDE**: [Clion](https://www.jetbrains.com/clion/) (Recommended) / [IntelliJ](https://www.jetbrains.com/idea/) + [IntelliJ Rust plugin](https://intellij-rust.github.io/)
 
 **Rust**: Verison >= 1.49.0 
 
+**Ctags**
 
 If you already have older version installed ,please update Rust version by:
 ```
@@ -87,6 +87,28 @@ just tests
 ### Architecture
 
 ![Architecture](docs/images/coco-architecture.svg)
+
+### Install Ctags
+
+Ubuntu
+
+```
+sudo apt-get update
+sudo apt-get install exuberant-ctags
+```
+
+macOS
+
+```
+brew update
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+```
+
+Windows
+
+```
+choco install universal-ctags
+```
 
 ### Contribute
 
