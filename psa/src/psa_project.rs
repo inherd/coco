@@ -1,14 +1,14 @@
-use crate::submodule::SubModule;
+use crate::psa_module::Module;
 
 pub struct Project {
     pub name: String,
     pub path: String,
-    pub modules: Vec<SubModule>,
+    pub modules: Vec<Module>,
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::project::Project;
+    use crate::psa_project::Project;
 
     #[test]
     fn should_create_project() {

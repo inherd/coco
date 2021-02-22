@@ -22,3 +22,4 @@
 * [20. output-for-plugins](0020-output-for-plugins.md)
 * [21. plugin-config](0021-plugin-config.md)
 * [22. suggest-with-i18n](0022-suggest-with-i18n.md)
+* [23. psa(project-structure-analysis)](0023-psa(project-structure-analysis).md)
