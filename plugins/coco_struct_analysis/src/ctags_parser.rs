@@ -34,11 +34,8 @@ lazy_static! {
 \t(?P<tag_type>[A-Za-z]+)"#
     )
     .unwrap();
-    static ref RE_CLASS: Regex = Regex::new(
-        r"(?x)
-class:(?P<class_name>[A-Za-z0-9_\.]+)"
-    )
-    .unwrap();
+    static ref RE_CLASS: Regex = Regex::new(r"class:(?P<class_name>[A-Za-z0-9_\.]+)").unwrap();
+    static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
 }
 
 impl CtagsParser {
@@ -86,6 +83,33 @@ impl CtagsParser {
 
         let captures = AVAILABLE_RE.captures(line).unwrap();
 
+        let clazz;
+        match self.lookup_class_from_map(line) {
+            None => return,
+            Some(clz) => clazz = clz,
+        }
+
+        let name = &captures["name"];
+        let tag_type = &captures["tag_type"];
+
+        let mut access = "";
+        if let Some(capts) = RE_ACCESS.captures(line) {
+            let match_access = &capts["access"];
+            match match_access {
+                "public" => access = "+",
+                "private" => access = "-",
+                "protected" => access = "#",
+                &_ => {}
+            }
+        }
+
+        if tag_type.eq("method") {
+            let method = MethodInfo::new(name, access);
+            clazz.method.push(method);
+        }
+    }
+
+    fn lookup_class_from_map(&mut self, line: &str) -> Option<&mut ClassInfo> {
         let mut class_name = "".to_string();
         if let Some(capts) = RE_CLASS.captures(line) {
             class_name = capts["class_name"].to_string();
@@ -96,24 +120,20 @@ impl CtagsParser {
         }
 
         if class_name.len() <= 0 {
-            return;
+            return None;
         }
-        let clazz;
+
+        let clazz: &mut ClassInfo;
         match self.class_map.get_mut(&*class_name) {
             Some(clz) => {
                 clazz = clz;
             }
             None => {
-                return;
+                return None;
             }
         };
 
-        let name = &captures["name"];
-        let tag_type = &captures["tag_type"];
-        if tag_type.eq("method") {
-            let method = MethodInfo::new(name);
-            clazz.method.push(method);
-        }
+        Some(clazz)
     }
 
     pub fn classes(&self) -> Vec<ClassInfo> {
@@ -158,5 +178,9 @@ mod test {
         let classes = parser.classes();
         assert_eq!(1, classes.len());
         assert_eq!(9, classes[0].method.len());
+
+        let first_method = classes[0].method[0].clone();
+        assert_eq!("TypeName", first_method.name);
+        assert_eq!("-", first_method.access)
     }
 }
