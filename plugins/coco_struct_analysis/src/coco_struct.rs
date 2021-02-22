@@ -13,11 +13,11 @@ pub struct MethodInfo {
 }
 
 impl MethodInfo {
-    pub fn new(name: &str, access: &str) -> Self {
+    pub fn new(name: &str, access: &str, data_type: String) -> Self {
         MethodInfo {
             name: name.to_string(),
             access: access.to_string(),
-            return_type: "".to_string(),
+            return_type: data_type,
         }
     }
 }

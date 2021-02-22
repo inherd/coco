@@ -36,8 +36,9 @@ lazy_static! {
     .unwrap();
     static ref RE_CLASS: Regex = Regex::new(r"class:(?P<class_name>[A-Za-z0-9_\.]+)").unwrap();
     static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
+    static ref RE_LANGUAGE: Regex = Regex::new(r"language:(?P<language>[A-Za-z0-9_\#]+)").unwrap();
     static ref RE_TYPE: Regex =
-        Regex::new(r"/\^([ ]*)([A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
+        Regex::new(r"/\^([ ]*)(?P<datatype>[A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
         "public",
@@ -61,6 +62,21 @@ lazy_static! {
 }
 
 impl CtagsParser {
+    pub fn parse_str(str: &str) -> CtagsParser {
+        let mut parser = CtagsParser::default();
+        let split = str.split("\n");
+        for line in split.clone() {
+            parser.parse_class(line);
+        }
+
+        for line in split {
+            println!("{}", line);
+            parser.parse_method_methods(line);
+        }
+
+        parser
+    }
+
     pub fn parse(dir: PathBuf) -> CtagsParser {
         let file = File::open(format!("{}", dir.display()).as_str()).expect("cannot find file");
         let reader = BufReader::new(file);
@@ -125,13 +141,26 @@ impl CtagsParser {
             }
         }
 
-        let data_type = "";
-        let ty = CtagsParser::remove_keywords(line.to_string());
+        let lang_capts = RE_LANGUAGE.captures(line).unwrap();
+        let language = &lang_capts["language"];
+
+        let without_keywords = CtagsParser::remove_keywords(line.to_string());
+        let match_type = RE_TYPE.captures(without_keywords.as_str());
+
+        let mut data_type = "".to_string();
+        if match_type.is_some() && (CtagsParser::datatype_supported(language)) {
+            let capts = match_type.unwrap();
+            data_type = (&capts["datatype"]).to_string();
+        }
 
         if tag_type.eq("method") {
-            let method = MethodInfo::new(name, access);
+            let method = MethodInfo::new(name, access, data_type);
             clazz.method.push(method);
         }
+    }
+
+    pub fn datatype_supported(lang: &str) -> bool {
+        return lang == "C++" || lang == "C#" || lang == "Java";
     }
 
     pub fn remove_keywords(mut line: String) -> String {
@@ -207,6 +236,19 @@ mod test {
     #[test]
     pub fn should_replace_keyword() {
         assert_eq!("", CtagsParser::remove_keywords("public".to_string()));
+    }
+
+    #[test]
+    pub fn should_get_return_type() {
+        let str = "MethodIdentifier	SubscriberRegistry.java	/^    MethodIdentifier(Method method) {$/;\"	method	line:239	language:Java	class:SubscriberRegistry.MethodIdentifier	access:default
+MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodIdentifier {$/;\"	class	line:234	language:Java	class:SubscriberRegistry	access:private";
+
+        let parser = CtagsParser::parse_str(str);
+        let classes = parser.classes();
+
+        assert_eq!(1, classes.len());
+        let first_method = classes[0].method[0].clone();
+        assert_eq!("MethodIdentifier", first_method.return_type);
     }
 
     #[test]
