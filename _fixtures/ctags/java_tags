@@ -1,0 +1,23 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/fdhuang/clone/lombok/src/core/lombok/core/configuration/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/d532b5c/
+TypeName	TypeName.java	/^	private TypeName(String name) {$/;"	method	line:29	language:Java	class:TypeName	file:	access:private
+TypeName	TypeName.java	/^public final class TypeName implements ConfigurationValueType {$/;"	class	line:26	language:Java	inherits:ConfigurationValueType
+description	TypeName.java	/^	public static String description() {$/;"	method	line:43	language:Java	class:TypeName	access:public
+equals	TypeName.java	/^	@Override public boolean equals(Object obj) {$/;"	method	line:51	language:Java	class:TypeName	access:public
+exampleValue	TypeName.java	/^	public static String exampleValue() {$/;"	method	line:47	language:Java	class:TypeName	access:public
+getCharArray	TypeName.java	/^	public char[] getCharArray() {$/;"	method	line:68	language:Java	class:TypeName	access:public
+getName	TypeName.java	/^	public String getName() {$/;"	method	line:64	language:Java	class:TypeName	access:public
+hashCode	TypeName.java	/^	@Override public int hashCode() {$/;"	method	line:56	language:Java	class:TypeName	access:public
+lombok.core.configuration	TypeName.java	/^package lombok.core.configuration;$/;"	package	line:22	language:Java
+name	TypeName.java	/^	private final String name;$/;"	field	line:27	language:Java	class:TypeName	file:	access:private
+toString	TypeName.java	/^	@Override public String toString() {$/;"	method	line:60	language:Java	class:TypeName	access:public
+valueOf	TypeName.java	/^	public static TypeName valueOf(String name) {$/;"	method	line:33	language:Java	class:TypeName	access:public

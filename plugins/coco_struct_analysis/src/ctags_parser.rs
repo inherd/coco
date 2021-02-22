@@ -3,6 +3,7 @@ use regex::Regex;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
+use std::path::PathBuf;
 
 pub struct CtagsParser {
     class_map: HashMap<String, ClassInfo>,
@@ -26,11 +27,11 @@ lazy_static! {
     .unwrap();
     static ref INHERITS_RE: Regex = Regex::new(r"inherits:([A-Za-z0-9_\:,]+)").unwrap();
     static ref AVAILABLE_RE: Regex = Regex::new(
-        r"(?x)
+        r#"(?x)
 ^(?P<name>[A-Za-z0-9_]+)
 \t(?P<data_type>[^\t]+)
-\t([^\t]+)
-\t(?P<tag_type>[A-Za-z]+)"
+\t([^\t]+.*?")
+\t(?P<tag_type>[A-Za-z]+)"#
     )
     .unwrap();
     static ref RE_CLASS: Regex = Regex::new(
@@ -41,8 +42,8 @@ class:(?P<class_name>[A-Za-z0-9_\.]+)"
 }
 
 impl CtagsParser {
-    pub fn parse(path: &str) -> CtagsParser {
-        let file = File::open(path).expect("cannot find file");
+    pub fn parse(dir: PathBuf) -> CtagsParser {
+        let file = File::open(format!("{}", dir.display()).as_str()).expect("cannot find file");
         let reader = BufReader::new(file);
 
         let mut parser = CtagsParser::default();
@@ -50,6 +51,17 @@ impl CtagsParser {
             match result {
                 Ok(line) => {
                     parser.parse_class(line.as_str());
+                }
+                Err(_) => {}
+            };
+        }
+
+        let file = File::open(format!("{}", dir.display()).as_str()).expect("cannot find file");
+        let reader = BufReader::new(file);
+        for result in reader.lines() {
+            match result {
+                Ok(line) => {
+                    parser.parse_method_methods(line.as_str());
                 }
                 Err(_) => {}
             };
@@ -67,15 +79,15 @@ impl CtagsParser {
         }
     }
 
-    pub fn parse_method_methods(&mut self, str: &str) {
-        if !AVAILABLE_RE.is_match(str) {
+    pub fn parse_method_methods(&mut self, line: &str) {
+        if !AVAILABLE_RE.is_match(line) {
             return;
         }
 
-        let captures = AVAILABLE_RE.captures(str).unwrap();
+        let captures = AVAILABLE_RE.captures(line).unwrap();
 
         let mut class_name = "".to_string();
-        if let Some(capts) = RE_CLASS.captures(str) {
+        if let Some(capts) = RE_CLASS.captures(line) {
             class_name = capts["class_name"].to_string();
         }
         let split = class_name.split(".");
@@ -134,33 +146,17 @@ mod test {
     #[test]
     pub fn should_parse_local_file() {
         let dir = tags_dir().join("coco_tags");
-        let parser = CtagsParser::parse(format!("{}", dir.display()).as_str());
+        let parser = CtagsParser::parse(dir);
         let vec = parser.classes();
         assert_eq!(25, vec.len());
     }
 
     #[test]
-    pub fn should_parse_java_class() {
-        let tags = "AsyncEventBus	AsyncEventBus.java	/^public class AsyncEventBus extends EventBus {$/;\"	class	line:31	language:Java	inherits:EventBus";
-        let mut parser = CtagsParser::default();
-        parser.parse_class(tags);
-
+    pub fn should_parse_java_file() {
+        let dir = tags_dir().join("java_tags");
+        let parser = CtagsParser::parse(dir);
         let classes = parser.classes();
         assert_eq!(1, classes.len());
-        assert_eq!("AsyncEventBus", classes[0].name);
-    }
-
-    #[test]
-    pub fn should_parse_java_method() {
-        let class_tags = "AsyncEventBus	AsyncEventBus.java	/^public class AsyncEventBus extends EventBus {$/;\"	class	line:31	language:Java	inherits:EventBus";
-        let tags = "AsyncEventBus	AsyncEventBus.java	/^  public AsyncEventBus(Executor executor) {$/;\"	method	line:69	language:Java	class:AsyncEventBus	access:public";
-        let mut parser = CtagsParser::default();
-        parser.parse_class(class_tags);
-        parser.parse_method_methods(tags);
-
-        let classes = parser.classes();
-        let methods = &classes[0].method;
-        assert_eq!(1, methods.len());
-        assert_eq!("AsyncEventBus", methods[0].name);
+        assert_eq!(9, classes[0].method.len());
     }
 }
