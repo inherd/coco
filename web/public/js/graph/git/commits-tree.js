@@ -18,7 +18,7 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
-let renderBranchTree = function (data) {
+let renderBranchTree = function (data, branches) {
   let tree = buildTree(data);
 
   let xGap = 11;
@@ -122,7 +122,7 @@ let renderBranchTree = function (data) {
     .enter()
     .append('text')
     .attr('x', function (commit) {
-      return 5 + commit.column * xGap + shaMargin + commitMargin;
+      return 5 + branches.length * xGap + shaMargin + commitMargin;
     })
     .attr('y', function (commit, idx) {
       return 5 + commit.idx * yGap;

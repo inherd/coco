@@ -40,7 +40,9 @@ d3.json("data/git-tags.json").then(function (data) {
 });
 
 d3.json("data/git-commits.json").then(function (data) {
-  renderBranchTree(data);
+  d3.json("data/git.json").then(function (branches) {
+    renderBranchTree(data, branches);
+  });
 
   renderMembersTimeline(commits_by_authors(data));
 
