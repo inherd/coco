@@ -650,7 +650,6 @@ dependencies = [
  "dialoguer",
  "framework",
  "git2",
- "ignore",
  "lazy_static",
  "mime_guess",
  "pest",
@@ -715,6 +714,7 @@ version = "0.1.0"
 dependencies = [
  "core_model",
  "failure",
+ "ignore",
  "nix",
  "plugin_interface",
  "serde",

@@ -61,10 +61,6 @@ serde_yaml = "0.8" # for config parse
 # Parallel
 rayon = "1.5"
 
-# gitignore
-# docs: https://github.com/BurntSushi/ripgrep/tree/master/crates/ignore
-ignore = "0.4"
-
 walkdir = "2"
 
 regex = "1"
