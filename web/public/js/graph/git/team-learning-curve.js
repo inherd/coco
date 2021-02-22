@@ -88,6 +88,10 @@ function renderLearningCurve(data) {
         .style("white-space", "pre-line")
         .style("visibility", "hidden")
         .style("font-weight", "bold")
+        .style("background", "#ffffff")
+        .style("border-radius", "4px")
+        .style("box-shadow", "0px 0px 4px #e5e5e5")
+        .style("padding", "6px")
         .text("I am the tooltip");
 
     // create dots
