@@ -1,17 +1,17 @@
 use crate::coco_struct::{ClassInfo, MethodInfo};
 use regex::Regex;
 use std::collections::HashMap;
+use std::fs::File;
+use std::io::{BufRead, BufReader};
 
 pub struct CtagsParser {
-    pub class_map: HashMap<String, ClassInfo>,
-    pub classes: Vec<ClassInfo>,
+    class_map: HashMap<String, ClassInfo>,
 }
 
 impl Default for CtagsParser {
     fn default() -> Self {
         CtagsParser {
             class_map: Default::default(),
-            classes: vec![],
         }
     }
 }
@@ -21,7 +21,7 @@ lazy_static! {
         r"(?x)
 ^(?P<class_name>[A-Za-z0-9_]+)
 \t(?P<file_name>([^\t]+))
-\t([^\t]+)\tclass"
+\t([^\t]+)\t[class|struct]"
     )
     .unwrap();
     static ref INHERITS_RE: Regex = Regex::new(r"inherits:([A-Za-z0-9_\:,]+)").unwrap();
@@ -41,6 +41,23 @@ class:(?P<class_name>[A-Za-z0-9_\.]+)"
 }
 
 impl CtagsParser {
+    pub fn parse(path: &str) -> CtagsParser {
+        let file = File::open(path).expect("cannot find file");
+        let reader = BufReader::new(file);
+
+        let mut parser = CtagsParser::default();
+        for result in reader.lines() {
+            match result {
+                Ok(line) => {
+                    parser.parse_class(line.as_str());
+                }
+                Err(_) => {}
+            };
+        }
+
+        parser
+    }
+
     pub fn parse_class(&mut self, str: &str) {
         if let Some(captures) = CLASS_RE.captures(str) {
             let class_name = &captures["class_name"];
@@ -49,6 +66,7 @@ impl CtagsParser {
             self.class_map.insert(class_name.to_string(), clazz);
         }
     }
+
     pub fn parse_method_methods(&mut self, str: &str) {
         if !AVAILABLE_RE.is_match(str) {
             return;
@@ -99,6 +117,27 @@ impl CtagsParser {
 #[cfg(test)]
 mod test {
     use crate::ctags_parser::CtagsParser;
+    use std::path::PathBuf;
+
+    pub fn tags_dir() -> PathBuf {
+        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        let ctags_dir = root_dir.clone().join("_fixtures").join("ctags");
+
+        return ctags_dir;
+    }
+
+    #[test]
+    pub fn should_parse_local_file() {
+        let dir = tags_dir().join("coco_tags");
+        let parser = CtagsParser::parse(format!("{}", dir.display()).as_str());
+        let vec = parser.classes();
+        assert_eq!(25, vec.len());
+    }
 
     #[test]
     pub fn should_parse_java_class() {

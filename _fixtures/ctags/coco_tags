@@ -1,0 +1,332 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/fdhuang/consultant/devops/coco/src/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/d532b5c/
+Architecture	domain/architecture/mod.rs	/^pub struct Architecture {$/;"	struct	line:4	language:Rust
+ArchitectureEvolution	domain/architecture/mod.rs	/^pub struct ArchitectureEvolution {$/;"	struct	line:14	language:Rust
+ArchitectureFitness	domain/architecture/mod.rs	/^pub struct ArchitectureFitness {$/;"	struct	line:19	language:Rust
+Asset	app/visual/local_server.rs	/^struct Asset;$/;"	struct	line:13	language:Rust
+Asset	app/visual/output_static.rs	/^struct Asset;$/;"	struct	line:7	language:Rust
+ClocDetail	domain/cloc/mod.rs	/^impl Default for ClocDetail {$/;"	implementation	line:33	language:Rust
+ClocDetail	domain/cloc/mod.rs	/^pub struct ClocDetail {$/;"	struct	line:25	language:Rust
+ClocLanguage	domain/cloc/mod.rs	/^impl Default for ClocLanguage {$/;"	implementation	line:12	language:Rust
+ClocLanguage	domain/cloc/mod.rs	/^pub struct ClocLanguage {$/;"	struct	line:4	language:Rust
+CocoBranch	domain/git/coco_branch.rs	/^impl CocoBranch {$/;"	implementation	line:15	language:Rust
+CocoBranch	domain/git/coco_branch.rs	/^pub struct CocoBranch {$/;"	struct	line:4	language:Rust
+CocoCliOption	app/cmd/cli_option.rs	/^impl Default for CocoCliOption {$/;"	implementation	line:6	language:Rust
+CocoCliOption	app/cmd/cli_option.rs	/^pub struct CocoCliOption {$/;"	struct	line:2	language:Rust
+CocoCommit	domain/git/coco_commit.rs	/^impl Default for CocoCommit {$/;"	implementation	line:20	language:Rust
+CocoCommit	domain/git/coco_commit.rs	/^pub struct CocoCommit {$/;"	struct	line:4	language:Rust
+CocoFramework	domain/framework/coco_framework.rs	/^pub struct CocoFramework {$/;"	struct	line:4	language:Rust
+CocoTag	domain/git/coco_tag.rs	/^impl Default for CocoTag {$/;"	implementation	line:12	language:Rust
+CocoTag	domain/git/coco_tag.rs	/^pub struct CocoTag {$/;"	struct	line:4	language:Rust
+CodeInclude	domain/code/file_include.rs	/^pub struct CodeInclude {$/;"	struct	line:9	language:Rust
+CodeRelation	domain/code/code_relation.rs	/^pub struct CodeRelation {$/;"	struct	line:4	language:Rust
+ConventionalMessage	domain/git/coco_commit_message.rs	/^impl Default for ConventionalMessage {$/;"	implementation	line:11	language:Rust
+ConventionalMessage	domain/git/coco_commit_message.rs	/^pub struct ConventionalMessage {$/;"	struct	line:4	language:Rust
+DDD	domain/architecture/mod.rs	/^    DDD,$/;"	enumerator	line:35	language:Rust	enum:LayerArchitecture
+DomainObject	domain/architecture/mod.rs	/^    DomainObject,$/;"	enumerator	line:37	language:Rust	enum:LayerArchitecture
+FileChange	domain/git/coco_commit.rs	/^pub struct FileChange {$/;"	struct	line:41	language:Rust
+FileInclude	domain/code/file_include.rs	/^pub struct FileInclude {$/;"	struct	line:4	language:Rust
+FlatMVC	domain/architecture/mod.rs	/^    FlatMVC,$/;"	enumerator	line:31	language:Rust	enum:LayerArchitecture
+FormatBranch	app/git_analysis/format_branch.rs	/^impl FormatBranch {$/;"	implementation	line:17	language:Rust
+FormatBranch	app/git_analysis/format_branch.rs	/^pub struct FormatBranch {$/;"	struct	line:7	language:Rust
+GitBranch	infrastructure/git/git_branch.rs	/^impl GitBranch {$/;"	implementation	line:10	language:Rust
+GitBranch	infrastructure/git/git_branch.rs	/^pub struct GitBranch {}$/;"	struct	line:4	language:Rust
+GitMessageParser	infrastructure/git/git_log_parser.rs	/^impl Default for GitMessageParser {$/;"	implementation	line:36	language:Rust
+GitMessageParser	infrastructure/git/git_log_parser.rs	/^impl GitMessageParser {$/;"	implementation	line:47	language:Rust
+GitMessageParser	infrastructure/git/git_log_parser.rs	/^pub struct GitMessageParser {$/;"	struct	line:29	language:Rust
+GitRepository	infrastructure/git/git_repository.rs	/^impl GitRepository {$/;"	implementation	line:8	language:Rust
+GitRepository	infrastructure/git/git_repository.rs	/^pub struct GitRepository {}$/;"	struct	line:6	language:Rust
+GitTagParser	infrastructure/git/git_tag_parser.rs	/^impl Default for GitTagParser {$/;"	implementation	line:18	language:Rust
+GitTagParser	infrastructure/git/git_tag_parser.rs	/^impl GitTagParser {$/;"	implementation	line:24	language:Rust
+GitTagParser	infrastructure/git/git_tag_parser.rs	/^pub struct GitTagParser {$/;"	struct	line:14	language:Rust
+INIT	infrastructure/git/mod.rs	/^    static INIT: Once = Once::new();$/;"	variable	line:21	language:Rust	module:test
+IncludeParser	infrastructure/include_parser/mod.rs	/^struct IncludeParser;$/;"	struct	line:5	language:Rust
+LayerArchitecture	domain/architecture/mod.rs	/^pub enum LayerArchitecture {$/;"	enum	line:29	language:Rust
+ModelObject	domain/architecture/mod.rs	/^    ModelObject,$/;"	enumerator	line:39	language:Rust	enum:LayerArchitecture
+NestedMVC	domain/architecture/mod.rs	/^    NestedMVC,$/;"	enumerator	line:33	language:Rust	enum:LayerArchitecture
+Practise	domain/architecture/mod.rs	/^pub enum Practise {$/;"	enum	line:24	language:Rust
+ProjectData	app/visual/local_server.rs	/^pub struct ProjectData {$/;"	struct	line:74	language:Rust
+ShortCommit	app/git_analysis/commit_analysis.rs	/^impl ShortCommit {$/;"	implementation	line:22	language:Rust
+ShortCommit	app/git_analysis/commit_analysis.rs	/^pub struct ShortCommit {$/;"	struct	line:8	language:Rust
+SimpleCommit	infrastructure/git/git_branch.rs	/^pub struct SimpleCommit {$/;"	struct	line:6	language:Rust
+TDD	domain/architecture/mod.rs	/^    TDD,$/;"	enumerator	line:26	language:Rust	enum:Practise
+added	domain/git/coco_commit.rs	/^    pub added: i32,$/;"	field	line:42	language:Rust	struct:FileChange
+analysis	app/architecture_analysis.rs	/^pub fn analysis(_path: PathBuf) -> String {$/;"	function	line:3	language:Rust
+analysis	app/cloc_analysis.rs	/^pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {$/;"	function	line:5	language:Rust
+analysis	app/framework_analysis.rs	/^pub fn analysis(path: PathBuf) -> String {$/;"	function	line:5	language:Rust
+analysis	app/git_analysis/branch_analysis.rs	/^pub fn analysis(url: &str) -> Vec<FormatBranch> {$/;"	function	line:5	language:Rust
+analysis	app/git_analysis/commit_analysis.rs	/^pub fn analysis(url: &str) -> Vec<ShortCommit> {$/;"	function	line:40	language:Rust
+analysis	app/git_analysis/tag_analysis.rs	/^pub fn analysis(url: &str) -> Vec<CocoTag> {$/;"	function	line:6	language:Rust
+analysis	domain/architecture/mod.rs	/^    pub analysis: String,$/;"	field	line:5	language:Rust	struct:Architecture
+analysis_architecture	bin/coco.rs	/^fn analysis_architecture(url_str: &str) {$/;"	function	line:133	language:Rust
+analysis_branches	bin/coco.rs	/^fn analysis_branches(url_str: &str) {$/;"	function	line:92	language:Rust
+analysis_cloc	bin/coco.rs	/^fn analysis_cloc(url_str: &str) {$/;"	function	line:122	language:Rust
+analysis_commits	bin/coco.rs	/^fn analysis_commits(url_str: &str) {$/;"	function	line:112	language:Rust
+analysis_framework	bin/coco.rs	/^fn analysis_framework(url_str: &str) {$/;"	function	line:82	language:Rust
+analysis_tags	bin/coco.rs	/^fn analysis_tags(url_str: &str) {$/;"	function	line:102	language:Rust
+api	app/visual/local_server.rs	/^pub fn api(req: HttpRequest) -> HttpResponse {$/;"	function	line:45	language:Rust
+app	lib.rs	/^pub mod app;$/;"	module	line:9	language:Rust
+architecture	domain/mod.rs	/^pub mod architecture;$/;"	module	line:1	language:Rust
+architecture_analysis	app/mod.rs	/^pub mod architecture_analysis;$/;"	module	line:1	language:Rust
+author	app/git_analysis/commit_analysis.rs	/^    pub author: String,$/;"	field	line:11	language:Rust	struct:ShortCommit
+author	domain/git/coco_commit.rs	/^    pub author: String,$/;"	field	line:7	language:Rust	struct:CocoCommit
+author	infrastructure/git/git_branch.rs	/^    pub author: String,$/;"	field	line:7	language:Rust	struct:SimpleCommit
+average_members_coding_time_range	domain/suggest/mod.rs	/^pub fn average_members_coding_time_range() {}$/;"	function	line:25	language:Rust
+blanks	domain/cloc/mod.rs	/^    pub blanks: usize,$/;"	field	line:26	language:Rust	struct:ClocDetail
+blanks	domain/cloc/mod.rs	/^    pub blanks: usize,$/;"	field	line:6	language:Rust	struct:ClocLanguage
+branch	app/git_analysis/commit_analysis.rs	/^    pub branch: String,$/;"	field	line:9	language:Rust	struct:ShortCommit
+branch	domain/git/coco_commit.rs	/^    pub branch: String,$/;"	field	line:5	language:Rust	struct:CocoCommit
+branch_analysis	app/git_analysis/mod.rs	/^pub mod branch_analysis;$/;"	module	line:4	language:Rust
+branch_type	domain/git/coco_branch.rs	/^    pub branch_type: String,$/;"	field	line:6	language:Rust	struct:CocoBranch
+branches	app/cmd/cli_option.rs	/^    pub branches: bool,$/;"	field	line:3	language:Rust	struct:CocoCliOption
+breaking	domain/git/coco_commit_message.rs	/^    pub breaking: bool,$/;"	field	line:7	language:Rust	struct:ConventionalMessage
+build_changes	infrastructure/git/git_branch.rs	/^    pub fn build_changes(commit: &Commit) {$/;"	method	line:78	language:Rust	implementation:GitBranch
+by_dir	infrastructure/cloc/mod.rs	/^pub fn by_dir<P: AsRef<Path>>(path: P) -> Languages {$/;"	function	line:5	language:Rust
+calculate_branch	infrastructure/git/git_branch.rs	/^    fn calculate_branch(repo: &Repository, branch_name: &str, branch_type: &str) -> CocoBranch {$/;"	method	line:29	language:Rust	implementation:GitBranch
+changed_file_count	app/git_analysis/commit_analysis.rs	/^    pub changed_file_count: i32,$/;"	field	line:19	language:Rust	struct:ShortCommit
+changed_file_count	domain/git/coco_commit.rs	/^    pub changed_file_count: i32,$/;"	field	line:17	language:Rust	struct:CocoCommit
+changes	domain/git/coco_commit.rs	/^    pub changes: Vec<FileChange>,$/;"	field	line:12	language:Rust	struct:CocoCommit
+cli_option	app/cmd/mod.rs	/^pub mod cli_option;$/;"	module	line:3	language:Rust
+cloc	domain/mod.rs	/^pub mod cloc;$/;"	module	line:2	language:Rust
+cloc	infrastructure/mod.rs	/^pub mod cloc;$/;"	module	line:1	language:Rust
+cloc_analysis	app/mod.rs	/^pub mod cloc_analysis;$/;"	module	line:2	language:Rust
+cloud_native_identify	infrastructure/mod.rs	/^pub mod cloud_native_identify;$/;"	module	line:2	language:Rust
+cmd	app/mod.rs	/^pub mod cmd;$/;"	module	line:3	language:Rust
+cmd_git	infrastructure/git/mod.rs	/^pub mod cmd_git;$/;"	module	line:3	language:Rust
+coco_branch	domain/git/mod.rs	/^pub mod coco_branch;$/;"	module	line:4	language:Rust
+coco_commit	domain/git/mod.rs	/^pub mod coco_commit;$/;"	module	line:5	language:Rust
+coco_commit_message	domain/git/mod.rs	/^pub mod coco_commit_message;$/;"	module	line:6	language:Rust
+coco_framework	domain/framework/mod.rs	/^pub mod coco_framework;$/;"	module	line:1	language:Rust
+coco_tag	domain/git/mod.rs	/^pub mod coco_tag;$/;"	module	line:7	language:Rust
+code	domain/cloc/mod.rs	/^    pub code: usize,$/;"	field	line:27	language:Rust	struct:ClocDetail
+code	domain/cloc/mod.rs	/^    pub code: usize,$/;"	field	line:7	language:Rust	struct:ClocLanguage
+code	domain/mod.rs	/^pub mod code;$/;"	module	line:3	language:Rust
+code_relation	domain/code/mod.rs	/^pub mod code_relation;$/;"	module	line:1	language:Rust
+comments	domain/cloc/mod.rs	/^    pub comments: usize,$/;"	field	line:28	language:Rust	struct:ClocDetail
+comments	domain/cloc/mod.rs	/^    pub comments: usize,$/;"	field	line:8	language:Rust	struct:ClocLanguage
+commit_analysis	app/git_analysis/mod.rs	/^pub mod commit_analysis;$/;"	module	line:5	language:Rust
+commit_id	app/git_analysis/commit_analysis.rs	/^    pub commit_id: String,$/;"	field	line:10	language:Rust	struct:ShortCommit
+commit_id	domain/git/coco_commit.rs	/^    pub commit_id: String,$/;"	field	line:6	language:Rust	struct:CocoCommit
+commit_id	domain/git/coco_tag.rs	/^    pub commit_id: String,$/;"	field	line:7	language:Rust	struct:CocoTag
+commit_message	infrastructure/git/cmd_git.rs	/^pub fn commit_message(exec_path: Option<String>) -> String {$/;"	function	line:30	language:Rust
+commits	app/git_analysis/format_branch.rs	/^    pub commits: Vec<String>,$/;"	field	line:13	language:Rust	struct:FormatBranch
+commits	domain/git/coco_branch.rs	/^    pub commits: Vec<String>,$/;"	field	line:11	language:Rust	struct:CocoBranch
+commits	infrastructure/git/git_log_parser.rs	/^    commits: Vec<CocoCommit>,$/;"	field	line:32	language:Rust	struct:GitMessageParser
+commits_count	domain/git/coco_branch.rs	/^    pub commits_count: usize,$/;"	field	line:10	language:Rust	struct:CocoBranch
+commits_in_weekend	domain/suggest/mod.rs	/^pub fn commits_in_weekend() {}$/;"	function	line:14	language:Rust
+committer	domain/git/coco_commit.rs	/^    pub committer: String,$/;"	field	line:9	language:Rust	struct:CocoCommit
+convert	app/git_analysis/commit_analysis.rs	/^    pub fn convert(commit: CocoCommit) -> ShortCommit {$/;"	method	line:23	language:Rust	implementation:ShortCommit
+copy_reporter_to	app/visual/output_static.rs	/^pub fn copy_reporter_to(_path: &Path) {$/;"	function	line:24	language:Rust
+create_commit	infrastructure/git/git_log_parser.rs	/^    fn create_commit(captures: &Captures) -> CocoCommit {$/;"	method	line:137	language:Rust	implementation:GitMessageParser
+create_config	bin/coco.rs	/^fn create_config(config_file: &str) -> CocoConfig {$/;"	function	line:45	language:Rust
+create_file_change	infrastructure/git/git_log_parser.rs	/^    fn create_file_change(filename: String, caps: Captures) -> FileChange {$/;"	method	line:117	language:Rust	implementation:GitMessageParser
+current_commit	infrastructure/git/git_log_parser.rs	/^    current_commit: CocoCommit,$/;"	field	line:30	language:Rust	struct:GitMessageParser
+current_file_change	infrastructure/git/git_log_parser.rs	/^    current_file_change: Vec<FileChange>,$/;"	field	line:31	language:Rust	struct:GitMessageParser
+current_file_change_map	infrastructure/git/git_log_parser.rs	/^    current_file_change_map: HashMap<String, FileChange>,$/;"	field	line:33	language:Rust	struct:GitMessageParser
+data	app/visual/local_server.rs	/^pub fn data(req: HttpRequest, data: web::Data<ProjectData>) -> HttpResponse {$/;"	function	line:39	language:Rust
+date	app/git_analysis/commit_analysis.rs	/^    pub date: i64,$/;"	field	line:13	language:Rust	struct:ShortCommit
+date	domain/git/coco_commit.rs	/^    pub date: i64,$/;"	field	line:10	language:Rust	struct:CocoCommit
+date	domain/git/coco_tag.rs	/^    pub date: i64,$/;"	field	line:8	language:Rust	struct:CocoTag
+default	app/cmd/cli_option.rs	/^    fn default() -> Self {$/;"	method	line:7	language:Rust	implementation:CocoCliOption
+default	domain/cloc/mod.rs	/^    fn default() -> Self {$/;"	method	line:13	language:Rust	implementation:ClocLanguage
+default	domain/cloc/mod.rs	/^    fn default() -> Self {$/;"	method	line:34	language:Rust	implementation:ClocDetail
+default	domain/git/coco_commit.rs	/^    fn default() -> Self {$/;"	method	line:21	language:Rust	implementation:CocoCommit
+default	domain/git/coco_commit_message.rs	/^    fn default() -> Self {$/;"	method	line:12	language:Rust	implementation:ConventionalMessage
+default	domain/git/coco_tag.rs	/^    fn default() -> Self {$/;"	method	line:13	language:Rust	implementation:CocoTag
+default	infrastructure/git/git_log_parser.rs	/^    fn default() -> Self {$/;"	method	line:37	language:Rust	implementation:GitMessageParser
+default	infrastructure/git/git_tag_parser.rs	/^    fn default() -> Self {$/;"	method	line:19	language:Rust	implementation:GitTagParser
+deleted	domain/git/coco_commit.rs	/^    pub deleted: i32,$/;"	field	line:43	language:Rust	struct:FileChange
+display_name	domain/git/coco_tag.rs	/^    pub display_name: String,$/;"	field	line:6	language:Rust	struct:CocoTag
+dist	app/visual/local_server.rs	/^pub fn dist(path: web::Path<String>) -> HttpResponse {$/;"	function	line:34	language:Rust
+domain	lib.rs	/^pub mod domain;$/;"	module	line:10	language:Rust
+duration	domain/git/coco_branch.rs	/^    pub duration: i64,$/;"	field	line:9	language:Rust	struct:CocoBranch
+email	app/git_analysis/commit_analysis.rs	/^    pub email: String,$/;"	field	line:12	language:Rust	struct:ShortCommit
+email	domain/git/coco_commit.rs	/^    pub email: String,$/;"	field	line:8	language:Rust	struct:CocoCommit
+evaluation	domain/architecture/mod.rs	/^    pub evaluation: String,$/;"	field	line:7	language:Rust	struct:Architecture
+evolution	domain/architecture/mod.rs	/^    pub evolution: String,$/;"	field	line:10	language:Rust	struct:Architecture
+expand	infrastructure/path_format.rs	/^pub fn expand<P: AsRef<Path>>(p: P) -> String {$/;"	function	line:3	language:Rust
+file	domain/git/coco_commit.rs	/^    pub file: String,$/;"	field	line:44	language:Rust	struct:FileChange
+file_include	domain/code/mod.rs	/^pub mod file_include;$/;"	module	line:2	language:Rust
+file_name	domain/cloc/mod.rs	/^    pub file_name: String,$/;"	field	line:29	language:Rust	struct:ClocDetail
+file_scanner	infrastructure/mod.rs	/^pub mod file_scanner;$/;"	module	line:3	language:Rust
+first_commit_date	app/git_analysis/format_branch.rs	/^    pub first_commit_date: i64,$/;"	field	line:11	language:Rust	struct:FormatBranch
+first_commit_date	domain/git/coco_branch.rs	/^    pub first_commit_date: i64,$/;"	field	line:7	language:Rust	struct:CocoBranch
+first_commit_str	app/git_analysis/format_branch.rs	/^    pub first_commit_str: String,$/;"	field	line:9	language:Rust	struct:FormatBranch
+fitness	domain/architecture/mod.rs	/^    pub fitness: ArchitectureFitness,$/;"	field	line:15	language:Rust	struct:ArchitectureEvolution
+fixtures_dir	app/cloc_analysis.rs	/^    fn fixtures_dir() -> PathBuf {$/;"	function	line:44	language:Rust	module:test
+fixtures_dir	infrastructure/cloc/mod.rs	/^    fn fixtures_dir() -> PathBuf {$/;"	function	line:28	language:Rust	module:test
+format_branch	app/git_analysis/mod.rs	/^pub mod format_branch;$/;"	module	line:6	language:Rust
+format_commit_time	infrastructure/time_format.rs	/^    fn format_commit_time() {$/;"	function	line:24	language:Rust	module:test
+format_commit_zero	infrastructure/time_format.rs	/^    fn format_commit_zero() {$/;"	function	line:30	language:Rust	module:test
+format_path	infrastructure/path_format.rs	/^    fn format_path() {$/;"	function	line:12	language:Rust	module:test
+format_unix_time	infrastructure/time_format.rs	/^pub fn format_unix_time(i: i64) -> String {$/;"	function	line:8	language:Rust
+framework	domain/mod.rs	/^pub mod framework;$/;"	module	line:4	language:Rust
+framework_analysis	app/mod.rs	/^pub mod framework_analysis;$/;"	module	line:4	language:Rust
+framework_files	domain/framework/coco_framework.rs	/^    pub framework_files: Vec<String>,$/;"	field	line:13	language:Rust	struct:CocoFramework
+from	app/git_analysis/format_branch.rs	/^    pub fn from(br: CocoBranch) -> FormatBranch {$/;"	method	line:18	language:Rust	implementation:FormatBranch
+get	infrastructure/git/git_branch.rs	/^    pub fn get(name: &str, repo: Repository) -> Option<CocoBranch> {$/;"	method	line:64	language:Rust	implementation:GitBranch
+git	domain/mod.rs	/^pub mod git;$/;"	module	line:5	language:Rust
+git	infrastructure/mod.rs	/^pub mod git;$/;"	module	line:4	language:Rust
+git_analysis	app/mod.rs	/^pub mod git_analysis;$/;"	module	line:5	language:Rust
+git_branch	infrastructure/git/mod.rs	/^pub mod git_branch;$/;"	module	line:4	language:Rust
+git_commit_message	infrastructure/git/mod.rs	/^pub mod git_commit_message;$/;"	module	line:5	language:Rust
+git_log_parser	infrastructure/git/mod.rs	/^pub mod git_log_parser;$/;"	module	line:6	language:Rust
+git_repository	infrastructure/git/mod.rs	/^pub mod git_repository;$/;"	module	line:7	language:Rust
+git_tag_interval	domain/suggest/mod.rs	/^pub fn git_tag_interval() {}$/;"	function	line:4	language:Rust
+git_tag_parser	infrastructure/git/mod.rs	/^pub mod git_tag_parser;$/;"	module	line:8	language:Rust
+handle_embedded_file	app/visual/local_server.rs	/^fn handle_embedded_file(path: &str) -> HttpResponse {$/;"	function	line:15	language:Rust
+id	domain/code/code_relation.rs	/^    pub id: String,$/;"	field	line:6	language:Rust	struct:CodeRelation
+implementation	domain/architecture/mod.rs	/^    pub implementation: String,$/;"	field	line:8	language:Rust	struct:Architecture
+include_parser	infrastructure/mod.rs	/^pub mod include_parser;$/;"	module	line:5	language:Rust
+includes	domain/code/file_include.rs	/^    pub includes: Vec<CodeInclude>,$/;"	field	line:5	language:Rust	struct:FileInclude
+index	app/visual/local_server.rs	/^pub fn index() -> HttpResponse {$/;"	function	line:30	language:Rust
+infrastructure	lib.rs	/^pub mod infrastructure;$/;"	module	line:11	language:Rust
+initialize	infrastructure/git/mod.rs	/^    pub fn initialize() {$/;"	function	line:23	language:Rust	module:test
+json_filename	infrastructure/url_format.rs	/^pub fn json_filename(text: &str) -> String {$/;"	function	line:37	language:Rust
+json_filename_suffix	infrastructure/url_format.rs	/^pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {$/;"	function	line:7	language:Rust
+kind	domain/code/file_include.rs	/^    pub kind: String,$/;"	field	line:10	language:Rust	struct:CodeInclude
+language	domain/cloc/mod.rs	/^    pub language: String,$/;"	field	line:5	language:Rust	struct:ClocLanguage
+languages	domain/framework/coco_framework.rs	/^    pub languages: Vec<String>,$/;"	field	line:15	language:Rust	struct:CocoFramework
+last_commit_date	app/git_analysis/format_branch.rs	/^    pub last_commit_date: i64,$/;"	field	line:12	language:Rust	struct:FormatBranch
+last_commit_date	domain/git/coco_branch.rs	/^    pub last_commit_date: i64,$/;"	field	line:8	language:Rust	struct:CocoBranch
+last_commit_str	app/git_analysis/format_branch.rs	/^    pub last_commit_str: String,$/;"	field	line:10	language:Rust	struct:FormatBranch
+latest_changeset	app/git_analysis/format_branch.rs	/^    pub latest_changeset: String,$/;"	field	line:14	language:Rust	struct:FormatBranch
+latest_changeset	domain/git/coco_branch.rs	/^    pub latest_changeset: String,$/;"	field	line:12	language:Rust	struct:CocoBranch
+list	infrastructure/git/git_branch.rs	/^    pub fn list(repo: Repository) -> Vec<CocoBranch> {$/;"	method	line:11	language:Rust	implementation:GitBranch
+local_project_test	app/git_analysis/branch_analysis.rs	/^    fn local_project_test() {$/;"	function	line:22	language:Rust	module:test
+local_project_test	app/git_analysis/tag_analysis.rs	/^    fn local_project_test() {$/;"	function	line:21	language:Rust	module:test
+local_server	app/visual/mod.rs	/^pub mod local_server;$/;"	module	line:1	language:Rust
+long_branch_count	domain/suggest/mod.rs	/^pub fn long_branch_count() {}$/;"	function	line:9	language:Rust
+lookup_coco_reporter	app/visual/local_server.rs	/^fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {$/;"	function	line:50	language:Rust
+lookup_projects	infrastructure/file_scanner/mod.rs	/^pub fn lookup_projects() -> Vec<String> {$/;"	function	line:11	language:Rust
+main	bin/coco.rs	/^fn main() {$/;"	function	line:18	language:Rust
+main	bin/suggest.rs	/^fn main() {$/;"	function	line:1	language:Rust
+main	bin/visual.rs	/^async fn main() -> std::io::Result<()> {$/;"	function	line:12	language:Rust
+maintenance	domain/architecture/mod.rs	/^    pub maintenance: String,$/;"	field	line:9	language:Rust	struct:Architecture
+message	app/git_analysis/commit_analysis.rs	/^    pub message: String,$/;"	field	line:14	language:Rust	struct:ShortCommit
+message	domain/git/coco_commit.rs	/^    pub message: String,$/;"	field	line:11	language:Rust	struct:CocoCommit
+mode	domain/git/coco_commit.rs	/^    pub mode: String,$/;"	field	line:45	language:Rust	struct:FileChange
+most_active_commits_date_by_month	domain/suggest/mod.rs	/^pub fn most_active_commits_date_by_month() {}$/;"	function	line:29	language:Rust
+most_complex_modules	domain/suggest/mod.rs	/^pub fn most_complex_modules() {}$/;"	function	line:33	language:Rust
+most_efficiency_time	domain/suggest/mod.rs	/^pub fn most_efficiency_time() {}$/;"	function	line:18	language:Rust
+name	app/git_analysis/format_branch.rs	/^    pub name: String,$/;"	field	line:8	language:Rust	struct:FormatBranch
+name	app/visual/local_server.rs	/^    pub name: Vec<u8>,$/;"	field	line:75	language:Rust	struct:ProjectData
+name	domain/code/file_include.rs	/^    pub name: String,$/;"	field	line:11	language:Rust	struct:CodeInclude
+name	domain/framework/coco_framework.rs	/^    pub name: String,$/;"	field	line:5	language:Rust	struct:CocoFramework
+name	domain/git/coco_branch.rs	/^    pub name: String,$/;"	field	line:5	language:Rust	struct:CocoBranch
+name	domain/git/coco_tag.rs	/^    pub name: String,$/;"	field	line:5	language:Rust	struct:CocoTag
+new	domain/git/coco_branch.rs	/^    pub fn new(name: &str) -> CocoBranch {$/;"	method	line:16	language:Rust	implementation:CocoBranch
+open	infrastructure/git/git_repository.rs	/^    pub fn open(url: &str) -> Repository {$/;"	method	line:9	language:Rust	implementation:GitRepository
+open_url	bin/visual.rs	/^pub fn open_url(url: &str) {$/;"	function	line:86	language:Rust
+output_static	app/visual/mod.rs	/^pub mod output_static;$/;"	module	line:2	language:Rust
+parent_hashes	app/git_analysis/commit_analysis.rs	/^    pub parent_hashes: Vec<String>,$/;"	field	line:15	language:Rust	struct:ShortCommit
+parent_hashes	domain/git/coco_commit.rs	/^    pub parent_hashes: Vec<String>,$/;"	field	line:13	language:Rust	struct:CocoCommit
+parse	infrastructure/git/git_log_parser.rs	/^    pub fn parse(str: &str) -> Vec<CocoCommit> {$/;"	method	line:48	language:Rust	implementation:GitMessageParser
+parse	infrastructure/git/git_tag_parser.rs	/^    pub fn parse(str: &str) -> Vec<CocoTag> {$/;"	method	line:25	language:Rust	implementation:GitTagParser
+parse_builtin	infrastructure/git/git_commit_message.rs	/^pub fn parse_builtin(message: &str) -> Option<ConventionalMessage> {$/;"	function	line:15	language:Rust
+parse_code	infrastructure/include_parser/mod.rs	/^pub fn parse_code(code: &str) {$/;"	function	line:7	language:Rust
+parse_log_by_line	infrastructure/git/git_log_parser.rs	/^    pub fn parse_log_by_line(&mut self, text: &str) {$/;"	method	line:58	language:Rust	implementation:GitMessageParser
+parse_log_by_line	infrastructure/git/git_tag_parser.rs	/^    pub fn parse_log_by_line(&mut self, text: &str) {$/;"	method	line:36	language:Rust	implementation:GitTagParser
+path	domain/cloc/mod.rs	/^    pub path: String,$/;"	field	line:30	language:Rust	struct:ClocDetail
+path	domain/code/code_relation.rs	/^    pub path: String,$/;"	field	line:7	language:Rust	struct:CodeRelation
+path	domain/framework/coco_framework.rs	/^    pub path: String,$/;"	field	line:6	language:Rust	struct:CocoFramework
+path_format	infrastructure/mod.rs	/^pub mod path_format;$/;"	module	line:6	language:Rust
+push_to_commits	infrastructure/git/git_log_parser.rs	/^    fn push_to_commits(&mut self) {$/;"	method	line:73	language:Rust	implementation:GitMessageParser
+relative_path	domain/framework/coco_framework.rs	/^    pub relative_path: String,$/;"	field	line:8	language:Rust	struct:CocoFramework
+reports	domain/cloc/mod.rs	/^    pub reports: Vec<ClocDetail>,$/;"	field	line:9	language:Rust	struct:ClocLanguage
+run	app/visual/output_static.rs	/^pub fn run<P: AsRef<Path>>(path: P) {$/;"	function	line:9	language:Rust
+run_analysis	bin/coco.rs	/^fn run_analysis(repos: Vec<RepoConfig>, _cli_option: CocoCliOption) {$/;"	function	line:62	language:Rust
+run_plugins	bin/coco.rs	/^fn run_plugins(config: &CocoConfig) {$/;"	function	line:143	language:Rust
+scope	domain/git/coco_commit_message.rs	/^    pub scope: String,$/;"	field	line:6	language:Rust	struct:ConventionalMessage
+search_git_projects	infrastructure/file_scanner/mod.rs	/^pub fn search_git_projects(path: &PathBuf) -> Vec<String> {$/;"	function	line:7	language:Rust
+search_projects	infrastructure/file_scanner/mod.rs	/^pub fn search_projects(path: &PathBuf, filter: &str) -> Vec<String> {$/;"	function	line:28	language:Rust
+select_project_prompt	bin/visual.rs	/^pub fn select_project_prompt() -> String {$/;"	function	line:92	language:Rust
+share_index	domain/git/coco_tag.rs	/^    pub share_index: i64,$/;"	field	line:9	language:Rust	struct:CocoTag
+should_cloc_in_dir	app/cloc_analysis.rs	/^    fn should_cloc_in_dir() {$/;"	function	line:49	language:Rust	module:test
+should_cloc_in_dir	infrastructure/cloc/mod.rs	/^    fn should_cloc_in_dir() {$/;"	function	line:33	language:Rust	module:test
+should_cloc_in_dir_ignore	infrastructure/cloc/mod.rs	/^    fn should_cloc_in_dir_ignore() {$/;"	function	line:42	language:Rust	module:test
+should_cloc_in_dir_with_path_and_name	app/cloc_analysis.rs	/^    fn should_cloc_in_dir_with_path_and_name() {$/;"	function	line:64	language:Rust	module:test
+should_count_master_commits	infrastructure/git/mod.rs	/^    fn should_count_master_commits() {$/;"	function	line:66	language:Rust	module:test
+should_find_file_change	infrastructure/git/git_log_parser.rs	/^    pub fn should_find_file_change() {$/;"	function	line:272	language:Rust	module:test
+should_format_github_with_url_http	infrastructure/url_format.rs	/^    fn should_format_github_with_url_http() {$/;"	function	line:70	language:Rust	module:test
+should_format_local_url	infrastructure/url_format.rs	/^    fn should_format_local_url() {$/;"	function	line:76	language:Rust	module:test
+should_format_with_default_suffix	infrastructure/url_format.rs	/^    fn should_format_with_default_suffix() {$/;"	function	line:95	language:Rust	module:test
+should_format_with_suffix	infrastructure/url_format.rs	/^    fn should_format_with_suffix() {$/;"	function	line:85	language:Rust	module:test
+should_get_commit_log	infrastructure/git/cmd_git.rs	/^    fn should_get_commit_log() {$/;"	function	line:65	language:Rust	module:test
+should_get_git_tag	infrastructure/git/cmd_git.rs	/^    fn should_get_git_tag() {$/;"	function	line:72	language:Rust	module:test
+should_get_master	infrastructure/git/mod.rs	/^    fn should_get_master() {$/;"	function	line:50	language:Rust	module:test
+should_handle_empty_parents	infrastructure/git/git_log_parser.rs	/^    pub fn should_handle_empty_parents() {$/;"	function	line:259	language:Rust	module:test
+should_list_branch	infrastructure/git/mod.rs	/^    fn should_list_branch() {$/;"	function	line:41	language:Rust	module:test
+should_list_local_git	infrastructure/file_scanner/mod.rs	/^    fn should_list_local_git() {$/;"	function	line:61	language:Rust	module:test
+should_list_local_gittest	infrastructure/file_scanner/mod.rs	/^    fn should_list_local_gittest() {$/;"	function	line:70	language:Rust	module:test
+should_not_parse_branch	infrastructure/git/git_tag_parser.rs	/^    pub fn should_not_parse_branch() {$/;"	function	line:81	language:Rust	module:test
+should_parse_breaking_conventional_message	infrastructure/git/git_commit_message.rs	/^    fn should_parse_breaking_conventional_message() {$/;"	function	line:47	language:Rust	module:test
+should_parse_c_include	infrastructure/include_parser/mod.rs	/^    fn should_parse_c_include() {$/;"	function	line:23	language:Rust	module:test
+should_parse_commit_id	infrastructure/git/git_tag_parser.rs	/^    pub fn should_parse_commit_id() {$/;"	function	line:68	language:Rust	module:test
+should_parse_multiple_tags	infrastructure/git/git_tag_parser.rs	/^    pub fn should_parse_multiple_tags() {$/;"	function	line:89	language:Rust	module:test
+should_parse_normal_conventional_message	infrastructure/git/git_commit_message.rs	/^    fn should_parse_normal_conventional_message() {$/;"	function	line:38	language:Rust	module:test
+should_return_json	app/framework_analysis.rs	/^    fn should_return_json() {$/;"	function	line:19	language:Rust	module:test
+should_return_origin_when_is_git	infrastructure/url_format.rs	/^    fn should_return_origin_when_is_git() {$/;"	function	line:119	language:Rust	module:test
+should_set_default_config	bin/coco.rs	/^    fn should_set_default_config() {$/;"	function	line:155	language:Rust	module:test
+should_success_parse_multiple_line_log	infrastructure/git/git_log_parser.rs	/^    pub fn should_success_parse_multiple_line_log() {$/;"	function	line:200	language:Rust	module:test
+should_success_parse_one_line_log	infrastructure/git/git_log_parser.rs	/^    pub fn should_success_parse_one_line_log() {$/;"	function	line:179	language:Rust	module:test
+should_summary_all_commits	infrastructure/git/mod.rs	/^    fn should_summary_all_commits() {$/;"	function	line:76	language:Rust	module:test
+should_support_bin_file_added	infrastructure/git/git_log_parser.rs	/^    pub fn should_support_bin_file_added() {$/;"	function	line:291	language:Rust	module:test
+should_support_multiple_change_mode_change	infrastructure/git/git_log_parser.rs	/^    pub fn should_support_multiple_change_mode_change() {$/;"	function	line:222	language:Rust	module:test
+should_support_parent_hashes	infrastructure/git/git_log_parser.rs	/^    pub fn should_support_parent_hashes() {$/;"	function	line:244	language:Rust	module:test
+should_url_to_path	infrastructure/url_format.rs	/^    fn should_url_to_path() {$/;"	function	line:103	language:Rust	module:test
+should_verify_github_dir	infrastructure/git/mod.rs	/^    fn should_verify_github_dir() {$/;"	function	line:30	language:Rust	module:test
+source	domain/code/code_relation.rs	/^    pub source: String,$/;"	field	line:8	language:Rust	struct:CodeRelation
+start	app/visual/local_server.rs	/^pub async fn start(port: &str, project: String) -> std::io::Result<()> {$/;"	function	line:78	language:Rust
+start_export_reporter	bin/visual.rs	/^fn start_export_reporter(matches: &&ArgMatches) {$/;"	function	line:66	language:Rust
+start_local_server	bin/visual.rs	/^async fn start_local_server(project: String, port: &str) -> std::io::Result<()> {$/;"	function	line:76	language:Rust
+str	bin/coco.rs	/^const VERSION: &'static str = env!("CARGO_PKG_VERSION");$/;"	variable	line:16	language:Rust
+str	bin/visual.rs	/^const VERSION: &'static str = env!("CARGO_PKG_VERSION");$/;"	variable	line:9	language:Rust
+subject	domain/git/coco_commit_message.rs	/^    pub subject: String,$/;"	field	line:8	language:Rust	struct:ConventionalMessage
+suggest	domain/mod.rs	/^pub mod suggest;$/;"	module	line:6	language:Rust
+synthesis	domain/architecture/mod.rs	/^    pub synthesis: String,$/;"	field	line:6	language:Rust	struct:Architecture
+tag_analysis	app/git_analysis/mod.rs	/^pub mod tag_analysis;$/;"	module	line:7	language:Rust
+tags	infrastructure/git/cmd_git.rs	/^pub fn tags(exec_path: Option<String>) -> String {$/;"	function	line:7	language:Rust
+tags	infrastructure/git/git_tag_parser.rs	/^    tags: Vec<CocoTag>,$/;"	field	line:15	language:Rust	struct:GitTagParser
+target	domain/code/code_relation.rs	/^    pub target: String,$/;"	field	line:9	language:Rust	struct:CodeRelation
+test	app/cloc_analysis.rs	/^mod test {$/;"	module	line:40	language:Rust
+test	app/framework_analysis.rs	/^mod test {$/;"	module	line:13	language:Rust
+test	app/git_analysis/branch_analysis.rs	/^mod test {$/;"	module	line:17	language:Rust
+test	app/git_analysis/tag_analysis.rs	/^mod test {$/;"	module	line:16	language:Rust
+test	bin/coco.rs	/^mod test {$/;"	module	line:150	language:Rust
+test	infrastructure/cloc/mod.rs	/^mod test {$/;"	module	line:21	language:Rust
+test	infrastructure/file_scanner/mod.rs	/^mod test {$/;"	module	line:55	language:Rust
+test	infrastructure/git/cmd_git.rs	/^mod test {$/;"	module	line:61	language:Rust
+test	infrastructure/git/git_commit_message.rs	/^mod test {$/;"	module	line:34	language:Rust
+test	infrastructure/git/git_log_parser.rs	/^mod test {$/;"	module	line:175	language:Rust
+test	infrastructure/git/git_tag_parser.rs	/^mod test {$/;"	module	line:64	language:Rust
+test	infrastructure/git/mod.rs	/^mod test {$/;"	module	line:11	language:Rust
+test	infrastructure/include_parser/mod.rs	/^mod test {$/;"	module	line:19	language:Rust
+test	infrastructure/path_format.rs	/^mod test {$/;"	module	line:8	language:Rust
+test	infrastructure/time_format.rs	/^mod test {$/;"	module	line:20	language:Rust
+test	infrastructure/url_format.rs	/^mod test {$/;"	module	line:65	language:Rust
+test_index_get	app/visual/local_server.rs	/^    async fn test_index_get() {$/;"	function	line:102	language:Rust	module:tests
+tests	app/visual/local_server.rs	/^mod tests {$/;"	module	line:97	language:Rust
+tests	domain/architecture/mod.rs	/^    pub tests: String,$/;"	field	line:20	language:Rust	struct:ArchitectureFitness
+tests_coverage	domain/architecture/mod.rs	/^    pub tests_coverage: i32,$/;"	field	line:21	language:Rust	struct:ArchitectureFitness
+time_format	infrastructure/mod.rs	/^pub mod time_format;$/;"	module	line:7	language:Rust
+total_added	app/git_analysis/commit_analysis.rs	/^    pub total_added: i32,$/;"	field	line:17	language:Rust	struct:ShortCommit
+total_added	domain/git/coco_commit.rs	/^    pub total_added: i32,$/;"	field	line:15	language:Rust	struct:CocoCommit
+total_deleted	app/git_analysis/commit_analysis.rs	/^    pub total_deleted: i32,$/;"	field	line:18	language:Rust	struct:ShortCommit
+total_deleted	domain/git/coco_commit.rs	/^    pub total_deleted: i32,$/;"	field	line:16	language:Rust	struct:CocoCommit
+tree_hash	app/git_analysis/commit_analysis.rs	/^    pub tree_hash: String,$/;"	field	line:16	language:Rust	struct:ShortCommit
+tree_hash	domain/git/coco_commit.rs	/^    pub tree_hash: String,$/;"	field	line:14	language:Rust	struct:CocoCommit
+type_	domain/git/coco_commit_message.rs	/^    pub type_: String,$/;"	field	line:5	language:Rust	struct:ConventionalMessage
+update_change_mode	infrastructure/git/git_log_parser.rs	/^    fn update_change_mode(&mut self, caps: Captures) {$/;"	method	line:95	language:Rust	implementation:GitMessageParser
+uri_to_path	infrastructure/url_format.rs	/^pub fn uri_to_path(url: &str) -> PathBuf {$/;"	function	line:41	language:Rust
+url_format	infrastructure/mod.rs	/^pub mod url_format;$/;"	module	line:8	language:Rust
+visual	app/mod.rs	/^pub mod visual;$/;"	module	line:6	language:Rust
