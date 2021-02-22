@@ -222,7 +222,13 @@ mod tests {
 
     #[test]
     fn test_call() {
-        let args = vec!["ptags", "-t", "1"];
+        let args = vec![
+            "ptags",
+            "-t",
+            "1",
+            // "--bin-ctags=/usr/local/bin/ctags",
+            "--verbose=true",
+        ];
         let opt = Opt::from_iter(args.iter());
         let mut files = vec![];
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -239,10 +245,11 @@ mod tests {
 
         files.push(format!("{}", code_dir.display()));
         let outputs = CmdCtags::call(&opt, &files).unwrap();
-        let mut iter = str::from_utf8(&outputs[0].stdout).unwrap().lines();
+        let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+        let mut lines = out_str.lines();
 
-        println!("{:?}", outputs);
-        assert!(iter.next().unwrap_or("").contains("main"));
+        println!("{}", out_str);
+        assert!(lines.next().unwrap_or("").contains("main"));
     }
 
     // #[test]
