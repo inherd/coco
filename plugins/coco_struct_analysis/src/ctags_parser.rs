@@ -33,10 +33,19 @@ impl CtagsParser {
             let class_name = &captures["class_name"];
             let clazz = ClassInfo::new(class_name);
 
-            self.classes.push(clazz);
+            self.class_map.insert(class_name.to_string(), clazz);
         }
     }
     pub fn parse_method_methods() {}
+
+    pub fn classes(&self) -> Vec<ClassInfo> {
+        let mut classes = vec![];
+        for (_str, clz) in &self.class_map {
+            classes.push(clz.clone());
+        }
+
+        return classes;
+    }
 }
 
 #[cfg(test)]
@@ -49,7 +58,8 @@ mod test {
         let mut parser = CtagsParser::default();
         parser.parse_class(tags);
 
-        assert_eq!(1, parser.classes.len());
-        assert_eq!("AsyncEventBus", parser.classes[0].name);
+        let classes = parser.classes();
+        assert_eq!(1, classes.len());
+        assert_eq!("AsyncEventBus", classes[0].name);
     }
 }

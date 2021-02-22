@@ -1,15 +1,18 @@
+#[derive(Debug, Clone)]
 pub struct MemberInfo {
     pub name: String,
     pub access: String,
     pub data_type: String,
 }
 
+#[derive(Debug, Clone)]
 pub struct MethodInfo {
     pub name: String,
     pub access: String,
     pub return_type: String,
 }
 
+#[derive(Debug, Clone)]
 pub struct ClassInfo {
     pub name: String,
     pub id: i32,
