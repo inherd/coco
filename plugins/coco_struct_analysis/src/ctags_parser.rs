@@ -36,6 +36,28 @@ lazy_static! {
     .unwrap();
     static ref RE_CLASS: Regex = Regex::new(r"class:(?P<class_name>[A-Za-z0-9_\.]+)").unwrap();
     static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
+    static ref RE_TYPE: Regex =
+        Regex::new(r"/\^([ ]*)([A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
+    static ref TYPE_KEYWORDS: [&'static str; 18] = [
+        "private",
+        "public",
+        "protected",
+        "static",
+        "volatile",
+        "synchronized",
+        "final",
+        "const",
+        "abstract",
+        "struct",
+        "union",
+        "enum",
+        "override",
+        "internal",
+        "extern",
+        "readonly",
+        "*",
+        ":",
+    ];
 }
 
 impl CtagsParser {
@@ -103,10 +125,21 @@ impl CtagsParser {
             }
         }
 
+        let data_type = "";
+        let ty = CtagsParser::remove_keywords(line.to_string());
+
         if tag_type.eq("method") {
             let method = MethodInfo::new(name, access);
             clazz.method.push(method);
         }
+    }
+
+    pub fn remove_keywords(mut line: String) -> String {
+        for keyword in TYPE_KEYWORDS.iter() {
+            line = line.replacen(keyword, "", 1)
+        }
+
+        return line;
     }
 
     fn lookup_class_from_map(&mut self, line: &str) -> Option<&mut ClassInfo> {
@@ -169,6 +202,11 @@ mod test {
         let parser = CtagsParser::parse(dir);
         let vec = parser.classes();
         assert_eq!(25, vec.len());
+    }
+
+    #[test]
+    pub fn should_replace_keyword() {
+        assert_eq!("", CtagsParser::remove_keywords("public".to_string()));
     }
 
     #[test]
