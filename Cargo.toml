@@ -105,5 +105,6 @@ members = [
   'plugins/coco_swagger',
   'plugins/coco_struct_analysis',
   'plugins/coco_coverage',
+  'psa',
 ]
 
