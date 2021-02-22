@@ -2315,6 +2315,20 @@ dependencies = [
 ]
 
 [[package]]
+name = "psa"
+version = "0.1.0"
+dependencies = [
+ "erased-serde",
+ "lazy_static",
+ "maplit 0.1.6",
+ "regex",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "walkdir",
+]
+
+[[package]]
 name = "pulldown-cmark"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
