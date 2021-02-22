@@ -36,7 +36,7 @@ use failure::{bail, Error, Fail, ResultExt};
 use nix::fcntl::{fcntl, FcntlArg};
 use tempfile::NamedTempFile;
 
-use crate::option_ctags::Opt;
+use crate::ctags_opt::Opt;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Error
@@ -222,7 +222,7 @@ mod tests {
 
     use structopt::StructOpt;
 
-    use crate::option_ctags::Opt;
+    use crate::ctags_opt::Opt;
 
     use super::CmdCtags;
 

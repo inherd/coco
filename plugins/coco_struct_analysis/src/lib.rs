@@ -1,5 +1,7 @@
 pub mod cmd_ctags;
-pub mod option_ctags;
+pub mod coco_struct;
+pub mod ctags_opt;
+pub mod ctags_parser;
 
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
