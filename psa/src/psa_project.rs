@@ -1,4 +1,4 @@
-use crate::module::Module;
+use crate::psa_module::Module;
 
 pub struct Project {
     pub name: String,
@@ -8,7 +8,7 @@ pub struct Project {
 
 #[cfg(test)]
 mod tests {
-    use crate::project::Project;
+    use crate::psa_project::Project;
 
     #[test]
     fn should_create_project() {
