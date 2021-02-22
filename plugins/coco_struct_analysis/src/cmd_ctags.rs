@@ -68,6 +68,12 @@ impl CmdCtags {
         if opt.unsorted {
             args.push(String::from("--sort=no"));
         }
+        if opt.fields.is_some() {
+            args.push(String::from(format!(
+                "--fields={}",
+                opt.fields.as_ref().unwrap()
+            )));
+        }
         for e in &opt.exclude {
             args.push(String::from(format!("--exclude={}", e)));
         }
@@ -222,7 +228,14 @@ mod tests {
 
     #[test]
     fn test_call() {
-        let args = vec!["ptags", "-t", "1"];
+        let args = vec![
+            "ptags",
+            "-t",
+            "1",
+            // "--bin-ctags=/usr/local/bin/ctags",
+            "--verbose=true",
+            "--fields=+latinK",
+        ];
         let opt = Opt::from_iter(args.iter());
         let mut files = vec![];
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -239,10 +252,14 @@ mod tests {
 
         files.push(format!("{}", code_dir.display()));
         let outputs = CmdCtags::call(&opt, &files).unwrap();
-        let mut iter = str::from_utf8(&outputs[0].stdout).unwrap().lines();
+        let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+        let mut lines = out_str.lines();
 
-        println!("{:?}", outputs);
-        assert!(iter.next().unwrap_or("").contains("main"));
+        println!("{}", out_str);
+        let first_line = lines.next().unwrap_or("");
+        assert!(first_line.contains("main"));
+        assert!(first_line.contains("line:"));
+        assert!(first_line.contains("language:Go"));
     }
 
     // #[test]

@@ -26,6 +26,7 @@ impl PluginManager {
             unsafe { Container::load(path) }.expect("Could not open library or load symbols");
 
         let plugin = cont.plugin();
+        // todo: return plugin interface will cause crash in Ubuntu.
         println!("{:?}", plugin.name());
     }
 
