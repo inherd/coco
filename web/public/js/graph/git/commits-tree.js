@@ -29,7 +29,7 @@ let renderBranchTree = function (data) {
   let commitMargin = 10;
 
   let width = GraphConfig.width;
-  let svg = d3.select("#branch-tree").append("svg")
+  let svg = d3.select("#commits-tree").append("svg")
   svg.style('height', (tree.length + 1) * yGap + 2 * radius + 'px')
   svg.style('width', width);
   svg.selectAll('*').remove();
