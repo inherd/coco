@@ -68,6 +68,12 @@ impl CmdCtags {
         if opt.unsorted {
             args.push(String::from("--sort=no"));
         }
+        if opt.fields.is_some() {
+            args.push(String::from(format!(
+                "--fields={}",
+                opt.fields.as_ref().unwrap()
+            )));
+        }
         for e in &opt.exclude {
             args.push(String::from(format!("--exclude={}", e)));
         }
@@ -228,6 +234,7 @@ mod tests {
             "1",
             // "--bin-ctags=/usr/local/bin/ctags",
             "--verbose=true",
+            "--fields=+latinK",
         ];
         let opt = Opt::from_iter(args.iter());
         let mut files = vec![];
@@ -249,7 +256,10 @@ mod tests {
         let mut lines = out_str.lines();
 
         println!("{}", out_str);
-        assert!(lines.next().unwrap_or("").contains("main"));
+        let first_line = lines.next().unwrap_or("");
+        assert!(first_line.contains("main"));
+        assert!(first_line.contains("line:"));
+        assert!(first_line.contains("language:Go"));
     }
 
     // #[test]
