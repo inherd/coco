@@ -86,7 +86,7 @@ function renderLearningCurve(data) {
         .attr("class", "curve-tooltip")
         .style("position", "absolute")
         .style("white-space", "pre-line")
-        .style("visibility", "visible")
+        .style("visibility", "hidden")
         .style("font-weight", "bold")
         .text("I am the tooltip");
 
