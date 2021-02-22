@@ -67,6 +67,7 @@ mod test {
         assert!(output.len() > 1000);
     }
 
+    #[ignore]
     #[test]
     fn should_get_git_tag() {
         let output = cmd_git::tags(None);
