@@ -1,9 +1,9 @@
-use crate::module::Module;
+use crate::submodule::SubModule;
 
 pub struct Project {
     pub name: String,
     pub path: String,
-    pub modules: Vec<Module>,
+    pub modules: Vec<SubModule>,
 }
 
 #[cfg(test)]

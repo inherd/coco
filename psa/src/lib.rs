@@ -1,2 +1,2 @@
-pub mod module;
+pub mod submodule;
 pub mod project;
