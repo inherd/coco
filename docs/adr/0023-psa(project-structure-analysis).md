@@ -1,4 +1,4 @@
-# 23. PSA(Project structure analysis)
+# 23. PSA (Project structure analysis)
 
 Date: 2021-02-22
 
