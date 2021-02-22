@@ -1,3 +1,1 @@
-struct Facet {
-    
-}
+struct Facet {}

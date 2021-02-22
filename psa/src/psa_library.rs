@@ -1,3 +1,1 @@
-struct Library {
-
-}
+struct Library {}
