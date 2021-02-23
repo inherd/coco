@@ -210,7 +210,14 @@ impl CtagsParser {
     pub fn classes(&self) -> Vec<ClassInfo> {
         let mut classes = vec![];
         for (_str, clz) in &self.class_map {
-            classes.push(clz.clone());
+            let mut clazz = clz.clone();
+            clazz
+                .method
+                .sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+            clazz
+                .members
+                .sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+            classes.push(clazz);
         }
 
         classes.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
@@ -271,8 +278,8 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(9, classes[0].method.len());
 
         let first_method = classes[0].method[0].clone();
-        assert_eq!("TypeName", first_method.name);
-        assert_eq!("-", first_method.access)
+        assert_eq!("description", first_method.name);
+        assert_eq!("+", first_method.access)
     }
 
     #[test]
