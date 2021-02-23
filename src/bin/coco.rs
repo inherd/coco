@@ -1,12 +1,9 @@
-use std::time::Instant;
 use std::{env, fs};
 
 use clap::{App, Arg};
 
 use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
-use core_model::url_format;
-use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 use plugin_manager::plugin_manager::PluginManager;
 
