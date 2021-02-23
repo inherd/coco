@@ -1,4 +1,4 @@
-use crate::jvm::jvm_psa::JvmProjectStructureAnalyzer;
+use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
 use crate::psa_project::Project;
 
 pub trait StructureAnalyzer {
