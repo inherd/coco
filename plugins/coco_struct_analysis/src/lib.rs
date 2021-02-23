@@ -44,8 +44,11 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 
 #[cfg(test)]
 mod tests {
+    use crate::coco_struct::ClassInfo;
     use crate::struct_analysis_app::execute_struct_analysis;
     use core_model::{CocoConfig, RepoConfig};
+    use std::fs::File;
+    use std::io::Read;
     use std::path::PathBuf;
 
     pub fn ctags_fixtures_dir() -> PathBuf {
@@ -77,5 +80,17 @@ mod tests {
         };
 
         execute_struct_analysis(config);
+
+        let output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join(".coco")
+            .join("reporter")
+            .join("struct_analysis")
+            .join("source.json");
+
+        let mut file = File::open(output_dir).unwrap();
+        let mut code = String::new();
+        file.read_to_string(&mut code).unwrap();
+        let classes: Vec<ClassInfo> = serde_json::from_str(&code).unwrap();
+        assert_eq!(6, classes.len());
     }
 }
