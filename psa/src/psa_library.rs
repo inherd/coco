@@ -13,7 +13,7 @@ pub enum LibraryScope {
 
 #[cfg(test)]
 mod tests {
-    use crate::psa_library::{Library, LibraryScope};
+    use crate::{Library, LibraryScope};
 
     #[test]
     fn should_create_library() {

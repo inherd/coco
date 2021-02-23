@@ -4,7 +4,7 @@ pub struct Facet {
 
 #[cfg(test)]
 mod tests {
-    use crate::psa_facet::Facet;
+    use crate::Facet;
 
     #[test]
     fn should_create_facet() {

@@ -36,7 +36,7 @@ impl Default for ContentRoot {
 
 #[cfg(test)]
 mod tests {
-    use crate::pas_content_root::ContentRoot;
+    use crate::ContentRoot;
 
     #[test]
     fn should_add_various_roots() {

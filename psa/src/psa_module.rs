@@ -32,9 +32,7 @@ impl Module {
 
 #[cfg(test)]
 mod tests {
-    use crate::psa_facet::Facet;
-    use crate::psa_library::{Library, LibraryScope};
-    use crate::psa_module::Module;
+    use crate::{Facet, Library, LibraryScope, Module};
 
     #[test]
     fn should_create_module() {
