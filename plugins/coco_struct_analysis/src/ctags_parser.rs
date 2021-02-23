@@ -42,12 +42,15 @@ lazy_static! {
     .unwrap();
     static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
     static ref RE_LANGUAGE: Regex = Regex::new(r"language:(?P<language>[A-Za-z0-9_\#]+)").unwrap();
+
     static ref RE_TYPE: Regex =
         Regex::new(r"/\^([ ]*)(?P<datatype>[A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
     static ref RUST_TYPE: Regex = Regex::new(
-        r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s?:(\t|\s)?(?P<datatype>[A-Za-z0-9_.<>]+)"
-    )
-    .unwrap();
+        r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>]+)"
+    ).unwrap();
+    static ref GO_TYPE: Regex =
+        Regex::new(r"/\^([\s]*)([A-Za-z0-9_.]+)(\s|\t)*(?P<datatype>[A-Za-z0-9_.<>\[\]]+)").unwrap();
+
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
         "public",
@@ -172,6 +175,11 @@ impl CtagsParser {
             }
             "Rust" => {
                 if let Some(capts) = RUST_TYPE.captures(line) {
+                    data_type = (&capts["datatype"]).to_string();
+                }
+            }
+            "Go" => {
+                if let Some(capts) = GO_TYPE.captures(line) {
                     data_type = (&capts["datatype"]).to_string();
                 }
             }
@@ -335,12 +343,21 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         let parser = CtagsParser::parse(dir);
         let classes = parser.classes();
 
-        println!("{:?}", classes);
         assert_eq!(3, classes.len());
         assert_eq!("ClassInfo", classes[0].name);
         assert_eq!(7, classes[0].members.len());
         assert_eq!("file", classes[0].members[0].name);
         assert_eq!("parents", classes[0].members[6].name);
+    }
+
+    #[test]
+    pub fn should_parse_golang_file() {
+        let dir = tags_dir().join("go_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+
+        println!("{:?}", classes);
+        assert_eq!(3, classes.len());
     }
 
     #[test]

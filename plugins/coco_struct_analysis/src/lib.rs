@@ -91,6 +91,6 @@ mod tests {
         let mut code = String::new();
         file.read_to_string(&mut code).unwrap();
         let classes: Vec<ClassInfo> = serde_json::from_str(&code).unwrap();
-        assert_eq!(6, classes.len());
+        assert_eq!(9, classes.len());
     }
 }

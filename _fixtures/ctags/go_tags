@@ -1,0 +1,29 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/fdhuang/consultant/devops/coco/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/d532b5c/
+InitDatastore	pkg/datastore.go	/^func InitDatastore() {$/;"	func	line:37	language:Go	package:pkg
+access	pkg/datastore.go	/^	name, access, datatype string$/;"	member	line:19	language:Go	struct:pkg.memberinfo_st	typeref:typename:string
+access	pkg/datastore.go	/^	name, access, returntype string$/;"	member	line:23	language:Go	struct:pkg.methodinfo_st	typeref:typename:string
+classinfo_st	pkg/datastore.go	/^type classinfo_st struct {$/;"	struct	line:26	language:Go	package:pkg
+classmap	pkg/datastore.go	/^var classmap map[string]classinfo_st$/;"	var	line:34	language:Go	package:pkg	typeref:typename:map[string]classinfo_st
+datatype	pkg/datastore.go	/^	name, access, datatype string$/;"	member	line:19	language:Go	struct:pkg.memberinfo_st	typeref:typename:string
+id	pkg/datastore.go	/^	id      int$/;"	member	line:28	language:Go	struct:pkg.classinfo_st	typeref:typename:int
+idcounter	pkg/datastore.go	/^var idcounter int = 1$/;"	var	line:35	language:Go	package:pkg	typeref:typename:int
+memberinfo_st	pkg/datastore.go	/^type memberinfo_st struct {$/;"	struct	line:18	language:Go	package:pkg
+members	pkg/datastore.go	/^	members []memberinfo_st$/;"	member	line:30	language:Go	struct:pkg.classinfo_st	typeref:typename:[]memberinfo_st
+methodinfo_st	pkg/datastore.go	/^type methodinfo_st struct {$/;"	struct	line:22	language:Go	package:pkg
+methods	pkg/datastore.go	/^	methods []methodinfo_st$/;"	member	line:31	language:Go	struct:pkg.classinfo_st	typeref:typename:[]methodinfo_st
+name	pkg/datastore.go	/^	name    string$/;"	member	line:27	language:Go	struct:pkg.classinfo_st	typeref:typename:string
+name	pkg/datastore.go	/^	name, access, datatype string$/;"	member	line:19	language:Go	struct:pkg.memberinfo_st	typeref:typename:string
+name	pkg/datastore.go	/^	name, access, returntype string$/;"	member	line:23	language:Go	struct:pkg.methodinfo_st	typeref:typename:string
+parents	pkg/datastore.go	/^	parents []string$/;"	member	line:29	language:Go	struct:pkg.classinfo_st	typeref:typename:[]string
+pkg	pkg/datastore.go	/^package pkg$/;"	package	line:16	language:Go
+returntype	pkg/datastore.go	/^	name, access, returntype string$/;"	member	line:23	language:Go	struct:pkg.methodinfo_st	typeref:typename:string
