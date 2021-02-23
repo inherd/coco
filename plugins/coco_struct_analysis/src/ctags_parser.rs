@@ -158,13 +158,16 @@ impl CtagsParser {
         let language = &lang_capts["language"];
         clazz.lang = language.to_string();
 
-        let without_keywords = CtagsParser::remove_keywords(line.to_string());
-        let match_type = RE_TYPE.captures(without_keywords.as_str());
-
         let mut data_type = "".to_string();
-        if match_type.is_some() && (CtagsParser::datatype_supported(language)) {
-            let capts = match_type.unwrap();
-            data_type = (&capts["datatype"]).to_string();
+        match language {
+            "Java" | "C#" | "C++" => {
+                let without_keywords = CtagsParser::remove_keywords(line.to_string());
+                if let Some(capts) = RE_TYPE.captures(without_keywords.as_str()) {
+                    data_type = (&capts["datatype"]).to_string();
+                }
+            }
+            "Rust" => {}
+            _ => {}
         }
 
         if tag_type.eq("member") || tag_type.eq("field") {
@@ -273,6 +276,21 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
     }
 
     #[test]
+    pub fn should_build_rust_datatype() {
+        let str =
+            "MethodInfo	src/coco_struct.rs	/^pub struct MethodInfo {$/;\"	struct	line:21	language:Rust
+name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust	struct:MethodInfo";
+
+        let mut lines = vec![];
+        lines.push(str.lines());
+        let parser = CtagsParser::parse_str(lines);
+        let classes = parser.classes();
+
+        print!("{:?}", classes);
+        assert_eq!(1, classes.len());
+    }
+
+    #[test]
     pub fn should_parse_java_file() {
         let dir = tags_dir().join("java_tags");
         let parser = CtagsParser::parse(dir);
@@ -309,6 +327,7 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         let parser = CtagsParser::parse(dir);
         let classes = parser.classes();
 
+        println!("{:?}", classes);
         assert_eq!(3, classes.len());
         assert_eq!("ClassInfo", classes[0].name);
         assert_eq!(7, classes[0].members.len());
