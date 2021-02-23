@@ -26,21 +26,7 @@ pub fn execute_struct_analysis(config: CocoConfig) {
             }
         }
 
-        let mut thread = files.len();
-        if thread >= 8 {
-            thread = 8;
-        }
-        let string = thread.to_string();
-        let thread: &str = string.as_str();
-        let args = vec![
-            "ptags",
-            "-t",
-            thread,
-            // "--bin-ctags=/usr/local/bin/ctags",
-            "--verbose=true",
-            "--fields=+latinK",
-        ];
-        let opt = Opt::from_iter(args.iter());
+        let opt = build_opt(files.len());
 
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
@@ -56,4 +42,23 @@ pub fn execute_struct_analysis(config: CocoConfig) {
         let result = serde_json::to_string_pretty(&classes).unwrap();
         fs::write(output_file, result).expect("cannot write file");
     }
+}
+
+fn build_opt(file_size: usize) -> Opt {
+    let mut thread = file_size;
+    if thread >= 8 {
+        thread = 8;
+    }
+    let string = thread.to_string();
+    let thread: &str = string.as_str();
+    let args = vec![
+        "ptags",
+        "-t",
+        thread,
+        // "--bin-ctags=/usr/local/bin/ctags",
+        "--verbose=true",
+        "--fields=+latinK",
+    ];
+    let opt = Opt::from_iter(args.iter());
+    opt
 }
