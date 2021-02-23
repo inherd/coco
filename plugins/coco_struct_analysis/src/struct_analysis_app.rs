@@ -6,45 +6,72 @@ use std::{fs, str};
 use structopt::StructOpt;
 
 use crate::cmd_ctags::CmdCtags;
+use crate::coco_struct::ClassInfo;
 use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 
 pub fn execute_struct_analysis(config: CocoConfig) {
     for repo in config.repo {
-        let mut origin_files = vec![];
         let url_str = repo.url.as_str();
-        let path = uri_to_path(url_str);
-        for result in Walk::new(path) {
-            if let Ok(entry) = result {
-                if entry.file_type().unwrap().is_file() {
-                    origin_files.push(format!("{}", entry.path().display()))
-                }
-            }
-        }
-        let mut thread = origin_files.len();
-        if thread >= 8 {
-            thread = 8;
-        }
+
+        let origin_files = files_from_path(url_str);
+        let thread = count_thread(&origin_files);
+
         let opt = build_opt(thread);
 
-        let mut files = vec![String::from(""); opt.thread];
-        for (i, f) in origin_files.iter().enumerate() {
-            files[i % opt.thread].push_str(f);
-            files[i % opt.thread].push_str("\n");
-        }
-
-        let outputs = CmdCtags::call(&opt, &files).unwrap();
-        let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
-
-        let parser = CtagsParser::parse_str(out_str);
-        let classes = parser.classes();
-
-        let file_name = url_format::json_filename(url_str);
-        let output_file = Settings::struct_analysis().join(file_name);
+        let files = files_by_thread(origin_files, &opt);
+        let classes = run_ctags(&opt, &files);
 
         let result = serde_json::to_string_pretty(&classes).unwrap();
-        fs::write(output_file, result).expect("cannot write file");
+        write_to_file(url_str, result);
     }
+}
+
+fn count_thread(origin_files: &Vec<String>) -> usize {
+    let mut thread = origin_files.len();
+    let default_ptags_thread = 8;
+    if thread >= default_ptags_thread {
+        thread = default_ptags_thread;
+    }
+    thread
+}
+
+fn write_to_file(url_str: &str, result: String) {
+    let file_name = url_format::json_filename(url_str);
+    let output_file = Settings::struct_analysis().join(file_name);
+    fs::write(output_file, result).expect("cannot write file");
+}
+
+fn run_ctags(opt: &Opt, files: &Vec<String>) -> Vec<ClassInfo> {
+    let outputs = CmdCtags::call(&opt, &files).unwrap();
+    let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+
+    let parser = CtagsParser::parse_str(out_str);
+    let classes = parser.classes();
+
+    classes
+}
+
+fn files_from_path(url_str: &str) -> Vec<String> {
+    let mut origin_files = vec![];
+    let path = uri_to_path(url_str);
+    for result in Walk::new(path) {
+        if let Ok(entry) = result {
+            if entry.file_type().unwrap().is_file() {
+                origin_files.push(format!("{}", entry.path().display()))
+            }
+        }
+    }
+    origin_files
+}
+
+fn files_by_thread(origin_files: Vec<String>, opt: &Opt) -> Vec<String> {
+    let mut files = vec![String::from(""); opt.thread];
+    for (i, f) in origin_files.iter().enumerate() {
+        files[i % opt.thread].push_str(f);
+        files[i % opt.thread].push_str("\n");
+    }
+    files
 }
 
 fn build_opt(thread: usize) -> Opt {
