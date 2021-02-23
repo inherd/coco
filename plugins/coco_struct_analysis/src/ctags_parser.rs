@@ -4,6 +4,7 @@ use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::PathBuf;
+use std::str::Lines;
 
 pub struct CtagsParser {
     class_map: HashMap<String, ClassInfo>,
@@ -66,14 +67,18 @@ lazy_static! {
 }
 
 impl CtagsParser {
-    pub fn parse_str(str: &str) -> CtagsParser {
+    pub fn parse_str(lines: Vec<Lines>) -> CtagsParser {
         let mut parser = CtagsParser::default();
-        for line in str.lines() {
-            parser.parse_class(line);
+        for lines in lines.clone() {
+            for line in lines.into_iter() {
+                parser.parse_class(line);
+            }
         }
 
-        for line in str.lines() {
-            parser.parse_method_methods(line);
+        for lines in lines {
+            for line in lines.into_iter() {
+                parser.parse_method_methods(line);
+            }
         }
 
         parser
@@ -260,7 +265,9 @@ mod test {
         let str = "MethodIdentifier	SubscriberRegistry.java	/^    MethodIdentifier(Method method) {$/;\"	method	line:239	language:Java	class:SubscriberRegistry.MethodIdentifier	access:default
 MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodIdentifier {$/;\"	class	line:234	language:Java	class:SubscriberRegistry	access:private";
 
-        let parser = CtagsParser::parse_str(str);
+        let mut lines = vec![];
+        lines.push(str.lines());
+        let parser = CtagsParser::parse_str(lines);
         let classes = parser.classes();
 
         assert_eq!(1, classes.len());

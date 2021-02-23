@@ -44,9 +44,17 @@ fn write_to_file(url_str: &str, result: String) {
 
 fn run_ctags(opt: &Opt, files: &Vec<String>) -> Vec<ClassInfo> {
     let outputs = CmdCtags::call(&opt, &files).unwrap();
-    let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+    let mut iters = Vec::new();
+    for o in &outputs {
+        let iter = if opt.validate_utf8 {
+            str::from_utf8(&o.stdout).unwrap().lines()
+        } else {
+            unsafe { str::from_utf8_unchecked(&o.stdout).lines() }
+        };
+        iters.push(iter);
+    }
 
-    let parser = CtagsParser::parse_str(out_str);
+    let parser = CtagsParser::parse_str(iters);
     let classes = parser.classes();
 
     classes
