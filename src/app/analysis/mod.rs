@@ -26,7 +26,7 @@ impl From<&CocoConfig> for Analyst {
 }
 
 impl Analyst {
-    fn analysis(&self, _cli_option: CocoCliOption) {
+    pub fn analysis(&self, _cli_option: CocoCliOption) {
         // todo: add tasks for parallel run analysis tasks for one or more repos
         let start = Instant::now();
         self.repos.par_iter().for_each(|repo| {
