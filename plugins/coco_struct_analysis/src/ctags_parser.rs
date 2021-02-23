@@ -22,7 +22,7 @@ lazy_static! {
         r"(?x)
 ^(?P<class_name>[A-Za-z0-9_]+)
 \t(?P<file_name>([^\t]+))
-\t([^\t]+)\t[class|struct]"
+\t([^\t]+)\t(class|struct)"
     )
     .unwrap();
     static ref INHERITS_RE: Regex = Regex::new(r"inherits:(?P<inherits>[A-Za-z0-9_:,]+)").unwrap();
@@ -34,7 +34,11 @@ lazy_static! {
 \t(?P<tag_type>[A-Za-z]+)"#
     )
     .unwrap();
-    static ref RE_CLASS: Regex = Regex::new(r"class:(?P<class_name>[A-Za-z0-9_\.]+)").unwrap();
+    static ref RE_CLASS: Regex = Regex::new(
+        r"(?x)
+(class|implementation):(?P<class_name>[A-Za-z0-9_\.]+)"
+    )
+    .unwrap();
     static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
     static ref RE_LANGUAGE: Regex = Regex::new(r"language:(?P<language>[A-Za-z0-9_\#]+)").unwrap();
     static ref RE_TYPE: Regex =
@@ -167,7 +171,7 @@ impl CtagsParser {
             clazz.members.push(member);
         } else if tag_type.eq("method") || tag_type.eq("function") {
             let method = MethodInfo::new(name, access, data_type);
-            clazz.method.push(method);
+            clazz.methods.push(method);
         }
     }
 
@@ -188,6 +192,7 @@ impl CtagsParser {
         if let Some(capts) = RE_CLASS.captures(line) {
             class_name = capts["class_name"].to_string();
         }
+
         let split = class_name.split(".");
         if let Some(last) = split.last() {
             class_name = last.to_string();
@@ -215,7 +220,7 @@ impl CtagsParser {
         for (_str, clz) in &self.class_map {
             let mut clazz = clz.clone();
             clazz
-                .method
+                .methods
                 .sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
             clazz
                 .members
@@ -247,14 +252,6 @@ mod test {
     }
 
     #[test]
-    pub fn should_parse_local_file() {
-        let dir = tags_dir().join("coco_tags");
-        let parser = CtagsParser::parse(dir);
-        let vec = parser.classes();
-        assert_eq!(25, vec.len());
-    }
-
-    #[test]
     pub fn should_replace_keyword() {
         assert_eq!("", CtagsParser::remove_keywords("public".to_string()));
     }
@@ -268,7 +265,7 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         let classes = parser.classes();
 
         assert_eq!(1, classes.len());
-        let first_method = classes[0].method[0].clone();
+        let first_method = classes[0].methods[0].clone();
         assert_eq!("MethodIdentifier", first_method.return_type);
     }
 
@@ -278,11 +275,24 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         let parser = CtagsParser::parse(dir);
         let classes = parser.classes();
         assert_eq!(1, classes.len());
-        assert_eq!(9, classes[0].method.len());
+        assert_eq!(9, classes[0].methods.len());
 
-        let first_method = classes[0].method[0].clone();
+        let first_method = classes[0].methods[0].clone();
         assert_eq!("description", first_method.name);
         assert_eq!("+", first_method.access)
+    }
+
+    #[test]
+    pub fn should_parse_rust_file() {
+        let dir = tags_dir().join("coco_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+
+        assert_eq!(1, classes.len());
+        let methods = classes[0].methods.clone();
+        assert_eq!(5, methods.len());
+        assert_eq!("default", methods[0].name);
+        assert_eq!("execute", methods[1].name);
     }
 
     #[test]
@@ -299,9 +309,9 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(1, string_field.members.len());
         assert_eq!("m_value", string_field.members[0].name);
 
-        assert_eq!(3, string_field.method.len());
-        assert_eq!("IntFieldOrm", string_field.method[0].name);
-        assert_eq!("migrate", string_field.method[1].name);
-        assert_eq!("save", string_field.method[2].name);
+        assert_eq!(3, string_field.methods.len());
+        assert_eq!("IntFieldOrm", string_field.methods[0].name);
+        assert_eq!("migrate", string_field.methods[1].name);
+        assert_eq!("save", string_field.methods[2].name);
     }
 }

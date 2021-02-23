@@ -38,7 +38,7 @@ pub struct ClassInfo {
     pub id: i32,
     pub parents: Vec<String>,
     pub members: Vec<MemberInfo>,
-    pub method: Vec<MethodInfo>,
+    pub methods: Vec<MethodInfo>,
 }
 
 impl ClassInfo {
@@ -48,7 +48,7 @@ impl ClassInfo {
             id: 0,
             parents: vec![],
             members: vec![],
-            method: vec![],
+            methods: vec![],
         }
     }
 }
