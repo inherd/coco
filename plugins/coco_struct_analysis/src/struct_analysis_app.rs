@@ -11,27 +11,30 @@ use crate::ctags_parser::CtagsParser;
 
 pub fn execute_struct_analysis(config: CocoConfig) {
     for repo in config.repo {
-        let mut files = vec![];
-
+        let mut origin_files = vec![];
         let url_str = repo.url.as_str();
         let path = uri_to_path(url_str);
         for result in Walk::new(path) {
             if let Ok(entry) = result {
                 if entry.file_type().unwrap().is_file() {
-                    files.push(format!(
-                        "{}",
-                        fs::canonicalize(entry.path()).unwrap().display()
-                    ))
+                    origin_files.push(format!("{}", entry.path().display()))
                 }
             }
         }
+        let mut thread = origin_files.len();
+        if thread >= 8 {
+            thread = 8;
+        }
+        let opt = build_opt(thread);
 
-        let opt = build_opt(files.len());
+        let mut files = vec![String::from(""); opt.thread];
+        for (i, f) in origin_files.iter().enumerate() {
+            files[i % opt.thread].push_str(f);
+            files[i % opt.thread].push_str("\n");
+        }
 
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
-
-        println!("{}", out_str);
 
         let parser = CtagsParser::parse_str(out_str);
         let classes = parser.classes();
@@ -44,11 +47,7 @@ pub fn execute_struct_analysis(config: CocoConfig) {
     }
 }
 
-fn build_opt(file_size: usize) -> Opt {
-    let mut thread = file_size;
-    if thread >= 8 {
-        thread = 8;
-    }
+fn build_opt(thread: usize) -> Opt {
     let string = thread.to_string();
     let thread: &str = string.as_str();
     let args = vec![

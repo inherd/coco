@@ -238,4 +238,6 @@ Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/mas
 License
 ---
 
+ctags analysis based on [https://github.com/dalance/ptags](https://github.com/dalance/ptags) with MIT, see in [src](plugins/coco_struct_analysis/src)
+
 @ 2020~2021 This code is distributed under the MIT license. See `LICENSE` in this directory.
