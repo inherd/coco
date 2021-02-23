@@ -10,15 +10,6 @@ use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 
 pub fn execute_struct_analysis(config: CocoConfig) {
-    let args = vec![
-        "ptags",
-        "-t",
-        "1",
-        // "--bin-ctags=/usr/local/bin/ctags",
-        "--verbose=true",
-        "--fields=+latinK",
-    ];
-
     for repo in config.repo {
         let mut files = vec![];
 
@@ -27,15 +18,34 @@ pub fn execute_struct_analysis(config: CocoConfig) {
         for result in Walk::new(path) {
             if let Ok(entry) = result {
                 if entry.file_type().unwrap().is_file() {
-                    files.push(format!("{}", entry.path().display()))
+                    files.push(format!(
+                        "{}",
+                        fs::canonicalize(entry.path()).unwrap().display()
+                    ))
                 }
             }
         }
 
+        let mut thread = files.len();
+        if thread >= 8 {
+            thread = 8;
+        }
+        let string = thread.to_string();
+        let thread: &str = string.as_str();
+        let args = vec![
+            "ptags",
+            "-t",
+            thread,
+            // "--bin-ctags=/usr/local/bin/ctags",
+            "--verbose=true",
+            "--fields=+latinK",
+        ];
         let opt = Opt::from_iter(args.iter());
 
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+
+        println!("{}", out_str);
 
         let parser = CtagsParser::parse_str(out_str);
         let classes = parser.classes();
