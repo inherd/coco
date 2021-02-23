@@ -4,6 +4,7 @@ repo:
   - url: .
   - url: https://github.com/datum-lang/scie
   - url: https://github.com/projectfluent/fluent-rs
+    language: [Rust, JavaScript]
 
 # todo: add commit
 commit:
@@ -37,3 +38,4 @@ team:
 plugins:
   - swagger
   - struct_analysis
+  -
