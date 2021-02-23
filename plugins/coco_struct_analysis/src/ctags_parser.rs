@@ -115,7 +115,9 @@ impl CtagsParser {
     pub fn parse_class(&mut self, line: &str) {
         if let Some(captures) = CLASS_RE.captures(line) {
             let class_name = &captures["class_name"];
+            let file_name = &captures["file_name"];
             let mut clazz = ClassInfo::new(class_name);
+            clazz.file = file_name.to_string();
 
             if let Some(inherits_capts) = INHERITS_RE.captures(line) {
                 let inherits_str = &inherits_capts["inherits"];
@@ -160,6 +162,7 @@ impl CtagsParser {
 
         let lang_capts = RE_LANGUAGE.captures(line).unwrap();
         let language = &lang_capts["language"];
+        clazz.lang = language.to_string();
 
         let without_keywords = CtagsParser::remove_keywords(line.to_string());
         let match_type = RE_TYPE.captures(without_keywords.as_str());
@@ -283,6 +286,9 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(1, classes.len());
         assert_eq!(9, classes[0].methods.len());
 
+        assert_eq!("Java", classes[0].lang);
+        assert_eq!("TypeName.java", classes[0].file);
+
         let first_method = classes[0].methods[0].clone();
         assert_eq!("description", first_method.name);
         assert_eq!("+", first_method.access)
@@ -295,6 +301,8 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         let classes = parser.classes();
 
         assert_eq!(1, classes.len());
+        assert_eq!("Rust", classes[0].lang);
+        assert_eq!("coco_swagger/src/lib.rs", classes[0].file);
         let methods = classes[0].methods.clone();
         assert_eq!(5, methods.len());
         assert_eq!("default", methods[0].name);
@@ -309,6 +317,7 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(5, classes.len());
 
         let string_field = classes[2].clone();
+        assert_eq!("C", string_field.lang);
         assert_eq!("IntFieldOrm", string_field.name);
         assert_eq!(1, string_field.parents.len());
         assert_eq!("IFieldOrm", string_field.parents[0]);

@@ -38,6 +38,8 @@ impl MethodInfo {
 pub struct ClassInfo {
     pub name: String,
     pub id: i32,
+    pub file: String,
+    pub lang: String,
     pub parents: Vec<String>,
     pub members: Vec<MemberInfo>,
     pub methods: Vec<MethodInfo>,
@@ -48,6 +50,8 @@ impl ClassInfo {
         ClassInfo {
             name: class_name.to_string(),
             id: 0,
+            file: "".to_string(),
+            lang: "".to_string(),
             parents: vec![],
             members: vec![],
             methods: vec![],
