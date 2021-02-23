@@ -70,7 +70,6 @@ impl CtagsParser {
         }
 
         for line in split {
-            println!("{}", line);
             parser.parse_method_methods(line);
         }
 
