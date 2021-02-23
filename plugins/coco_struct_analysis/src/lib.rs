@@ -1,13 +1,13 @@
 #[macro_use]
 extern crate lazy_static;
 
+use core_model::CocoConfig;
+use plugin_interface::PluginInterface;
+
 pub mod cmd_ctags;
 pub mod coco_struct;
 pub mod ctags_opt;
 pub mod ctags_parser;
-
-use core_model::CocoConfig;
-use plugin_interface::PluginInterface;
 
 pub struct CocoStructAnalysis {}
 
@@ -16,7 +16,9 @@ impl PluginInterface for CocoStructAnalysis {
         "coco.struct_analysis"
     }
 
-    fn on_plugin_load(&self) {}
+    fn on_plugin_load(&self) {
+        // todo: check ctags install
+    }
 
     fn on_plugin_unload(&self) {}
 

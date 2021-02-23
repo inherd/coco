@@ -56,7 +56,7 @@ fn create_config(config_file: &str) -> CocoConfig {
 
 fn run_plugins(config: &CocoConfig) {
     for plugin in config.plugins.iter() {
-        PluginManager::run(&plugin);
+        PluginManager::run(&plugin, config.clone());
     }
 }
 
