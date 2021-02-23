@@ -255,7 +255,6 @@ mod tests {
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
         let mut lines = out_str.lines();
 
-        println!("{}", out_str);
         let first_line = lines.next().unwrap_or("");
         assert!(first_line.contains("main"));
         assert!(first_line.contains("line:"));

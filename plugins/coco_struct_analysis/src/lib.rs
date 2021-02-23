@@ -1,13 +1,17 @@
 #[macro_use]
 extern crate lazy_static;
+extern crate serde;
 
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
+
+use crate::struct_analysis_app::execute_struct_analysis;
 
 pub mod cmd_ctags;
 pub mod coco_struct;
 pub mod ctags_opt;
 pub mod ctags_parser;
+pub mod struct_analysis_app;
 
 pub struct CocoStructAnalysis {}
 
@@ -23,7 +27,7 @@ impl PluginInterface for CocoStructAnalysis {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self, config: CocoConfig) {
-        println!("{:?}", config);
+        execute_struct_analysis(config);
     }
 }
 
@@ -36,4 +40,41 @@ impl Default for CocoStructAnalysis {
 #[no_mangle]
 pub fn plugin() -> Box<dyn PluginInterface> {
     Box::new(CocoStructAnalysis::default())
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::struct_analysis_app::execute_struct_analysis;
+    use core_model::{CocoConfig, RepoConfig};
+    use std::path::PathBuf;
+
+    pub fn ctags_fixtures_dir() -> PathBuf {
+        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        let ctags_dir = root_dir
+            .clone()
+            .join("_fixtures")
+            .join("ctags")
+            .join("source");
+
+        return ctags_dir;
+    }
+
+    #[test]
+    fn should_run_struct_analysis() {
+        let mut repos = vec![];
+        repos.push(RepoConfig {
+            url: format!("{}", ctags_fixtures_dir().display()),
+        });
+        let config = CocoConfig {
+            repo: repos,
+            plugins: vec![],
+        };
+
+        execute_struct_analysis(config);
+    }
 }

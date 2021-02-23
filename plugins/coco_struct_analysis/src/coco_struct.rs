@@ -1,4 +1,6 @@
-#[derive(Debug, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberInfo {
     pub name: String,
     pub access: String,
@@ -15,7 +17,7 @@ impl MemberInfo {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MethodInfo {
     pub name: String,
     pub access: String,
@@ -32,7 +34,7 @@ impl MethodInfo {
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ClassInfo {
     pub name: String,
     pub id: i32,
