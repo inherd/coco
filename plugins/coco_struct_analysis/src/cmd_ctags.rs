@@ -251,11 +251,12 @@ mod tests {
             .join("main.go");
 
         files.push(format!("{}", code_dir.display()));
+        println!("{:?}", files);
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+        println!("{}", out_str);
         let mut lines = out_str.lines();
 
-        println!("{}", out_str);
         let first_line = lines.next().unwrap_or("");
         assert!(first_line.contains("main"));
         assert!(first_line.contains("line:"));

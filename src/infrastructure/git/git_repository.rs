@@ -1,6 +1,6 @@
 use git2::Repository;
 
-use crate::infrastructure::url_format;
+use core_model::url_format;
 use std::fs;
 
 pub struct GitRepository {}

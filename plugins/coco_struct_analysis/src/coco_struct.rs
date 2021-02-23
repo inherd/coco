@@ -1,11 +1,23 @@
-#[derive(Debug, Clone)]
+use serde::{Deserialize, Serialize};
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MemberInfo {
     pub name: String,
     pub access: String,
     pub data_type: String,
 }
 
-#[derive(Debug, Clone)]
+impl MemberInfo {
+    pub fn new(name: &str, access: &str, data_type: String) -> Self {
+        MemberInfo {
+            name: name.to_string(),
+            access: access.to_string(),
+            data_type: data_type,
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct MethodInfo {
     pub name: String,
     pub access: String,
@@ -13,22 +25,22 @@ pub struct MethodInfo {
 }
 
 impl MethodInfo {
-    pub fn new(name: &str) -> Self {
+    pub fn new(name: &str, access: &str, data_type: String) -> Self {
         MethodInfo {
             name: name.to_string(),
-            access: "".to_string(),
-            return_type: "".to_string(),
+            access: access.to_string(),
+            return_type: data_type,
         }
     }
 }
 
-#[derive(Debug, Clone)]
+#[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ClassInfo {
     pub name: String,
     pub id: i32,
     pub parents: Vec<String>,
     pub members: Vec<MemberInfo>,
-    pub method: Vec<MethodInfo>,
+    pub methods: Vec<MethodInfo>,
 }
 
 impl ClassInfo {
@@ -38,7 +50,7 @@ impl ClassInfo {
             id: 0,
             parents: vec![],
             members: vec![],
-            method: vec![],
+            methods: vec![],
         }
     }
 }

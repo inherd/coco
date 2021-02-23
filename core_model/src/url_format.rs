@@ -2,7 +2,7 @@ use std::path::{Path, PathBuf};
 
 use url::Url;
 
-use core_model::Settings;
+use crate::Settings;
 
 pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
     let mut suffix = "";
@@ -63,7 +63,7 @@ pub fn uri_to_path(url: &str) -> PathBuf {
 
 #[cfg(test)]
 mod test {
-    use crate::infrastructure::url_format::{json_filename, json_filename_suffix, uri_to_path};
+    use crate::url_format::{json_filename, json_filename_suffix, uri_to_path};
     use std::path::PathBuf;
 
     #[test]

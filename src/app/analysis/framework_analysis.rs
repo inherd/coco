@@ -13,7 +13,7 @@ pub fn analysis(path: PathBuf) -> String {
 mod test {
     use std::path::PathBuf;
 
-    use crate::app::framework_analysis;
+    use super::*;
 
     #[test]
     fn should_return_json() {
@@ -26,7 +26,7 @@ mod test {
             .join("java")
             .join("simple");
 
-        let result = framework_analysis::analysis(test_project_dir);
+        let result = analysis(test_project_dir);
         assert_ne!("", result);
     }
 }

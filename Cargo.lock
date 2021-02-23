@@ -721,9 +721,11 @@ dependencies = [
  "regex",
  "serde",
  "serde_derive",
+ "serde_json",
  "structopt",
  "structopt-toml",
  "tempfile",
+ "walkdir",
 ]
 
 [[package]]
@@ -787,6 +789,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml",
+ "url",
 ]
 
 [[package]]
