@@ -1,7 +1,7 @@
 use crate::domain::git::coco_tag::CocoTag;
 use crate::infrastructure::git::cmd_git;
 use crate::infrastructure::git::git_tag_parser::GitTagParser;
-use crate::infrastructure::url_format;
+use core_model::url_format;
 
 pub fn analysis(url: &str) -> Vec<CocoTag> {
     let local_path = url_format::uri_to_path(url);

@@ -6,7 +6,7 @@ use git_analysis::*;
 use std::fs;
 
 use super::cmd::CocoCliOption;
-use crate::infrastructure::url_format;
+use core_model::url_format;
 use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 

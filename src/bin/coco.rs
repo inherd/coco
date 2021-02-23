@@ -1,9 +1,12 @@
+use std::time::Instant;
 use std::{env, fs};
 
 use clap::{App, Arg};
 
 use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
+use core_model::url_format;
+use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 use plugin_manager::plugin_manager::PluginManager;
 
@@ -62,8 +65,9 @@ fn run_plugins(config: &CocoConfig) {
 
 #[cfg(test)]
 mod test {
-    use crate::create_config;
     use std::env;
+
+    use crate::create_config;
 
     #[test]
     fn should_set_default_config() {

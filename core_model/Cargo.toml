@@ -13,3 +13,6 @@ lazy_static = "1.4.0"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 serde_yaml = "0.8" # for config parse
+
+# parse for url
+url = "2.2.0"
