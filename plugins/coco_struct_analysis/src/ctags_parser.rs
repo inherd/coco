@@ -25,7 +25,7 @@ lazy_static! {
 \t([^\t]+)\t[class|struct]"
     )
     .unwrap();
-    static ref INHERITS_RE: Regex = Regex::new(r"inherits:([A-Za-z0-9_\:,]+)").unwrap();
+    static ref INHERITS_RE: Regex = Regex::new(r"inherits:(?P<inherits>[A-Za-z0-9_:,]+)").unwrap();
     static ref AVAILABLE_RE: Regex = Regex::new(
         r#"(?x)
 ^(?P<name>[A-Za-z0-9_]+)
@@ -104,10 +104,20 @@ impl CtagsParser {
         parser
     }
 
-    pub fn parse_class(&mut self, str: &str) {
-        if let Some(captures) = CLASS_RE.captures(str) {
+    pub fn parse_class(&mut self, line: &str) {
+        if let Some(captures) = CLASS_RE.captures(line) {
             let class_name = &captures["class_name"];
-            let clazz = ClassInfo::new(class_name);
+            let mut clazz = ClassInfo::new(class_name);
+
+            if let Some(inherits_capts) = INHERITS_RE.captures(line) {
+                let inherits_str = &inherits_capts["inherits"];
+                let inherits = inherits_str
+                    .split(",")
+                    .map(|s| s.to_string())
+                    .collect::<Vec<String>>();
+
+                clazz.parents = inherits;
+            }
 
             self.class_map.insert(class_name.to_string(), clazz);
         }
@@ -203,6 +213,8 @@ impl CtagsParser {
             classes.push(clz.clone());
         }
 
+        classes.sort_by(|a, b| a.name.to_lowercase().cmp(&b.name.to_lowercase()));
+
         return classes;
     }
 }
@@ -271,7 +283,8 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(5, classes.len());
 
         let string_field = classes[2].clone();
-        assert_eq!("StringFieldOrm", string_field.name);
-        assert_eq!(0, string_field.parents.len());
+        assert_eq!("IntFieldOrm", string_field.name);
+        assert_eq!(1, string_field.parents.len());
+        assert_eq!("IFieldOrm", string_field.parents[0]);
     }
 }
