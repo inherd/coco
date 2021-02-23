@@ -14,7 +14,7 @@ pub fn analysis(url: &str) -> Vec<CocoTag> {
 
 #[cfg(test)]
 mod test {
-    use crate::app::git_analysis::tag_analysis::analysis;
+    use super::*;
 
     #[ignore]
     #[test]

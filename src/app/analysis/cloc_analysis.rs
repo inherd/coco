@@ -38,7 +38,7 @@ pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
 
 #[cfg(test)]
 mod test {
-    use crate::app::cloc_analysis;
+    use super::*;
     use std::path::{Path, PathBuf};
 
     fn fixtures_dir() -> PathBuf {
@@ -48,7 +48,7 @@ mod test {
     #[test]
     fn should_cloc_in_dir() {
         let buf = fixtures_dir().join("projects").join("java").join("hello");
-        let languages = cloc_analysis::analysis(buf);
+        let languages = analysis(buf);
 
         assert_eq!(2, languages.len());
         assert_eq!("Java", languages[0].language);
@@ -63,7 +63,7 @@ mod test {
     #[test]
     fn should_cloc_in_dir_with_path_and_name() {
         let buf = fixtures_dir().join("projects").join("java").join("simple");
-        let languages = cloc_analysis::analysis(buf);
+        let languages = analysis(buf);
 
         assert_eq!("HelloWorld.java", languages[0].reports[0].file_name);
 
