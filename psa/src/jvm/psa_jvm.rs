@@ -14,7 +14,7 @@ impl Default for JvmProjectStructureAnalyzer {
 impl StructureAnalyzer for JvmProjectStructureAnalyzer {
     fn analysis(&self, project_path: &str) -> Project {
         let project_name = get_project_name(project_path);
-        Project::new(project_name, project_path)
+        Project::new(project_name.as_str(), project_path)
     }
 
     fn is_related(&self, project_path: &str) -> bool {
@@ -28,8 +28,13 @@ impl StructureAnalyzer for JvmProjectStructureAnalyzer {
     }
 }
 
-fn get_project_name(_project_path: &str) -> &str {
-    "test"
+fn get_project_name(_project_path: &str) -> String {
+    Path::new(_project_path)
+        .file_name()
+        .unwrap()
+        .to_os_string()
+        .into_string()
+        .unwrap()
 }
 
 fn is_build_file(file_name: &str) -> bool {
