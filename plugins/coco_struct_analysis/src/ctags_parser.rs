@@ -49,7 +49,10 @@ lazy_static! {
         r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>]+)"
     ).unwrap();
     static ref GO_TYPE: Regex =
-        Regex::new(r"/\^([\s]*)([A-Za-z0-9_.]+)(\s|\t)*(?P<datatype>[A-Za-z0-9_.<>\[\]]+)").unwrap();
+        Regex::new(r"(?x)/\^([\s]*)
+([A-Za-z0-9_.]+)
+(,(\s|\t)*([A-Za-z0-9_.]+))*(\s|\t)* # for `name, access, returntype string`
+(?P<datatype>[A-Za-z0-9_.<>\[\]]+)").unwrap();
 
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
@@ -356,8 +359,14 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         let parser = CtagsParser::parse(dir);
         let classes = parser.classes();
 
-        println!("{:?}", classes);
         assert_eq!(3, classes.len());
+        assert_eq!("id", classes[0].members[0].name);
+        // for /^	name, access, returntype string$/;"
+        assert_eq!("access", classes[2].members[0].name);
+        assert_eq!("string", classes[2].members[0].data_type);
+        assert_eq!("name", classes[2].members[1].name);
+        assert_eq!("string", classes[2].members[1].data_type);
+        assert_eq!("string", classes[2].members[2].data_type);
     }
 
     #[test]
