@@ -37,7 +37,7 @@ lazy_static! {
     .unwrap();
     static ref RE_CLASS: Regex = Regex::new(
         r"(?x)
-(class|implementation):(?P<class_name>[A-Za-z0-9_\.]+)"
+(class|implementation|struct):(?P<class_name>[A-Za-z0-9_\.]+)"
     )
     .unwrap();
     static ref RE_ACCESS: Regex = Regex::new(r"access:(?P<access>[A-Za-z0-9_]+)").unwrap();
@@ -90,22 +90,16 @@ impl CtagsParser {
 
         let mut parser = CtagsParser::default();
         for result in reader.lines() {
-            match result {
-                Ok(line) => {
-                    parser.parse_class(line.as_str());
-                }
-                Err(_) => {}
+            if let Ok(line) = result {
+                parser.parse_class(line.as_str());
             };
         }
 
         let file = File::open(format!("{}", dir.display()).as_str()).expect("cannot find file");
         let reader = BufReader::new(file);
         for result in reader.lines() {
-            match result {
-                Ok(line) => {
-                    parser.parse_method_methods(line.as_str());
-                }
-                Err(_) => {}
+            if let Ok(line) = result {
+                parser.parse_method_methods(line.as_str());
             };
         }
 
@@ -307,6 +301,19 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(5, methods.len());
         assert_eq!("default", methods[0].name);
         assert_eq!("execute", methods[1].name);
+    }
+
+    #[test]
+    pub fn should_parse_rust_field_file() {
+        let dir = tags_dir().join("coco_class_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+
+        assert_eq!(3, classes.len());
+        assert_eq!("ClassInfo", classes[0].name);
+        assert_eq!(7, classes[0].members.len());
+        assert_eq!("file", classes[0].members[0].name);
+        assert_eq!("parents", classes[0].members[6].name);
     }
 
     #[test]

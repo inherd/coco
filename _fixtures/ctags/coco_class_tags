@@ -1,0 +1,33 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/fdhuang/consultant/devops/coco/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/d532b5c/
+ClassInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^impl ClassInfo {$/;"	implementation	line:48	language:Rust
+ClassInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^pub struct ClassInfo {$/;"	struct	line:38	language:Rust
+MemberInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^impl MemberInfo {$/;"	implementation	line:10	language:Rust
+MemberInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^pub struct MemberInfo {$/;"	struct	line:4	language:Rust
+MethodInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^impl MethodInfo {$/;"	implementation	line:27	language:Rust
+MethodInfo	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^pub struct MethodInfo {$/;"	struct	line:21	language:Rust
+access	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub access: String,$/;"	field	line:23	language:Rust	struct:MethodInfo
+access	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub access: String,$/;"	field	line:6	language:Rust	struct:MemberInfo
+data_type	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub data_type: String,$/;"	field	line:7	language:Rust	struct:MemberInfo
+file	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub file: String,$/;"	field	line:41	language:Rust	struct:ClassInfo
+id	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub id: i32,$/;"	field	line:40	language:Rust	struct:ClassInfo
+lang	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub lang: String,$/;"	field	line:42	language:Rust	struct:ClassInfo
+members	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub members: Vec<MemberInfo>,$/;"	field	line:44	language:Rust	struct:ClassInfo
+methods	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub methods: Vec<MethodInfo>,$/;"	field	line:45	language:Rust	struct:ClassInfo
+name	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub name: String,$/;"	field	line:22	language:Rust	struct:MethodInfo
+name	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub name: String,$/;"	field	line:39	language:Rust	struct:ClassInfo
+name	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub name: String,$/;"	field	line:5	language:Rust	struct:MemberInfo
+new	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub fn new(class_name: &str) -> Self {$/;"	method	line:49	language:Rust	implementation:ClassInfo
+new	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub fn new(name: &str, access: &str, data_type: String) -> Self {$/;"	method	line:11	language:Rust	implementation:MemberInfo
+new	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub fn new(name: &str, access: &str, data_type: String) -> Self {$/;"	method	line:28	language:Rust	implementation:MethodInfo
+parents	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub parents: Vec<String>,$/;"	field	line:43	language:Rust	struct:ClassInfo
+return_type	/Users/fdhuang/consultant/devops/coco/plugins/coco_struct_analysis/src/coco_struct.rs	/^    pub return_type: String,$/;"	field	line:24	language:Rust	struct:MethodInfo
