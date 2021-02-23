@@ -1,4 +1,4 @@
-use crate::coco_struct::{ClassInfo, MethodInfo};
+use crate::coco_struct::{ClassInfo, MemberInfo, MethodInfo};
 use regex::Regex;
 use std::collections::HashMap;
 use std::fs::File;
@@ -162,7 +162,10 @@ impl CtagsParser {
             data_type = (&capts["datatype"]).to_string();
         }
 
-        if tag_type.eq("method") || tag_type.eq("function") {
+        if tag_type.eq("member") || tag_type.eq("field") {
+            let member = MemberInfo::new(name, access, data_type);
+            clazz.members.push(member);
+        } else if tag_type.eq("method") || tag_type.eq("function") {
             let method = MethodInfo::new(name, access, data_type);
             clazz.method.push(method);
         }
@@ -293,9 +296,10 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!("IntFieldOrm", string_field.name);
         assert_eq!(1, string_field.parents.len());
         assert_eq!("IFieldOrm", string_field.parents[0]);
-        assert_eq!(0, string_field.members.len());
-        assert_eq!(3, string_field.method.len());
+        assert_eq!(1, string_field.members.len());
+        assert_eq!("m_value", string_field.members[0].name);
 
+        assert_eq!(3, string_field.method.len());
         assert_eq!("IntFieldOrm", string_field.method[0].name);
         assert_eq!("migrate", string_field.method[1].name);
         assert_eq!("save", string_field.method[2].name);

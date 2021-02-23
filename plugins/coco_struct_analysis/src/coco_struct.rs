@@ -5,6 +5,16 @@ pub struct MemberInfo {
     pub data_type: String,
 }
 
+impl MemberInfo {
+    pub fn new(name: &str, access: &str, data_type: String) -> Self {
+        MemberInfo {
+            name: name.to_string(),
+            access: access.to_string(),
+            data_type: data_type,
+        }
+    }
+}
+
 #[derive(Debug, Clone)]
 pub struct MethodInfo {
     pub name: String,
