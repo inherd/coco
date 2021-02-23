@@ -22,8 +22,7 @@ impl Project {
 
 #[cfg(test)]
 mod tests {
-    use crate::psa_module::Module;
-    use crate::psa_project::Project;
+    use crate::{Module, Project};
 
     #[test]
     fn should_create_project() {
