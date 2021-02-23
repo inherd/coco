@@ -1,0 +1,31 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/fdhuang/consultant/devops/coco/_fixtures/ctags/source/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/d532b5c/
+BaseOrm	field.cpp	/^class BaseOrm$/;"	class	line:18	language:C++	file:
+IFieldOrm	field.cpp	/^class IFieldOrm$/;"	class	line:8	language:C++	file:
+IntFieldOrm	field.cpp	/^    IntFieldOrm(int& value) : m_value(value) {}$/;"	function	line:80	language:C++	class:IntFieldOrm	file:	access:public
+IntFieldOrm	field.cpp	/^class IntFieldOrm : public IFieldOrm$/;"	class	line:77	language:C++	file:	inherits:IFieldOrm
+StringFieldOrm	field.cpp	/^    StringFieldOrm(const string& value) : m_value(value) {}$/;"	function	line:56	language:C++	class:StringFieldOrm	file:	access:public
+StringFieldOrm	field.cpp	/^class StringFieldOrm : public IFieldOrm$/;"	class	line:53	language:C++	file:	inherits:IFieldOrm
+UserProfile	field.cpp	/^UserProfile::UserProfile(const string& username, const string& email, int age)$/;"	function	line:112	language:C++	class:UserProfile
+UserProfile	field.cpp	/^class UserProfile: public BaseOrm$/;"	class	line:106	language:C++	file:	inherits:BaseOrm
+m_fields	field.cpp	/^    map<string, IFieldOrm*> m_fields; \/\/prefer a smart pointer if you don't want to mess with /;"	member	line:27	language:C++	class:BaseOrm	typeref:typename:map<string,IFieldOrm * >	file:	access:protected
+m_value	field.cpp	/^    int m_value;$/;"	member	line:86	language:C++	class:IntFieldOrm	typeref:typename:int	file:	access:private
+m_value	field.cpp	/^    string m_value;$/;"	member	line:62	language:C++	class:StringFieldOrm	typeref:typename:string	file:	access:private
+main	field.cpp	/^int main(int argc, char* argv[])$/;"	function	line:119	language:C++	typeref:typename:int
+migrate	field.cpp	/^void BaseOrm::migrate()$/;"	function	line:37	language:C++	class:BaseOrm	typeref:typename:void
+migrate	field.cpp	/^void IntFieldOrm::migrate()$/;"	function	line:95	language:C++	class:IntFieldOrm	typeref:typename:void
+migrate	field.cpp	/^void StringFieldOrm::migrate()$/;"	function	line:71	language:C++	class:StringFieldOrm	typeref:typename:void
+save	field.cpp	/^void BaseOrm::save()$/;"	function	line:31	language:C++	class:BaseOrm	typeref:typename:void
+save	field.cpp	/^void IntFieldOrm::save()$/;"	function	line:89	language:C++	class:IntFieldOrm	typeref:typename:void
+save	field.cpp	/^void StringFieldOrm::save()$/;"	function	line:65	language:C++	class:StringFieldOrm	typeref:typename:void
+~BaseOrm	field.cpp	/^BaseOrm::~BaseOrm()$/;"	function	line:44	language:C++	class:BaseOrm
+~IFieldOrm	field.cpp	/^    virtual ~IFieldOrm() {}$/;"	function	line:11	language:C++	class:IFieldOrm	file:	access:public

@@ -262,4 +262,16 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!("TypeName", first_method.name);
         assert_eq!("-", first_method.access)
     }
+
+    #[test]
+    pub fn should_parse_cpp_file() {
+        let dir = tags_dir().join("cpp_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+        assert_eq!(5, classes.len());
+
+        let string_field = classes[2].clone();
+        assert_eq!("StringFieldOrm", string_field.name);
+        assert_eq!(0, string_field.parents.len());
+    }
 }
