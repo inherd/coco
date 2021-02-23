@@ -1,4 +1,4 @@
-use crate::app::git_analysis::FormatBranch;
+use super::FormatBranch;
 use crate::infrastructure::git::git_branch::GitBranch;
 use crate::infrastructure::git::GitRepository;
 
@@ -15,7 +15,7 @@ pub fn analysis(url: &str) -> Vec<FormatBranch> {
 
 #[cfg(test)]
 mod test {
-    use crate::app::git_analysis::analysis;
+    use super::*;
 
     #[ignore]
     #[test]
