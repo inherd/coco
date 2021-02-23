@@ -44,6 +44,10 @@ lazy_static! {
     static ref RE_LANGUAGE: Regex = Regex::new(r"language:(?P<language>[A-Za-z0-9_\#]+)").unwrap();
     static ref RE_TYPE: Regex =
         Regex::new(r"/\^([ ]*)(?P<datatype>[A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
+    static ref RUST_TYPE: Regex = Regex::new(
+        r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s?:(\t|\s)?(?P<datatype>[A-Za-z0-9_.<>]+)"
+    )
+    .unwrap();
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
         "public",
@@ -166,7 +170,11 @@ impl CtagsParser {
                     data_type = (&capts["datatype"]).to_string();
                 }
             }
-            "Rust" => {}
+            "Rust" => {
+                if let Some(capts) = RUST_TYPE.captures(line) {
+                    data_type = (&capts["datatype"]).to_string();
+                }
+            }
             _ => {}
         }
 
@@ -286,8 +294,8 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         let parser = CtagsParser::parse_str(lines);
         let classes = parser.classes();
 
-        print!("{:?}", classes);
         assert_eq!(1, classes.len());
+        assert_eq!("String", classes[0].members[0].data_type);
     }
 
     #[test]
