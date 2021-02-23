@@ -1,14 +1,25 @@
+use crate::pas_content_root::ContentRoot;
 use crate::psa_facet::Facet;
 
 pub struct Module {
     pub name: String,
     pub path: String,
     pub facets: Vec<Facet>,
+    pub content_root: ContentRoot,
 }
 
 impl Module {
     pub fn add_facet(&mut self, facet: Facet) {
         self.facets.push(facet);
+    }
+
+    pub fn new(name: &str, path: &str) -> Self {
+        Module {
+            name: name.to_string(),
+            path: path.to_string(),
+            facets: vec![],
+            content_root: ContentRoot::default(),
+        }
     }
 }
 
@@ -19,11 +30,7 @@ mod tests {
 
     #[test]
     fn should_create_module() {
-        let module = Module {
-            name: "foo".to_string(),
-            path: "test/path".to_string(),
-            facets: vec![],
-        };
+        let module = Module::new("foo", "test/path");
 
         assert_eq!(module.name, "foo".to_string());
         assert_eq!(module.path, "test/path".to_string());
@@ -31,11 +38,7 @@ mod tests {
 
     #[test]
     fn should_add_facet() {
-        let mut module = Module {
-            name: "foo".to_string(),
-            path: "test/path".to_string(),
-            facets: vec![],
-        };
+        let mut module = Module::new("foo", "test/path");
 
         module.add_facet(Facet {
             name: "Java".to_string(),

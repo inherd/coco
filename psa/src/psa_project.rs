@@ -10,6 +10,14 @@ impl Project {
     pub fn add_module(&mut self, module: Module) {
         self.modules.push(module);
     }
+
+    pub fn new(name: &str, path: &str) -> Self {
+        Project {
+            name: name.to_string(),
+            path: path.to_string(),
+            modules: vec![],
+        }
+    }
 }
 
 #[cfg(test)]
@@ -19,11 +27,7 @@ mod tests {
 
     #[test]
     fn should_create_project() {
-        let project = Project {
-            name: "foo".to_string(),
-            path: "test/path".to_string(),
-            modules: vec![],
-        };
+        let project = Project::new("foo", "test/path");
 
         assert_eq!(project.name, "foo".to_string());
         assert_eq!(project.path, "test/path".to_string());
@@ -32,23 +36,10 @@ mod tests {
 
     #[test]
     fn should_add_modules() {
-        let mut project = Project {
-            name: "foo".to_string(),
-            path: "test/path".to_string(),
-            modules: vec![],
-        };
+        let mut project = Project::new("foo", "test/path");
 
-        project.add_module(Module {
-            name: "module1".to_string(),
-            path: "test/path/module1".to_string(),
-            facets: vec![],
-        });
-
-        project.add_module(Module {
-            name: "module2".to_string(),
-            path: "test/path/module2".to_string(),
-            facets: vec![],
-        });
+        project.add_module(Module::new("module1", "test/path/module1"));
+        project.add_module(Module::new("module2", "test/path/module2"));
 
         assert_eq!(project.modules.len(), 2);
     }
