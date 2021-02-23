@@ -68,12 +68,11 @@ lazy_static! {
 impl CtagsParser {
     pub fn parse_str(str: &str) -> CtagsParser {
         let mut parser = CtagsParser::default();
-        let split = str.split("\n");
-        for line in split.clone() {
+        for line in str.lines() {
             parser.parse_class(line);
         }
 
-        for line in split {
+        for line in str.lines() {
             parser.parse_method_methods(line);
         }
 

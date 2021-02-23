@@ -1,9 +1,9 @@
-use std::{fs, str};
-use structopt::StructOpt;
-use walkdir::{DirEntry, WalkDir};
-
 use core_model::url_format::uri_to_path;
 use core_model::{url_format, CocoConfig, Settings};
+use ignore::Walk;
+
+use std::{fs, str};
+use structopt::StructOpt;
 
 use crate::cmd_ctags::CmdCtags;
 use crate::ctags_opt::Opt;
@@ -24,10 +24,11 @@ pub fn execute_struct_analysis(config: CocoConfig) {
 
         let url_str = repo.url.as_str();
         let path = uri_to_path(url_str);
-        for entry in WalkDir::new(path) {
-            let entry: DirEntry = entry.unwrap();
-            if entry.file_type().is_file() {
-                files.push(format!("{}", entry.path().display()));
+        for result in Walk::new(path) {
+            if let Ok(entry) = result {
+                if entry.file_type().unwrap().is_file() {
+                    files.push(format!("{}", entry.path().display()))
+                }
             }
         }
 
