@@ -1,1 +1,1 @@
-pub mod jvm_psa;
+pub mod psa_jvm;
