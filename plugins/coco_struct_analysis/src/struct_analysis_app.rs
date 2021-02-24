@@ -17,7 +17,11 @@ pub fn execute_struct_analysis(config: CocoConfig) {
         let origin_files = files_from_path(url_str);
         let thread = count_thread(&origin_files);
 
-        let opt = build_opt(thread);
+        let mut opt = build_opt(thread);
+
+        if let Some(langs) = repo.languages {
+            opt.languages = Some(langs.join(","));
+        }
 
         let files = files_by_thread(origin_files, &opt);
         let classes = run_ctags(&opt, &files);

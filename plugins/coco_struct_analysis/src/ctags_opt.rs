@@ -104,6 +104,10 @@ pub struct Opt {
     #[structopt(long = "fields")]
     pub fields: Option<String>,
 
+    /// Languages
+    #[structopt(long = "languages")]
+    pub languages: Option<String>,
+
     /// Glob pattern of exclude file ( ex. --exclude '*.rs' )
     #[structopt(short = "e", long = "exclude", number_of_values = 1)]
     pub exclude: Vec<String>,
