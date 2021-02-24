@@ -6,7 +6,7 @@ on:
       - '*'
 
 jobs:
-  build:
+  build_ubuntu:
     name: Build Ubuntu
     runs-on: ubuntu-latest
     strategy:
@@ -56,6 +56,146 @@ jobs:
           draft: false
           prerelease: false
 
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
+
+
+      - name: 📦 Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./plugin.zip
+          asset_name: plugin.zip
+          asset_content_type: application/zip
+
+  build_windows:
+    name: Build Windows
+    runs-on: window-latest
+    strategy:
+      matrix:
+        include:
+          - name: windows visual
+            os: windows-latest
+            artifact_name: visual.exe
+            asset_name: visual-windows.exe
+          - name: windows coco
+            os: windows-latest
+            artifact_name: coco.exe
+            asset_name: coco-windows.exe
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Just
+        run: cargo install just
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build
+        run: just release
+
+      - name: Install ctags on Windows
+        run: |
+          choco install universal-ctags
+
+      - name: Zip Plugins
+        run: |
+          zip --junk-paths plugin target/release/coco_swagger.dll target/release/coco_struct_analysis.dll target/release/coco_coverage.dll
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
+
+
+      - name: Upload binaries to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/${{ matrix.artifact_name }}
+          asset_name: ${{ matrix.asset_name }}
+          tag: ${{ github.ref }}
+
+
+      - name: 📦 Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
+          asset_path: ./plugin.zip
+          asset_name: plugin.zip
+          asset_content_type: application/zip
+
+  build_macOS:
+    name: Build macOS
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        include:
+          - name: macos visual
+            os: macos-latest
+            artifact_name: visual
+            asset_name: visual-macos
+          - name: macos coco
+            os: macos-latest
+            artifact_name: coco
+            asset_name: coco-macos
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Just
+        run: cargo install just
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build
+        run: just release
+
+      - name: Install ctags on Windows
+        run: |
+          brew update
+          brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+
+      - name: Zip Plugins
+        run: |
+          zip --junk-paths plugin target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          draft: false
+          prerelease: false
 
       - name: Upload binaries to release
         uses: svenstaro/upload-release-action@v1-release
