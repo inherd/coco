@@ -6,46 +6,13 @@ on:
       - '*'
 
 jobs:
-  publish:
-    name: Publish for ${{ matrix.os }}
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        name: [
-            linux,
-            windows,
-            macos
-        ]
-
-        include:
-          - name: linux
-            os: ubuntu-latest
-            artifact_name: visual
-            asset_name: visual-linux
-          - name: windows
-            os: windows-latest
-            artifact_name: visual.exe
-            asset_name: visual-windows.exe
-          - name: macos
-            os: macos-latest
-            artifact_name: visual
-            asset_name: visual-macos
-
-          - name: linux coco
-            os: ubuntu-latest
-            artifact_name: coco
-            asset_name: coco-linux
-          - name: windows coco
-            os: windows-latest
-            artifact_name: coco.exe
-            asset_name: coco-windows.exe
-          - name: macos coco
-            os: macos-latest
-            artifact_name: coco
-            asset_name: coco-macos
+  build_ubuntu:
+    name: Build Ubuntu
+    runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v1
+      - name: Checkout code
+        uses: actions/checkout@v2
 
       - name: Install Just
         run: cargo install just
@@ -59,27 +26,137 @@ jobs:
         run: just release
 
       - name: Install ctags on Linux
-        if: matrix.os == 'ubuntu-latest'
         run: |
           sudo apt-get update
           sudo apt-get install exuberant-ctags
 
-      - name: Install ctags on macOS
-        if: matrix.os == 'macOS-latest'
+      - name: Zip Plugins
+        run: |
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
+
+      - name: Upload visual to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/visual
+          asset_name: visual_linux
+          tag: ${{ github.ref }}
+
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco
+          asset_name: coco_linux
+          tag: ${{ github.ref }}
+
+      - name: Upload plugins to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: coco_plugins.zip
+          asset_name: coco_plugins_linux.zip
+          tag: ${{ github.ref }}
+
+  build_windows:
+    name: Build Windows
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Just
+        run: cargo install just
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build
+        run: just release
+
+      - name: Install ctags on Windows
+        run: |
+          choco install universal-ctags
+
+      - name: Zip Plugins
+        run: |
+          powershell Compress-Archive -Path target\release\coco_swagger.dll,target\release\coco_struct_analysis.dll,target\release\coco_coverage.dll -DestinationPath coco_plugins.zip
+
+      - name: Upload visual to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/visual.exe
+          asset_name: visual-windows.exe
+          tag: ${{ github.ref }}
+
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco.exe
+          asset_name: coco-windows.exe
+          tag: ${{ github.ref }}
+
+      - name: Upload plugins to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: coco_plugins.zip
+          asset_name: coco_plugins_windows.zip
+          tag: ${{ github.ref }}
+
+  build_macOS:
+    name: Build macOS
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install Just
+        run: cargo install just
+
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+
+      - name: Build
+        run: just release
+
+      - name: Install ctags on Windows
         run: |
           brew update
           brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
-      - name: Install ctags on Windows
-        if: matrix.os == 'windows-latest'
+      - name: Zip Plugins
         run: |
-          choco install universal-ctags
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
 
-      - name: Upload binaries to release
+      - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
+          file: target/release/visual
+          asset_name: visual_macos
           tag: ${{ github.ref }}
 
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco
+          asset_name: coco_macos
+          tag: ${{ github.ref }}
+
+      - name: Upload plugins to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: coco_plugins.zip
+          asset_name: coco_plugins_macos.zip
+          tag: ${{ github.ref }}
