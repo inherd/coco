@@ -20,17 +20,21 @@ pub struct PluginManager {}
 
 impl PluginManager {
     pub fn run(plugin_name: &str, config: CocoConfig) {
-        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let production_plugins = root.parent().unwrap().join("coco_plugins");
+        let root = PathBuf::from(".");
+        let production_plugins = root.join("coco_plugins");
 
-        let plugin_path;
+        let path;
         if production_plugins.exists() {
-            plugin_path = Self::get_plugin_path(plugin_name, false);
+            let plugin_path = Self::get_plugin_path(plugin_name, true);
+            path = root.join(plugin_path);
         } else {
-            plugin_path = Self::get_plugin_path(plugin_name, false);
+            let debug_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+            let plugin_path = Self::get_plugin_path(plugin_name, false);
+            // because cargo project settings
+            path = debug_root.parent().unwrap().join(plugin_path);
         }
 
-        let path = root.parent().unwrap().join(plugin_path);
+        println!("search plugins in path: {:?}", path.display());
 
         let cont: Container<Wrapper> =
             unsafe { Container::load(path) }.expect("Could not open library or load symbols");
