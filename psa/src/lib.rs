@@ -12,7 +12,7 @@ pub mod psa_facet;
 pub mod psa_library;
 pub mod psa_module;
 pub mod psa_project;
-
+pub mod files;
 pub mod jvm;
 
 pub trait ProjectStructureAnalyzer {

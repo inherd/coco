@@ -1,10 +1,8 @@
 use std::path::Path;
 
-use walkdir::WalkDir;
-
+use crate::{files, Module, ProjectStructureAnalyzer};
 use crate::jvm::maven_module::MavenModuleAnalyzer;
 use crate::psa_project::Project;
-use crate::{Module, ProjectStructureAnalyzer};
 
 pub trait ModuleAnalyzer {
     fn analysis(&self, module_path: &str) -> Module;
@@ -18,7 +16,7 @@ pub struct JvmProjectStructureAnalyzer {
 impl JvmProjectStructureAnalyzer {
     fn analysis_modules(&self, project: &Project) -> Vec<Module> {
         let mut modules = Vec::new();
-        let dirs = list_dirs(Path::new(&project.path));
+        let dirs = files::list_dirs(Path::new(&project.path));
         for each_dir in dirs.iter() {
             let module = self.analysis_module(project, each_dir);
             match module {
@@ -61,7 +59,7 @@ impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
     }
 
     fn is_related(&self, project_path: &str) -> bool {
-        let files = list_file_names(project_path);
+        let files = files::list_file_names(project_path);
         for file_name in files.iter() {
             if is_build_file(file_name) {
                 return true;
@@ -79,7 +77,7 @@ fn get_project_type(build_file: String) -> String {
 }
 
 fn get_build_file(path: &str) -> Option<String> {
-    let files = list_file_names(Path::new(path));
+    let files = files::list_file_names(Path::new(path));
     files.into_iter().find(|file| is_build_file(file))
 }
 
@@ -98,42 +96,6 @@ fn is_build_file(file_name: &str) -> bool {
         "build.gradle" => true,
         _ => false,
     }
-}
-
-fn list_file_names<P: AsRef<Path>>(path: P) -> Vec<String> {
-    let mut files = Vec::new();
-    let walk_dir = WalkDir::new(path);
-    for dir_entry in walk_dir.max_depth(1).into_iter() {
-        if dir_entry.is_err() {
-            panic!("{}", dir_entry.err().unwrap());
-        }
-
-        let entry = dir_entry.unwrap();
-        if entry.metadata().unwrap().is_file() {
-            files.push(entry.file_name().to_os_string().into_string().unwrap());
-        }
-    }
-    files
-}
-
-fn list_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
-    let mut dirs = Vec::new();
-    let walk_dir = WalkDir::new(path);
-    for dir_entry in walk_dir
-        .max_depth(1)
-        .sort_by(|a, b| a.file_name().cmp(b.file_name()))
-        .into_iter()
-    {
-        if dir_entry.is_err() {
-            panic!("{}", dir_entry.err().unwrap());
-        }
-
-        let entry = dir_entry.unwrap();
-        if entry.metadata().unwrap().is_dir() {
-            dirs.push(entry.path().display().to_string())
-        }
-    }
-    dirs
 }
 
 #[cfg(test)]
