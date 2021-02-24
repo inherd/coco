@@ -104,19 +104,17 @@ reporter
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
     - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
-    - [ ] change
-       - [ ] line change
-       - [ ] changed file
-       - [ ] commit number
+    - [x] change
+       - [x] line change
+       - [x] changed file
+       - [x] commit number
     - [x] git branch analysis
        - [x] branch history
-       - [ ] branch visual. such as [https://app.gfc.io/github/nvie/gitflow](https://app.gfc.io/github/nvie/gitflow)
+       - [x] branch visual. such as [https://app.gfc.io/github/nvie/gitflow](https://app.gfc.io/github/nvie/gitflow)
            - ahead vs behind [https://github.com/BenoitZugmeyer/git-branches-overview](https://github.com/BenoitZugmeyer/git-branches-overview)
-    - [ ] git commit time analysis
-       - [ ] storage all commits
-          - [ ] light database?
-          - [ ] light RESTful API?
-       - [ ] working night count
+    - [x] git commit time analysis
+       - [x] storage all commits
+       - [x] working night count
  - [ ] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
     - [ ] history cloc changes
@@ -131,7 +129,7 @@ reporter
  - [ ] module analysis
     - [x] base framework for directory
        - [x] gitignore support
-    - [ ] code flower
+    - [x] code flower
     - [ ] include analysis
        - [x] code parser: [pest](https://github.com/pest-parser/pest)
        - [ ] languages support.
@@ -141,7 +139,7 @@ reporter
        - 平均加入时长
        - 成员加入时间点
     - [ ] member growth
-    - [ ] count system size & learning curve
+    - [x] count system size & learning curve
     - [ ] micro services size
  - [ ] commit analysis
     - [ ] commit times analysis (hours)
@@ -173,15 +171,21 @@ reporter
     - [ ] auto clone and auto deploy
  - [ ] todo scan
     - [ ] merge from [coca](https://github.com/inherd/coca/blob/master/pkg/application/todo/astitodo/astitodo.go)
- - [ ] multiple platform support
+ - [x] multiple platform support
     - [x] macOS
-    - [ ] GNU/Linux 
+    - [x] GNU/Linux 
     - [x] Windows
        - [x] fix tests
        - [x] make it works
  - [ ] C4 Model
     - [ ] graphviz call chain
        - [ ] symbol design - IsA, Use-In-The-Interface, Uses-In-The-Implementation  
+ - [ ] plugin
+    - [ ] struct analysis
+       - [x] ctags
+       - [x] visual
+    - [ ] swagger
+    - [ ] coverage
 
 Visual and Reporter
 
