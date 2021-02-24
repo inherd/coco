@@ -1,11 +1,11 @@
 use std::path::Path;
 
-use crate::{files, Module, ProjectStructureAnalyzer};
 use crate::jvm::maven_module::MavenModuleAnalyzer;
 use crate::psa_project::Project;
+use crate::{files, Module, ProjectStructureAnalyzer};
 
 pub trait ModuleAnalyzer {
-    fn analysis(&self, module_path: &str) -> Module;
+    fn analysis(&self, module_path: &str) -> Option<Module>;
     fn is_related(&self, project: &Project) -> bool;
 }
 
@@ -30,7 +30,7 @@ impl JvmProjectStructureAnalyzer {
     fn analysis_module(&self, project: &Project, module_path: &String) -> Option<Module> {
         for module_analyzer in self.module_analyzers.iter() {
             return match module_analyzer.is_related(project) {
-                true => Some(module_analyzer.analysis(module_path)),
+                true => module_analyzer.analysis(module_path),
                 _ => continue,
             };
         }
