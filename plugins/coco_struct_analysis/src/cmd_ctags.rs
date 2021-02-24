@@ -77,6 +77,12 @@ impl CmdCtags {
         for e in &opt.exclude {
             args.push(String::from(format!("--exclude={}", e)));
         }
+
+        if opt.languages.is_some() {
+            let langs = opt.languages.as_ref().unwrap();
+            args.push(String::from(format!("--languages={}", langs)));
+        }
+
         args.append(&mut opt.opt_ctags.clone());
 
         let cmd = CmdCtags::get_cmd(&opt, &args);
@@ -238,29 +244,77 @@ mod tests {
         ];
         let opt = Opt::from_iter(args.iter());
         let mut files = vec![];
-        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .parent()
-            .unwrap()
-            .to_path_buf();
-        let code_dir = root_dir
-            .clone()
-            .join("_fixtures")
-            .join("ctags")
-            .join("main.go");
+        let code_dir = code_dir().join("main.go");
 
         files.push(format!("{}", code_dir.display()));
-        println!("{:?}", files);
         let outputs = CmdCtags::call(&opt, &files).unwrap();
         let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
-        println!("{}", out_str);
         let mut lines = out_str.lines();
 
         let first_line = lines.next().unwrap_or("");
         assert!(first_line.contains("main"));
         assert!(first_line.contains("line:"));
         assert!(first_line.contains("language:Go"));
+    }
+
+    #[test]
+    fn should_return_none_when_filter_rust_in_golang() {
+        let args = vec![
+            "ptags",
+            "-t",
+            "1",
+            // "--bin-ctags=/usr/local/bin/ctags",
+            "--verbose=true",
+            "--fields=+latinK",
+            "--languages=Rust",
+        ];
+        let opt = Opt::from_iter(args.iter());
+        let mut files = vec![];
+        let code_dir = code_dir().join("main.go");
+
+        files.push(format!("{}", code_dir.display()));
+        let outputs = CmdCtags::call(&opt, &files).unwrap();
+        let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+        let mut lines = out_str.lines();
+
+        assert!(lines.next().is_none())
+    }
+
+    #[test]
+    fn should_return_golang_only_with_filter_golang() {
+        let args = vec![
+            "ptags",
+            "-t",
+            "1",
+            // "--bin-ctags=/usr/local/bin/ctags",
+            "--verbose=true",
+            "--fields=+latinK",
+            "--languages=Go",
+        ];
+        let opt = Opt::from_iter(args.iter());
+        let mut files = vec![];
+
+        files.push(format!("{}", code_dir().join("main.go").display()));
+        files.push(format!(
+            "{}",
+            code_dir().join("source").join("field.cpp").display()
+        ));
+
+        let outputs = CmdCtags::call(&opt, &files).unwrap();
+        let out_str = str::from_utf8(&outputs[0].stdout).unwrap();
+
+        assert!(!out_str.contains("field.cpp"));
+    }
+
+    fn code_dir() -> PathBuf {
+        let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .parent()
+            .unwrap()
+            .to_path_buf();
+        let code_dir = root_dir.clone().join("_fixtures").join("ctags");
+        code_dir
     }
 
     // #[test]
