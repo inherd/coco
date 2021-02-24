@@ -10,16 +10,16 @@ jobs:
     name: Build Ubuntu
     runs-on: ubuntu-latest
     strategy:
-    matrix:
-      include:
-        - name: linux
-          os: ubuntu-latest
-          artifact_name: visual
-          asset_name: visual-linux
-        - name: linux coco
-          os: ubuntu-latest
-          artifact_name: coco
-          asset_name: coco-linux
+      matrix:
+        include:
+          - name: linux
+            os: ubuntu-latest
+            artifact_name: visual
+            asset_name: visual-linux
+          - name: linux coco
+            os: ubuntu-latest
+            artifact_name: coco
+            asset_name: coco-linux
 
     steps:
       - name: Checkout code
