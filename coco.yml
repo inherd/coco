@@ -38,4 +38,3 @@ team:
 plugins:
   - swagger
   - struct_analysis
-  -
