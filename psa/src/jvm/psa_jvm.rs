@@ -28,8 +28,8 @@ impl StructureAnalyzer for JvmProjectStructureAnalyzer {
     }
 }
 
-fn get_project_name(_project_path: &str) -> String {
-    Path::new(_project_path)
+fn get_project_name(project_path: &str) -> String {
+    Path::new(project_path)
         .file_name()
         .unwrap()
         .to_os_string()
