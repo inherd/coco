@@ -55,7 +55,6 @@ mod tests {
     use crate::plugin_manager::PluginManager;
     use core_model::CocoConfig;
 
-    #[ignore]
     #[test]
     fn test_plugin_run_in_local() {
         let config = CocoConfig::default();
