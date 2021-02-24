@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::{env, fs};
 
 /// Coco Config from `coco.yml`
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -34,6 +35,24 @@ impl CocoConfig {
         }
 
         return Some(plugin.config.unwrap());
+    }
+
+    pub fn from_file(config_file: &str) -> CocoConfig {
+        match fs::read_to_string(config_file) {
+            Ok(content) => serde_yaml::from_str(&content).expect("parse config file error"),
+            Err(_) => {
+                let mut repo = vec![];
+                let current = env::current_dir().unwrap();
+                repo.push(RepoConfig {
+                    url: current.into_os_string().to_str().unwrap().to_string(),
+                    languages: None,
+                });
+                CocoConfig {
+                    repos: repo,
+                    plugins: None,
+                }
+            }
+        }
     }
 }
 

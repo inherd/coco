@@ -1,10 +1,10 @@
-use std::{env, fs};
+use std::env;
 
 use clap::{App, Arg};
 
 use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
-use core_model::{CocoConfig, RepoConfig};
+use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
@@ -28,7 +28,7 @@ fn main() {
 
     let cli_option = CocoCliOption::default();
 
-    let config = create_config(config_file);
+    let config = CocoConfig::from_file(config_file);
 
     println!("found config file: {}", config_file);
 
@@ -40,24 +40,6 @@ fn main() {
     analyst.analysis(cli_option);
 }
 
-fn create_config(config_file: &str) -> CocoConfig {
-    match fs::read_to_string(config_file) {
-        Ok(content) => serde_yaml::from_str(&content).expect("parse config file error"),
-        Err(_) => {
-            let mut repo = vec![];
-            let current = env::current_dir().unwrap();
-            repo.push(RepoConfig {
-                url: current.into_os_string().to_str().unwrap().to_string(),
-                languages: None,
-            });
-            CocoConfig {
-                repos: repo,
-                plugins: None,
-            }
-        }
-    }
-}
-
 fn run_plugins(config: &CocoConfig) {
     for plugin in config.plugins.as_ref().unwrap().iter() {
         PluginManager::run(&plugin.name, config.clone());
@@ -66,13 +48,12 @@ fn run_plugins(config: &CocoConfig) {
 
 #[cfg(test)]
 mod test {
+    use core_model::CocoConfig;
     use std::env;
-
-    use crate::create_config;
 
     #[test]
     fn should_set_default_config() {
-        let config = create_config("");
+        let config = CocoConfig::from_file("");
         let current = env::current_dir().unwrap();
         let url = current.into_os_string().to_str().unwrap().to_string();
 
