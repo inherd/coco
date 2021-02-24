@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 pub struct CocoConfig {
     pub repos: Vec<RepoConfig>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub plugins: Option<Vec<String>>,
+    pub plugins: Option<Vec<CocoPlugin>>,
 }
 
 impl Default for CocoConfig {
@@ -17,7 +17,6 @@ impl Default for CocoConfig {
     }
 }
 
-/// RepoConfig
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct RepoConfig {
     pub url: String,
@@ -42,6 +41,18 @@ impl RepoConfig {
     }
 }
 
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+pub struct CocoPlugin {
+    pub name: String,
+    pub config: Option<Vec<CocoPluginConfig>>,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+pub struct CocoPluginConfig {
+    pub key: String,
+    pub value: String,
+}
+
 #[cfg(test)]
 mod test {
     use crate::CocoConfig;
@@ -54,7 +65,11 @@ repos:
     languages: [Rust, JavaScript]
 
 plugins:
-  - swagger
+  - name: swagger
+  - name: struct_analysis
+    config:
+      - key: ctags
+        value: /usr/local/bin/ctags
 "#;
         let config: CocoConfig = serde_yaml::from_str(&data).expect("parse config file error");
         let repos = config.repos;

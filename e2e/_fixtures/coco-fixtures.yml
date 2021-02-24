@@ -3,4 +3,4 @@ repos:
 
 # todo plugins
 plugins:
-  - swagger
+  - name: swagger

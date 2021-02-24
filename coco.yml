@@ -37,5 +37,8 @@ team:
 
 # todo plugins
 plugins:
-  - swagger
-  - struct_analysis
+  - name: swagger
+  - name: struct_analysis
+    config:
+      - key: ctags
+        value: /usr/local/bin/ctags
