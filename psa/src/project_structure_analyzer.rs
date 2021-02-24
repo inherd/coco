@@ -1,13 +1,9 @@
 use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
 use crate::psa_project::Project;
-
-pub trait StructureAnalyzer {
-    fn analysis(&self, project_path: &str) -> Project;
-    fn is_related(&self, project_path: &str) -> bool;
-}
+use crate::ProjectStructureAnalyzer;
 
 pub struct ProjectAnalyzer {
-    analyzers: Vec<Box<dyn StructureAnalyzer>>,
+    analyzers: Vec<Box<dyn ProjectStructureAnalyzer>>,
 }
 
 impl ProjectAnalyzer {
