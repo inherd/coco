@@ -74,6 +74,7 @@ mod tests {
         let mut repos = vec![];
         repos.push(RepoConfig {
             url: format!("{}", ctags_fixtures_dir().display()),
+            language: None,
         });
         let config = CocoConfig {
             repo: repos,

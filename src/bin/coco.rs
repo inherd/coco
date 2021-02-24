@@ -45,9 +45,10 @@ fn create_config(config_file: &str) -> CocoConfig {
             let current = env::current_dir().unwrap();
             repo.push(RepoConfig {
                 url: current.into_os_string().to_str().unwrap().to_string(),
+                language: None,
             });
             CocoConfig {
-                repo,
+                repo: repo,
                 plugins: vec![],
             }
         }
