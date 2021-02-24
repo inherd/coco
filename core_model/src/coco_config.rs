@@ -17,6 +17,26 @@ impl Default for CocoConfig {
     }
 }
 
+impl CocoConfig {
+    pub fn get_plugin_config(&self, plugin_name: &str) -> Option<Vec<CocoPluginConfig>> {
+        if self.plugins.is_none() {
+            return None;
+        }
+        let mut plugin = CocoPlugin::default();
+        for item in self.plugins.as_ref().unwrap() {
+            if item.name == plugin_name {
+                plugin = item.clone();
+            }
+        }
+
+        if plugin.name == "" {
+            return None;
+        }
+
+        return Some(plugin.config.unwrap());
+    }
+}
+
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct RepoConfig {
     pub url: String,
@@ -45,6 +65,15 @@ impl RepoConfig {
 pub struct CocoPlugin {
     pub name: String,
     pub config: Option<Vec<CocoPluginConfig>>,
+}
+
+impl Default for CocoPlugin {
+    fn default() -> Self {
+        CocoPlugin {
+            name: "".to_string(),
+            config: None,
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
@@ -76,5 +105,26 @@ plugins:
         let languages = repos[0].languages.as_ref().unwrap();
         assert_eq!(2, languages.len());
         assert_eq!("Rust", languages[0]);
+    }
+
+    #[test]
+    fn should_enable_get_plugin_config() {
+        let data = r#"
+repos:
+  - url: https://github.com/projectfluent/fluent-rs
+    languages: [Rust, JavaScript]
+
+plugins:
+  - name: swagger
+  - name: struct_analysis
+    config:
+      - key: ctags
+        value: /usr/local/bin/ctags
+"#;
+        let config: CocoConfig = serde_yaml::from_str(&data).expect("parse config file error");
+        let config = config.get_plugin_config("struct_analysis").unwrap();
+        assert_eq!(1, config.len());
+        assert_eq!("ctags", config[0].key);
+        assert_eq!("/usr/local/bin/ctags", config[0].value);
     }
 }
