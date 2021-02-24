@@ -83,7 +83,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths coco_plugins target/release/coco_swagger.dll target/release/coco_struct_analysis.dll target/release/coco_coverage.dll
+          powershell Compress-Archive -Path target\release\coco_swagger.dll,target\release\coco_struct_analysis.dll,target\release\coco_coverage.dll -DestinationPath windows.zip
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
