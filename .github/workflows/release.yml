@@ -33,17 +33,17 @@ jobs:
       - name: Zip Plugins
         run: |
           zip --junk-paths coco_plugins target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
@@ -98,17 +98,17 @@ jobs:
       - name: Zip Plugins
         run: |
           zip --junk-paths coco_plugins target/release/coco_swagger.dll target/release/coco_struct_analysis.dll target/release/coco_coverage.dll
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
@@ -165,17 +165,17 @@ jobs:
       - name: Zip Plugins
         run: |
           zip --junk-paths coco_plugins target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
-          draft: false
-          prerelease: false
+#
+#      - name: Create Release
+#        id: create_release
+#        uses: actions/create-release@v1
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        with:
+#          tag_name: ${{ github.ref }}
+#          release_name: Release ${{ github.ref }}
+#          draft: false
+#          prerelease: false
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
