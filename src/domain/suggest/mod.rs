@@ -1,3 +1,5 @@
+pub mod model_suggest;
+
 /// count git tag interval for insight of release
 /// also same to publish interval
 /// 平均发布间隔
