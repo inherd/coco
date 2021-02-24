@@ -32,7 +32,8 @@ impl Default for ProjectAnalyzer {
     }
 }
 
-fn _first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
+#[allow(dead_code)]
+fn first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
     let mut dirs = Vec::new();
     let walk_dir = WalkDir::new(path);
     for dir_entry in walk_dir.max_depth(1).into_iter() {
@@ -54,7 +55,7 @@ mod tests {
     use std::path::PathBuf;
 
     #[test]
-    fn should_run_analyzer() {
+    fn should_analysis_project() {
         let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
@@ -72,5 +73,23 @@ mod tests {
 
         assert_eq!(project.name, "simple");
         assert_eq!(project.path.contains("/projects/java/simple"), true);
+    }
+
+    #[test]
+    fn should_return_none_when_build_file_not_exists() {
+        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .clone();
+
+        let analyzer = ProjectAnalyzer::default();
+
+        let project = analyzer.run(project_dir.display().to_string().as_str());
+
+        assert_eq!(project.is_none(), true);
     }
 }
