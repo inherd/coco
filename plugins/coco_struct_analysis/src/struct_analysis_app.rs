@@ -11,7 +11,7 @@ use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 
 pub fn execute_struct_analysis(config: CocoConfig) {
-    for repo in config.repo {
+    for repo in config.repos {
         let url_str = repo.url.as_str();
 
         let origin_files = files_from_path(url_str);

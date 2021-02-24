@@ -20,7 +20,7 @@ pub struct Analyst {
 impl From<&CocoConfig> for Analyst {
     fn from(config: &CocoConfig) -> Self {
         Self {
-            repos: config.repo.clone(),
+            repos: config.repos.clone(),
         }
     }
 }

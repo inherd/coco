@@ -45,10 +45,10 @@ fn create_config(config_file: &str) -> CocoConfig {
             let current = env::current_dir().unwrap();
             repo.push(RepoConfig {
                 url: current.into_os_string().to_str().unwrap().to_string(),
-                language: None,
+                languages: None,
             });
             CocoConfig {
-                repo: repo,
+                repos: repo,
                 plugins: vec![],
             }
         }
@@ -73,8 +73,8 @@ mod test {
         let current = env::current_dir().unwrap();
         let url = current.into_os_string().to_str().unwrap().to_string();
 
-        assert_eq!(config.repo.len(), 1);
-        assert_eq!(url, config.repo[0].url);
+        assert_eq!(config.repos.len(), 1);
+        assert_eq!(url, config.repos[0].url);
         assert_eq!(config.plugins.len(), 0);
     }
 }

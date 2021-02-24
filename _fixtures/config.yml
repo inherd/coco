@@ -1,4 +1,4 @@
-repo:
+repos:
   - url: https://github.com/coco-rs/coco.fixtures
   - url: https://github.com/coco-rs/coco.fixtures2
 
