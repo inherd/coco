@@ -6,6 +6,7 @@ use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
 
 use crate::struct_analysis_app::execute_struct_analysis;
+use std::process::Command;
 
 pub mod cmd_ctags;
 pub mod coco_struct;
@@ -21,7 +22,13 @@ impl PluginInterface for CocoStructAnalysis {
     }
 
     fn on_plugin_load(&self) {
-        // todo: check ctags install
+        match Command::new("ctags").spawn() {
+            Ok(_) => {}
+            Err(e) => {
+                println!("`ctags` was not found! please install or follow link to setup: https://github.com/phodal/coco/blob/master/DEVELOPMENT.md#install-ctags");
+                panic!("Error: {:?}", e);
+            }
+        };
     }
 
     fn on_plugin_unload(&self) {}
