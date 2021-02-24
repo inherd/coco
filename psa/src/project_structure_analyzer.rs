@@ -13,18 +13,14 @@ pub struct ProjectAnalyzer {
 }
 
 impl ProjectAnalyzer {
-    pub fn run(&self, path: &str) -> Vec<Project> {
-        let mut projects = Vec::new();
-        let dirs = first_level_dirs(Path::new(path));
-        for each_dir in dirs.iter() {
-            for analyzer in self.analyzers.iter() {
-                match analyzer.is_related(each_dir) {
-                    true => projects.push(analyzer.analysis(each_dir)),
-                    _ => continue,
-                }
-            }
+    pub fn run(&self, path: &str) -> Option<Project> {
+        for analyzer in self.analyzers.iter() {
+            return match analyzer.is_related(path) {
+                true => Some(analyzer.analysis(path)),
+                _ => continue,
+            };
         }
-        projects
+        None
     }
 }
 
@@ -36,7 +32,7 @@ impl Default for ProjectAnalyzer {
     }
 }
 
-fn first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
+fn _first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
     let mut dirs = Vec::new();
     let walk_dir = WalkDir::new(path);
     for dir_entry in walk_dir.max_depth(1).into_iter() {
@@ -66,11 +62,15 @@ mod tests {
             .join("_fixtures")
             .join("projects")
             .join("java")
+            .join("simple")
             .clone();
         let analyzer = ProjectAnalyzer::default();
 
-        let projects = analyzer.run(project_dir.display().to_string().as_str());
+        let project = analyzer
+            .run(project_dir.display().to_string().as_str())
+            .unwrap();
 
-        assert_eq!(projects.len() >= 2, true);
+        assert_eq!(project.name, "simple");
+        assert_eq!(project.path.contains("/projects/java/simple"), true);
     }
 }
