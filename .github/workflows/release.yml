@@ -31,7 +31,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths plugin target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.dylib
+          zip --junk-paths plugin target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
 
       - name: Create Release
         id: create_release
