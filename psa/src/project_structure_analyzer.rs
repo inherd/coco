@@ -72,7 +72,7 @@ mod tests {
             .unwrap();
 
         assert_eq!(project.name, "simple");
-        assert_eq!(project.path.contains("/projects/java/simple"), true);
+        assert_eq!(project.path.contains("simple"), true);
     }
 
     #[test]
