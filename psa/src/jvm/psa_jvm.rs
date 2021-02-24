@@ -1,40 +1,61 @@
-use crate::project_structure_analyzer::StructureAnalyzer;
-use crate::psa_project::Project;
-use crate::Module;
 use std::path::Path;
+
 use walkdir::WalkDir;
 
-trait ModuleAnalyzer {
-    fn analysis(module_path: &str) -> Option<Module>;
+use crate::jvm::maven_module::MavenModuleAnalyzer;
+use crate::psa_project::Project;
+use crate::{Module, ProjectStructureAnalyzer};
+
+pub trait ModuleAnalyzer {
+    fn analysis(&self, module_path: &str) -> Module;
     fn is_related(&self, project: &Project) -> bool;
 }
 
-pub struct JvmProjectStructureAnalyzer {}
+pub struct JvmProjectStructureAnalyzer {
+    module_analyzers: Vec<Box<dyn ModuleAnalyzer>>,
+}
 
 impl JvmProjectStructureAnalyzer {
-    fn analysis_modules(&self) -> Vec<Module> {
-        vec![
-            Module::new("multi_mod_maven_project", "foo"),
-            Module::new("module1", "foo"),
-            Module::new("module2", "foo"),
-        ]
+    fn analysis_modules(&self, project: &Project) -> Vec<Module> {
+        let mut modules = Vec::new();
+        let dirs = list_dirs(Path::new(&project.path));
+        for each_dir in dirs.iter() {
+            let module = self.analysis_module(project, each_dir);
+            match module {
+                Some(module) => modules.push(module),
+                _ => continue,
+            }
+        }
+        modules
+    }
+
+    fn analysis_module(&self, project: &Project, module_path: &String) -> Option<Module> {
+        for module_analyzer in self.module_analyzers.iter() {
+            return match module_analyzer.is_related(project) {
+                true => Some(module_analyzer.analysis(module_path)),
+                _ => continue,
+            };
+        }
+        None
     }
 }
 
 impl Default for JvmProjectStructureAnalyzer {
     fn default() -> Self {
-        JvmProjectStructureAnalyzer {}
+        JvmProjectStructureAnalyzer {
+            module_analyzers: vec![Box::new(MavenModuleAnalyzer {})],
+        }
     }
 }
 
-impl StructureAnalyzer for JvmProjectStructureAnalyzer {
+impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
     fn analysis(&self, project_path: &str) -> Project {
         let project_name = get_project_name(project_path);
         let build_file = get_build_file(project_path).unwrap();
         let project_type = get_project_type(build_file);
 
         let mut project = Project::new(project_name.as_str(), project_path, project_type.as_str());
-        let modules = &mut self.analysis_modules();
+        let modules = &mut self.analysis_modules(&project);
         project.add_modules(modules);
         project
     }
@@ -95,11 +116,14 @@ fn list_file_names<P: AsRef<Path>>(path: P) -> Vec<String> {
     files
 }
 
-#[allow(dead_code)]
-fn first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
+fn list_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
     let mut dirs = Vec::new();
     let walk_dir = WalkDir::new(path);
-    for dir_entry in walk_dir.max_depth(1).into_iter() {
+    for dir_entry in walk_dir
+        .max_depth(1)
+        .sort_by(|a, b| a.file_name().cmp(b.file_name()))
+        .into_iter()
+    {
         if dir_entry.is_err() {
             panic!("{}", dir_entry.err().unwrap());
         }
@@ -114,9 +138,10 @@ fn first_level_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
 
 #[cfg(test)]
 mod tests {
-    use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
-    use crate::project_structure_analyzer::StructureAnalyzer;
     use std::path::PathBuf;
+
+    use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
+    use crate::ProjectStructureAnalyzer;
 
     #[test]
     fn should_analysis_maven_project_sub_modules() {
@@ -134,7 +159,14 @@ mod tests {
 
         let project = analyzer.analysis(project_dir.display().to_string().as_str());
 
+        let modules = project.modules;
+        let project_module = modules.get(0).unwrap();
+        let module1 = modules.get(1).unwrap();
+        let module2 = modules.get(2).unwrap();
+        assert_eq!(modules.len(), 3);
         assert_eq!(project.project_type, "maven");
-        assert_eq!(project.modules.len(), 3);
+        assert_eq!(project_module.name, "multi_mod_maven_project");
+        assert_eq!(module1.name, "module1");
+        assert_eq!(module2.name, "module2");
     }
 }
