@@ -21,7 +21,15 @@ pub struct PluginManager {}
 impl PluginManager {
     pub fn run(plugin_name: &str, config: CocoConfig) {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
-        let plugin_path = Self::get_plugin_path(plugin_name);
+        let production_plugins = root.parent().unwrap().join("coco_plugins");
+
+        let plugin_path;
+        if production_plugins.exists() {
+            plugin_path = Self::get_plugin_path(plugin_name, false);
+        } else {
+            plugin_path = Self::get_plugin_path(plugin_name, false);
+        }
+
         let path = root.parent().unwrap().join(plugin_path);
 
         let cont: Container<Wrapper> =
@@ -35,18 +43,30 @@ impl PluginManager {
     }
 
     #[cfg(target_os = "linux")]
-    fn get_plugin_path(plugin_name: &str) -> String {
-        format!("target/{}/libcoco_{}.so", BUILD_TYPE, plugin_name)
+    fn get_plugin_path(plugin_name: &str, for_production: bool) -> String {
+        if for_production {
+            format!("coco_plugins/libcoco_{}.so", plugin_name)
+        } else {
+            format!("target/{}/libcoco_{}.so", BUILD_TYPE, plugin_name)
+        }
     }
 
     #[cfg(target_os = "macos")]
-    fn get_plugin_path(plugin_name: &str) -> String {
-        format!("target/{}/libcoco_{}.dylib", BUILD_TYPE, plugin_name)
+    fn get_plugin_path(plugin_name: &str, for_production: bool) -> String {
+        if for_production {
+            format!("coco_plugins/libcoco_{}.dylib", plugin_name)
+        } else {
+            format!("target/{}/libcoco_{}.dylib", BUILD_TYPE, plugin_name)
+        }
     }
 
     #[cfg(target_os = "windows")]
-    fn get_plugin_path(plugin_name: &str) -> String {
-        format!("target\\{}\\coco_{}.dll", BUILD_TYPE, plugin_name)
+    fn get_plugin_path(plugin_name: &str, for_production: bool) -> String {
+        if for_production {
+            format!("coco_plugins\\coco_{}.dll", plugin_name)
+        } else {
+            format!("target\\{}\\coco_{}.dll", BUILD_TYPE, plugin_name)
+        }
     }
 }
 
