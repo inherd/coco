@@ -10,17 +10,19 @@ edition = "2018"
 nix            = "0.19"
 tempfile       = "3"
 failure        = "0.1"
+
+# serialize
 serde          = "1"
 serde_derive   = "1"
 serde_json     = "1"
+
+# command args to struct
 structopt      = "0.3"
 structopt-toml = "0.4"
 
 lazy_static = "1.4.0"
 
 regex = "1"
-
-walkdir = "2"
 
 # gitignore
 # docs: https://github.com/BurntSushi/ripgrep/tree/master/crates/ignore
