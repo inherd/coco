@@ -32,7 +32,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths plugin target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
 
       - name: Create Release
         id: create_release
@@ -68,8 +68,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./plugin.zip
-          asset_name: plugin.zip
+          asset_path: ./coco_plugins.zip
+          asset_name: coco_plugins.zip
           asset_content_type: application/zip
 
   build_windows:
@@ -97,7 +97,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths plugin target/release/coco_swagger.dll target/release/coco_struct_analysis.dll target/release/coco_coverage.dll
+          zip --junk-paths coco_plugins target/release/coco_swagger.dll target/release/coco_struct_analysis.dll target/release/coco_coverage.dll
 
       - name: Create Release
         id: create_release
@@ -134,8 +134,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./plugin.zip
-          asset_name: plugin.zip
+          asset_path: ./coco_plugins.zip
+          asset_name: coco_plugins.zip
           asset_content_type: application/zip
 
   build_macOS:
@@ -164,7 +164,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths plugin target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
 
       - name: Create Release
         id: create_release
@@ -200,6 +200,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps
-          asset_path: ./plugin.zip
-          asset_name: plugin.zip
+          asset_path: ./coco_plugins.zip
+          asset_name: coco_plugins.zip
           asset_content_type: application/zip
