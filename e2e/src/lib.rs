@@ -58,6 +58,14 @@ mod tests {
     }
 
     #[test]
+    fn should_pass_no_plugins() {
+        let mut path = PathBuf::from("_fixtures");
+        path.push("no-plugin.yml");
+        let mut cmd = CliSupport::coco(path);
+        cmd.assert().success();
+    }
+
+    #[test]
     fn should_run_export() {
         let mut cmd = CliSupport::visual();
         cmd.arg("--name").arg("default");
