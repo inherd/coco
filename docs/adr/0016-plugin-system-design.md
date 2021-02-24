@@ -6,6 +6,8 @@ Date: 2021-02-08
 
 2021-02-08 proposed
 
+2021-02-24 done
+
 ## Context
 
 For current, we need to support for plugins load.
@@ -131,7 +133,7 @@ impl Drop for PluginManager {
 
 ## Decision
 
-Decision here...
+1. use `coco_plugins`
 
 ## Consequences
 
