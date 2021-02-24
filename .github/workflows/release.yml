@@ -9,17 +9,6 @@ jobs:
   build_ubuntu:
     name: Build Ubuntu
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - name: linux
-            os: ubuntu-latest
-            artifact_name: visual
-            asset_name: visual-linux
-          - name: linux coco
-            os: ubuntu-latest
-            artifact_name: coco
-            asset_name: coco-linux
 
     steps:
       - name: Checkout code
@@ -56,15 +45,21 @@ jobs:
           draft: false
           prerelease: false
 
-
-      - name: Upload binaries to release
+      - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
+          file: target/release/visual
+          asset_name: visual_linux
           tag: ${{ github.ref }}
 
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco
+          asset_name: coco_linux
+          tag: ${{ github.ref }}
 
       - name: 📦 Upload Release Asset
         id: upload-release-asset
@@ -79,18 +74,7 @@ jobs:
 
   build_windows:
     name: Build Windows
-    runs-on: window-latest
-    strategy:
-      matrix:
-        include:
-          - name: windows visual
-            os: windows-latest
-            artifact_name: visual.exe
-            asset_name: visual-windows.exe
-          - name: windows coco
-            os: windows-latest
-            artifact_name: coco.exe
-            asset_name: coco-windows.exe
+    runs-on: windows-latest
 
     steps:
       - name: Checkout code
@@ -126,13 +110,20 @@ jobs:
           draft: false
           prerelease: false
 
-
-      - name: Upload binaries to release
+      - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
+          file: target/release/visual.exe
+          asset_name: visual-windows.exe
+          tag: ${{ github.ref }}
+
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco.exe
+          asset_name: coco-windows.exe
           tag: ${{ github.ref }}
 
 
@@ -150,17 +141,6 @@ jobs:
   build_macOS:
     name: Build macOS
     runs-on: macos-latest
-    strategy:
-      matrix:
-        include:
-          - name: macos visual
-            os: macos-latest
-            artifact_name: visual
-            asset_name: visual-macos
-          - name: macos coco
-            os: macos-latest
-            artifact_name: coco
-            asset_name: coco-macos
 
     steps:
       - name: Checkout code
@@ -197,14 +177,21 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload binaries to release
+      - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          file: target/release/${{ matrix.artifact_name }}
-          asset_name: ${{ matrix.asset_name }}
+          file: target/release/visual
+          asset_name: visual_macos
           tag: ${{ github.ref }}
 
+      - name: Upload coco to release
+        uses: svenstaro/upload-release-action@v1-release
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: target/release/coco
+          asset_name: visual_coco
+          tag: ${{ github.ref }}
 
       - name: 📦 Upload Release Asset
         id: upload-release-asset
