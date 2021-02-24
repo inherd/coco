@@ -32,7 +32,10 @@ fn main() {
 
     println!("found config file: {}", config_file);
 
-    run_plugins(&config);
+    if config.plugins.is_some() {
+        run_plugins(&config);
+    }
+
     let analyst = analysis::Analyst::from(&config);
     analyst.analysis(cli_option);
 }
@@ -49,14 +52,14 @@ fn create_config(config_file: &str) -> CocoConfig {
             });
             CocoConfig {
                 repos: repo,
-                plugins: vec![],
+                plugins: None,
             }
         }
     }
 }
 
 fn run_plugins(config: &CocoConfig) {
-    for plugin in config.plugins.iter() {
+    for plugin in config.plugins.as_ref().unwrap().iter() {
         PluginManager::run(&plugin, config.clone());
     }
 }
@@ -75,6 +78,6 @@ mod test {
 
         assert_eq!(config.repos.len(), 1);
         assert_eq!(url, config.repos[0].url);
-        assert_eq!(config.plugins.len(), 0);
+        assert!(config.plugins.is_none())
     }
 }

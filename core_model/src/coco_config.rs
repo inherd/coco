@@ -4,14 +4,15 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CocoConfig {
     pub repos: Vec<RepoConfig>,
-    pub plugins: Vec<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub plugins: Option<Vec<String>>,
 }
 
 impl Default for CocoConfig {
     fn default() -> Self {
         CocoConfig {
             repos: vec![],
-            plugins: vec![],
+            plugins: None,
         }
     }
 }

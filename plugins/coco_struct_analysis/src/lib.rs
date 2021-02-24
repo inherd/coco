@@ -78,7 +78,7 @@ mod tests {
         });
         let config = CocoConfig {
             repos: repos,
-            plugins: vec![],
+            plugins: None,
         };
 
         execute_struct_analysis(config);
