@@ -718,6 +718,9 @@ dependencies = [
  "pest",
  "pest_derive",
  "plugin_interface",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]
