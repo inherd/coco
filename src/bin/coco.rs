@@ -1,4 +1,5 @@
-use std::env;
+use std::fs::OpenOptions;
+use std::{env, io::Write};
 
 use clap::{App, Arg};
 
@@ -22,7 +23,18 @@ fn main() {
                 .help("config file")
                 .takes_value(true),
         )
+        .subcommand(
+            App::new("init")
+                .version(VERSION)
+                .author("Inherd Group")
+                .about("A DevOps Efficiency Analysis and Auto-suggestion Tool."),
+        )
         .get_matches();
+
+    if matches.is_present("init") {
+        create_config_file();
+        std::process::exit(0);
+    }
 
     let config_file = matches.value_of("config").unwrap_or("coco.yml");
 
@@ -43,6 +55,19 @@ fn main() {
 fn run_plugins(config: &CocoConfig) {
     for plugin in config.plugins.as_ref().unwrap().iter() {
         PluginManager::run(&plugin.name, config.clone());
+    }
+}
+
+fn create_config_file() {
+    println!("creating coco.yml");
+    match OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open("coco.yml")
+        .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
+    {
+        Ok(_) => println!("success created"),
+        Err(e) => println!("coco.yml create faild: {}", e),
     }
 }
 
