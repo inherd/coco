@@ -16,21 +16,18 @@ pub struct JvmProjectStructureAnalyzer {
 impl JvmProjectStructureAnalyzer {
     fn analysis_modules(&self, project: &Project) -> Vec<Module> {
         let mut modules = Vec::new();
-        let dirs = files::list_dirs(Path::new(&project.path));
-        for each_dir in dirs.iter() {
-            let module = self.analysis_module(project, each_dir);
-            match module {
-                Some(module) => modules.push(module),
-                _ => continue,
-            }
+        let module = self.analysis_module(project);
+        match module {
+            Some(module) => modules.push(module),
+            _ => (),
         }
         modules
     }
 
-    fn analysis_module(&self, project: &Project, module_path: &String) -> Option<Module> {
+    fn analysis_module(&self, project: &Project) -> Option<Module> {
         for module_analyzer in self.module_analyzers.iter() {
             return match module_analyzer.is_related(project) {
-                true => module_analyzer.analysis(module_path),
+                true => module_analyzer.analysis(&project.path),
                 _ => continue,
             };
         }
@@ -123,9 +120,10 @@ mod tests {
 
         let modules = project.modules;
         let project_module = modules.get(0).unwrap();
-        let module1 = modules.get(1).unwrap();
-        let module2 = modules.get(2).unwrap();
-        assert_eq!(modules.len(), 3);
+        let module1 = project_module.sub_modules.get(0).unwrap();
+        let module2 = project_module.sub_modules.get(1).unwrap();
+        assert_eq!(modules.len(), 1);
+        assert_eq!(project_module.sub_modules.len(), 2);
         assert_eq!(project.project_type, "maven");
         assert_eq!(project_module.name, "multi_mod_maven_project");
         assert_eq!(module1.name, "module1");
