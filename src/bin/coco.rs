@@ -44,12 +44,12 @@ fn main() {
 
     println!("found config file: {}", config_file);
 
+    let analyst = analysis::Analyst::from(&config);
+    analyst.analysis(cli_option);
+
     if config.plugins.is_some() {
         run_plugins(&config);
     }
-
-    let analyst = analysis::Analyst::from(&config);
-    analyst.analysis(cli_option);
 }
 
 fn run_plugins(config: &CocoConfig) {
