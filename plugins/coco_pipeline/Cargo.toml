@@ -29,5 +29,5 @@ path = "../../core_model"
 path = "../../plugin_interface"
 
 [lib]
-name = "coco_swagger"
+name = "coco_pipeline"
 crate-type = ["cdylib"]
