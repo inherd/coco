@@ -709,6 +709,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "coco_pipeline"
+version = "0.1.0"
+dependencies = [
+ "core_model",
+ "plugin_interface",
+]
+
+[[package]]
 name = "coco_struct_analysis"
 version = "0.1.0"
 dependencies = [
