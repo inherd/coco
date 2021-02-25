@@ -22,7 +22,7 @@ Support OS: macOS, Windows, GNU/Linux
 
 ## Usage
 
-0. install or download Coco components and coco_plugin_*.zip from release
+0. install or download Coco components from release
 1. use `coco init` to generate config file
 2. config `coco.yml`
 3. optional: use `coco plugins` to download plugins
