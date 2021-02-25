@@ -110,6 +110,17 @@ Windows
 choco install universal-ctags
 ```
 
+Test with version commands
+
+```
+Universal Ctags 5.9.0(d532b5c), Copyright (C) 2015 Universal Ctags Team
+Universal Ctags is derived from Exuberant Ctags.
+Exuberant Ctags 5.8, Copyright (C) 1996-2009 Darren Hiebert
+  Compiled: Feb 20 2021, 15:16:39
+  URL: https://ctags.io/
+  Optional compiled features: +wildcards, +regex, +iconv, +option-directory, +xpath, +case-insensitive-filenames, +packcc
+```
+
 ### Contribute
 
 we need you coding in TDD. You can use this repo to learn TDD :
