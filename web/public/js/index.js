@@ -60,3 +60,6 @@ d3.json("data/git-commits.json").then(function (data) {
   renderCodeFrequency(commit_by_weeks(data));
 });
 
+d3.json("data/struct_analysis.json").then(function (data) {
+  visualizationStruct(data);
+});
