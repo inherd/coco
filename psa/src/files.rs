@@ -18,10 +18,11 @@ pub fn list_file_names<P: AsRef<Path>>(path: P) -> Vec<String> {
     files
 }
 
-pub fn list_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
+pub fn list_sub_dirs<P: AsRef<Path>>(path: P) -> Vec<String> {
     let mut dirs = Vec::new();
     let walk_dir = WalkDir::new(path);
     for dir_entry in walk_dir
+        .min_depth(1)
         .max_depth(1)
         .sort_by(|a, b| a.file_name().cmp(b.file_name()))
         .into_iter()

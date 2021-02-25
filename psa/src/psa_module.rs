@@ -24,6 +24,10 @@ impl Module {
         self.sub_modules.push(sub_module);
     }
 
+    pub fn add_sub_modules(&mut self, sub_modules: &mut Vec<Module>) {
+        self.sub_modules.append(sub_modules);
+    }
+
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),
