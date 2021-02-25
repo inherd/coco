@@ -2,6 +2,7 @@ use core_model::url_format::uri_to_path;
 use core_model::{url_format, CocoConfig, Settings};
 use ignore::Walk;
 
+use std::path::PathBuf;
 use std::{fs, str};
 use structopt::StructOpt;
 
@@ -11,7 +12,7 @@ use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 
 pub fn execute_struct_analysis(config: CocoConfig) {
-    for repo in config.repos {
+    for repo in &config.repos {
         let url_str = repo.url.as_str();
 
         let origin_files = files_from_path(url_str);
@@ -19,8 +20,16 @@ pub fn execute_struct_analysis(config: CocoConfig) {
 
         let mut opt = build_opt(thread);
 
-        if let Some(langs) = repo.languages {
+        if let Some(langs) = &repo.languages {
             opt.languages = Some(langs.join(","));
+        }
+
+        if let Some(configs) = config.get_plugin_config("struct_analysis") {
+            for config in &configs {
+                if config.key == "ctags" {
+                    opt.bin_ctags = PathBuf::from(config.value.clone());
+                }
+            }
         }
 
         let files = files_by_thread(origin_files, &opt);
