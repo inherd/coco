@@ -1,5 +1,6 @@
 repos:
   - url: https://github.com/coco-rs/coco.fixtures
+    languages: [Java]
   - url: https://github.com/coco-rs/coco.fixtures2
   - url: .
     languages: [Rust]
