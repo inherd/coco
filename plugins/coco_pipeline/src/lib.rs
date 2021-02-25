@@ -2,7 +2,9 @@
 // #[macro_use]
 // extern crate pest_derive;
 
+pub mod github_action;
 pub mod jenkinsfile;
+pub mod pipeline;
 
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
