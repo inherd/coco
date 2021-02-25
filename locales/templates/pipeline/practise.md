@@ -1,5 +1,7 @@
 from: https://www.jenkins.io/doc/book/pipeline/pipeline-best-practices/
 
+stags: https://github.com/jenkinsci/pipeline-examples/blob/master/docs/BEST_PRACTICES.md
+
 # General
 
 ## Making sure to use Groovy code in Pipelines as glue
