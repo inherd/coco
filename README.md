@@ -23,10 +23,9 @@ Support OS: macOS, Windows, GNU/Linux
 ## Usage
 
 0. install or download Coco components and coco_plugin_*.zip from release
-1. extract coco_plugin*.zip to `coco_plugins` 
-    - install ctags for struct analysis
-2. create `coco.yml` in projects.
-3. config `coco.yml`
+1. use `coco init` to generate config file
+2. config `coco.yml`
+3. optional: use `coco plugins` to download plugins
 4. run Coco
    - `coco`, gather data from source
    - `visual`, visualization of data
