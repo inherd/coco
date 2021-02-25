@@ -22,10 +22,12 @@ Support OS: macOS, Windows, GNU/Linux
 
 ## Usage
 
-0. install or download Coco
-1. create `coco.yml` in projects.
-2. config `coco.yml`
-3. run Coco
+0. install or download Coco components and coco_plugin_*.zip from release
+1. extract coco_plugin*.zip to `coco_plugins` 
+    - install ctags for struct analysis
+2. create `coco.yml` in projects.
+3. config `coco.yml`
+4. run Coco
    - `coco`, gather data from source
    - `visual`, visualization of data
    - `suggest`, generate suggestion
@@ -38,23 +40,21 @@ Support OS: macOS, Windows, GNU/Linux
 
 ```yml
 # 代码库
-repo:
+repos:
   - url: https://github.com/coco-rs/coco.fixtures
   - url: https://github.com/coco-rs/coco.fixtures2
   - url: .
-  - url: ~/clone/nginx
+    languages: [Rust]
+  - url: https://github.com/datum-lang/scie
+  - url: https://github.com/projectfluent/fluent-rs
+    languages: [Rust, JavaScript]                     # set languages for struct analysis
 
-# 提交信息格式
-commit-message:
-  # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
-  # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
-  # jira test case: feature/JIR-124:test commit message
-  regex: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
-  matches:
-    - branch
-    - tag
-    - id
-  samples: feature/JIR-124:test commit message
+plugins:
+  - name: swagger
+  - name: struct_analysis
+    config:
+      - key: ctags                       # set location for macOS ctags path
+        value: /usr/local/bin/ctags
 ```
 
 ## Documents

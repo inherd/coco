@@ -7,6 +7,13 @@ repos:
   - url: https://github.com/projectfluent/fluent-rs
     languages: [Rust, JavaScript]
 
+plugins:
+  - name: swagger
+  - name: struct_analysis
+    config:
+      - key: ctags
+        value: /usr/local/bin/ctags
+
 # todo: add commit
 commit:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
@@ -34,11 +41,3 @@ team:
         - h2@phodal.com
     - name: Zero
       email: zero@inherd.com
-
-# todo plugins
-plugins:
-  - name: swagger
-  - name: struct_analysis
-    config:
-      - key: ctags
-        value: /usr/local/bin/ctags
