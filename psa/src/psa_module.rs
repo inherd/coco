@@ -7,6 +7,7 @@ pub struct Module {
     pub path: String,
     pub facets: Vec<Facet>,
     pub libraries: Vec<Library>,
+    pub sub_modules: Vec<Module>,
     pub content_root: ContentRoot,
 }
 
@@ -19,12 +20,17 @@ impl Module {
         self.libraries.push(lib);
     }
 
+    pub fn add_sub_module(&mut self, sub_module: Module) {
+        self.sub_modules.push(sub_module);
+    }
+
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),
             path: path.to_string(),
             facets: vec![],
             libraries: vec![],
+            sub_modules: vec![],
             content_root: ContentRoot::default(),
         }
     }
@@ -56,15 +62,27 @@ mod tests {
     #[test]
     fn should_add_library() {
         let mut module = Module::new("foo", "test/path");
-        let lib = Library {
+
+        module.add_library(Library {
             group: "org.springframework.boot".to_string(),
             name: "spring-boot-starter-web".to_string(),
             version: "1.0.0-RELEASE".to_string(),
             scope: LibraryScope::Compile,
-        };
+        });
 
-        module.add_library(lib);
-
+        let lib = module.libraries.get(0).unwrap();
         assert_eq!(module.libraries.len(), 1);
+        assert_eq!(lib.name, "spring-boot-starter-web");
+    }
+
+    #[test]
+    fn should_add_sub_module() {
+        let mut module = Module::new("parent", "test/path");
+
+        module.add_sub_module(Module::new("child", "test/child/path"));
+
+        let sub_module = module.sub_modules.get(0).unwrap();
+        assert_eq!(module.sub_modules.len(), 1);
+        assert_eq!(sub_module.name, "child")
     }
 }
