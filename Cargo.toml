@@ -86,6 +86,10 @@ webbrowser = "0.5.5"
 # handle for shell path like ~
 shellexpand = "2.1.0"
 
+# download plugins
+reqwest = { version = "0.11", features = ["blocking", "json"] }
+zip = "0.5"
+
 [dependencies.framework]
 path = "framework"
 
