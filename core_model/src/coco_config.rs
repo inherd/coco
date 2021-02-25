@@ -34,6 +34,10 @@ impl CocoConfig {
             return None;
         }
 
+        if plugin.config.is_none() {
+            return None;
+        }
+
         return Some(plugin.config.unwrap());
     }
 
