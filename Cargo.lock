@@ -640,7 +640,7 @@ dependencies = [
 
 [[package]]
 name = "coco"
-version = "0.3.0"
+version = "0.3.1"
 dependencies = [
  "actix-rt 2.0.0",
  "actix-web",
