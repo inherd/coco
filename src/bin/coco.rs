@@ -32,16 +32,7 @@ fn main() {
         .get_matches();
 
     if matches.is_present("init") {
-        println!("creating coco.yml");
-        match OpenOptions::new()
-            .write(true)
-            .create_new(true)
-            .open("coco.yml")
-            .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
-        {
-            Ok(_) => println!("success created"),
-            Err(_) => println!("coco.yml already exists"),
-        }
+        create_config_file();
         std::process::exit(0);
     }
 
@@ -64,6 +55,19 @@ fn main() {
 fn run_plugins(config: &CocoConfig) {
     for plugin in config.plugins.as_ref().unwrap().iter() {
         PluginManager::run(&plugin.name, config.clone());
+    }
+}
+
+fn create_config_file() {
+    println!("creating coco.yml");
+    match OpenOptions::new()
+        .write(true)
+        .create_new(true)
+        .open("coco.yml")
+        .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
+    {
+        Ok(_) => println!("success created"),
+        Err(e) => println!("coco.yml create faild: {}", e),
     }
 }
 
