@@ -106,6 +106,7 @@ members = [
   'plugins/coco_struct_analysis',
   'plugins/coco_coverage',
   'plugins/coco_pipeline',
+  'plugins/coco_container',
   'psa',
 ]
 

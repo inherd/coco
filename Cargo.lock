@@ -669,6 +669,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "coco_container"
+version = "0.1.0"
+dependencies = [
+ "core_model",
+ "dockerfile-parser",
+ "plugin_interface",
+]
+
+[[package]]
 name = "coco_coverage"
 version = "0.1.0"
 dependencies = [
@@ -1061,6 +1070,20 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fea41bba32d969b513997752735605054bc0dfa92b4c56bf1189f2e174be7a10"
 
 [[package]]
+name = "dockerfile-parser"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "035af81ab6049105146852b76e753e80325e6e7699ad34deb678e3ddd011ddce"
+dependencies = [
+ "enquote",
+ "lazy_static",
+ "pest",
+ "pest_derive",
+ "regex",
+ "snafu",
+]
+
+[[package]]
 name = "dtoa"
 version = "0.4.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1102,6 +1125,12 @@ checksum = "1cc3c5651fb62ab8aa3103998dade57efdd028544bd300516baa31840c252a83"
 dependencies = [
  "encoding_rs",
 ]
+
+[[package]]
+name = "enquote"
+version = "1.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2ec878a5d2f3b6e9eaee72373dd23414cfc7d353104741471bec712ef241a66e"
 
 [[package]]
 name = "enum-as-inner"
@@ -2930,6 +2959,27 @@ name = "smallvec"
 version = "1.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fe0f37c9e8f3c5a4a66ad655a93c74daac4ad00c441533bf5c6e7990bb42604e"
+
+[[package]]
+name = "snafu"
+version = "0.6.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "eab12d3c261b2308b0d80c26fffb58d17eba81a4be97890101f416b478c79ca7"
+dependencies = [
+ "doc-comment",
+ "snafu-derive",
+]
+
+[[package]]
+name = "snafu-derive"
+version = "0.6.10"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1508efa03c362e23817f96cde18abed596a25219a8b2c66e8db33c03543d315b"
+dependencies = [
+ "proc-macro2 1.0.24",
+ "quote 1.0.8",
+ "syn 1.0.58",
+]
 
 [[package]]
 name = "socket2"
