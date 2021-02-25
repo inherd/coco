@@ -244,4 +244,6 @@ License
 
 ctags analysis based on [https://github.com/dalance/ptags](https://github.com/dalance/ptags) with MIT, see in [src](plugins/coco_struct_analysis/src)
 
+ctags parser rewrite from Golang's [https://github.com/ruben2020/tags2uml](https://github.com/ruben2020/tags2uml) with Apache License.
+
 @ 2020~2021 This code is distributed under the MIT license. See `LICENSE` in this directory.
