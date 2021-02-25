@@ -1,4 +1,5 @@
 pub mod model_suggest;
+pub mod pipeline_suggest;
 
 /// count git tag interval for insight of release
 /// also same to publish interval
