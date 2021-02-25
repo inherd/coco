@@ -3,8 +3,17 @@ let CodeSupport = {
     // todo: multiple languages support
     return str
       .replace(".rs", "")
+
+      .replace(".cpp", "")
+      .replace(".c", "")
+      .replace(".h", "")
+
       .replace(".go", "")
+
       .replace(".java", "")
+      .replace(".kt", "")
+      .replace(".groovy", "")
+
       .replace(".ts", "")
       .replace(".js", "")
       .replace(/\//g, ".")
