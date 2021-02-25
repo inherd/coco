@@ -24,3 +24,4 @@
 * [22. suggest-with-i18n](0022-suggest-with-i18n.md)
 * [23. psa(project-structure-analysis)](0023-psa(project-structure-analysis).md)
 * [24. jenkinsfile-parser](0024-jenkinsfile-parser.md)
+* [25. deploy-analyser](0025-deploy-analyser.md)
