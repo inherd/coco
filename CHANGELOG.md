@@ -1,4 +1,19 @@
-# [](https://github.com/inherd/coco/compare/v0.3.0...v) (2021-02-24)
+# [](https://github.com/inherd/coco/compare/v0.3.1...v) (2021-02-25)
+
+
+
+## [0.3.1](https://github.com/inherd/coco/compare/v0.3.0...v0.3.1) (2021-02-25)
+
+
+### Bug Fixes
+
+* fix config no wkring issue ([c747833](https://github.com/inherd/coco/commit/c747833d592b5f43c2761da8a54c7b0f78651263))
+* fix typo ([a13ac78](https://github.com/inherd/coco/commit/a13ac785f99e4b41c36337bb9cb9121669ac9b26))
+
+
+### Features
+
+* **visual:** init struct ([c6c8419](https://github.com/inherd/coco/commit/c6c8419d12cd867c957c9b085247c6d20b74f8b6))
 
 
 
