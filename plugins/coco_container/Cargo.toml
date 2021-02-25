@@ -8,6 +8,7 @@ edition = "2018"
 
 [dependencies]
 dockerfile-parser = "0.7.1"
+jenkinsfile = "0.1.1"
 
 [dependencies.core_model]
 path = "../../core_model"

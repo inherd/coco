@@ -697,6 +697,7 @@ version = "0.1.0"
 dependencies = [
  "core_model",
  "dockerfile-parser",
+ "jenkinsfile",
  "plugin_interface",
 ]
 
@@ -1867,6 +1868,18 @@ dependencies = [
  "pest",
  "pest_derive",
  "pretty_env_logger",
+]
+
+[[package]]
+name = "jenkinsfile"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f590fba8697058ad1f2a306e0eea1235bf36469a5643a088ffc746d0856759c"
+dependencies = [
+ "lazy_static",
+ "pest",
+ "pest_derive",
+ "regex",
 ]
 
 [[package]]
