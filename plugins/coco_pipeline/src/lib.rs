@@ -1,3 +1,7 @@
+extern crate pest;
+#[macro_use]
+extern crate pest_derive;
+
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
 
