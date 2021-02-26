@@ -31,7 +31,6 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 #[cfg(test)]
 mod tests {
     use dockerfile_parser::Dockerfile;
-    use jenkinsfile::Jenkinsfile;
 
     #[test]
     pub fn demo() {
@@ -50,29 +49,6 @@ mod tests {
             println!("stage #{}", stage.index);
             for ins in stage.instructions {
                 println!("  {:?}", ins);
-            }
-        }
-    }
-
-    #[test]
-    pub fn should_parse_hello_world() {
-        let code = r#"pipeline {
-    agent { docker 'maven:3.3.3' }
-    stages {
-        stage('build') {
-            steps {
-                sh 'mvn --version'
-            }
-        }
-    }
-}
-        "#;
-        let jenkinsfile = Jenkinsfile::from_str(code).unwrap();
-
-        for stage in jenkinsfile.stages {
-            println!("stage # {}", stage.name);
-            for ins in stage.steps {
-                println!("steps # {}", ins);
             }
         }
     }
