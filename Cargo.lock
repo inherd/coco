@@ -1836,9 +1836,9 @@ checksum = "dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736"
 
 [[package]]
 name = "jenkinsfile"
-version = "0.1.1"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3f590fba8697058ad1f2a306e0eea1235bf36469a5643a088ffc746d0856759c"
+checksum = "65ebbd08e1ea1e3e903d84414faeb5adcde0e3d6fbdd08e57dc0c7136fb0a386"
 dependencies = [
  "lazy_static",
  "pest",
