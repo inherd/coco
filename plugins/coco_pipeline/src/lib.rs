@@ -5,6 +5,7 @@
 pub mod github_action;
 pub mod jenkinsfile;
 pub mod pipeline;
+pub mod pipeline_analysis;
 
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
@@ -21,7 +22,7 @@ impl PluginInterface for CocoPipeline {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self, config: CocoConfig) {
-        println!("{:?}", config);
+        pipeline_analysis::execute(config);
     }
 }
 

@@ -5,14 +5,13 @@ extern crate serde;
 use core_model::CocoConfig;
 use plugin_interface::PluginInterface;
 
-use crate::struct_analysis_app::execute_struct_analysis;
 use std::process::Command;
 
 pub mod cmd_ctags;
 pub mod coco_struct;
 pub mod ctags_opt;
 pub mod ctags_parser;
-pub mod struct_analysis_app;
+pub mod struct_analysis;
 
 pub struct CocoStructAnalysis {}
 
@@ -34,7 +33,7 @@ impl PluginInterface for CocoStructAnalysis {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self, config: CocoConfig) {
-        execute_struct_analysis(config);
+        struct_analysis::execute(config);
     }
 }
 
@@ -52,7 +51,7 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 #[cfg(test)]
 mod tests {
     use crate::coco_struct::ClassInfo;
-    use crate::struct_analysis_app::execute_struct_analysis;
+    use crate::struct_analysis::execute;
     use core_model::{CocoConfig, RepoConfig};
     use std::fs::File;
     use std::io::Read;
@@ -88,7 +87,7 @@ mod tests {
             plugins: None,
         };
 
-        execute_struct_analysis(config);
+        execute(config);
 
         let output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join(".coco")
