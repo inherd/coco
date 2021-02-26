@@ -125,7 +125,7 @@ mod tests {
     }
 
     #[test]
-    fn should_detect_project_model_content_root() {
+    fn should_detect_project_module_content_root() {
         let project = do_analysis(vec![
             "_fixtures",
             "projects",
@@ -138,6 +138,7 @@ mod tests {
 
         let expect_source_path =
             join_path(project_module.path.as_str(), vec!["src", "main", "java"]);
+        assert_eq!(project_content_root.source_root.len(), 1);
         assert_eq!(
             project_content_root.source_root.get(0).unwrap().as_str(),
             expect_source_path.as_str()
@@ -147,6 +148,7 @@ mod tests {
             project_module.path.as_str(),
             vec!["src", "main", "resources"],
         );
+        assert_eq!(project_content_root.resource_root.len(), 1);
         assert_eq!(
             project_content_root.resource_root.get(0).unwrap().as_str(),
             expect_resource_path.as_str()
@@ -154,6 +156,7 @@ mod tests {
 
         let expect_test_source_root =
             join_path(project_module.path.as_str(), vec!["src", "test", "java"]);
+        assert_eq!(project_content_root.test_source_root.len(), 1);
         assert_eq!(
             project_content_root
                 .test_source_root
@@ -167,8 +170,49 @@ mod tests {
             project_module.path.as_str(),
             vec!["src", "test", "resources"],
         );
+        assert_eq!(project_content_root.test_resource_root.len(), 1);
         assert_eq!(
             project_content_root.test_resource_root.get(0).unwrap(),
+            expect_test_resources_root.as_str()
+        );
+    }
+
+    #[test]
+    fn should_detect_sub_module_content_root() {
+        let project = do_analysis(vec![
+            "_fixtures",
+            "projects",
+            "java",
+            "multi_mod_maven_project",
+        ]);
+
+        let modules = project.modules;
+        let project_module = modules.get(0).unwrap();
+        let module1 = project_module.sub_modules.get(0).unwrap();
+        let content_root = &module1.content_root;
+
+        let expect_source_path = join_path(module1.path.as_str(), vec!["src", "main", "java"]);
+        assert_eq!(
+            content_root.source_root.get(0).unwrap().as_str(),
+            expect_source_path
+        );
+
+        let expect_test_source_root = join_path(module1.path.as_str(), vec!["src", "test", "java"]);
+        assert_eq!(
+            content_root.test_source_root.get(0).unwrap().as_str(),
+            expect_test_source_root.as_str()
+        );
+
+        let expect_test_source_root = join_path(module1.path.as_str(), vec!["src", "test", "java"]);
+        assert_eq!(
+            content_root.test_source_root.get(0).unwrap().as_str(),
+            expect_test_source_root.as_str()
+        );
+
+        let expect_test_resources_root =
+            join_path(module1.path.as_str(), vec!["src", "test", "resources"]);
+        assert_eq!(
+            content_root.test_resource_root.get(0).unwrap(),
             expect_test_resources_root.as_str()
         );
     }
