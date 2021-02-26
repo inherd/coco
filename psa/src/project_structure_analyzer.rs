@@ -67,4 +67,28 @@ mod tests {
 
         assert_eq!(project.is_none(), true);
     }
+
+    #[test]
+    fn should_serialize() {
+        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .join("multi_mod_maven_project")
+            .clone();
+
+        let analyzer = ProjectAnalyzer::default();
+
+        let project = analyzer
+            .run(project_dir.display().to_string().as_str())
+            .unwrap();
+
+        let project_json = serde_json::to_string_pretty(&project).unwrap();
+
+        println!("{}", project_json);
+        assert_ne!(project_json, "");
+    }
 }

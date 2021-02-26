@@ -1,3 +1,4 @@
+#[derive(Serialize)]
 pub struct Library {
     pub name: String,
     pub group: String,
@@ -5,7 +6,7 @@ pub struct Library {
     pub scope: LibraryScope,
 }
 
-#[derive(PartialEq, Debug)]
+#[derive(Serialize, PartialEq, Debug)]
 pub enum LibraryScope {
     Test,
     Compile,

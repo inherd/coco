@@ -5,6 +5,9 @@ pub use psa_library::Library;
 pub use psa_library::LibraryScope;
 pub use psa_module::Module;
 pub use psa_project::Project;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
 
 pub mod files;
 pub mod jvm;

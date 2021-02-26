@@ -1,5 +1,6 @@
 use crate::psa_module::Module;
 
+#[derive(Serialize)]
 pub struct Project {
     pub name: String,
     pub path: String,

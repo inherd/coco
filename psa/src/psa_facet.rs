@@ -1,3 +1,4 @@
+#[derive(Serialize)]
 pub struct Facet {
     pub name: String,
 }

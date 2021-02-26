@@ -2,6 +2,7 @@ use crate::pas_content_root::ContentRoot;
 use crate::psa_facet::Facet;
 use crate::psa_library::Library;
 
+#[derive(Serialize)]
 pub struct Module {
     pub name: String,
     pub path: String,
