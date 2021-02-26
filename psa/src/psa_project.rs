@@ -3,7 +3,7 @@ use crate::psa_module::Module;
 #[derive(Serialize)]
 pub struct Project {
     pub name: String,
-    pub path: String,
+    pub absolute_path: String,
     pub modules: Vec<Module>,
     pub project_type: String,
 }
@@ -20,7 +20,7 @@ impl Project {
     pub fn new(name: &str, path: &str, project_type: &str) -> Self {
         Project {
             name: name.to_string(),
-            path: path.to_string(),
+            absolute_path: path.to_string(),
             modules: vec![],
             project_type: project_type.to_string(),
         }
@@ -36,7 +36,7 @@ mod tests {
         let project = Project::new("foo", "test/path", "maven");
 
         assert_eq!(project.name, "foo".to_string());
-        assert_eq!(project.path, "test/path".to_string());
+        assert_eq!(project.absolute_path, "test/path".to_string());
         assert_eq!(project.project_type, "maven".to_string());
         assert_eq!(project.modules.is_empty(), true);
     }

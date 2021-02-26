@@ -47,7 +47,7 @@ mod tests {
         let project = analyzer.run(project_dir.as_str()).unwrap();
 
         assert_eq!(project.name, "simple");
-        assert_eq!(project.path, project_dir.as_str());
+        assert_eq!(project.absolute_path, project_dir.as_str());
     }
 
     #[test]

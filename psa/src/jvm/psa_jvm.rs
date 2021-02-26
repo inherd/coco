@@ -5,7 +5,7 @@ use crate::psa_project::Project;
 use crate::{files, Module, ProjectStructureAnalyzer};
 
 pub trait ModuleAnalyzer {
-    fn analysis(&self, module_path: &str) -> Option<Module>;
+    fn analysis(&self, project_path: &str, module_path: &str) -> Option<Module>;
     fn is_related(&self, project: &Project) -> bool;
 }
 
@@ -27,7 +27,7 @@ impl JvmProjectStructureAnalyzer {
     fn analysis_module(&self, project: &Project) -> Option<Module> {
         for module_analyzer in self.module_analyzers.iter() {
             return match module_analyzer.is_related(project) {
-                true => module_analyzer.analysis(&project.path),
+                true => module_analyzer.analysis(&project.absolute_path, &project.absolute_path),
                 _ => continue,
             };
         }
@@ -136,26 +136,21 @@ mod tests {
         let project_module = modules.get(0).unwrap();
         let project_content_root = &project_module.content_root;
 
-        let expect_source_path =
-            join_path(project_module.path.as_str(), vec!["src", "main", "java"]);
+        let expect_source_path = join_path("", vec!["src", "main", "java"]);
         assert_eq!(project_content_root.source_root.len(), 1);
         assert_eq!(
             project_content_root.source_root.get(0).unwrap().as_str(),
             expect_source_path.as_str()
         );
 
-        let expect_resource_path = join_path(
-            project_module.path.as_str(),
-            vec!["src", "main", "resources"],
-        );
+        let expect_resource_path = join_path("", vec!["src", "main", "resources"]);
         assert_eq!(project_content_root.resource_root.len(), 1);
         assert_eq!(
             project_content_root.resource_root.get(0).unwrap().as_str(),
             expect_resource_path.as_str()
         );
 
-        let expect_test_source_root =
-            join_path(project_module.path.as_str(), vec!["src", "test", "java"]);
+        let expect_test_source_root = join_path("", vec!["src", "test", "java"]);
         assert_eq!(project_content_root.test_source_root.len(), 1);
         assert_eq!(
             project_content_root
@@ -166,10 +161,7 @@ mod tests {
             expect_test_source_root.as_str()
         );
 
-        let expect_test_resources_root = join_path(
-            project_module.path.as_str(),
-            vec!["src", "test", "resources"],
-        );
+        let expect_test_resources_root = join_path("", vec!["src", "test", "resources"]);
         assert_eq!(project_content_root.test_resource_root.len(), 1);
         assert_eq!(
             project_content_root.test_resource_root.get(0).unwrap(),
@@ -191,26 +183,25 @@ mod tests {
         let module1 = project_module.sub_modules.get(0).unwrap();
         let content_root = &module1.content_root;
 
-        let expect_source_path = join_path(module1.path.as_str(), vec!["src", "main", "java"]);
+        let expect_source_path = join_path("", vec!["src", "main", "java"]);
         assert_eq!(
             content_root.source_root.get(0).unwrap().as_str(),
             expect_source_path
         );
 
-        let expect_test_source_root = join_path(module1.path.as_str(), vec!["src", "test", "java"]);
+        let expect_test_source_root = join_path("", vec!["src", "test", "java"]);
         assert_eq!(
             content_root.test_source_root.get(0).unwrap().as_str(),
             expect_test_source_root.as_str()
         );
 
-        let expect_test_source_root = join_path(module1.path.as_str(), vec!["src", "test", "java"]);
+        let expect_test_source_root = join_path("", vec!["src", "test", "java"]);
         assert_eq!(
             content_root.test_source_root.get(0).unwrap().as_str(),
             expect_test_source_root.as_str()
         );
 
-        let expect_test_resources_root =
-            join_path(module1.path.as_str(), vec!["src", "test", "resources"]);
+        let expect_test_resources_root = join_path("", vec!["src", "test", "resources"]);
         assert_eq!(
             content_root.test_resource_root.get(0).unwrap(),
             expect_test_resources_root.as_str()
