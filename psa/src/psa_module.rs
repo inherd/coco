@@ -28,6 +28,24 @@ impl Module {
         self.sub_modules.append(sub_modules);
     }
 
+    pub fn add_source_root(&mut self, source_root: String) {
+        self.content_root.add_source_root(source_root.as_str());
+    }
+
+    pub fn add_resource_root(&mut self, resource_root: String) {
+        self.content_root.add_resource_root(resource_root.as_str());
+    }
+
+    pub fn add_test_source_root(&mut self, test_source_root: String) {
+        self.content_root
+            .add_test_source_root(test_source_root.as_str());
+    }
+
+    pub(crate) fn add_test_resource_root(&mut self, test_resource_root: String) {
+        self.content_root
+            .add_test_resource_root(test_resource_root.as_str());
+    }
+
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),
