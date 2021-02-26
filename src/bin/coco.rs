@@ -1,10 +1,11 @@
 use std::fs::OpenOptions;
 use std::{
     env,
+    fs, io,
     io::{Cursor, Read, Write},
+    path::Path,
     process::exit,
 };
-use std::{fs, io, path::Path};
 
 use clap::{App, Arg};
 use reqwest;
@@ -14,6 +15,7 @@ use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
+use coco::error::CocoError;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
@@ -85,33 +87,32 @@ fn create_config_file() {
         .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
     {
         Ok(_) => println!("success created"),
-        Err(e) => println!("coco.yml create faild: {}", e),
+        Err(e) => println!("coco.yml create failed: {}", e),
     }
 }
 
 fn setup_plugins() {
     let plugins_path = Path::new("coco_plugins");
-    create_plugin_dir(&plugins_path);
-
-    let reader = download_plugins();
-
-    unzip_plugins(reader, plugins_path)
-}
-
-fn create_plugin_dir(path_name: &Path) {
-    if path_name.exists() {
-        return ();
-    }
-    match fs::create_dir(&path_name) {
-        Ok(_) => println!("create plugin dir success"),
-        Err(e) => {
-            eprintln!("create plugin dir failed: {}", e);
+    create_plugins_dir(&plugins_path)
+        .and_then(|msg| {
+            println!("{}", msg);
+            download_plugins().map_err(|e| e.into())
+        })
+        .and_then(|reader| unzip_plugins(reader, plugins_path).map_err(|e| e.into()))
+        .unwrap_or_else(|err_msg| {
+            println!("Failed: {}", err_msg);
             exit(1);
-        }
-    }
+        });
 }
 
-fn download_plugins() -> Cursor<Vec<u8>> {
+fn create_plugins_dir(path_name: &Path) -> Result<&'static str, io::Error> {
+    if path_name.exists() {
+        return Ok("plugins dir already exists");
+    }
+    fs::create_dir(&path_name).and_then(|_| Ok("create plugins dir success"))
+}
+
+fn download_plugins() -> Result<Cursor<Vec<u8>>, CocoError> {
     let target = format!(
         "https://github.com/inherd/coco/releases/download/v{}/coco_plugins_{}.zip",
         VERSION,
@@ -119,17 +120,17 @@ fn download_plugins() -> Cursor<Vec<u8>> {
     );
     println!("download from {}", target);
 
-    let mut response = reqwest::blocking::get(&target).expect("download error");
+    let mut response = reqwest::blocking::get(&target)?;
     let mut buf: Vec<u8> = vec![];
-    response.read_to_end(&mut buf).unwrap();
-    Cursor::new(buf)
+    response.read_to_end(&mut buf)?;
+    Ok(Cursor::new(buf))
 }
 
-fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) {
-    let mut archive = zip::ZipArchive::new(reader).unwrap();
+fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) -> Result<(), CocoError> {
+    let mut archive = zip::ZipArchive::new(reader)?;
 
     for i in 0..archive.len() {
-        let mut file = archive.by_index(i).unwrap();
+        let mut file = archive.by_index(i)?;
         let out_path = match file.enclosed_name() {
             Some(path) => plugins_path.join(path),
             None => continue,
@@ -144,7 +145,7 @@ fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) {
 
         if (&*file.name()).ends_with('/') {
             println!("File {} extracted to \"{}\"", i, out_path.display());
-            fs::create_dir_all(&out_path).unwrap();
+            fs::create_dir_all(&out_path)?;
         } else {
             println!(
                 "File {} extracted to \"{}\" ({} bytes)",
@@ -154,11 +155,11 @@ fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) {
             );
             if let Some(p) = out_path.parent() {
                 if !p.exists() {
-                    fs::create_dir_all(&p).unwrap();
+                    fs::create_dir_all(&p)?;
                 }
             }
-            let mut outfile = fs::File::create(&out_path).unwrap();
-            io::copy(&mut file, &mut outfile).unwrap();
+            let mut outfile = fs::File::create(&out_path)?;
+            io::copy(&mut file, &mut outfile)?;
         }
 
         // Get and Set permissions
@@ -167,10 +168,11 @@ fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) {
             use std::os::unix::fs::PermissionsExt;
 
             if let Some(mode) = file.unix_mode() {
-                fs::set_permissions(&out_path, fs::Permissions::from_mode(mode)).unwrap();
+                fs::set_permissions(&out_path, fs::Permissions::from_mode(mode))?;
             }
         }
     }
+    Ok(())
 }
 
 #[cfg(test)]
