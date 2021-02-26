@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use crate::files::{find_in_path, list_file_names, list_sub_dirs, to_relative_path};
-use crate::jvm::psa_jvm::ModuleAnalyzer;
+use crate::ModuleAnalyzer;
 use crate::{Module, Project};
 
 pub struct MavenModuleAnalyzer {}

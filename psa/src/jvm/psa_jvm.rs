@@ -2,57 +2,28 @@ use std::path::Path;
 
 use crate::jvm::maven_module::MavenModuleAnalyzer;
 use crate::psa_project::Project;
-use crate::{files, Module, ProjectStructureAnalyzer};
+use crate::{files, Module, ModuleAnalyzer, ProjectStructureAnalyzer};
 
-pub trait ModuleAnalyzer {
-    fn analysis(&self, project_path: &str, module_path: &str) -> Option<Module>;
-    fn is_related(&self, project: &Project) -> bool;
-}
-
-pub struct JvmProjectStructureAnalyzer {
-    module_analyzers: Vec<Box<dyn ModuleAnalyzer>>,
-}
-
-impl JvmProjectStructureAnalyzer {
-    fn analysis_modules(&self, project: &Project) -> Vec<Module> {
-        let mut modules = Vec::new();
-        let module = self.analysis_module(project);
-        match module {
-            Some(module) => modules.push(module),
-            _ => (),
-        }
-        modules
-    }
-
-    fn analysis_module(&self, project: &Project) -> Option<Module> {
-        for module_analyzer in self.module_analyzers.iter() {
-            return match module_analyzer.is_related(project) {
-                true => module_analyzer.analysis(&project.absolute_path, &project.absolute_path),
-                _ => continue,
-            };
-        }
-        None
-    }
-}
+pub struct JvmProjectStructureAnalyzer {}
 
 impl Default for JvmProjectStructureAnalyzer {
     fn default() -> Self {
-        JvmProjectStructureAnalyzer {
-            module_analyzers: vec![Box::new(MavenModuleAnalyzer {})],
-        }
+        JvmProjectStructureAnalyzer {}
     }
 }
 
 impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
-    fn analysis(&self, project_path: &str) -> Project {
-        let project_name = get_project_name(project_path);
-        let build_file = get_build_file(project_path).unwrap();
-        let project_type = get_project_type(build_file);
+    fn get_project_name(&self, project_path: &str) -> String {
+        Path::new(project_path)
+            .file_name()
+            .unwrap()
+            .to_os_string()
+            .into_string()
+            .unwrap()
+    }
 
-        let mut project = Project::new(project_name.as_str(), project_path, project_type.as_str());
-        let modules = &mut self.analysis_modules(&project);
-        project.add_modules(modules);
-        project
+    fn get_project_type(&self) -> String {
+        "maven".to_string()
     }
 
     fn is_related(&self, project_path: &str) -> bool {
@@ -64,27 +35,10 @@ impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
         }
         false
     }
-}
 
-fn get_project_type(build_file: String) -> String {
-    return match build_file.as_str() {
-        "pom.xml" => "maven".to_string(),
-        _ => "UnKnow".to_string(),
-    };
-}
-
-fn get_build_file(path: &str) -> Option<String> {
-    let files = files::list_file_names(Path::new(path));
-    files.into_iter().find(|file| is_build_file(file))
-}
-
-fn get_project_name(project_path: &str) -> String {
-    Path::new(project_path)
-        .file_name()
-        .unwrap()
-        .to_os_string()
-        .into_string()
-        .unwrap()
+    fn get_module_analyzers(&self) -> Vec<Box<dyn ModuleAnalyzer>> {
+        vec![Box::new(MavenModuleAnalyzer {})]
+    }
 }
 
 fn is_build_file(file_name: &str) -> bool {
@@ -112,11 +66,9 @@ mod tests {
             "multi_mod_maven_project",
         ]);
 
-        let modules = project.modules;
-        let project_module = modules.get(0).unwrap();
+        let project_module = project.project_module.unwrap();
         let module1 = project_module.sub_modules.get(0).unwrap();
         let module2 = project_module.sub_modules.get(1).unwrap();
-        assert_eq!(modules.len(), 1);
         assert_eq!(project_module.sub_modules.len(), 2);
         assert_eq!(project.project_type, "maven");
         assert_eq!(project_module.name, "multi_mod_maven_project");
@@ -132,8 +84,7 @@ mod tests {
             "java",
             "multi_mod_maven_project",
         ]);
-        let modules = project.modules;
-        let project_module = modules.get(0).unwrap();
+        let project_module = project.project_module.unwrap();
         let project_content_root = &project_module.content_root;
 
         let expect_source_path = join_path("", vec!["src", "main", "java"]);
@@ -178,8 +129,7 @@ mod tests {
             "multi_mod_maven_project",
         ]);
 
-        let modules = project.modules;
-        let project_module = modules.get(0).unwrap();
+        let project_module = project.project_module.unwrap();
         let module1 = project_module.sub_modules.get(0).unwrap();
         let content_root = &module1.content_root;
 

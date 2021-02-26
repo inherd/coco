@@ -4,24 +4,20 @@ use crate::psa_module::Module;
 pub struct Project {
     pub name: String,
     pub absolute_path: String,
-    pub modules: Vec<Module>,
+    pub project_module: Option<Module>,
     pub project_type: String,
 }
 
 impl Project {
-    pub fn add_module(&mut self, module: Module) {
-        self.modules.push(module);
-    }
-
-    pub fn add_modules(&mut self, modules: &mut Vec<Module>) {
-        self.modules.append(modules)
+    pub fn set_project_module(&mut self, module: Module) {
+        self.project_module = Some(module);
     }
 
     pub fn new(name: &str, path: &str, project_type: &str) -> Self {
         Project {
             name: name.to_string(),
             absolute_path: path.to_string(),
-            modules: vec![],
+            project_module: None,
             project_type: project_type.to_string(),
         }
     }
@@ -38,16 +34,16 @@ mod tests {
         assert_eq!(project.name, "foo".to_string());
         assert_eq!(project.absolute_path, "test/path".to_string());
         assert_eq!(project.project_type, "maven".to_string());
-        assert_eq!(project.modules.is_empty(), true);
+        assert_eq!(project.project_module.is_none(), true);
     }
 
     #[test]
     fn should_add_modules() {
         let mut project = Project::new("foo", "test/path", "maven");
 
-        project.add_module(Module::new("module1", "test/path/module1"));
-        project.add_module(Module::new("module2", "test/path/module2"));
+        project.set_project_module(Module::new("module1", "test/path/module1"));
+        project.set_project_module(Module::new("module2", "test/path/module2"));
 
-        assert_eq!(project.modules.len(), 2);
+        assert_eq!(project.project_module.is_none(), false);
     }
 }
