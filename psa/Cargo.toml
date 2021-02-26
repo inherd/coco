@@ -33,3 +33,5 @@ walkdir = "2"
 regex = "1"
 
 maplit="0.1.6"
+
+pathdiff="0.2.0"

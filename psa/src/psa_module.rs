@@ -5,7 +5,7 @@ use crate::psa_library::Library;
 #[derive(Serialize)]
 pub struct Module {
     pub name: String,
-    pub path: String,
+    pub relative_path: String,
     pub facets: Vec<Facet>,
     pub libraries: Vec<Library>,
     pub sub_modules: Vec<Module>,
@@ -50,7 +50,7 @@ impl Module {
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),
-            path: path.to_string(),
+            relative_path: path.to_string(),
             facets: vec![],
             libraries: vec![],
             sub_modules: vec![],
@@ -68,7 +68,7 @@ mod tests {
         let module = Module::new("foo", "test/path");
 
         assert_eq!(module.name, "foo".to_string());
-        assert_eq!(module.path, "test/path".to_string());
+        assert_eq!(module.relative_path, "test/path".to_string());
     }
 
     #[test]

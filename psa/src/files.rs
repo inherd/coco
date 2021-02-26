@@ -1,7 +1,7 @@
+use pathdiff::diff_paths;
+use std::collections::HashSet;
 use std::path::Path;
 use std::path::PathBuf;
-
-use std::collections::HashSet;
 use walkdir::WalkDir;
 
 pub fn list_file_names<P: AsRef<Path>>(path: P) -> Vec<String> {
@@ -76,4 +76,23 @@ pub fn join_path(root_path: &str, file: Vec<&str>) -> String {
         parent_path.push(each_part);
     }
     parent_path.display().to_string()
+}
+
+pub fn to_relative_path(base_path: &str, absolute_path: &str) -> String {
+    diff_paths(absolute_path, base_path)
+        .unwrap()
+        .display()
+        .to_string()
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::files::to_relative_path;
+
+    #[test]
+    fn should_convert_absolute_path_to_relative_path() {
+        let relative_path = to_relative_path("/a/b/c", "/a/b/c/d/");
+
+        assert_eq!(relative_path, "d");
+    }
 }
