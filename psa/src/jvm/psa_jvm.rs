@@ -138,6 +138,7 @@ mod tests {
 
         let expect_source_path =
             join_path(project_module.path.as_str(), vec!["src", "main", "java"]);
+        assert_eq!(project_content_root.source_root.len(), 1);
         assert_eq!(
             project_content_root.source_root.get(0).unwrap().as_str(),
             expect_source_path.as_str()
@@ -147,6 +148,7 @@ mod tests {
             project_module.path.as_str(),
             vec!["src", "main", "resources"],
         );
+        assert_eq!(project_content_root.resource_root.len(), 1);
         assert_eq!(
             project_content_root.resource_root.get(0).unwrap().as_str(),
             expect_resource_path.as_str()
@@ -154,6 +156,7 @@ mod tests {
 
         let expect_test_source_root =
             join_path(project_module.path.as_str(), vec!["src", "test", "java"]);
+        assert_eq!(project_content_root.test_source_root.len(), 1);
         assert_eq!(
             project_content_root
                 .test_source_root
@@ -167,6 +170,7 @@ mod tests {
             project_module.path.as_str(),
             vec!["src", "test", "resources"],
         );
+        assert_eq!(project_content_root.test_resource_root.len(), 1);
         assert_eq!(
             project_content_root.test_resource_root.get(0).unwrap(),
             expect_test_resources_root.as_str()
