@@ -1,8 +1,7 @@
 use std::path::Path;
 
 use crate::jvm::maven_module::MavenModuleAnalyzer;
-use crate::psa_project::Project;
-use crate::{files, Module, ModuleAnalyzer, ProjectStructureAnalyzer};
+use crate::{files, ModuleAnalyzer, ProjectStructureAnalyzer};
 
 pub struct JvmProjectStructureAnalyzer {}
 
