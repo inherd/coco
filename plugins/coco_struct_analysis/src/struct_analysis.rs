@@ -11,7 +11,7 @@ use crate::coco_struct::ClassInfo;
 use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 
-pub fn execute_struct_analysis(config: CocoConfig) {
+pub fn execute(config: CocoConfig) {
     for repo in &config.repos {
         let url_str = repo.url.as_str();
 

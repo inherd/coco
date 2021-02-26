@@ -2565,7 +2565,7 @@ dependencies = [
 
 [[package]]
 name = "psa"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "erased-serde",
  "lazy_static",

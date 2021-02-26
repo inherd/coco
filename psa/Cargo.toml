@@ -1,7 +1,7 @@
 [package]
 name = "psa"
-version = "0.1.0"
-authors = ["Phodal Huang <h@phodal.com>"]
+version = "0.1.1"
+authors = ["ynfeng <fynwin@gmail.com>", "Phodal Huang<h@phodal.com>", "Inherd Group <group@inherd.org>"]
 edition = "2018"
 license = "MIT"
 readme = "README.md"
@@ -13,11 +13,11 @@ PSA(Project structure analysis) is a analyzer for analysis project struct.
 """
 categories = ["text-processing", "command-line-interface", "development-tools"]
 exclude = [
-    "benchmark/*",
-    "fixtures/*",
-    ".github/*",
-    ".gitattributes",
-    ".adr.json",
+  "benchmark/*",
+  "fixtures/*",
+  ".github/*",
+  ".gitattributes",
+  ".adr.json",
 ]
 
 [dependencies]
@@ -32,6 +32,8 @@ walkdir = "2"
 
 regex = "1"
 
-maplit="0.1.6"
+maplit = "0.1.6"
 
-pathdiff="0.2.0"
+pathdiff = "0.2.0"
+
+
