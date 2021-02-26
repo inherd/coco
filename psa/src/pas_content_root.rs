@@ -1,3 +1,4 @@
+#[derive(Serialize)]
 pub struct ContentRoot {
     pub source_root: Vec<String>,
     pub resource_root: Vec<String>,
