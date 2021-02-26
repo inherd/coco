@@ -10,6 +10,7 @@ impl MavenModuleAnalyzer {
     fn detect_sub_modules(&self, module_path: &str, module: &mut Option<Module>) {
         let sub_modules = &mut self.analysis_sub_modules(module_path);
         module.as_mut().unwrap().add_sub_modules(sub_modules);
+        self.detect_content_root(module_path, module);
     }
 
     fn analysis_sub_modules(&self, module_path: &str) -> Vec<Module> {
