@@ -12,8 +12,14 @@ impl PlantUmlRender {
         let mut rendered: Vec<String> = vec![];
         let mut deps: Vec<String> = vec![];
 
-        let mut dep_map: HashMap<String, String> = HashMap::default();
+        let mut class_map: HashMap<String, bool> = HashMap::default();
         for clazz in classes {
+            class_map.insert(clazz.name.clone(), true);
+        }
+
+        for clazz in classes {
+            let mut dep_map: HashMap<String, String> = HashMap::default();
+
             let mut members = vec![];
             for member in &clazz.members {
                 if member.data_type.is_empty() {
@@ -44,14 +50,18 @@ impl PlantUmlRender {
             content = format!("{}{}", content, methods.join(""));
 
             rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
-        }
 
-        for (key, value) in dep_map {
-            if key == value {
-                continue;
+            for (callee, current_clz) in dep_map {
+                if callee == current_clz {
+                    continue;
+                }
+
+                if class_map.get(&callee).is_none() {
+                    continue;
+                }
+
+                deps.push(format!("{} --> {}\n", current_clz, callee));
             }
-
-            deps.push(format!("{} --> {}\n", value, key));
         }
 
         format!(
@@ -92,14 +102,14 @@ mod tests {
         let member = MemberInfo::new("demo", "-", "String".to_string());
         demo.members.push(member);
 
-        let method = MethodInfo::new("method", "-", "String".to_string());
+        let method = MethodInfo::new("method", "-", "Demo".to_string());
         demo.methods.push(method);
 
         classes.push(demo);
 
         let str = PlantUmlRender::render(&classes);
         assert_eq!(
-            "@startuml\n\nclass Demo {\n  - String demo\n  - String method()\n}\nDemo --> String\n\n@enduml",
+            "@startuml\n\nclass Demo {\n  - String demo\n  - Demo method()\n}\n\n@enduml",
             str
         );
     }
@@ -121,6 +131,6 @@ mod tests {
 
         let str = PlantUmlRender::render(&classes);
         assert_eq!(true, str.contains("Demo --> Demo2"));
-        assert_eq!(true, str.contains("Demo --> String"));
+        assert_eq!(false, str.contains("Demo --> String"));
     }
 }
