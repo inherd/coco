@@ -11,6 +11,7 @@ pub mod cmd_ctags;
 pub mod coco_struct;
 pub mod ctags_opt;
 pub mod ctags_parser;
+pub mod plantuml_render;
 pub mod struct_analysis;
 
 pub struct CocoStructAnalysis {}
