@@ -56,7 +56,7 @@ mod tests {
 
     use crate::files::join_path;
     use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
-    use crate::{Project, ProjectStructureAnalyzer, DependencyScope};
+    use crate::{DependencyScope, Project, ProjectStructureAnalyzer};
 
     #[test]
     fn should_analysis_maven_project_sub_modules() {

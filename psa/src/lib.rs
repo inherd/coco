@@ -1,19 +1,22 @@
-use crate::files::{list_file_names, list_sub_dirs, to_relative_path};
+use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
+pub use dependency_analyzer::DependencyAnalyzer;
+pub use module_analyzer::ModuleAnalyzer;
 pub use pas_content_root::ContentRoot;
-pub use project_structure_analyzer::ProjectAnalyzer;
+pub use project_structure_analyzer::ProjectStructureAnalyzer;
 pub use psa_dependency::Dependency;
 pub use psa_dependency::DependencyScope;
 pub use psa_facet::Facet;
 pub use psa_module::Module;
 pub use psa_project::Project;
-use std::path::Path;
 
 #[macro_use]
 extern crate serde_derive;
 extern crate serde;
 
+pub mod dependency_analyzer;
 pub mod files;
 pub mod jvm;
+pub mod module_analyzer;
 pub mod pas_content_root;
 pub mod project_structure_analyzer;
 pub mod psa_dependency;
@@ -21,168 +24,93 @@ pub mod psa_facet;
 pub mod psa_module;
 pub mod psa_project;
 
-trait ProjectStructureAnalyzer {
-    fn analysis(&self, project_path: &str) -> Project {
-        let project_name = self.get_project_name(project_path);
-        let project_type = self.get_project_type();
+pub struct ProjectAnalyzer {
+    analyzers: Vec<Box<dyn ProjectStructureAnalyzer>>,
+}
 
-        let mut project = Project::new(project_name.as_str(), project_path, project_type.as_str());
-
-        if let Some(project_module) = self.analysis_project_module(&project) {
-            project.set_project_module(project_module)
-        }
-
-        project
-    }
-
-    fn analysis_project_module(&self, project: &Project) -> Option<Module> {
-        for module_analyzer in self.get_module_analyzers().iter() {
-            return match module_analyzer.is_related(project) {
-                true => module_analyzer.analysis(&project.absolute_path, &project.absolute_path),
+impl ProjectAnalyzer {
+    pub fn run(&self, path: &str) -> Option<Project> {
+        for analyzer in self.analyzers.iter() {
+            return match analyzer.is_related(path) {
+                true => Some(analyzer.analysis(path)),
                 _ => continue,
             };
         }
         None
     }
-
-    fn get_project_name(&self, project_path: &str) -> String;
-    fn get_project_type(&self) -> String;
-    fn is_related(&self, project_path: &str) -> bool;
-    fn get_module_analyzers(&self) -> Vec<Box<dyn ModuleAnalyzer>>;
 }
 
-pub trait ModuleAnalyzer {
-    fn analysis(&self, project_path: &str, module_path: &str) -> Option<Module> {
-        let mut module = self.create_module(project_path, module_path);
-
-        if let Some(module) = module.as_mut() {
-            let sub_module = &mut self.detect_sub_modules(project_path, &module_path);
-            module.add_sub_modules(sub_module);
-
-            let content_root = self.detect_content_root(module_path);
-            module.set_content_root(content_root);
-
-            let dependencies = &mut self.analysis_dependencies(module_path);
-            module.add_dependencies(dependencies);
-        }
-
-        module
-    }
-
-    fn create_module(&self, project_path: &str, module_path: &str) -> Option<Module> {
-        let module_name = self.get_module_name(module_path);
-        let relative_path = to_relative_path(project_path, module_path);
-
-        match self.has_build_file(module_path) {
-            true => Some(Module::new(module_name.as_str(), relative_path.as_str())),
-            _ => None,
+impl Default for ProjectAnalyzer {
+    fn default() -> Self {
+        ProjectAnalyzer {
+            analyzers: vec![Box::new(JvmProjectStructureAnalyzer::default())],
         }
     }
-
-    fn detect_sub_modules(&self, project_path: &str, module_path: &str) -> Vec<Module> {
-        let mut sub_modules = Vec::new();
-
-        let sub_dirs = list_sub_dirs(Path::new(module_path));
-
-        for each_sub_dir in sub_dirs.iter() {
-            let sub_module = self.analysis(project_path, each_sub_dir);
-            match sub_module {
-                Some(sub_module) => sub_modules.push(sub_module),
-                _ => continue,
-            }
-        }
-
-        sub_modules
-    }
-
-    fn detect_content_root(&self, module_path: &str) -> ContentRoot {
-        let mut content_root = ContentRoot::default();
-
-        if let Some(source_root) = self.detect_source_root(module_path) {
-            content_root.add_source_root(source_root.as_str())
-        }
-
-        if let Some(resource_root) = self.detect_resource_root(module_path) {
-            content_root.add_resource_root(resource_root.as_str())
-        }
-
-        if let Some(test_source_root) = self.detect_test_source_root(module_path) {
-            content_root.add_test_source_root(test_source_root.as_str())
-        }
-
-        if let Some(test_resource_root) = self.detect_test_resource_root(module_path) {
-            content_root.add_test_resource_root(test_resource_root.as_str())
-        }
-
-        content_root
-    }
-
-    fn analysis_dependencies(&self, module_path: &str) -> Vec<Dependency> {
-        let dependency_analyzer = self.get_dependency_analyzer();
-
-        dependency_analyzer.analysis(module_path)
-    }
-
-    fn detect_source_root(&self, module_path: &str) -> Option<String> {
-        match self.get_source_root(module_path) {
-            Some(source_root) => Some(to_relative_path(module_path, source_root.as_str())),
-            _ => None,
-        }
-    }
-
-    fn detect_resource_root(&self, module_path: &str) -> Option<String> {
-        match self.get_resource_root(module_path) {
-            Some(resource_root) => Some(to_relative_path(module_path, resource_root.as_str())),
-            _ => None,
-        }
-    }
-
-    fn detect_test_source_root(&self, module_path: &str) -> Option<String> {
-        match self.get_test_source_root(module_path) {
-            Some(test_source_root) => {
-                Some(to_relative_path(module_path, test_source_root.as_str()))
-            }
-            _ => None,
-        }
-    }
-
-    fn detect_test_resource_root(&self, module_path: &str) -> Option<String> {
-        match self.get_test_resource_root(module_path) {
-            Some(test_resource_root) => {
-                Some(to_relative_path(module_path, test_resource_root.as_str()))
-            }
-            _ => None,
-        }
-    }
-
-    fn has_build_file(&self, module_path: &str) -> bool;
-    fn get_module_name(&self, project_path: &str) -> String;
-    fn is_related(&self, project: &Project) -> bool;
-    fn get_source_root(&self, module_path: &str) -> Option<String>;
-    fn get_resource_root(&self, module_path: &str) -> Option<String>;
-    fn get_test_source_root(&self, module_path: &str) -> Option<String>;
-    fn get_test_resource_root(&self, module_path: &str) -> Option<String>;
-    fn get_dependency_analyzer(&self) -> Box<dyn DependencyAnalyzer>;
 }
 
-pub trait DependencyAnalyzer {
-    fn analysis(&self, module_path: &str) -> Vec<Dependency> {
-        let build_file = self.get_build_file(module_path);
-        match build_file {
-            Some(build_file) => self.analysis_dependencies(build_file.as_str()),
-            _ => vec![],
-        }
+#[cfg(test)]
+mod tests {
+    use crate::ProjectAnalyzer;
+    use std::path::PathBuf;
+
+    #[test]
+    fn should_analysis_project() {
+        let project_dir_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .join("simple")
+            .clone();
+        let analyzer = ProjectAnalyzer::default();
+        let project_dir = project_dir_path.display().to_string();
+        let project = analyzer.run(project_dir.as_str()).unwrap();
+
+        assert_eq!(project.name, "simple");
+        assert_eq!(project.absolute_path, project_dir.as_str());
     }
 
-    fn get_build_file(&self, module_path: &str) -> Option<String> {
-        let file_names = list_file_names(Path::new(module_path));
-        file_names
-            .iter()
-            .find(|file| self.is_build_file(file.as_str()))
-            .map(|file| file.to_string())
+    #[test]
+    fn should_return_none_when_build_file_not_exists() {
+        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .clone();
+
+        let analyzer = ProjectAnalyzer::default();
+
+        let project = analyzer.run(project_dir.display().to_string().as_str());
+
+        assert_eq!(project.is_none(), true);
     }
 
-    fn is_build_file(&self, file: &str) -> bool;
+    #[test]
+    fn should_serialize() {
+        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .parent()
+            .unwrap()
+            .to_path_buf()
+            .join("_fixtures")
+            .join("projects")
+            .join("java")
+            .join("multi_mod_maven_project")
+            .clone();
 
-    fn analysis_dependencies(&self, build_file: &str) -> Vec<Dependency>;
+        let analyzer = ProjectAnalyzer::default();
+
+        let project = analyzer
+            .run(project_dir.display().to_string().as_str())
+            .unwrap();
+
+        let project_json = serde_json::to_string_pretty(&project).unwrap();
+
+        println!("{}", project_json);
+        assert_ne!(project_json, "");
+    }
 }

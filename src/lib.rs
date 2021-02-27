@@ -7,6 +7,6 @@ extern crate pest;
 extern crate pest_derive;
 
 pub mod app;
-pub mod domain;
 pub mod coco_error;
+pub mod domain;
 pub mod infrastructure;

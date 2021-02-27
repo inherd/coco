@@ -11,7 +11,9 @@ pub struct CocoError {
 
 impl CocoError {
     pub fn new(msg: &str) -> Self {
-        Self { msg: String::from(msg) }
+        Self {
+            msg: String::from(msg),
+        }
     }
 }
 
