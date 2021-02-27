@@ -1,5 +1,3 @@
-use std::path::Path;
-
 pub use module_analyzer::ModuleAnalyzer;
 pub use pas_content_root::ContentRoot;
 pub use project_structure_analyzer::ProjectAnalyzer;
@@ -8,8 +6,7 @@ pub use psa_dependency::DependencyScope;
 pub use psa_facet::Facet;
 pub use psa_module::Module;
 pub use psa_project::Project;
-
-use crate::files::list_file_names;
+pub use dependency_analyzer::DependencyAnalyzer;
 
 #[macro_use]
 extern crate serde_derive;
@@ -24,6 +21,7 @@ pub mod psa_dependency;
 pub mod psa_facet;
 pub mod psa_module;
 pub mod psa_project;
+pub mod dependency_analyzer;
 
 trait ProjectStructureAnalyzer {
     fn analysis(&self, project_path: &str) -> Project {
@@ -53,26 +51,4 @@ trait ProjectStructureAnalyzer {
     fn get_project_type(&self) -> String;
     fn is_related(&self, project_path: &str) -> bool;
     fn get_module_analyzers(&self) -> Vec<Box<dyn ModuleAnalyzer>>;
-}
-
-pub trait DependencyAnalyzer {
-    fn analysis(&self, module_path: &str) -> Vec<Dependency> {
-        let build_file = self.get_build_file(module_path);
-        match build_file {
-            Some(build_file) => self.analysis_dependencies(build_file.as_str()),
-            _ => vec![],
-        }
-    }
-
-    fn get_build_file(&self, module_path: &str) -> Option<String> {
-        let file_names = list_file_names(Path::new(module_path));
-        file_names
-            .iter()
-            .find(|file| self.is_build_file(file.as_str()))
-            .map(|file| file.to_string())
-    }
-
-    fn is_build_file(&self, file: &str) -> bool;
-
-    fn analysis_dependencies(&self, build_file: &str) -> Vec<Dependency>;
 }
