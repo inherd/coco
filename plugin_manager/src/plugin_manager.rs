@@ -16,10 +16,12 @@ struct Wrapper {
     plugin: fn() -> Box<dyn PluginInterface>,
 }
 
-pub struct PluginManager {}
+pub struct PluginManager {
+    config: CocoConfig,
+}
 
 impl PluginManager {
-    pub fn run(plugin_name: &str, config: CocoConfig) {
+    pub fn run(&self, plugin_name: &str) {
         let root = PathBuf::from(".");
         let production_plugins = root.join("coco_plugins");
 
@@ -43,7 +45,16 @@ impl PluginManager {
 
         // todo: return plugin interface will cause crash in Ubuntu.
         plugin.on_plugin_load();
-        plugin.execute(config);
+        plugin.execute(self.config.clone());
+    }
+
+    pub fn run_all(&self) {
+        if self.config.plugins.is_none() {
+            return ();
+        }
+        for plugin in self.config.plugins.as_ref().unwrap().iter() {
+            self.run(&plugin.name);
+        }
     }
 
     #[cfg(target_os = "linux")]
@@ -74,14 +85,44 @@ impl PluginManager {
     }
 }
 
+impl From<&CocoConfig> for PluginManager {
+    fn from(config: &CocoConfig) -> Self {
+        Self {
+            config: config.clone(),
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::plugin_manager::PluginManager;
-    use core_model::CocoConfig;
+    use core_model::coco_config::CocoPlugin;
+    use core_model::{CocoConfig, RepoConfig};
 
     #[test]
-    fn test_plugin_run_in_local() {
+    fn test_plugin_run_all_in_local() {
         let config = CocoConfig::default();
-        PluginManager::run("struct_analysis", config);
+        let manager = PluginManager::from(&config);
+        manager.run_all();
+    }
+
+    #[test]
+    fn test_single_run_method() {
+        let config = CocoConfig {
+            repos: vec![RepoConfig::default()],
+            plugins: Some(vec![CocoPlugin {
+                name: "swagger".to_string(),
+                config: None,
+            }]),
+        };
+        let manager = PluginManager::from(&config);
+        manager.run("swagger");
+    }
+
+    #[test]
+    fn test_manager_from_config() {
+        let config = CocoConfig::default();
+        let manager = PluginManager::from(&config);
+        assert_eq!(manager.config, config);
     }
 }
