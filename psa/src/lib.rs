@@ -1,4 +1,4 @@
-use crate::files::{list_sub_dirs, to_relative_path};
+use crate::files::{list_file_names, list_sub_dirs, to_relative_path};
 pub use pas_content_root::ContentRoot;
 pub use project_structure_analyzer::ProjectAnalyzer;
 pub use psa_dependency::Dependency;
@@ -61,6 +61,9 @@ pub trait ModuleAnalyzer {
 
             let content_root = self.detect_content_root(module_path);
             module.set_content_root(content_root);
+
+            let dependencies = &mut self.analysis_dependencies(module_path);
+            module.add_dependencies(dependencies);
         }
 
         module
@@ -114,6 +117,12 @@ pub trait ModuleAnalyzer {
         content_root
     }
 
+    fn analysis_dependencies(&self, module_path: &str) -> Vec<Dependency> {
+        let dependency_analyzer = self.get_dependency_analyzer();
+
+        dependency_analyzer.analysis(module_path)
+    }
+
     fn detect_source_root(&self, module_path: &str) -> Option<String> {
         match self.get_source_root(module_path) {
             Some(source_root) => Some(to_relative_path(module_path, source_root.as_str())),
@@ -153,4 +162,27 @@ pub trait ModuleAnalyzer {
     fn get_resource_root(&self, module_path: &str) -> Option<String>;
     fn get_test_source_root(&self, module_path: &str) -> Option<String>;
     fn get_test_resource_root(&self, module_path: &str) -> Option<String>;
+    fn get_dependency_analyzer(&self) -> Box<dyn DependencyAnalyzer>;
+}
+
+pub trait DependencyAnalyzer {
+    fn analysis(&self, module_path: &str) -> Vec<Dependency> {
+        let build_file = self.get_build_file(module_path);
+        match build_file {
+            Some(build_file) => self.analysis_dependencies(build_file.as_str()),
+            _ => vec![],
+        }
+    }
+
+    fn get_build_file(&self, module_path: &str) -> Option<String> {
+        let file_names = list_file_names(Path::new(module_path));
+        file_names
+            .iter()
+            .find(|file| self.is_build_file(file.as_str()))
+            .map(|file| file.to_string())
+    }
+
+    fn is_build_file(&self, file: &str) -> bool;
+
+    fn analysis_dependencies(&self, build_file: &str) -> Vec<Dependency>;
 }

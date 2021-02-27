@@ -1,8 +1,9 @@
 use std::path::Path;
 
 use crate::files::{find_in_path, list_file_names};
-use crate::ModuleAnalyzer;
+use crate::jvm::maven_dependency::MavenDependencyAnalyzer;
 use crate::Project;
+use crate::{DependencyAnalyzer, ModuleAnalyzer};
 
 pub struct MavenModuleAnalyzer {}
 
@@ -47,5 +48,9 @@ impl ModuleAnalyzer for MavenModuleAnalyzer {
 
     fn get_test_resource_root(&self, module_path: &str) -> Option<String> {
         find_in_path(module_path, vec!["src", "test", "resources"])
+    }
+
+    fn get_dependency_analyzer(&self) -> Box<dyn DependencyAnalyzer> {
+        Box::new(MavenDependencyAnalyzer {})
     }
 }
