@@ -36,7 +36,7 @@ pub fn execute(config: CocoConfig) {
         let classes = run_ctags(&opt, &files);
 
         let result = serde_json::to_string_pretty(&classes).unwrap();
-        write_to_file(url_str, result);
+        write_to_json_file(url_str, &result);
     }
 }
 
@@ -49,7 +49,7 @@ fn count_thread(origin_files: &Vec<String>) -> usize {
     thread
 }
 
-fn write_to_file(url_str: &str, result: String) {
+fn write_to_json_file(url_str: &str, result: &String) {
     let file_name = url_format::json_filename(url_str);
     let output_file = Settings::struct_analysis().join(file_name);
     fs::write(output_file, result).expect("cannot write file");
