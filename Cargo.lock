@@ -2569,13 +2569,13 @@ version = "0.1.1"
 dependencies = [
  "erased-serde",
  "lazy_static",
- "maplit 0.1.6",
  "pathdiff",
  "regex",
  "serde",
  "serde_derive",
  "serde_json",
  "walkdir",
+ "xml-rs",
 ]
 
 [[package]]
@@ -4145,6 +4145,12 @@ dependencies = [
  "winapi 0.2.8",
  "winapi-build",
 ]
+
+[[package]]
+name = "xml-rs"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b07db065a5cf61a7e4ba64f29e67db906fb1787316516c4e6e5ff0fea1efcd8a"
 
 [[package]]
 name = "yaml-rust"
