@@ -1,7 +1,7 @@
 use std::fs::OpenOptions;
 use std::{
     env, fs, io,
-    io::{Cursor, Read, Write},
+    io::{Cursor, Read},
     path::Path,
     process::exit,
 };
@@ -76,7 +76,7 @@ fn create_config_file() {
         .write(true)
         .create_new(true)
         .open("coco.yml")
-        .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
+        .map(|file| serde_yaml::to_writer(file, &CocoConfig::default()).unwrap())
     {
         Ok(_) => println!("success created"),
         Err(e) => println!("coco.yml create failed: {}", e),
