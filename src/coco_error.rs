@@ -9,6 +9,12 @@ pub struct CocoError {
     msg: String,
 }
 
+impl CocoError {
+    pub fn new(msg: &str) -> Self {
+        Self { msg: String::from(msg) }
+    }
+}
+
 impl fmt::Display for CocoError {
     fn fmt(&self, fmt: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(fmt, "CocoError: {}", self.msg)
@@ -24,9 +30,9 @@ impl From<io::Error> for CocoError {
 }
 
 impl From<ZipError> for CocoError {
-    fn from(err: ZipError) -> Self {
+    fn from(_err: ZipError) -> Self {
         Self {
-            msg: format!("cause by: {}", err),
+            msg: String::from("cause by: unzip error"),
         }
     }
 }
@@ -36,11 +42,5 @@ impl From<reqwest::Error> for CocoError {
         Self {
             msg: format!("cause by: {}", err),
         }
-    }
-}
-
-impl From<CocoError> for io::Error {
-    fn from(err: CocoError) -> io::Error {
-        io::Error::new(io::ErrorKind::Other, &*(err.to_string()))
     }
 }
