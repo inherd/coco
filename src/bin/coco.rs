@@ -1,7 +1,6 @@
 use std::fs::OpenOptions;
 use std::{
-    env,
-    fs, io,
+    env, fs, io,
     io::{Cursor, Read, Write},
     path::Path,
     process::exit,
@@ -13,9 +12,9 @@ use zip;
 
 use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
+use coco::error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
-use coco::error::CocoError;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 

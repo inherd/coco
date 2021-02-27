@@ -9,12 +9,14 @@ pub struct MavenModuleAnalyzer {}
 impl ModuleAnalyzer for MavenModuleAnalyzer {
     fn has_build_file(&self, module_path: &str) -> bool {
         let file_names = list_file_names(module_path);
+
         for file_name in file_names.iter() {
             return match file_name.as_str() {
                 "pom.xml" => true,
                 _ => continue,
             };
         }
+
         false
     }
 
