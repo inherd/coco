@@ -40,7 +40,7 @@ pub fn filename_suffix(text: &str, name_suffix: Option<&str>, file_suffix: Optio
         .map(|c| c.collect::<Vec<_>>())
         .unwrap();
 
-    return format!("{}{}.{}", paths.last().unwrap(), filename_suffix, "json");
+    return format!("{}{}.{}", paths.last().unwrap(), filename_suffix, suffix);
 }
 
 pub fn json_filename(text: &str) -> String {
