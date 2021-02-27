@@ -10,6 +10,7 @@ use crate::cmd_ctags::CmdCtags;
 use crate::coco_struct::ClassInfo;
 use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
+use crate::plantuml_render::PlantUmlRender;
 
 pub fn execute(config: CocoConfig) {
     for repo in &config.repos {
@@ -36,6 +37,7 @@ pub fn execute(config: CocoConfig) {
         let classes = run_ctags(&opt, &files);
 
         let result = serde_json::to_string_pretty(&classes).unwrap();
+        write_to_uml_file(url_str, &classes);
         write_to_json_file(url_str, &result);
     }
 }
@@ -52,6 +54,13 @@ fn count_thread(origin_files: &Vec<String>) -> usize {
 fn write_to_json_file(url_str: &str, result: &String) {
     let file_name = url_format::json_filename(url_str);
     let output_file = Settings::struct_analysis().join(file_name);
+    fs::write(output_file, result).expect("cannot write file");
+}
+
+fn write_to_uml_file(url_str: &str, classes: &Vec<ClassInfo>) {
+    let file_name = url_format::uml_filename(url_str);
+    let output_file = Settings::struct_analysis().join(file_name);
+    let result = PlantUmlRender::render(classes);
     fs::write(output_file, result).expect("cannot write file");
 }
 

@@ -90,16 +90,19 @@ mod tests {
 
         execute(config);
 
-        let output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        let base_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join(".coco")
             .join("reporter")
-            .join("struct_analysis")
-            .join("source.json");
+            .join("struct_analysis");
+        let output_dir = base_dir.join("source.json");
 
         let mut file = File::open(output_dir).unwrap();
         let mut code = String::new();
         file.read_to_string(&mut code).unwrap();
         let classes: Vec<ClassInfo> = serde_json::from_str(&code).unwrap();
-        assert_eq!(6, classes.len());
+        assert_eq!(9, classes.len());
+
+        let output_dir = base_dir.join("source.uml");
+        let _file = File::open(output_dir).unwrap();
     }
 }

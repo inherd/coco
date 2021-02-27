@@ -7,16 +7,16 @@ pub trait PlantUml {
 pub struct PlantUmlRender;
 
 impl PlantUmlRender {
-    pub fn render(classes: Vec<ClassInfo>) -> String {
+    pub fn render(classes: &Vec<ClassInfo>) -> String {
         let mut rendered: Vec<String> = vec![];
         for clazz in classes {
             let mut members = vec![];
-            for member in clazz.members {
+            for member in &clazz.members {
                 members.push(format!("  {}{}\n", member.access, member.name))
             }
             let mut methods = vec![];
             let mut content = format!("{}", members.join(""));
-            for method in clazz.methods {
+            for method in &clazz.methods {
                 methods.push(format!("  {}{}()\n", method.access, method.name))
             }
             content = format!("{}{}", content, methods.join(""));
@@ -42,7 +42,7 @@ mod tests {
     #[test]
     fn should_render_empty() {
         let classes = vec![];
-        let str = PlantUmlRender::render(classes);
+        let str = PlantUmlRender::render(&classes);
         assert_eq!("@startuml\n\n\n\n@enduml", str);
     }
 
@@ -52,7 +52,7 @@ mod tests {
         let demo = ClassInfo::new("Demo");
         classes.push(demo);
 
-        let str = PlantUmlRender::render(classes);
+        let str = PlantUmlRender::render(&classes);
         assert_eq!("@startuml\n\nclass {\n}\n\n@enduml", str);
     }
 
@@ -69,7 +69,7 @@ mod tests {
 
         classes.push(demo);
 
-        let str = PlantUmlRender::render(classes);
+        let str = PlantUmlRender::render(&classes);
         assert_eq!(
             "@startuml\n\nclass {\n  -demo\n  -method()\n}\n\n@enduml",
             str

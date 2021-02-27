@@ -5,8 +5,17 @@ use url::Url;
 use crate::Settings;
 
 pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
+    filename_suffix(text, suffix_str, Some("json"))
+}
+
+pub fn filename_suffix(text: &str, name_suffix: Option<&str>, file_suffix: Option<&str>) -> String {
+    let mut filename_suffix = "";
+    if let Some(suf) = name_suffix {
+        filename_suffix = suf;
+    }
+
     let mut suffix = "";
-    if let Some(suf) = suffix_str {
+    if let Some(suf) = file_suffix {
         suffix = suf;
     }
 
@@ -17,10 +26,10 @@ pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
             return match path.file_name() {
                 Some(name) => {
                     let filename = name.to_str().unwrap().to_string();
-                    format!("{}{}.{}", filename, suffix, "json")
+                    format!("{}{}.{}", filename, filename_suffix, suffix)
                 }
                 None => {
-                    format!("default{}.{}", suffix, "json")
+                    format!("default{}.{}", filename_suffix, suffix)
                 }
             };
         }
@@ -31,11 +40,15 @@ pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
         .map(|c| c.collect::<Vec<_>>())
         .unwrap();
 
-    return format!("{}{}.{}", paths.last().unwrap(), suffix, "json");
+    return format!("{}{}.{}", paths.last().unwrap(), filename_suffix, "json");
 }
 
 pub fn json_filename(text: &str) -> String {
     json_filename_suffix(text, None)
+}
+
+pub fn uml_filename(text: &str) -> String {
+    filename_suffix(text, None, Some("uml"))
 }
 
 pub fn uri_to_path(url: &str) -> PathBuf {
