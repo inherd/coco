@@ -1,4 +1,5 @@
 use crate::coco_struct::ClassInfo;
+use std::collections::HashMap;
 
 pub trait PlantUml {
     fn render(&self) -> String;
@@ -9,6 +10,9 @@ pub struct PlantUmlRender;
 impl PlantUmlRender {
     pub fn render(classes: &Vec<ClassInfo>) -> String {
         let mut rendered: Vec<String> = vec![];
+        let mut deps: Vec<String> = vec![];
+
+        let mut dep_map: HashMap<String, String> = HashMap::default();
         for clazz in classes {
             let mut members = vec![];
             for member in &clazz.members {
@@ -18,7 +22,9 @@ impl PlantUmlRender {
                     members.push(format!(
                         "  {} {} {}\n",
                         member.access, member.data_type, member.name
-                    ))
+                    ));
+
+                    dep_map.insert(member.data_type.clone(), clazz.name.clone());
                 }
             }
             let mut methods = vec![];
@@ -30,7 +36,9 @@ impl PlantUmlRender {
                     methods.push(format!(
                         "  {} {} {}()\n",
                         method.access, method.return_type, method.name
-                    ))
+                    ));
+
+                    dep_map.insert(method.return_type.clone(), clazz.name.clone());
                 }
             }
             content = format!("{}{}", content, methods.join(""));
@@ -38,12 +46,18 @@ impl PlantUmlRender {
             rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
         }
 
-        let dep: Vec<String> = vec![];
+        for (key, value) in dep_map {
+            if key == value {
+                continue;
+            }
+
+            deps.push(format!("{} --> {}\n", value, key));
+        }
 
         format!(
             "@startuml\n\n{}\n{}\n@enduml",
             rendered.join("\n\n"),
-            dep.join("\n\n")
+            deps.join("")
         )
     }
 }
@@ -85,8 +99,28 @@ mod tests {
 
         let str = PlantUmlRender::render(&classes);
         assert_eq!(
-            "@startuml\n\nclass Demo {\n  - String demo\n  - String method()\n}\n\n@enduml",
+            "@startuml\n\nclass Demo {\n  - String demo\n  - String method()\n}\nDemo --> String\n\n@enduml",
             str
         );
+    }
+
+    #[test]
+    fn should_render_deps() {
+        let mut classes = vec![];
+        let mut demo = ClassInfo::new("Demo");
+        let demo2 = ClassInfo::new("Demo2");
+
+        let member = MemberInfo::new("demo", "-", "String".to_string());
+        demo.members.push(member);
+
+        let method = MethodInfo::new("method", "-", "Demo2".to_string());
+        demo.methods.push(method);
+
+        classes.push(demo);
+        classes.push(demo2);
+
+        let str = PlantUmlRender::render(&classes);
+        assert_eq!(true, str.contains("Demo --> Demo2"));
+        assert_eq!(true, str.contains("Demo --> String"));
     }
 }
