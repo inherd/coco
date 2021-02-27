@@ -12,7 +12,7 @@ use zip;
 
 use coco::app::analysis;
 use coco::app::cmd::CocoCliOption;
-use coco::error::CocoError;
+use coco::coco_error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
 
@@ -88,20 +88,22 @@ fn setup_plugins() {
     create_plugins_dir(&plugins_path)
         .and_then(|msg| {
             println!("{}", msg);
-            download_plugins().map_err(|e| e.into())
+            download_plugins()
         })
-        .and_then(|reader| unzip_plugins(reader, plugins_path).map_err(|e| e.into()))
+        .and_then(|reader| unzip_plugins(reader, plugins_path))
         .unwrap_or_else(|err_msg| {
             println!("Failed: {}", err_msg);
             exit(1);
         });
 }
 
-fn create_plugins_dir(path_name: &Path) -> Result<&'static str, io::Error> {
+fn create_plugins_dir(path_name: &Path) -> Result<&'static str, CocoError> {
     if path_name.exists() {
         return Ok("plugins dir already exists");
     }
-    fs::create_dir(&path_name).and_then(|_| Ok("create plugins dir success"))
+    fs::create_dir(&path_name)
+        .and_then(|_| Ok("create plugins dir success"))
+        .or(Err(CocoError::new("created failed")))
 }
 
 fn download_plugins() -> Result<Cursor<Vec<u8>>, CocoError> {
