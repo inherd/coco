@@ -2569,7 +2569,6 @@ version = "0.1.1"
 dependencies = [
  "erased-serde",
  "lazy_static",
- "maplit 0.1.6",
  "pathdiff",
  "regex",
  "serde",
