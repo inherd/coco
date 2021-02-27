@@ -66,15 +66,8 @@ fn main() {
     let analyst = analysis::Analyst::from(&config);
     analyst.analysis(cli_option);
 
-    if config.plugins.is_some() {
-        run_plugins(&config);
-    }
-}
-
-fn run_plugins(config: &CocoConfig) {
-    for plugin in config.plugins.as_ref().unwrap().iter() {
-        PluginManager::run(&plugin.name, config.clone());
-    }
+    let plugin_manager = PluginManager::from(&config);
+    plugin_manager.run_all();
 }
 
 fn create_config_file() {
