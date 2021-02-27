@@ -47,8 +47,8 @@ pub fn json_filename(text: &str) -> String {
     json_filename_suffix(text, None)
 }
 
-pub fn uml_filename(text: &str) -> String {
-    filename_suffix(text, None, Some("uml"))
+pub fn puml_filename(text: &str) -> String {
+    filename_suffix(text, None, Some("puml"))
 }
 
 pub fn uri_to_path(url: &str) -> PathBuf {

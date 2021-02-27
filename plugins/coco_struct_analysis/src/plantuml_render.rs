@@ -21,7 +21,7 @@ impl PlantUmlRender {
             }
             content = format!("{}{}", content, methods.join(""));
 
-            rendered.push(format!("class {{\n{}}}", content));
+            rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
         }
 
         let dep: Vec<String> = vec![];
@@ -53,7 +53,7 @@ mod tests {
         classes.push(demo);
 
         let str = PlantUmlRender::render(&classes);
-        assert_eq!("@startuml\n\nclass {\n}\n\n@enduml", str);
+        assert_eq!("@startuml\n\nclass Demo {\n}\n\n@enduml", str);
     }
 
     #[test]
@@ -71,7 +71,7 @@ mod tests {
 
         let str = PlantUmlRender::render(&classes);
         assert_eq!(
-            "@startuml\n\nclass {\n  -demo\n  -method()\n}\n\n@enduml",
+            "@startuml\n\nclass Demo {\n  -demo\n  -method()\n}\n\n@enduml",
             str
         );
     }

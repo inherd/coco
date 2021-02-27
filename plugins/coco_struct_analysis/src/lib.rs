@@ -102,7 +102,7 @@ mod tests {
         let classes: Vec<ClassInfo> = serde_json::from_str(&code).unwrap();
         assert_eq!(9, classes.len());
 
-        let output_dir = base_dir.join("source.uml");
+        let output_dir = base_dir.join("source.puml");
         let _file = File::open(output_dir).unwrap();
     }
 }
