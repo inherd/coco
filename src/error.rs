@@ -1,6 +1,6 @@
-use std::{io, fmt};
-use zip::result::ZipError;
 use reqwest;
+use std::{fmt, io};
+use zip::result::ZipError;
 
 // Todo: optimize this mod
 
@@ -17,19 +17,25 @@ impl fmt::Display for CocoError {
 
 impl From<io::Error> for CocoError {
     fn from(err: io::Error) -> Self {
-        Self { msg: format!("cause by: {}", err) }
+        Self {
+            msg: format!("cause by: {}", err),
+        }
     }
 }
 
 impl From<ZipError> for CocoError {
     fn from(err: ZipError) -> Self {
-        Self { msg: format!("cause by: {}", err) }
+        Self {
+            msg: format!("cause by: {}", err),
+        }
     }
 }
 
 impl From<reqwest::Error> for CocoError {
     fn from(err: reqwest::Error) -> Self {
-        Self { msg: format!("cause by: {}", err) }
+        Self {
+            msg: format!("cause by: {}", err),
+        }
     }
 }
 

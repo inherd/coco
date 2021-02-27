@@ -27,11 +27,13 @@ impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
 
     fn is_related(&self, project_path: &str) -> bool {
         let files = files::list_file_names(project_path);
+
         for file_name in files.iter() {
             if is_build_file(file_name) {
                 return true;
             }
         }
+
         false
     }
 

@@ -8,5 +8,5 @@ extern crate pest_derive;
 
 pub mod app;
 pub mod domain;
-pub mod infrastructure;
 pub mod error;
+pub mod infrastructure;
