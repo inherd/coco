@@ -7,7 +7,7 @@ pub struct Module {
     pub name: String,
     pub relative_path: String,
     pub facets: Vec<Facet>,
-    pub libraries: Vec<Dependency>,
+    pub dependencies: Vec<Dependency>,
     pub sub_modules: Vec<Module>,
     pub content_root: ContentRoot,
 }
@@ -18,7 +18,7 @@ impl Module {
     }
 
     pub fn add_library(&mut self, lib: Dependency) {
-        self.libraries.push(lib);
+        self.dependencies.push(lib);
     }
 
     pub fn add_sub_module(&mut self, sub_module: Module) {
@@ -56,7 +56,7 @@ impl Module {
             name: name.to_string(),
             relative_path: path.to_string(),
             facets: vec![],
-            libraries: vec![],
+            dependencies: vec![],
             sub_modules: vec![],
             content_root: ContentRoot::default(),
         }
@@ -97,8 +97,8 @@ mod tests {
             scope: DependencyScope::Compile,
         });
 
-        let lib = module.libraries.get(0).unwrap();
-        assert_eq!(module.libraries.len(), 1);
+        let lib = module.dependencies.get(0).unwrap();
+        assert_eq!(module.dependencies.len(), 1);
         assert_eq!(lib.name, "spring-boot-starter-web");
     }
 
