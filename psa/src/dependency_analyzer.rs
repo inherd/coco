@@ -1,5 +1,5 @@
-use crate::Dependency;
 use crate::files::list_file_names;
+use crate::Dependency;
 use std::path::Path;
 
 pub trait DependencyAnalyzer {
