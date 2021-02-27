@@ -12,12 +12,26 @@ impl PlantUmlRender {
         for clazz in classes {
             let mut members = vec![];
             for member in &clazz.members {
-                members.push(format!("  {}{}\n", member.access, member.name))
+                if member.data_type.is_empty() {
+                    members.push(format!("  {}{}\n", member.access, member.name))
+                } else {
+                    members.push(format!(
+                        "  {} {} {}\n",
+                        member.access, member.data_type, member.name
+                    ))
+                }
             }
             let mut methods = vec![];
             let mut content = format!("{}", members.join(""));
             for method in &clazz.methods {
-                methods.push(format!("  {}{}()\n", method.access, method.name))
+                if method.return_type.is_empty() {
+                    methods.push(format!("  {}{}()\n", method.access, method.name))
+                } else {
+                    methods.push(format!(
+                        "  {} {} {}()\n",
+                        method.access, method.return_type, method.name
+                    ))
+                }
             }
             content = format!("{}{}", content, methods.join(""));
 
@@ -71,7 +85,7 @@ mod tests {
 
         let str = PlantUmlRender::render(&classes);
         assert_eq!(
-            "@startuml\n\nclass Demo {\n  -demo\n  -method()\n}\n\n@enduml",
+            "@startuml\n\nclass Demo {\n  - String demo\n  - String method()\n}\n\n@enduml",
             str
         );
     }

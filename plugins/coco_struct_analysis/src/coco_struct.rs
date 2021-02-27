@@ -12,7 +12,7 @@ impl MemberInfo {
         MemberInfo {
             name: name.to_string(),
             access: access.to_string(),
-            data_type: data_type,
+            data_type,
         }
     }
 }
@@ -25,11 +25,11 @@ pub struct MethodInfo {
 }
 
 impl MethodInfo {
-    pub fn new(name: &str, access: &str, data_type: String) -> Self {
+    pub fn new(name: &str, access: &str, return_type: String) -> Self {
         MethodInfo {
             name: name.to_string(),
             access: access.to_string(),
-            return_type: data_type,
+            return_type,
         }
     }
 }
