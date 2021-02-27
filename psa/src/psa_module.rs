@@ -42,9 +42,13 @@ impl Module {
             .add_test_source_root(test_source_root.as_str());
     }
 
-    pub(crate) fn add_test_resource_root(&mut self, test_resource_root: String) {
+    pub fn add_test_resource_root(&mut self, test_resource_root: String) {
         self.content_root
             .add_test_resource_root(test_resource_root.as_str());
+    }
+
+    pub fn set_content_root(&mut self, content_root: ContentRoot) {
+        self.content_root = content_root;
     }
 
     pub fn new(name: &str, path: &str) -> Self {
