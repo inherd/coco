@@ -51,6 +51,10 @@ impl Module {
         self.content_root = content_root;
     }
 
+    pub fn add_dependencies(&mut self, dependencies: &mut Vec<Dependency>) {
+        self.dependencies.append(dependencies);
+    }
+
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),

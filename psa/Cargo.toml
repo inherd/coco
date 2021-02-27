@@ -34,4 +34,6 @@ regex = "1"
 
 pathdiff = "0.2.0"
 
+xml-rs = "0.8"
+
 
