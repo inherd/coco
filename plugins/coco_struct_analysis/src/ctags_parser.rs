@@ -62,6 +62,9 @@ lazy_static! {
     static ref RUST_TYPE: Regex = Regex::new(
         r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>]+)"
     ).unwrap();
+    static ref PURE_RUST_TYPE: Regex = Regex::new(
+        r"((Vec|Option|<)*)(?P<datatype>[A-Za-z0-9_]+)>*"
+    ).unwrap();
     static ref GO_TYPE: Regex =
         Regex::new(r"(?x)/\^([\s]*)
 ([A-Za-z0-9_.]+)
@@ -183,6 +186,7 @@ impl CtagsParser {
         clazz.lang = language.to_string();
 
         let mut data_type = "".to_string();
+        let mut pure_data_type = "".to_string();
         match language {
             "Java" | "C#" | "C++" => {
                 let without_keywords = CtagsParser::remove_keywords(line.to_string());
@@ -193,6 +197,10 @@ impl CtagsParser {
             "Rust" => {
                 if let Some(capts) = RUST_TYPE.captures(line) {
                     data_type = (&capts["datatype"]).to_string();
+
+                    if let Some(ty) = PURE_RUST_TYPE.captures(data_type.as_str()) {
+                        pure_data_type = (&ty["datatype"]).to_string();
+                    }
                 }
             }
             "Go" => {
@@ -204,10 +212,16 @@ impl CtagsParser {
         }
 
         if tag_type.eq("member") || tag_type.eq("field") {
-            let member = MemberInfo::new(name, access, data_type);
+            let mut member = MemberInfo::new(name, access, data_type);
+            if !pure_data_type.is_empty() {
+                member.pure_data_type = pure_data_type;
+            }
             clazz.members.push(member);
         } else if tag_type.eq("method") || tag_type.eq("function") {
-            let method = MethodInfo::new(name, access, data_type);
+            let mut method = MethodInfo::new(name, access, data_type);
+            if !pure_data_type.is_empty() {
+                method.pure_return_type = pure_data_type;
+            }
             clazz.methods.push(method);
         }
     }
@@ -365,6 +379,7 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         assert_eq!(7, classes[0].members.len());
         assert_eq!("file", classes[0].members[0].name);
         assert_eq!("parents", classes[0].members[6].name);
+        assert_eq!("String", classes[0].members[6].pure_data_type);
     }
 
     #[test]

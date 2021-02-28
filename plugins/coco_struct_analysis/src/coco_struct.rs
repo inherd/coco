@@ -5,6 +5,7 @@ pub struct MemberInfo {
     pub name: String,
     pub access: String,
     pub data_type: String,
+    pub pure_data_type: String,
 }
 
 impl MemberInfo {
@@ -13,6 +14,7 @@ impl MemberInfo {
             name: name.to_string(),
             access: access.to_string(),
             data_type,
+            pure_data_type: "".to_string(),
         }
     }
 }
@@ -22,6 +24,7 @@ pub struct MethodInfo {
     pub name: String,
     pub access: String,
     pub return_type: String,
+    pub pure_return_type: String,
 }
 
 impl MethodInfo {
@@ -30,6 +33,7 @@ impl MethodInfo {
             name: name.to_string(),
             access: access.to_string(),
             return_type,
+            pure_return_type: "".to_string(),
         }
     }
 }
