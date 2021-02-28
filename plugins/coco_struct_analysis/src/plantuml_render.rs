@@ -83,8 +83,8 @@ impl PlantUmlRender {
                     member.access, member.data_type, member.name
                 ));
 
-                if member.data_type.len() > 0 {
-                    dep_map.insert(member.data_type.clone(), clazz.name.clone());
+                if member.pure_data_type.len() > 0 {
+                    dep_map.insert(member.pure_data_type.clone(), clazz.name.clone());
                 } else {
                     dep_map.insert(member.data_type.clone(), clazz.name.clone());
                 }

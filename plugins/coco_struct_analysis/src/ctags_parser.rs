@@ -60,7 +60,7 @@ lazy_static! {
     static ref RE_TYPE: Regex =
         Regex::new(r"/\^([ ]*)(?P<datatype>[A-Za-z0-9_.]+)([^A-Za-z0-9_]+)(.*)\$/").unwrap();
     static ref RUST_TYPE: Regex = Regex::new(
-        r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>]+)"
+        r"/\^([ ]*)([A-Za-z0-9_.]+)(\t|\s)([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>,]+)"
     ).unwrap();
     static ref PURE_RUST_TYPE: Regex = Regex::new(
         r"((Vec|Option|<)*)(?P<datatype>[A-Za-z0-9_]+)>*"
