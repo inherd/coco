@@ -20,33 +20,10 @@ impl PlantUmlRender {
         for clazz in classes {
             let mut dep_map: HashMap<String, String> = HashMap::default();
 
-            let mut members = vec![];
-            for member in &clazz.members {
-                if member.data_type.is_empty() {
-                    members.push(format!("  {}{}\n", member.access, member.name))
-                } else {
-                    members.push(format!(
-                        "  {} {} {}\n",
-                        member.access, member.data_type, member.name
-                    ));
-
-                    dep_map.insert(member.data_type.clone(), clazz.name.clone());
-                }
-            }
-            let mut methods = vec![];
+            let members = PlantUmlRender::render_member(&clazz, &mut dep_map);
             let mut content = format!("{}", members.join(""));
-            for method in &clazz.methods {
-                if method.return_type.is_empty() {
-                    methods.push(format!("  {}{}()\n", method.access, method.name))
-                } else {
-                    methods.push(format!(
-                        "  {} {} {}()\n",
-                        method.access, method.return_type, method.name
-                    ));
 
-                    dep_map.insert(method.return_type.clone(), clazz.name.clone());
-                }
-            }
+            let methods = PlantUmlRender::render_method(&clazz, &mut dep_map);
             content = format!("{}{}", content, methods.join(""));
 
             rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
@@ -69,6 +46,40 @@ impl PlantUmlRender {
             rendered.join("\n\n"),
             deps.join("")
         )
+    }
+
+    fn render_method(clazz: &&ClassInfo, dep_map: &mut HashMap<String, String>) -> Vec<String> {
+        let mut methods = vec![];
+        for method in &clazz.methods {
+            if method.return_type.is_empty() {
+                methods.push(format!("  {}{}()\n", method.access, method.name))
+            } else {
+                methods.push(format!(
+                    "  {} {} {}()\n",
+                    method.access, method.return_type, method.name
+                ));
+
+                dep_map.insert(method.return_type.clone(), clazz.name.clone());
+            }
+        }
+        methods
+    }
+
+    fn render_member(clazz: &&ClassInfo, dep_map: &mut HashMap<String, String>) -> Vec<String> {
+        let mut members = vec![];
+        for member in &clazz.members {
+            if member.data_type.is_empty() {
+                members.push(format!("  {}{}\n", member.access, member.name))
+            } else {
+                members.push(format!(
+                    "  {} {} {}\n",
+                    member.access, member.data_type, member.name
+                ));
+
+                dep_map.insert(member.data_type.clone(), clazz.name.clone());
+            }
+        }
+        members
     }
 }
 
