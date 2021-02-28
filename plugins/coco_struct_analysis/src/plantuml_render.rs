@@ -21,11 +21,9 @@ impl PlantUmlRender {
             let mut dep_map: HashMap<String, String> = HashMap::default();
 
             let members = PlantUmlRender::render_member(&clazz, &mut dep_map);
-            let mut content = format!("{}", members.join(""));
-
             let methods = PlantUmlRender::render_method(&clazz, &mut dep_map);
-            content = format!("{}{}", content, methods.join(""));
 
+            let content = format!("{}{}", members.join(""), methods.join(""));
             rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
 
             for (callee, current_clz) in dep_map {
