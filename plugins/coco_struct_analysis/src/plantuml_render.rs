@@ -24,7 +24,12 @@ impl PlantUmlRender {
             let methods = PlantUmlRender::render_method(&clazz, &mut dep_map);
 
             let content = format!("{}{}", members.join(""), methods.join(""));
-            rendered.push(format!("class {} {{\n{}}}", clazz.name, content));
+            let mut class_field = clazz.name.clone();
+            if clazz.parents.len() > 0 {
+                class_field = format!("{} extends {}", clazz.name, clazz.parents.join(","));
+            }
+
+            rendered.push(format!("class {} {{\n{}}}", class_field, content));
 
             for (callee, current_clz) in dep_map {
                 if callee == current_clz {
@@ -35,7 +40,7 @@ impl PlantUmlRender {
                     continue;
                 }
 
-                deps.push(format!("{} --> {}\n", current_clz, callee));
+                deps.push(format!("{} -- {}\n", current_clz, callee));
             }
         }
 
@@ -139,7 +144,25 @@ mod tests {
         classes.push(demo2);
 
         let str = PlantUmlRender::render(&classes);
-        assert_eq!(true, str.contains("Demo --> Demo2"));
-        assert_eq!(false, str.contains("Demo --> String"));
+        assert_eq!(true, str.contains("Demo -- Demo2"));
+        assert_eq!(false, str.contains("Demo -- String"));
+    }
+
+    #[test]
+    fn should_render_parents() {
+        let mut classes = vec![];
+        let mut demo = ClassInfo::new("Demo");
+        let demo2 = ClassInfo::new("Demo2");
+
+        demo.parents.push(demo2.name.clone());
+
+        classes.push(demo);
+        classes.push(demo2);
+
+        let str = PlantUmlRender::render(&classes);
+        assert_eq!(
+            "@startuml\n\nclass Demo extends Demo2 {\n}\n\nclass Demo2 {\n}\n\n@enduml",
+            str
+        );
     }
 }
