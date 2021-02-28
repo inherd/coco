@@ -1,6 +1,6 @@
 # Coco
 
-![Coco Build](https://github.com/phodal/coco/workflows/Coco%20Build/badge.svg)
+[![Coco Build](https://github.com/inherd/coco/actions/workflows/build.yml/badge.svg)](https://github.com/inherd/coco/actions/workflows/build.yml)
 
 > (aka coconut, juice), an automatic DevOps metrics analysis tool.
 
@@ -236,7 +236,7 @@ Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/mas
 
 ## Thanks
 
-[![PyCharm](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
+[![Jetbrains](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
 
 License
 ---
