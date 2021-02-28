@@ -62,7 +62,11 @@ impl PlantUmlRender {
                     method.access, method.return_type, method.name
                 ));
 
-                dep_map.insert(method.return_type.clone(), clazz.name.clone());
+                if method.pure_return_type.len() > 0 {
+                    dep_map.insert(method.pure_return_type.clone(), clazz.name.clone());
+                } else {
+                    dep_map.insert(method.return_type.clone(), clazz.name.clone());
+                }
             }
         }
         methods
@@ -79,7 +83,11 @@ impl PlantUmlRender {
                     member.access, member.data_type, member.name
                 ));
 
-                dep_map.insert(member.data_type.clone(), clazz.name.clone());
+                if member.data_type.len() > 0 {
+                    dep_map.insert(member.data_type.clone(), clazz.name.clone());
+                } else {
+                    dep_map.insert(member.data_type.clone(), clazz.name.clone());
+                }
             }
         }
         members
@@ -164,5 +172,23 @@ mod tests {
             "@startuml\n\nclass Demo extends Demo2 {\n}\n\nclass Demo2 {\n}\n\n@enduml",
             str
         );
+    }
+
+    #[test]
+    fn should_render_array() {
+        let mut classes = vec![];
+        let mut demo = ClassInfo::new("Demo");
+        let demo2 = ClassInfo::new("Demo2");
+
+        let mut method = MethodInfo::new("method", "-", "[]Demo2".to_string());
+        method.pure_return_type = "Demo2".to_string();
+        demo.methods.push(method);
+
+        classes.push(demo);
+        classes.push(demo2);
+
+        let str = PlantUmlRender::render(&classes);
+        assert_eq!(true, str.contains("Demo -- Demo2"));
+        assert_eq!(false, str.contains("Demo -- String"));
     }
 }
