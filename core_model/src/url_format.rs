@@ -35,6 +35,18 @@ pub fn filename_suffix(text: &str, name_suffix: Option<&str>, file_suffix: Optio
         }
     };
 
+    if uri_path.host().is_none() {
+        let pth = PathBuf::from(uri_path.path());
+        let last = pth.file_name();
+
+        return format!(
+            "{}{}.{}",
+            last.unwrap().to_str().unwrap(),
+            filename_suffix,
+            suffix
+        );
+    }
+
     let paths = uri_path
         .path_segments()
         .map(|c| c.collect::<Vec<_>>())

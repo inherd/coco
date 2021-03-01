@@ -75,8 +75,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    #[cfg(not(windows))]
     fn should_run_struct_analysis() {
         let mut repos = vec![];
         repos.push(RepoConfig {
