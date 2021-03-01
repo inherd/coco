@@ -52,10 +52,11 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart(commits_by_hours(data, {before_month: 6}), "#hour-heatmap-half-year");
   renderHeatmapChart(commits_by_hours(data, {before_month: 3}), "#hour-heatmap-three-month");
 
-  let commitByDays = commit_by_days(data);
+  let commit_by_days = commit_by_days(data);
 
-  renderCommitCalendar(commitByDays, "#commit-calendar");
-  renderCommitContributions(commitByDays, '#commit-contributions');
+  renderCommitCalendar(commit_by_days, "#commit-calendar");
+  renderCommitContributions(commit_by_days, '#commit-contributions');
+  renderLineHistory(commit_by_weeks);
 
   renderCodeFrequency(commit_by_weeks(data));
 });
