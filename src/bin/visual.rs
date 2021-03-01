@@ -49,7 +49,7 @@ async fn main() -> std::io::Result<()> {
     };
 
     if let Some(ref matches) = matches.subcommand_matches("export") {
-        start_export_reporter(matches);
+        start_export_reporter(matches, project);
         return Ok(());
     }
 
@@ -63,14 +63,14 @@ async fn main() -> std::io::Result<()> {
     return start_local_server(project, port).await;
 }
 
-fn start_export_reporter(matches: &&ArgMatches) {
+fn start_export_reporter(matches: &&ArgMatches, project_name: String) {
     let mut path = "coco_static";
     if let Some(input) = matches.value_of("path") {
         path = input
     }
 
     // todo: make really output
-    output_static::run(path);
+    output_static::run(path, project_name);
 }
 
 async fn start_local_server(project: String, port: &str) -> std::io::Result<()> {
