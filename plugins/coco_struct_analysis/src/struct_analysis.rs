@@ -107,14 +107,7 @@ fn files_by_thread(origin_files: Vec<String>, opt: &Opt) -> Vec<String> {
 fn build_opt(thread: usize) -> Opt {
     let string = thread.to_string();
     let thread: &str = string.as_str();
-    let args = vec![
-        "ptags",
-        "-t",
-        thread,
-        // "--bin-ctags=/usr/local/bin/ctags",
-        "--verbose=true",
-        "--fields=+latinK",
-    ];
+    let args = vec!["ptags", "-t", thread, "--verbose=true", "--fields=+latinK"];
     let opt = Opt::from_iter(args.iter());
     opt
 }
