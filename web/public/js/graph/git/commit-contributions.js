@@ -1,5 +1,5 @@
 // based on: https://observablehq.com/@d3/focus-context
-function renderCommitContributions(data, elementId) {
+function renderCommitContributions(data, elementId, data_key) {
   let margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = GraphConfig.width - margin.left - margin.right,
     height = GraphConfig.height / 2 - margin.top - margin.bottom,
@@ -10,7 +10,7 @@ function renderCommitContributions(data, elementId) {
     .range([margin.left, width - margin.right])
 
   let y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.value)])
+    .domain([0, d3.max(data, d => d[data_key])])
     .range([height - margin.bottom, margin.top])
 
   let chart = (function () {
@@ -30,11 +30,11 @@ function renderCommitContributions(data, elementId) {
 
     function area(x, y) {
       return d3.area()
-        .defined(d => !isNaN(d.value))
+        .defined(d => !isNaN(d[data_key]))
         .curve(d3.curveMonotoneX)
         .x(d => x(d.date))
         .y0(y(0))
-        .y1(d => y(d.value));
+        .y1(d => y(d[data_key]));
     }
 
     const svg = d3.select(elementId)
@@ -77,10 +77,10 @@ function renderCommitContributions(data, elementId) {
         .text(title))
 
     let area = (x, y) => d3.area()
-      .defined(d => !isNaN(d.value))
+      .defined(d => !isNaN(d[data_key]))
       .x(d => x(d.date))
       .y0(y(0))
-      .y1(d => y(d.value))
+      .y1(d => y(d[data_key]))
 
     const svg = d3.select(elementId)
       .append("svg")
@@ -127,7 +127,7 @@ function renderCommitContributions(data, elementId) {
   function renderChart() {
     let domain = svg.property("value");
     const [minX, maxX] = domain;
-    const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.value : NaN);
+    const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d[data_key] : NaN);
     chart.update(x.copy().domain(domain), y.copy().domain([0, maxY]));
   }
 

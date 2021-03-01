@@ -55,8 +55,12 @@ d3.json("data/git-commits.json").then(function (data) {
   let commitByDays = commit_by_days(data);
 
   renderCommitCalendar(commitByDays, "#commit-calendar");
-  renderCommitContributions(commitByDays, '#commit-contributions');
-  renderLineHistory(commitByDays, '#line-history');
+  renderCommitContributions(commitByDays, '#commit-contributions', 'value');
+
+  let lineData = commitByDays.filter(d => d.total_line > 0);
+  renderCommitContributions(lineData, '#line-history', 'total_line');
+
+  // renderLineHistory(lineData, '#line-history', 'total_line');
 
   let commitByWeeks = commit_by_weeks(data);
   renderCodeFrequency(commitByWeeks);
