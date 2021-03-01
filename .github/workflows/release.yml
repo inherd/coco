@@ -25,7 +25,7 @@ jobs:
       - name: Build
         run: just release
 
-      - name: Install ctags on Linux
+      - name: Install ctags on Ubuntu
         run: |
           sudo snap install universal-ctags
 
@@ -127,7 +127,7 @@ jobs:
       - name: Build
         run: just release
 
-      - name: Install ctags on Windows
+      - name: Install ctags on macOS
         run: |
           brew update
           brew install --HEAD universal-ctags/universal-ctags/universal-ctags
