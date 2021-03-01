@@ -1,6 +1,4 @@
 function renderLineHistory(data, elementId) {
-  console.log(data);
-
   data = data.filter(d => d.total_line > 0);
 
   let margin = {top: 20, right: 20, bottom: 30, left: 40},
