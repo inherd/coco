@@ -25,7 +25,7 @@ impl PluginInterface for CocoStructAnalysis {
         match Command::new("ctags").spawn() {
             Ok(_) => {}
             Err(e) => {
-                println!("`ctags` was not found! please install or follow link to setup: https://github.com/phodal/coco/blob/master/DEVELOPMENT.md#install-ctags");
+                show_ctags_install_help();
                 panic!("Error: {:?}", e);
             }
         };
@@ -36,6 +36,44 @@ impl PluginInterface for CocoStructAnalysis {
     fn execute(&self, config: CocoConfig) {
         struct_analysis::execute(config);
     }
+}
+
+#[cfg(target_os = "linux")]
+fn show_ctags_install_help() {
+    println!(
+        "install ctags on Ubuntu:
+
+sudo apt-get update
+sudo apt-get install exuberant-ctags
+
+install with Snap:
+
+sudo snap install universal-ctags*.snap --dangerous
+"
+    );
+}
+
+#[cfg(target_os = "macos")]
+fn show_ctags_install_help() {
+    println!(
+        "install ctags on macOS:
+
+brew update
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+"
+    )
+}
+
+#[cfg(target_os = "windows")]
+fn show_ctags_install_help() -> String {
+    println!(
+        "install ctags on Windows:
+
+choco install universal-ctags
+
+or download from: https://github.com/universal-ctags/ctags-win32/releases
+"
+    );
 }
 
 impl Default for CocoStructAnalysis {
