@@ -43,12 +43,7 @@ fn show_ctags_install_help() {
     println!(
         "install ctags on Ubuntu:
 
-sudo apt-get update
-sudo apt-get install exuberant-ctags
-
-install with Snap:
-
-sudo snap install universal-ctags*.snap --dangerous
+sudo snap install universal-ctags
 "
     );
 }

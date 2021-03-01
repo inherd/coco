@@ -27,8 +27,7 @@ jobs:
 
       - name: Install ctags on Linux
         run: |
-          sudo apt-get update
-          sudo apt-get install exuberant-ctags
+          sudo snap install universal-ctags
 
       - name: Zip Plugins
         run: |
