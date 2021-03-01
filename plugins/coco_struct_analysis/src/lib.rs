@@ -60,7 +60,7 @@ brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 }
 
 #[cfg(target_os = "windows")]
-fn show_ctags_install_help() -> String {
+fn show_ctags_install_help() {
     println!(
         "install ctags on Windows:
 
