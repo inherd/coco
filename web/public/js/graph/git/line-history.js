@@ -1,4 +1,8 @@
 function renderLineHistory(data, elementId) {
+  console.log(data);
+
+  data = data.filter(d => d.total_line > 0);
+
   let margin = {top: 20, right: 20, bottom: 30, left: 40},
     width = GraphConfig.width - margin.left - margin.right,
     height = GraphConfig.height / 2 - margin.top - margin.bottom,
@@ -9,7 +13,7 @@ function renderLineHistory(data, elementId) {
     .range([margin.left, width - margin.right])
 
   let y = d3.scaleLinear()
-    .domain([0, d3.max(data, d => d.total)])
+    .domain([0, d3.max(data, d => d.total_line)])
     .range([height - margin.bottom, margin.top])
 
   let chart = (function () {
@@ -29,11 +33,11 @@ function renderLineHistory(data, elementId) {
 
     function area(x, y) {
       return d3.area()
-        .defined(d => !isNaN(d.total))
+        .defined(d => !isNaN(d.total_line))
         .curve(d3.curveMonotoneX)
         .x(d => x(d.date))
         .y0(y(0))
-        .y1(d => y(d.total));
+        .y1(d => y(d.total_line));
     }
 
     const svg = d3.select(elementId)
@@ -76,10 +80,10 @@ function renderLineHistory(data, elementId) {
         .text(title))
 
     let area = (x, y) => d3.area()
-      .defined(d => !isNaN(d.total))
+      .defined(d => !isNaN(d.total_line))
       .x(d => x(d.date))
       .y0(y(0))
-      .y1(d => y(d.total))
+      .y1(d => y(d.total_line))
 
     const svg = d3.select(elementId)
       .append("svg")
@@ -126,7 +130,7 @@ function renderLineHistory(data, elementId) {
   function renderChart() {
     let domain = svg.property("value");
     const [minX, maxX] = domain;
-    const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.total : NaN);
+    const maxY = d3.max(data, d => minX <= d.date && d.date <= maxX ? d.total_line : NaN);
     chart.update(x.copy().domain(domain), y.copy().domain([0, maxY]));
   }
 
