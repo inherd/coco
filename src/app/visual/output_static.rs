@@ -19,6 +19,10 @@ pub fn run<P: AsRef<Path>>(path: P, project: String) {
         fs::write(file_path, content).expect("cannot write file");
     }
 
+    export_reporter(&path, project);
+}
+
+fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
     let git = Settings::git().join(format!("{}.json", project));
     let _ = fs::copy(git, &path.as_ref().join("data").join("git.json"));
 
