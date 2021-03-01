@@ -11,6 +11,7 @@ Support OS: macOS, Windows, GNU/Linux
 特性（features in Chinese）：
 
  - 可交互式架构分析
+ - UML 可视化
  - 团队/项目健康值分析
  - 框架检测与分析
  - 云原生成熟度分析
@@ -160,9 +161,6 @@ reporter
     - [ ] tools config identify
     - [ ] tools suggest (identify old tools)
     - [ ] cloud-native config
- - [ ] third-party integration
-    - [ ] jenkins api analysis
-    - [ ] test coverage integration
  - [ ] case study
     - [x] homepage: [https://github.com/inherd/cases](https://github.com/inherd/cases)
     - [ ] auto clone and auto deploy
@@ -180,9 +178,12 @@ reporter
  - [ ] plugin
     - [ ] struct analysis
        - [x] ctags
-       - [x] visual
+       - [ ] visual
+       - [x] uml
     - [ ] swagger
     - [ ] coverage
+    - [ ] Jenkinsfile
+    - [ ] Dockerfile
 
 Visual and Reporter
 
