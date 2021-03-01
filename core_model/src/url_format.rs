@@ -60,6 +60,9 @@ pub fn uri_to_path(url: &str) -> PathBuf {
     };
 
     let root = Path::new(Settings::root());
+    if uri_path.host().is_none() {
+        return PathBuf::from(url);
+    }
     let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
     let segments = uri_path
