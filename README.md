@@ -4,8 +4,6 @@
 
 > (aka coconut, juice), an automatic DevOps metrics analysis tool.
 
-Online Reporter Demo: [https://inherd.github.io/coco/web/](https://inherd.github.io/coco/web/)
-
 Case Studies: [Coco cases](https://inherd.github.io/cases/)
 
 Support OS: macOS, Windows, GNU/Linux
