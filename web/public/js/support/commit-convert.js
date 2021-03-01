@@ -116,7 +116,8 @@ function commit_by_weeks(data) {
       date: range,
       index: index,
       added: 0,
-      deleted: 0
+      deleted: 0,
+      total: 0
     }
 
     range = range + 24 * 60 * 60 * 1000 * 7;
@@ -129,12 +130,14 @@ function commit_by_weeks(data) {
     if (weekMap[week]) {
       weekMap[week].added = weekMap[week].added + datum.total_added;
       weekMap[week].deleted = weekMap[week].deleted + datum.total_deleted;
+      weekMap[week].total = weekMap[week].added - weekMap[week].deleted
     } else {
       weekMap[week] = {
         date: weekMap[week].range,
         index: weekMap[week].index,
         added: datum.total_added,
         deleted: datum.total_deleted,
+        total: datum.total_added - datum.total_deleted
       }
     }
   }

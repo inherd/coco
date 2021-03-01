@@ -52,13 +52,15 @@ d3.json("data/git-commits.json").then(function (data) {
   renderHeatmapChart(commits_by_hours(data, {before_month: 6}), "#hour-heatmap-half-year");
   renderHeatmapChart(commits_by_hours(data, {before_month: 3}), "#hour-heatmap-three-month");
 
-  let commit_by_days = commit_by_days(data);
+  let commitByDays = commit_by_days(data);
 
-  renderCommitCalendar(commit_by_days, "#commit-calendar");
-  renderCommitContributions(commit_by_days, '#commit-contributions');
-  renderLineHistory(commit_by_weeks);
+  renderCommitCalendar(commitByDays, "#commit-calendar");
+  renderCommitContributions(commitByDays, '#commit-contributions');
+  let commitByWeeks = commit_by_weeks(data);
 
-  renderCodeFrequency(commit_by_weeks(data));
+  console.log(commitByWeeks);
+  renderLineHistory(commitByWeeks, '#line-history');
+  renderCodeFrequency(commitByWeeks);
 });
 
 d3.json("data/struct_analysis.json").then(function (data) {
