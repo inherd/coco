@@ -77,7 +77,7 @@ d3.json("fake/pipeline.json").then(function (data) {
       for (let sub_stage of stage.sub_stages) {
         jobs.push({
           name: sub_stage.name,
-          desc: jobs,
+          desc: sub_stage.jobs,
         });
       }
       if (jobs.length === 0) {
