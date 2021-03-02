@@ -64,10 +64,41 @@ d3.json("data/git-commits.json").then(function (data) {
   renderCodeFrequency(commitByWeeks);
 });
 
-d3.json("data/struct_analysis.json").then(function (data) {
+d3.json("data/struct.json").then(function (data) {
   visualizationStruct(data);
 });
-//
-// d3.json("data/pipeline.json").then(function (data) {
-//   visualizationPipeline(data);
-// });
+
+d3.json("fake/pipeline.json").then(function (data) {
+  let testdata = [
+    {
+      name: 'Initialize',
+      children: [
+        { name: 'Initialize:success' }
+      ]
+    },
+    {
+      name: 'Build', children: [
+        { name: 'Pull code:success' },
+        { name: 'Test:error' },
+        { name: 'Build:current' }
+      ]
+    },
+    {
+      name: 'Deploy', children: [
+        { name: 'QA:pending' },
+        { name: 'UAT:processing' },
+        { name: 'STAGING:processing' },
+        { name: 'PROD:untouched' }
+      ]
+    },
+    {
+      name: 'Finish', children: [
+        { name: 'Finish:untouched' }
+      ]
+    }
+  ];
+
+  if (!!testdata) {
+    visualizationPipeline(testdata, '#pipeline');
+  }
+});

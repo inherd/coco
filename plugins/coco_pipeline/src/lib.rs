@@ -42,7 +42,7 @@ mod tests {
     use std::io::Read;
     use std::path::PathBuf;
 
-    pub fn ctags_fixtures_dir() -> PathBuf {
+    pub fn fixtures_dir() -> PathBuf {
         let root_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .parent()
             .unwrap()
@@ -62,11 +62,11 @@ mod tests {
     fn should_run_pipeline_analysis() {
         let mut repos = vec![];
         repos.push(RepoConfig {
-            url: format!("{}", ctags_fixtures_dir().display()),
+            url: format!("{}", fixtures_dir().display()),
             languages: None,
         });
         let config = CocoConfig {
-            repos: repos,
+            repos,
             plugins: None,
         };
 

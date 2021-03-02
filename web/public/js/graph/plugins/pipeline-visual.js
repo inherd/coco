@@ -21,12 +21,17 @@
 // SOFTWARE.
 
 // based on https://github.com/ledge-framework/engine/blob/master/projects/%40ledge-framework/render/src/lib/chart/ledge-pipeline/ledge-pipeline.component.ts
-function visualizationStruct(data, elementId) {
+function visualizationPipeline(data, elementId) {
   let Color = {
     GREEN: '#4A9900',
     RED: '#C4000A',
     GRAY: '#949393',
     WHITE: '#FFFFFF',
+  }
+
+  let PolygonPoints = {
+    checkMark: '-2.00 2.80 -4.80 0.00 -5.73 0.933 -2.00 4.67 6.00 -3.33 5.07 -4.27',
+    crossMark: '4.67 -3.73 3.73 -4.67 0 -0.94 -3.73 -4.67 -4.67 -3.73 -0.94 0 -4.67 3.73 -3.73 4.67 0 0.94 3.73 4.67 4.67 3.73 0.94 0',
   }
 
   let config = {
@@ -189,29 +194,9 @@ function visualizationStruct(data, elementId) {
     const path = d3.path();
     const stateDiameter = 2 * config.stateRadius;
     path.arc(0, stateDiameter, config.stateRadius, Math.PI * 3 / 2, 0);
-    path.arc(
-      stateDiameter,
-      jobNumber * (stateDiameter + config.jobHeight),
-      config.stateRadius,
-      Math.PI * 2 / 2,
-      Math.PI * 1 / 2,
-      true
-    );
-    path.arc(
-      2 * config.stageSpace,
-      jobNumber * (stateDiameter + config.jobHeight),
-      config.stateRadius,
-      Math.PI * 1 / 2,
-      0,
-      true
-    );
-    path.arc(
-      2 * (config.stageSpace + config.stateRadius),
-      stateDiameter,
-      config.stateRadius,
-      Math.PI * 2 / 2,
-      Math.PI * 3 / 2
-    );
+    path.arc(stateDiameter, jobNumber * (stateDiameter + config.jobHeight), config.stateRadius, Math.PI * 2 / 2, Math.PI * 1 / 2, true);
+    path.arc(2 * config.stageSpace, jobNumber * (stateDiameter + config.jobHeight), config.stateRadius, Math.PI * 1 / 2, 0, true);
+    path.arc(2 * (config.stageSpace + config.stateRadius), stateDiameter, config.stateRadius, Math.PI * 2 / 2, Math.PI * 3 / 2);
     context.append('path').attr('d', path);
   }
 
@@ -291,19 +276,64 @@ function visualizationStruct(data, elementId) {
       .text('End');
   }
 
-}
 
-function calculateViewBox(stages) {
-  const maxJobsCountInStage = d3.max(stages.map(stage => stage.jobs.length));
-  const startNodeWidth = 2 * (config.startNodeRadius + config.startNodeSpace);
-  const stageWidth = 2 * (config.stageSpace + config.stateRadius + config.stateStrokeWidth);
-  // Start/End node suppose to have same width
-  const svgWidth = 2 * startNodeWidth + stages.length * stageWidth;
+  function calculateViewBox(stages) {
+    const maxJobsCountInStage = d3.max(stages.map(stage => stage.jobs.length));
+    const startNodeWidth = 2 * (config.startNodeRadius + config.startNodeSpace);
+    const stageWidth = 2 * (config.stageSpace + config.stateRadius + config.stateStrokeWidth);
+    // Start/End node suppose to have same width
+    const svgWidth = 2 * startNodeWidth + stages.length * stageWidth;
 
-  const singleJobHeight = (2 * config.stateRadius + config.jobHeight);
-  // With stage label height
-  const svgHeight = config.stageLabelHeight + maxJobsCountInStage * singleJobHeight;
+    const singleJobHeight = (2 * config.stateRadius + config.jobHeight);
+    // With stage label height
+    const svgHeight = config.stageLabelHeight + maxJobsCountInStage * singleJobHeight;
 
-  // -20 for Start label, otherwise it will be cut off
-  return `-20 0 ${svgWidth} ${svgHeight}`;
+    // -20 for Start label, otherwise it will be cut off
+    return `-20 0 ${svgWidth} ${svgHeight}`;
+  }
+
+  let JobState = {
+    UNTOUCHED: 'untouched',
+    PROCESSING: 'processing',
+    CURRENT: 'current',
+    SUCCESS: 'success',
+    ERROR: 'error',
+    PENDING: 'pending',
+  }
+
+  function getStateConfig(state) {
+    const stateConfig = {
+      polygonPoints: '',
+      circleStrokeWidth: config.stateStrokeWidth,
+      circleStroke: Color.WHITE,
+      circleFill: Color.GREEN,
+      symbolStrokeWidth: Color.WHITE,
+      symbolStroke: Color.WHITE,
+      symbolFill: Color.WHITE,
+    };
+
+    console.log(state);
+    switch (state) {
+      case 'success':
+        return {
+          ...stateConfig,
+          polygonPoints: PolygonPoints.checkMark,
+          circleFill: Color.GREEN,
+          circleStroke: Color.GREEN,
+        };
+      case 'error':
+        return {
+          ...stateConfig,
+          polygonPoints: PolygonPoints.crossMark,
+          circleFill: Color.RED,
+          circleStroke: Color.RED,
+        };
+      default:
+        return {
+          ...stateConfig,
+          circleFill: Color.WHITE,
+          circleStroke: Color.GRAY,
+        };
+    }
+  }
 }

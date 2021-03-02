@@ -1,0 +1,30 @@
+[
+  {
+    "name": "",
+    "stages": [
+      {
+        "name": "Sequential",
+        "steps": [],
+        "is_parallel": false,
+        "sub_stages": [
+          {
+            "name": "In Sequential 1",
+            "steps": [
+              "echo \"In Sequential 1\"\n                    "
+            ],
+            "is_parallel": false,
+            "sub_stages": []
+          },
+          {
+            "name": "In Sequential 2",
+            "steps": [
+              "echo \"In Sequential 2\"\n                    "
+            ],
+            "is_parallel": false,
+            "sub_stages": []
+          }
+        ]
+      }
+    ]
+  }
+]
