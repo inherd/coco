@@ -23,24 +23,23 @@ pub fn run<P: AsRef<Path>>(path: P, project: String) {
 }
 
 fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
+    let data_dir = path.as_ref().join("data");
+
+    // git
     let git = Settings::git().join(format!("{}.json", project));
-    let _ = fs::copy(git, &path.as_ref().join("data").join("git.json"));
+    let _ = fs::copy(git, &data_dir.join("git.json"));
 
     let commits = Settings::git().join(format!("{}-commits.json", project).as_str());
-    let _ = fs::copy(
-        commits,
-        &path.as_ref().join("data").join("git-commits.json"),
-    );
+    let _ = fs::copy(commits, &data_dir.join("git-commits.json"));
 
     let tags = Settings::git().join(format!("{}-tags.json", project));
-    let _ = fs::copy(tags, &path.as_ref().join("data").join("git-tags.json"));
+    let _ = fs::copy(tags, &data_dir.join("git-tags.json"));
 
+    // cloc
     let cloc = Settings::cloc().join(format!("{}.json", project));
-    let _ = fs::copy(cloc, &path.as_ref().join("data").join("cloc.json"));
+    let _ = fs::copy(cloc, &data_dir.join("cloc.json"));
 
+    // struct analysis
     let structs = Settings::struct_analysis().join(format!("{}.json", project));
-    let _ = fs::copy(
-        structs,
-        &path.as_ref().join("data").join("struct-analysis.json"),
-    );
+    let _ = fs::copy(structs, &data_dir.join("struct-analysis.json"));
 }
