@@ -65,7 +65,7 @@ impl Settings {
         Settings::reporter(Some("framework"))
     }
 
-    pub fn struct_analysis() -> PathBuf {
-        Settings::reporter(Some("struct_analysis"))
+    pub fn struct_dir() -> PathBuf {
+        Settings::reporter(Some("struct"))
     }
 }

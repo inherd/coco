@@ -35,5 +35,5 @@ path = "../../core_model"
 path = "../../plugin_interface"
 
 [lib]
-name = "coco_struct_analysis"
+name = "coco_struct"
 crate-type = ["cdylib"]

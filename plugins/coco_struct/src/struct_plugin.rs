@@ -53,13 +53,13 @@ fn count_thread(origin_files: &Vec<String>) -> usize {
 
 fn write_to_json_file(url_str: &str, result: &String) {
     let file_name = url_format::json_filename(url_str);
-    let output_file = Settings::struct_analysis().join(file_name);
+    let output_file = Settings::struct_dir().join(file_name);
     fs::write(output_file, result).expect("cannot write file");
 }
 
 fn write_to_puml_file(url_str: &str, classes: &Vec<ClassInfo>) {
     let file_name = url_format::puml_filename(url_str);
-    let output_file = Settings::struct_analysis().join(file_name);
+    let output_file = Settings::struct_dir().join(file_name);
     let result = PlantUmlRender::render(classes);
     fs::write(output_file, result).expect("cannot write file");
 }

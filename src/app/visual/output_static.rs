@@ -40,6 +40,6 @@ fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
     let _ = fs::copy(cloc, &data_dir.join("cloc.json"));
 
     // struct analysis
-    let structs = Settings::struct_analysis().join(format!("{}.json", project));
+    let structs = Settings::struct_dir().join(format!("{}.json", project));
     let _ = fs::copy(structs, &data_dir.join("struct-analysis.json"));
 }
