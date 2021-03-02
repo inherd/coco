@@ -51,8 +51,9 @@ function visualizationPipeline(data, elementId) {
 
   let stages = data.map(({name: stageName, children = []}) => ({
     label: stageName,
-    jobs: children.map(({name: jobItem}) => {
-      const [label, state] = jobItem.split(':');
+    jobs: children.map(({name: name}) => {
+      let label = name;
+      let state = 'success';
       return {label, state};
     })
   }));
@@ -312,7 +313,6 @@ function visualizationPipeline(data, elementId) {
       symbolFill: Color.WHITE,
     };
 
-    console.log(state);
     switch (state) {
       case 'success':
         return {

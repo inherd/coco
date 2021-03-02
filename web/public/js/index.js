@@ -73,27 +73,27 @@ d3.json("fake/pipeline.json").then(function (data) {
     {
       name: 'Initialize',
       children: [
-        { name: 'Initialize:success' }
+        { name: 'Initialize' }
       ]
     },
     {
       name: 'Build', children: [
-        { name: 'Pull code:success' },
-        { name: 'Test:error' },
-        { name: 'Build:current' }
+        { name: 'Pull code' },
+        { name: 'Test' },
+        { name: 'Build' }
       ]
     },
     {
       name: 'Deploy', children: [
-        { name: 'QA:pending' },
-        { name: 'UAT:processing' },
-        { name: 'STAGING:processing' },
-        { name: 'PROD:untouched' }
+        { name: 'QA' },
+        { name: 'UAT' },
+        { name: 'STAGING' },
+        { name: 'PROD' }
       ]
     },
     {
       name: 'Finish', children: [
-        { name: 'Finish:untouched' }
+        { name: 'Finish' }
       ]
     }
   ];
