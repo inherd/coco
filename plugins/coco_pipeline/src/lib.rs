@@ -37,6 +37,9 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 mod tests {
     use crate::pipeline_plugin::execute;
     use core_model::{CocoConfig, RepoConfig};
+    use jenkinsfile::Jenkinsfile;
+    use std::fs::File;
+    use std::io::Read;
     use std::path::PathBuf;
 
     pub fn ctags_fixtures_dir() -> PathBuf {
@@ -68,5 +71,20 @@ mod tests {
         };
 
         execute(config);
+
+        let base_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+            .join(".coco")
+            .join("reporter")
+            .join("pipeline");
+        let output_dir = base_dir.join("jenkinsfile.json");
+
+        let mut file = File::open(output_dir).unwrap();
+        let mut code = String::new();
+        file.read_to_string(&mut code).unwrap();
+        let pipelines: Vec<Jenkinsfile> = serde_json::from_str(&code).unwrap();
+
+        assert_eq!(1, pipelines.len());
+        assert_eq!(1, pipelines[0].stages.len());
+        assert_eq!(2, pipelines[0].stages[0].sub_stages.len());
     }
 }
