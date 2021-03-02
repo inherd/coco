@@ -74,12 +74,21 @@ d3.json("fake/pipeline.json").then(function (data) {
     let first_pipeline = data[0];
     for (let stage of first_pipeline.stages) {
       let jobs = [];
-      for (let step of stage.steps) {
-        jobs.push({name: step});
+      for (let sub_stage of stage.sub_stages) {
+        jobs.push({
+          name: sub_stage.name,
+          desc: jobs,
+        });
+      }
+      if (jobs.length === 0) {
+        jobs.push({
+          name: "",
+          desc: jobs,
+        });
       }
       pipeline.push({
         name: stage.name,
-        children: jobs
+        children: jobs,
       })
     }
 
