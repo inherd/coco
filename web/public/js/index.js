@@ -69,36 +69,20 @@ d3.json("data/struct.json").then(function (data) {
 });
 
 d3.json("fake/pipeline.json").then(function (data) {
-  let testdata = [
-    {
-      name: 'Initialize',
-      children: [
-        { name: 'Initialize' }
-      ]
-    },
-    {
-      name: 'Build', children: [
-        { name: 'Pull code' },
-        { name: 'Test' },
-        { name: 'Build' }
-      ]
-    },
-    {
-      name: 'Deploy', children: [
-        { name: 'QA' },
-        { name: 'UAT' },
-        { name: 'STAGING' },
-        { name: 'PROD' }
-      ]
-    },
-    {
-      name: 'Finish', children: [
-        { name: 'Finish' }
-      ]
+  if (!!data) {
+    let pipeline = [];
+    let first_pipeline = data[0];
+    for (let stage of first_pipeline.stages) {
+      let jobs = [];
+      for (let step of stage.steps) {
+        jobs.push({name: step});
+      }
+      pipeline.push({
+        name: stage.name,
+        children: jobs
+      })
     }
-  ];
 
-  if (!!testdata) {
-    visualizationPipeline(testdata, '#pipeline');
+    visualizationPipeline(pipeline, '#pipeline');
   }
 });
