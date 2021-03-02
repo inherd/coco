@@ -124,7 +124,7 @@ mod tests {
         let base_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join(".coco")
             .join("reporter")
-            .join("struct_analysis");
+            .join("struct");
         let output_dir = base_dir.join("source.json");
 
         let mut file = File::open(output_dir).unwrap();
