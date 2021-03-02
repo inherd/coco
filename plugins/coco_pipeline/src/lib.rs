@@ -84,7 +84,7 @@ mod tests {
         let pipelines: Vec<Pipeline> = serde_json::from_str(&code).unwrap();
 
         assert_eq!(1, pipelines.len());
-        assert_eq!(1, pipelines[0].stages.len());
-        assert_eq!(2, pipelines[0].stages[0].sub_stages.len());
+        assert_eq!(5, pipelines[0].stages.len());
+        // assert_eq!(2, pipelines[0].stages[0].sub_stages.len());
     }
 }

@@ -16,6 +16,7 @@ impl Pipeline {
 
         for main_stage in &jenkinsfile.stages {
             let mut stage = PipelineStage::new(main_stage.name.clone());
+            stage.steps = main_stage.steps.clone();
             for sub_stage in &main_stage.sub_stages {
                 stage.sub_stages.push(PipelineStage {
                     name: sub_stage.name.clone(),

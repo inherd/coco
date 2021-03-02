@@ -3,27 +3,51 @@
     "name": "",
     "stages": [
       {
-        "name": "Sequential",
-        "steps": [],
+        "name": "versions",
+        "steps": [
+          "sh \"java -version\"\n        ",
+          "sh \"docker version\"\n        ",
+          "sh \"docker-compose version\"\n      "
+        ],
         "is_parallel": false,
-        "sub_stages": [
-          {
-            "name": "In Sequential 1",
-            "steps": [
-              "echo \"In Sequential 1\"\n                    "
-            ],
-            "is_parallel": false,
-            "sub_stages": []
-          },
-          {
-            "name": "In Sequential 2",
-            "steps": [
-              "echo \"In Sequential 2\"\n                    "
-            ],
-            "is_parallel": false,
-            "sub_stages": []
-          }
-        ]
+        "sub_stages": []
+      },
+      {
+        "name": "test-go",
+        "steps": [
+          "sh \"go get -d -v -t && go test --cover -v ./... --run UnitTest && go build -v -o go-demo\"\n      "
+        ],
+        "is_parallel": false,
+        "sub_stages": []
+      },
+      {
+        "name": "test-docker",
+        "steps": [
+          "sh \"docker container run -v ${workspace}:/usr/src/myapp -w /usr/src/myapp golang:1.9 bash -c \\\"go get -d -v -t && go test --cover -v ./... --run UnitTest && go build -v -o go-demo\\\"\"\n      "
+        ],
+        "is_parallel": false,
+        "sub_stages": []
+      },
+      {
+        "name": "test-dc",
+        "steps": [
+          "sh \"docker-compose run --rm unit\"\n      "
+        ],
+        "is_parallel": false,
+        "sub_stages": []
+      },
+      {
+        "name": "release",
+        "steps": [
+          "script {\n          def dateFormat = new SimpleDateFormat(\"yy.MM.dd\")\n          currentBuild.displayName = dateFormat.format(new Date()) + \"-\" + env.BUILD_NUMBER\n        }",
+          "sh \"docker image build -t vfarcic/go-demo-cje .\"\n        ",
+          "sh \"docker image tag vfarcic/go-demo-cje vfarcic/go-demo-cje:${currentBuild.displayName}\"\n        ",
+          "withCredentials([usernamePassword(\n          credentialsId: \"docker\",\n          usernameVariable: \"USER\",\n          passwordVariable: \"PASS\"\n        )]) {\n          sh \"docker login -u '$USER' -p '$PASS'\"\n        }",
+          "sh \"docker image push vfarcic/go-demo-cje\"\n        ",
+          "sh \"docker image push vfarcic/go-demo-cje:${currentBuild.displayName}\"\n      "
+        ],
+        "is_parallel": false,
+        "sub_stages": []
       }
     ]
   }
