@@ -1,4 +1,21 @@
-# [](https://github.com/inherd/coco/compare/v0.4.0...v) (2021-03-01)
+# [](https://github.com/inherd/coco/compare/v0.4.1...v) (2021-03-02)
+
+
+
+## [0.4.1](https://github.com/inherd/coco/compare/v0.4.0...v0.4.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* fix rename struct_analysis test issue ([1930cd2](https://github.com/inherd/coco/commit/1930cd26909fd9a893f4041bd7023623f8c593b0))
+* fix typos ([20fc207](https://github.com/inherd/coco/commit/20fc2072a0be0016ae897e547b8ad37008e16904))
+
+
+### Features
+
+* init basic code ([3b8e07a](https://github.com/inherd/coco/commit/3b8e07a6fa3eb0621c0a67a32b51d5dd191d7b02))
+* make output projects ([891d1da](https://github.com/inherd/coco/commit/891d1dac7779d437e5d150be36604d5aa6ae1012))
+* **export:** make export json works ([92e6308](https://github.com/inherd/coco/commit/92e63088eadb33a4106ac15f8caa1ad6f644035d))
 
 
 
