@@ -37,16 +37,16 @@ function visualizationPipeline(data, elementId) {
   let config = {
     connectionStrokeWidth: 4,
     stateStrokeWidth: 4,
-    stateRadius: 16,
-    stageSpace: 60,
+    stateRadius: 8,
+    stageSpace: 50,
     stageLabelHeight: 30,
-    stageLabelSize: '16px',
-    jobHeight: 60,
-    jobLabelSize: '12px',
-    startNodeRadius: 12,
-    startNodeSpace: 40,
-    endNodeRadius: 12,
-    endNodeSpace: 40,
+    stageLabelSize: '12px',
+    jobHeight: 50,
+    jobLabelSize: '10px',
+    startNodeRadius: 8,
+    startNodeSpace: 30,
+    endNodeRadius: 8,
+    endNodeSpace: 30,
   };
 
   let stages = data.map(({name: stageName, children = []}) => ({
@@ -291,15 +291,6 @@ function visualizationPipeline(data, elementId) {
 
     // -20 for Start label, otherwise it will be cut off
     return `-20 0 ${svgWidth} ${svgHeight}`;
-  }
-
-  let JobState = {
-    UNTOUCHED: 'untouched',
-    PROCESSING: 'processing',
-    CURRENT: 'current',
-    SUCCESS: 'success',
-    ERROR: 'error',
-    PENDING: 'pending',
   }
 
   function getStateConfig(state) {
