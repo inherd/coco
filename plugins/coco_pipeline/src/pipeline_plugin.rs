@@ -1,3 +1,4 @@
+use crate::pipeline::Pipeline;
 use core_model::url_format::uri_to_path;
 use core_model::{url_format, CocoConfig, Settings};
 use ignore::Walk;
@@ -14,7 +15,7 @@ pub fn execute(config: CocoConfig) {
         for path in origin_files {
             let contents = fs::read_to_string(path).expect("Something went wrong reading the file");
             if let Some(jenkinsfile) = Jenkinsfile::from_str(contents.as_str()) {
-                results.push(jenkinsfile);
+                results.push(Pipeline::from(jenkinsfile));
             }
         }
 
@@ -31,7 +32,7 @@ fn write_to_json_file(url_str: &str, result: &String) {
 
 fn lookup_jenkinsfile(url_str: &str) -> Vec<PathBuf> {
     let path = uri_to_path(url_str);
-    let mut origin_files = vec![];
+    let mut pipeline_files = vec![];
     for result in Walk::new(path) {
         if let Ok(entry) = result {
             if !entry.file_type().unwrap().is_file() {
@@ -39,10 +40,10 @@ fn lookup_jenkinsfile(url_str: &str) -> Vec<PathBuf> {
             }
 
             if entry.file_name().to_str().unwrap() == "Jenkinsfile" {
-                origin_files.push(entry.into_path());
+                pipeline_files.push(entry.into_path());
             }
         }
     }
 
-    origin_files
+    pipeline_files
 }

@@ -35,9 +35,9 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 
 #[cfg(test)]
 mod tests {
+    use crate::pipeline::Pipeline;
     use crate::pipeline_plugin::execute;
     use core_model::{CocoConfig, RepoConfig};
-    use jenkinsfile::Jenkinsfile;
     use std::fs::File;
     use std::io::Read;
     use std::path::PathBuf;
@@ -81,7 +81,7 @@ mod tests {
         let mut file = File::open(output_dir).unwrap();
         let mut code = String::new();
         file.read_to_string(&mut code).unwrap();
-        let pipelines: Vec<Jenkinsfile> = serde_json::from_str(&code).unwrap();
+        let pipelines: Vec<Pipeline> = serde_json::from_str(&code).unwrap();
 
         assert_eq!(1, pipelines.len());
         assert_eq!(1, pipelines[0].stages.len());
