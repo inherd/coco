@@ -101,7 +101,7 @@ reporter
  - [x] git analysis
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
-    - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
+    - [x] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
     - [x] change
        - [x] line change
        - [x] changed file
@@ -113,9 +113,9 @@ reporter
     - [x] git commit time analysis
        - [x] storage all commits
        - [x] working night count
- - [ ] cloc analysis
+ - [x] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
-    - [ ] history cloc changes
+    - [x] history cloc changes
     - [x] commit cloc changes
  - [ ] framework analysis.
     - framework detector
@@ -123,7 +123,6 @@ reporter
     - [x] framework output
     - [ ] tech stack generate
     - [ ] cloud native
-        - [ ] dockerfile analysis
  - [ ] module analysis
     - [x] base framework for directory
        - [x] gitignore support
@@ -136,9 +135,8 @@ reporter
        - 以加入时间开始度量平均提交：上手成本分析
        - 平均加入时长
        - 成员加入时间点
-    - [ ] member growth
+    - [x] member growth
     - [x] count system size & learning curve
-    - [ ] micro services size
  - [ ] commit analysis
     - [ ] commit times analysis (hours)
     - [ ] rule regex support in config
@@ -181,6 +179,7 @@ reporter
        - [ ] visual
        - [x] uml
     - [ ] swagger
+       - [ ] micro services size
     - [ ] coverage
     - [ ] Jenkinsfile
     - [ ] Dockerfile

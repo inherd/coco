@@ -69,7 +69,6 @@ fn start_export_reporter(matches: &&ArgMatches, project_name: String) {
         path = input
     }
 
-    // todo: make really output
     output_static::run(path, project_name);
 }
 
