@@ -746,6 +746,7 @@ version = "0.1.0"
 dependencies = [
  "core_model",
  "gumdrop",
+ "ignore",
  "jenkinsfile",
  "pest",
  "pest_derive",
@@ -1836,14 +1837,17 @@ checksum = "dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736"
 
 [[package]]
 name = "jenkinsfile"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "65ebbd08e1ea1e3e903d84414faeb5adcde0e3d6fbdd08e57dc0c7136fb0a386"
+checksum = "1013365ac2f71483846cb5556f659ce6dded72bbb8ce6d5245552fde4e4a0b02"
 dependencies = [
  "lazy_static",
  "pest",
  "pest_derive",
  "regex",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]

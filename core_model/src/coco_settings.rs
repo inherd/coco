@@ -65,6 +65,10 @@ impl Settings {
         Settings::reporter(Some("framework"))
     }
 
+    pub fn pipeline() -> PathBuf {
+        Settings::reporter(Some("pipeline"))
+    }
+
     pub fn struct_dir() -> PathBuf {
         Settings::reporter(Some("struct"))
     }
