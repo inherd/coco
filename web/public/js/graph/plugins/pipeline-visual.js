@@ -22,7 +22,14 @@
 
 // based on https://github.com/ledge-framework/engine/blob/master/projects/%40ledge-framework/render/src/lib/chart/ledge-pipeline/ledge-pipeline.component.ts
 function visualizationStruct(data, elementId) {
-  let defaultPipelineConfig = {
+  let Color = {
+    GREEN: '#4A9900',
+    RED: '#C4000A',
+    GRAY: '#949393',
+    WHITE: '#FFFFFF',
+  }
+
+  let config = {
     connectionStrokeWidth: 4,
     stateStrokeWidth: 4,
     stateRadius: 16,
