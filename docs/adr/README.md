@@ -27,3 +27,4 @@
 * [25. deploy-analyser](0025-deploy-analyser.md)
 * [26. use-plantuml-for-convert-uml](0026-use-plantuml-for-convert-uml.md)
 * [27. dockefile-analysis](0027-dockefile-analysis.md)
+* [28. kubernetes-analysis](0028-kubernetes-analysis.md)
