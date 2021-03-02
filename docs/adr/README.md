@@ -26,3 +26,4 @@
 * [24. jenkinsfile-parser](0024-jenkinsfile-parser.md)
 * [25. deploy-analyser](0025-deploy-analyser.md)
 * [26. use-plantuml-for-convert-uml](0026-use-plantuml-for-convert-uml.md)
+* [27. dockefile-analysis](0027-dockefile-analysis.md)
