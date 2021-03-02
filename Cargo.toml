@@ -107,7 +107,7 @@ members = [
   'plugin_manager',
   'plugin_interface',
   'plugins/coco_swagger',
-  'plugins/coco_struct_analysis',
+  'plugins/coco_struct',
   'plugins/coco_coverage',
   'plugins/coco_pipeline',
   'plugins/coco_container',

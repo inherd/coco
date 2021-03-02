@@ -756,7 +756,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "coco_struct_analysis"
+name = "coco_struct"
 version = "0.1.0"
 dependencies = [
  "core_model",

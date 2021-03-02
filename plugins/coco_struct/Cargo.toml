@@ -1,5 +1,5 @@
 [package]
-name = "coco_struct_analysis"
+name = "coco_struct"
 version = "0.1.0"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
