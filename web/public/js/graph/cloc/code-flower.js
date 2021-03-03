@@ -1,12 +1,12 @@
 function renderCodeFlower(data, selector) {
   data = {
-    links: [
+    nodes: [
       {"id": "Myriel", "group": 1},
       {"id": "CountessdeLo", "group": 1},
       {"id": "Geborand", "group": 1},
       {"id": "Champtercier", "group": 1},
     ],
-    nodes: [
+    links: [
       {"source": "CountessdeLo", "target": "Myriel", "value": 1},
       {"source": "Geborand", "target": "Myriel", "value": 1},
       {"source": "Champtercier", "target": "Myriel", "value": 1},
@@ -16,14 +16,14 @@ function renderCodeFlower(data, selector) {
   let w = GraphConfig.width;
   let h = GraphConfig.height;
 
-  const links = data.links;
-  const nodes = data.nodes;
+  const links = data.links.map(d => Object.create(d));
+  const nodes = data.nodes.map(d => Object.create(d));
 
   d3.select(selector).selectAll("svg").remove();
   const svg = d3.select(selector).append("svg").attr("viewBox", [0, 0, w, h]);
 
   const simulation = d3.forceSimulation(nodes)
-    .force("link", d3.forceLink().id(d => d.id))
+    .force("link", d3.forceLink(links).id(d => d.id))
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(w / 2, h / 2));
 
@@ -48,7 +48,7 @@ function renderCodeFlower(data, selector) {
     .join("circle")
     .attr("r", 5)
     .attr("fill", color)
-    .call(drag(simulation));
+    .call(drag(simulation))
 
   node.append("title")
     .text(d => d.id);
