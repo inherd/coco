@@ -1,4 +1,4 @@
-use crate::pipeline::Pipeline;
+use crate::coco_pipeline::CocoPipeline;
 use core_model::url_format::uri_to_path;
 use core_model::{url_format, CocoConfig, Settings};
 use ignore::Walk;
@@ -15,7 +15,7 @@ pub fn execute(config: CocoConfig) {
         for path in origin_files {
             let contents = fs::read_to_string(path).expect("Something went wrong reading the file");
             if let Some(jenkinsfile) = Jenkinsfile::from_str(contents.as_str()) {
-                results.push(Pipeline::from(jenkinsfile));
+                results.push(CocoPipeline::from(jenkinsfile));
             }
         }
 

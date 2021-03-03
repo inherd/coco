@@ -14,9 +14,9 @@ pub use ctags::ctags_parser;
 pub use plantuml::plantuml_render;
 
 pub mod coco_struct;
+pub mod coco_struct_plugin;
 pub mod ctags;
 pub mod plantuml;
-pub mod struct_plugin;
 
 pub struct CocoStructAnalysis {}
 
@@ -38,7 +38,7 @@ impl PluginInterface for CocoStructAnalysis {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self, config: CocoConfig) {
-        struct_plugin::execute(config);
+        coco_struct_plugin::execute(config);
     }
 }
 
@@ -89,7 +89,7 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 #[cfg(test)]
 mod tests {
     use crate::coco_struct::ClassInfo;
-    use crate::struct_plugin::execute;
+    use crate::coco_struct_plugin::execute;
     use core_model::{CocoConfig, RepoConfig};
     use std::fs::File;
     use std::io::Read;
