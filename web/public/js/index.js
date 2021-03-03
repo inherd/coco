@@ -14,6 +14,7 @@ d3.json("data/cloc.json").then(function (json) {
 
   renderPacking(data["reports"])
   renderNestedTreemap(data["reports"])
+  renderCodeFlower(data["reports"]);
 });
 
 d3.json("data/git.json").then(function (json) {

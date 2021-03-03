@@ -58,8 +58,6 @@ function visualizationPipeline(data, elementId) {
     })
   }));
 
-  console.log(stages);
-
   let svg = d3.select(elementId)
     .append('svg')
     .attr('width', '100%')
