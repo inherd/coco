@@ -10,4 +10,5 @@ pub mod coco_settings;
 pub use interface::PluginInterface;
 pub mod interface;
 
-pub mod url_format;
+pub use support::url_format;
+pub mod support;
