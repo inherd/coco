@@ -231,6 +231,8 @@ DevOps pipeline
 
 Tech Debt Integration
 
+ - [ ] Git 2
+     - [ ] Code check with: [https://github.com/kornysietsma/polyglot-code-scanner](https://github.com/kornysietsma/polyglot-code-scanner)
  - [ ] Integration Sonarqube ?
      - [ ] [Our 10-Point Technical Debt Assessment](https://codeclimate.com/blog/10-point-technical-debt-assessment/)
 
