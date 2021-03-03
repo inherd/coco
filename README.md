@@ -201,7 +201,6 @@ Visual and Reporter
      - [ ] architecture
         - [x] first demo
         - [x] code flower 1, [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
-        - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
      - [ ] git
         - [x] branch history demo
      - [ ] commits in years/month
@@ -214,6 +213,12 @@ Visual and Reporter
     - [ ] story velocity
         - [ ] commit message analysis
         - [ ] story spend days
+    - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
+        - source code: https://github.com/kornysietsma/polyglot-code-explorer/tree/master/src
+        - [ ] Age since last change
+        - [ ] Creation date
+        - [ ] Unique changers
+        - [ ] Temporal Coupling
  - [ ] reporter
      - [ ] framework
      - [ ] cloc
