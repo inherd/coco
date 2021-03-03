@@ -11,7 +11,7 @@ use reqwest;
 use zip;
 
 use coco::app::analysis;
-use coco::app::cmd::CocoCliOption;
+use coco::app::CocoCliOption;
 use coco::coco_error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
