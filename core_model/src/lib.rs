@@ -7,4 +7,7 @@ pub mod coco_config;
 pub use coco_settings::Settings;
 pub mod coco_settings;
 
+pub use interface::PluginInterface;
+pub mod interface;
+
 pub mod url_format;

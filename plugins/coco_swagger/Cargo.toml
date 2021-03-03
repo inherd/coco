@@ -11,9 +11,6 @@ edition = "2018"
 [dependencies.core_model]
 path = "../../core_model"
 
-[dependencies.plugin_interface]
-path = "../../plugin_interface"
-
 [lib]
 name = "coco_swagger"
 crate-type = ["cdylib"]

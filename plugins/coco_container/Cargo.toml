@@ -12,9 +12,6 @@ dockerfile-parser = "0.7.1"
 [dependencies.core_model]
 path = "../../core_model"
 
-[dependencies.plugin_interface]
-path = "../../plugin_interface"
-
 [lib]
 name = "coco_container"
 crate-type = ["cdylib"]

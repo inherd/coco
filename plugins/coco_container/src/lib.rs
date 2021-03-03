@@ -1,5 +1,5 @@
 use core_model::CocoConfig;
-use plugin_interface::PluginInterface;
+use core_model::PluginInterface;
 
 pub struct CocoContainer {}
 

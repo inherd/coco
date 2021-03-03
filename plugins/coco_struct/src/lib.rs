@@ -3,7 +3,7 @@ extern crate lazy_static;
 extern crate serde;
 
 use core_model::CocoConfig;
-use plugin_interface::PluginInterface;
+use core_model::PluginInterface;
 
 use std::process::Command;
 

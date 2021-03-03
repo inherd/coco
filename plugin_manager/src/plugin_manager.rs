@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use dlopen::wrapper::{Container, WrapperApi};
 
 use core_model::CocoConfig;
-use plugin_interface::PluginInterface;
+use core_model::PluginInterface;
 
 const BUILD_TYPE: &str = if cfg!(debug_assertions) {
     "debug"

@@ -105,7 +105,6 @@ members = [
   'e2e',
   'core_model',
   'plugin_manager',
-  'plugin_interface',
   'plugins/coco_swagger',
   'plugins/coco_struct',
   'plugins/coco_coverage',

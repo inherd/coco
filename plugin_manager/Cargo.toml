@@ -10,10 +10,5 @@ edition = "2018"
 dlopen = "0.1.8"
 dlopen_derive = "0.1.4"
 
-
 [dependencies.core_model]
 path = "../core_model"
-
-
-[dependencies.plugin_interface]
-path = "../plugin_interface"
