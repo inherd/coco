@@ -69,7 +69,7 @@ d3.json("data/struct.json").then(function (data) {
   visualizationStruct(data);
 });
 
-d3.json("fake/pipeline.json").then(function (data) {
+d3.json("data/pipeline.json").then(function (data) {
   if (!!data) {
     let pipeline = [];
     let first_pipeline = data[0];
