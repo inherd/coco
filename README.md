@@ -138,10 +138,10 @@ reporter
     - [x] member growth
     - [x] count system size & learning curve
  - [ ] commit analysis
-    - [ ] commit times analysis (hours)
+    - [x] commit times analysis (hours)
     - [ ] rule regex support in config
     - [ ] participle（分词）
-    - [ ] tags generate
+    - [x] tags generate
  - [ ] suggestion API
     - [ ] document manage system
     - [ ] suggest to ledge
@@ -181,7 +181,7 @@ reporter
     - [ ] swagger
        - [ ] micro services size
     - [ ] coverage
-    - [ ] Jenkinsfile
+    - [x] Jenkinsfile
     - [ ] Dockerfile
 
 Visual and Reporter
@@ -191,16 +191,17 @@ Visual and Reporter
         - [x] http server: [actix_web](https://github.com/actix/actix-web)
         - [x] static server: [Rust Embed](https://github.com/pyros2097/rust-embed)
      - [x] export assets
-     - [ ] cli prompt for projects
+     - [x] cli prompt for projects
      - [ ] query JSON API
      - [ ] CLI JSON API
  - visual web
-     - [ ] spike d3.js code organization
+     - [x] spike d3.js code organization
      - [ ] typescript with frontend framework
         - [ ] use deno ?
      - [ ] architecture
         - [x] first demo
-        - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
+        - [x] code flower 1, [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
+        - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
      - [ ] git
         - [x] branch history demo
      - [ ] commits in years/month
@@ -208,7 +209,7 @@ Visual and Reporter
      - [ ] changes in years/month
         - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
     - [ ] graph support for velocity
-        - [ ] code commits by daily
+        - [x] code commits by daily
         - [ ] PR times by daily
     - [ ] story velocity
         - [ ] commit message analysis
