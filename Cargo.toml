@@ -21,20 +21,6 @@ exclude = [
   ".gitattributes",
   ".adr.json",
 ]
-#
-#
-#[features]
-#actix = ["actix-web", "mime_guess"]
-#
-#[[visual]]
-#name = "actix"
-#path = "src/bin/visual.rs"
-#required-features = ["actix"]
-#
-#[[visual]]
-#name = "actix"
-#path = "src/app/visual/local_server.rs"
-#required-features = ["actix"]
 
 [dependencies]
 lazy_static = "1.4.0"
