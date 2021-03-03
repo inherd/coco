@@ -27,10 +27,8 @@ function renderCodeFlower(data, selector) {
     .force("charge", d3.forceManyBody())
     .force("center", d3.forceCenter(w / 2, h / 2));
 
-  let color = function () {
-    const scale = d3.scaleOrdinal(d3.schemeCategory10);
-    return d => scale(d.group);
-  }
+  const scale = d3.scaleOrdinal(d3.schemeCategory10);
+  let color = d => scale(d.group);
 
   const link = svg.append("g")
     .attr("stroke", "#999")
