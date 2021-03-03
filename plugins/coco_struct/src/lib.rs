@@ -7,11 +7,15 @@ use core_model::PluginInterface;
 
 use std::process::Command;
 
-pub mod cmd_ctags;
+pub use ctags::ctags_cmd;
+pub use ctags::ctags_opt;
+pub use ctags::ctags_parser;
+
+pub use plantuml::plantuml_render;
+
 pub mod coco_struct;
-pub mod ctags_opt;
-pub mod ctags_parser;
-pub mod plantuml_render;
+pub mod ctags;
+pub mod plantuml;
 pub mod struct_plugin;
 
 pub struct CocoStructAnalysis {}
