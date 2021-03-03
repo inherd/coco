@@ -9,6 +9,7 @@ function renderCodeFlower(originData, selector) {
     }
   }
 
+  console.log(dMap);
   let jdata = Object.values(dMap)
   let data = CodeSupport.hierarchy(jdata);
 
@@ -63,6 +64,13 @@ function renderCodeFlower(originData, selector) {
 
     node.exit().remove()
 
+
+    let text = svg.append('svg:text')
+      .attr('class', 'nodetext')
+      .attr('dy', 0)
+      .attr('dx', 0)
+      .attr('text-anchor', 'middle');
+
     const nodeEnter = node
       .enter()
       .append('g')
@@ -76,6 +84,14 @@ function renderCodeFlower(originData, selector) {
         .on('start', dragstarted)
         .on('drag', dragged)
         .on('end', dragended))
+      .on("mouseover", function (event, d) {
+        text.attr('transform', 'translate(' + d.x + ',' + d.y + ')')
+          .text(d.data.name + ": " + d.data.size + " loc")
+          .style('display', 'block');
+      })
+      .on("mouseout", function (d) {
+        text.style('display', 'none');
+      });
 
     nodeEnter.append('circle')
       .attr("r", function (d) {
@@ -135,7 +151,6 @@ function renderCodeFlower(originData, selector) {
   }
 
   function clicked(event, d) {
-    console.log(d);
     if (!event.defaultPrevented) {
       if (d.children) {
         d._children = d.children;
