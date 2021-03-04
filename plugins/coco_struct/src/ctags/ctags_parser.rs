@@ -121,7 +121,6 @@ impl CtagsParser {
         let mut parser = CtagsParser::default();
         for result in reader.lines() {
             if let Ok(line) = result {
-                if line.starts_with("!_") {continue;}
                 parser.parse_class(line.as_str());
             };
         }
@@ -130,7 +129,6 @@ impl CtagsParser {
         let reader = BufReader::new(file);
         for result in reader.lines() {
             if let Ok(line) = result {
-                if line.starts_with("!_") {continue;}
                 parser.parse_method_methods(line.as_str());
             };
         }
