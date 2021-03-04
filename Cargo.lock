@@ -669,6 +669,7 @@ dependencies = [
  "clap",
  "core_model",
  "dialoguer",
+ "failure",
  "framework",
  "git2",
  "lazy_static",

@@ -1,6 +1,6 @@
 use crate::domain::cloc::{ClocDetail, ClocLanguage};
 use crate::infrastructure::cloc;
-use std::error::Error;
+use failure::Error;
 use std::path::{Path, PathBuf};
 
 pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
@@ -22,7 +22,7 @@ pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
                 comments: report.stats.comments,
                 file_name,
                 path: strip_path.to_str().unwrap().to_string(),
-                bytes: file_size(strip_path).unwrap(),
+                bytes: file_size(&report.name).unwrap(),
             });
         }
 
