@@ -70,7 +70,9 @@ d3.json("data/struct.json").then(function (data) {
 });
 
 d3.json("data/git-file-history.json").then(function (data) {
-  renderCodeExplorer(data, '#file-history');
+  d3.csv("fake/freedom_clean.csv").then(json => {
+    renderCodeExplorer(json, '#file-explorer');
+  });
 });
 
 d3.json("data/pipeline.json").then(function (data) {
