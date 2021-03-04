@@ -3,6 +3,7 @@ pub use git_repository::GitRepository;
 pub mod cmd_git;
 pub mod git_branch;
 pub mod git_commit_message;
+pub mod git_file_history;
 pub mod git_log_parser;
 pub mod git_repository;
 pub mod git_tag_parser;
@@ -88,5 +89,23 @@ mod test {
         assert_eq!("Initial commit", first.message);
         assert_eq!(3, first.changes.len());
         assert_eq!("origin/gh-pages", first.branch);
+    }
+
+    #[test]
+    fn should_get_file_history() {
+        initialize();
+
+        let local_path = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
+
+        use git_scanner::indicator_calculator::IndicatorCalculator;
+
+        let mut calculator = git_scanner::scanner_by_years(3);
+        let result = calculator.calculate(&local_path);
+        match result {
+            Ok(some) => {
+                println!("{:?}", some.unwrap());
+            }
+            Err(_) => {}
+        }
     }
 }
