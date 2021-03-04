@@ -70,6 +70,9 @@ lazy_static! {
 ([A-Za-z0-9_.]+)
 (,(\s|\t)*([A-Za-z0-9_.]+))*(\s|\t)* # for `name, access, returntype string`
 (?P<datatype>[A-Za-z0-9_.<>\[\]]+)").unwrap();
+    static ref TYPE_SCRIPT_TYPE: Regex = Regex::new(
+        r"/\^([ |\t]*).*:([ |\t]*)(?P<datatype>[A-Za-z0-9_.<>\[\]]+).*\$/"
+    ).unwrap();
 
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
@@ -118,6 +121,7 @@ impl CtagsParser {
         let mut parser = CtagsParser::default();
         for result in reader.lines() {
             if let Ok(line) = result {
+                if line.starts_with("!_") {continue;}
                 parser.parse_class(line.as_str());
             };
         }
@@ -126,6 +130,7 @@ impl CtagsParser {
         let reader = BufReader::new(file);
         for result in reader.lines() {
             if let Ok(line) = result {
+                if line.starts_with("!_") {continue;}
                 parser.parse_method_methods(line.as_str());
             };
         }
@@ -208,10 +213,15 @@ impl CtagsParser {
                     data_type = (&capts["datatype"]).to_string();
                 }
             }
+            "TypeScript" => {
+                if let Some(capts) = TYPE_SCRIPT_TYPE.captures(line) {
+                    data_type = (&capts["datatype"]).to_string();
+                }
+            }
             _ => {}
         }
 
-        if tag_type.eq("member") || tag_type.eq("field") {
+        if tag_type.eq("member") || tag_type.eq("field") || tag_type.eq("property") {
             let mut member = MemberInfo::new(name, access, data_type);
             if !pure_data_type.is_empty() {
                 member.pure_data_type = pure_data_type;
@@ -417,5 +427,24 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         assert_eq!("IntFieldOrm", string_field.methods[0].name);
         assert_eq!("migrate", string_field.methods[1].name);
         assert_eq!("save", string_field.methods[2].name);
+    }
+
+    #[test]
+    pub fn should_parse_ts_file() {
+        let dir = tags_dir().join("ts_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+
+        assert_eq!(3, classes.len());
+        assert_eq!("TypeScript", classes[0].lang);
+
+        assert_eq!(1, classes[0].members.len());
+        assert_eq!("name", classes[0].members[0].name);
+        assert_eq!("string", classes[0].members[0].data_type);
+
+        let methods = classes[0].methods.clone();
+        assert_eq!(2, methods.len());
+        assert_eq!("constructor", methods[0].name);
+        assert_eq!("move", methods[1].name)
     }
 }
