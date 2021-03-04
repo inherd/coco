@@ -1,0 +1,21 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_OUTPUT_EXCMD	mixed	/number, pattern, mixed, or combineV2/
+!_TAG_OUTPUT_FILESEP	slash	/slash or backslash/
+!_TAG_OUTPUT_MODE	u-ctags	/u-ctags or e-ctags/
+!_TAG_PATTERN_LENGTH_LIMIT	96	/0 for no limit/
+!_TAG_PROC_CWD	/Users/chalme/CLionProjects/coco/_fixtures/ctags/source/	//
+!_TAG_PROGRAM_AUTHOR	Universal Ctags Team	//
+!_TAG_PROGRAM_NAME	Universal Ctags	/Derived from Exuberant Ctags/
+!_TAG_PROGRAM_URL	https://ctags.io/	/official site/
+!_TAG_PROGRAM_VERSION	5.9.0	/98ff77d/
+Animal	animal.ts	/^class Animal {$/;"	class	line:3	language:TypeScript
+Horse	animal.ts	/^class Horse extends Animal {$/;"	class	line:20	language:TypeScript	inherits:Animal
+Snake	animal.ts	/^class Snake extends Animal {$/;"	class	line:13	language:TypeScript	inherits:Animal
+constructor	animal.ts	/^  constructor(name : string) {$/;"	method	line:5	language:TypeScript	class:Animal	access:public
+move	animal.ts	/^  move() {$/;"	method	line:14	language:TypeScript	class:Snake	access:public
+move	animal.ts	/^  move() {$/;"	method	line:21	language:TypeScript	class:Horse	access:public
+move	animal.ts	/^  move(meters) {$/;"	method	line:8	language:TypeScript	class:Animal	access:public
+name	animal.ts	/^  name : string$/;"	property	line:4	language:TypeScript	class:Animal	access:public
+sam	animal.ts	/^var sam = new Snake("Sammy the Python")$/;"	variable	line:27	language:TypeScript
+tom	animal.ts	/^var tom: Animal = new Horse("Tommy the Palomino")$/;"	variable	line:28	language:TypeScript
