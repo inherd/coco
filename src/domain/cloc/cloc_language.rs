@@ -23,11 +23,18 @@ impl Default for ClocLanguage {
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct ClocDetail {
+    /// Total blank lines
     pub blanks: usize,
+    /// Total number of lines within the file.
     pub code: usize,
+    /// Number of comments within the file.
     pub comments: usize,
+    /// File name
     pub file_name: String,
+    /// really path
     pub path: String,
+    /// File size in bytes
+    pub bytes: u64,
 }
 
 impl Default for ClocDetail {
@@ -38,6 +45,7 @@ impl Default for ClocDetail {
             comments: 0,
             file_name: "".to_string(),
             path: "".to_string(),
+            bytes: 0,
         }
     }
 }
