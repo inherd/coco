@@ -15,7 +15,6 @@ pub fn run<P: AsRef<Path>>(path: P, project: String) {
         let content = Asset::get(&file_name).unwrap();
         let _ = fs::create_dir_all(&file_path.parent().unwrap());
 
-        println!("write to file: {}", file_path.display());
         fs::write(file_path, content).expect("cannot write file");
     }
 
@@ -24,6 +23,7 @@ pub fn run<P: AsRef<Path>>(path: P, project: String) {
 
 fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
     let data_dir = path.as_ref().join("data");
+    let _ = fs::create_dir_all(&data_dir);
 
     // git
     let git = Settings::git().join(format!("{}.json", project));
