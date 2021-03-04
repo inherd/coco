@@ -215,6 +215,7 @@ Visual and Reporter
         - [ ] story spend days
     - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
         - source code: https://github.com/kornysietsma/polyglot-code-explorer/tree/master/src
+        - [Weighted Voronoi diagram](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)
         - [ ] Age since last change
         - [ ] Creation date
         - [ ] Unique changers

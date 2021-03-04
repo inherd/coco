@@ -1,3 +1,3 @@
 function renderCodeExplorer(data, elementId) {
-  console.log(data);
+  let svg = d3.select(elementId).append("svg")
 }
