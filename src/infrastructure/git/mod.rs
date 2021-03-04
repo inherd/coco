@@ -16,11 +16,9 @@ mod test {
     use crate::infrastructure::git::cmd_git::commit_message;
     use crate::infrastructure::git::git_branch::GitBranch;
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
-    use crate::infrastructure::git::GitRepository;
+    use crate::infrastructure::git::{git_file_history, GitRepository};
     use core_model::url_format;
-    use git_scanner::git::GitCalculator;
-    use git_scanner::git_logger::GitLogConfig;
-    use git_scanner::{file_walker, IndicatorCalculator};
+    use std::fs;
 
     static INIT: Once = Once::new();
 
@@ -99,24 +97,12 @@ mod test {
         initialize();
 
         let root = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
+        let tree = git_file_history::by_path(root);
 
-        let mut tics: Vec<Box<dyn IndicatorCalculator>> = vec![];
-        let calculator = Box::new(GitCalculator::new(
-            GitLogConfig::default().include_merges(true).since_years(3),
-            true,
-        ));
+        let json = serde_json::to_string(&tree).unwrap();
+        fs::write("demo.json", json).unwrap();
 
-        tics.push(calculator);
-
-        let mut tree = file_walker::walk_directory(&root, &mut tics).unwrap();
-
-        for tic in tics {
-            if let Some(metadata) = tic.metadata().unwrap() {
-                tree.add_data(tic.name() + "_meta", metadata);
-            }
-        }
-
-        let output = serde_json::to_string(&tree).unwrap();
-        println!("{:?}", output);
+        let name = tree.get_children()[0].name();
+        assert_eq!("LICENSE", name.to_str().unwrap());
     }
 }
