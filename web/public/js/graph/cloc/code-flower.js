@@ -9,7 +9,6 @@ function renderCodeFlower(originData, selector) {
     }
   }
 
-  console.log(dMap);
   let jdata = Object.values(dMap)
   let data = CodeSupport.hierarchy(jdata);
 

@@ -58,6 +58,9 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
     } else if coco_type.ends_with("-tags") {
         coco_type = "git".to_string();
         project_file = format!("{}-tags.json", project);
+    } else if coco_type.ends_with("-file-history") {
+        coco_type = "git".to_string();
+        project_file = format!("{}-file-history.json", project);
     }
 
     let output_path = Settings::reporter(Some(coco_type.as_str())).join(project_file);

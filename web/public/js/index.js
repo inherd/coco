@@ -69,7 +69,7 @@ d3.json("data/struct.json").then(function (data) {
   visualizationStruct(data);
 });
 
-d3.json("data/file-history.json").then(function (data) {
+d3.json("data/git-file-history.json").then(function (data) {
   renderCodeExplorer(data, '#file-history');
 });
 
