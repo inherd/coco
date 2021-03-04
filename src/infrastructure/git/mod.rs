@@ -18,7 +18,6 @@ mod test {
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
     use crate::infrastructure::git::{git_file_history, GitRepository};
     use core_model::url_format;
-    use std::fs;
 
     static INIT: Once = Once::new();
 
@@ -98,9 +97,6 @@ mod test {
 
         let root = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
         let tree = git_file_history::by_path(root);
-
-        let json = serde_json::to_string(&tree).unwrap();
-        fs::write("demo.json", json).unwrap();
 
         let name = tree.get_children()[0].name();
         assert_eq!("LICENSE", name.to_str().unwrap());

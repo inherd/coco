@@ -37,6 +37,7 @@ impl Analyst {
             analysis_branches(url_str);
             analysis_commits(url_str);
             analysis_tags(url_str);
+            analysis_file_history(url_str);
 
             analysis_framework(url_str);
             analysis_cloc(url_str);
@@ -72,6 +73,16 @@ fn analysis_tags(url_str: &str) {
     let file_name = url_format::json_filename_suffix(url_str, Some("-tags"));
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
+    let output_file = Settings::git().join(file_name);
+
+    fs::write(output_file, result).expect("cannot write file");
+}
+
+fn analysis_file_history(url_str: &str) {
+    let tree = file_analysis::analysis(url_str);
+    let file_name = url_format::json_filename_suffix(url_str, Some("-file-history"));
+
+    let result = serde_json::to_string_pretty(&tree).unwrap();
     let output_file = Settings::git().join(file_name);
 
     fs::write(output_file, result).expect("cannot write file");
