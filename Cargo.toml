@@ -31,7 +31,7 @@ lazy_static = "1.4.0"
 chrono = "0.4"
 
 git2 = "0.13"
-git-scanner = "0.1.3"
+git-scanner = "0.1.4"
 
 # for cli usage
 clap = "2.33.3"

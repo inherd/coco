@@ -18,6 +18,9 @@ mod test {
     use crate::infrastructure::git::git_log_parser::GitMessageParser;
     use crate::infrastructure::git::GitRepository;
     use core_model::url_format;
+    use git_scanner::git::GitCalculator;
+    use git_scanner::git_logger::GitLogConfig;
+    use git_scanner::{file_walker, IndicatorCalculator};
 
     static INIT: Once = Once::new();
 
@@ -95,17 +98,25 @@ mod test {
     fn should_get_file_history() {
         initialize();
 
-        let local_path = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
+        let root = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
 
-        use git_scanner::indicator_calculator::IndicatorCalculator;
+        let mut tics: Vec<Box<dyn IndicatorCalculator>> = vec![];
+        let calculator = Box::new(GitCalculator::new(
+            GitLogConfig::default().include_merges(true).since_years(3),
+            true,
+        ));
 
-        let mut calculator = git_scanner::scanner_by_years(3);
-        let result = calculator.calculate(&local_path);
-        match result {
-            Ok(some) => {
-                println!("{:?}", some.unwrap());
+        tics.push(calculator);
+
+        let mut tree = file_walker::walk_directory(&root, &mut tics).unwrap();
+
+        for tic in tics {
+            if let Some(metadata) = tic.metadata().unwrap() {
+                tree.add_data(tic.name() + "_meta", metadata);
             }
-            Err(_) => {}
         }
+
+        let output = serde_json::to_string(&tree).unwrap();
+        println!("{:?}", output);
     }
 }
