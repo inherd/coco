@@ -67,6 +67,9 @@ lazy_static! {
 ([A-Za-z0-9_.]+)
 (,(\s|\t)*([A-Za-z0-9_.]+))*(\s|\t)* # for `name, access, returntype string`
 (?P<datatype>[A-Za-z0-9_.<>\[\]]+)").unwrap();
+    static ref TYPE_SCRIPT_TYPE: Regex = Regex::new(
+        r"/\^([ ]*)([A-Za-z0-9_$]+)\s([A-Za-z0-9_.]+)\s*:(\t|\s)*(?P<datatype>[A-Za-z0-9_.<>]+)"
+    ).unwrap();
 
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
@@ -200,10 +203,15 @@ impl CtagsParser {
                     data_type = (&capts["datatype"]).to_string();
                 }
             }
+            "TypeScript" => {
+                if let Some(capts) = TYPE_SCRIPT_TYPE.captures(line) {
+                    data_type = (&capts["datatype"]).to_string();
+                }
+            }
             _ => {}
         }
 
-        if tag_type.eq("member") || tag_type.eq("field") {
+        if tag_type.eq("member") || tag_type.eq("field") || tag_type.eq("property") {
             let member = MemberInfo::new(name, access, data_type);
             clazz.members.push(member);
         } else if tag_type.eq("method") || tag_type.eq("function") {
@@ -402,5 +410,16 @@ name	src/coco_struct.rs	/^    pub name: String,$/;\"	field	line:22	language:Rust
         assert_eq!("IntFieldOrm", string_field.methods[0].name);
         assert_eq!("migrate", string_field.methods[1].name);
         assert_eq!("save", string_field.methods[2].name);
+    }
+
+    #[test]
+    pub fn should_parse_ts_file() {
+        let dir = tags_dir().join("ts_tags");
+        let parser = CtagsParser::parse(dir);
+        let classes = parser.classes();
+
+        assert_eq!(3, classes.len());
+
+
     }
 }
