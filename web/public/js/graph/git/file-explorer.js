@@ -1,7 +1,7 @@
 function renderCodeExplorer(freedom, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
   let width = GraphConfig.width - margin.left - margin.right;
-  let height = GraphConfig.height - margin.top - margin.bottom;
+  let height = GraphConfig.width - margin.top - margin.bottom;
 
   let ellipse = d3
     .range(100)
@@ -42,7 +42,7 @@ function renderCodeExplorer(freedom, elementId) {
 
   let svg = d3.select(elementId).append("svg")
     .attr("width", GraphConfig.width)
-    .attr("height", GraphConfig.height)
+    .attr("height", GraphConfig.width)
   svg
     .append("rect")
     .attr("width", "100%")
@@ -58,7 +58,22 @@ function renderCodeExplorer(freedom, elementId) {
     .prng(seed)
     .clip(ellipse);
 
+  function colorHierarchy(hierarchy) {
+    if (hierarchy.depth === 0) {
+      hierarchy.color = 'black';
+    } else if (hierarchy.depth === 1) {
+      hierarchy.color = regionColor(hierarchy.data[0]);
+    } else {
+      hierarchy.color = hierarchy.parent.color;
+    }
+
+    if (hierarchy.children) {
+      hierarchy.children.forEach(child => colorHierarchy(child))
+    }
+  }
+
   voronoiTreeMap(population_hierarchy);
+  colorHierarchy(population_hierarchy);
 
   let allNodes = population_hierarchy.descendants()
     .sort((a, b) => b.depth - a.depth)
@@ -101,7 +116,6 @@ function renderCodeExplorer(freedom, elementId) {
     .attr('text-anchor', 'middle')
     .attr("transform", d => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
     .text(d => d.data.key || d.data.countries)
-    //.attr('opacity', d => d.data.key === hoveredShape ? 1 : 0)
     .attr('opacity', function (d) {
       if (d.data.key === hoveredShape) {
         return (1);
