@@ -101,7 +101,18 @@ mod tests {
 
     #[test]
     fn test_plugin_run_all_in_local() {
-        let config = CocoConfig::default();
+        let mut config = CocoConfig::default();
+        let plugins_str = vec!["swagger", "struct", "pipeline", "container"];
+        let mut plugins = vec![];
+        for plugin in plugins_str {
+            plugins.push(CocoPlugin {
+                name: plugin.to_string(),
+                config: None,
+            });
+        }
+
+        config.plugins = Some(plugins);
+
         let manager = PluginManager::from(&config);
         manager.run_all();
     }
