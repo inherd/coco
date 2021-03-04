@@ -10,37 +10,24 @@ function renderCodeExplorer(freedom, elementId) {
       (height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2
     ])
 
-  let selectedYear = 2016;
+  let selectedYear = "2008";
   let bigFormat = d3.format(",.0f");
 
-  let minYear = d3.min(freedom, d => d.year);
-  let maxYear = d3.max(freedom, d => d.year);
-  let freedom_year = freedom.filter(obj => {
-    return obj.year === selectedYear
+  let freedom_year = [];
+  freedom.map(obj => {
+    if (obj.year === selectedYear) {
+      freedom_year.push({
+        countries: obj.countries,
+        year: obj.year,
+        population: parseInt(obj.population, 10),
+        region_simple: obj.region_simple
+      });
+    }
   });
-  //
-  // let freedom_nest = d3.nest()
-  //   .key(d => d.region_simple)
-  //   .entries(freedom_year)
 
   let freedom_nest = d3.group(freedom_year, d => d.region_simple)
-
   let data_nested = {key: "freedom_nest", values: freedom_nest}
-
-  let population_hierarchy = d3.hierarchy(data_nested, d => d.values).sum(d => d.population);
-
-  function colorHierarchy(hierarchy) {
-    if (hierarchy.depth === 0) {
-      hierarchy.color = 'black';
-    } else if (hierarchy.depth === 1) {
-      hierarchy.color = regionColor(hierarchy.data.key);
-    } else {
-      hierarchy.color = hierarchy.parent.color;
-    }
-    if (hierarchy.children) {
-      hierarchy.children.forEach(child => colorHierarchy(child))
-    }
-  }
+  let population_hierarchy = d3.hierarchy(data_nested.values).sum(d => d.population);
 
   let regionColor = function (region) {
     let colors = {
@@ -72,7 +59,6 @@ function renderCodeExplorer(freedom, elementId) {
     .clip(ellipse);
 
   voronoiTreeMap(population_hierarchy);
-  colorHierarchy(population_hierarchy);
 
   let allNodes = population_hierarchy.descendants()
     .sort((a, b) => b.depth - a.depth)
