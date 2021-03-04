@@ -1,13 +1,13 @@
 use crate::pas_content_root::ContentRoot;
+use crate::psa_dependency::Dependency;
 use crate::psa_facet::Facet;
-use crate::psa_library::Library;
 
 #[derive(Serialize)]
 pub struct Module {
     pub name: String,
     pub relative_path: String,
     pub facets: Vec<Facet>,
-    pub libraries: Vec<Library>,
+    pub dependencies: Vec<Dependency>,
     pub sub_modules: Vec<Module>,
     pub content_root: ContentRoot,
 }
@@ -17,8 +17,8 @@ impl Module {
         self.facets.push(facet);
     }
 
-    pub fn add_library(&mut self, lib: Library) {
-        self.libraries.push(lib);
+    pub fn add_library(&mut self, lib: Dependency) {
+        self.dependencies.push(lib);
     }
 
     pub fn add_sub_module(&mut self, sub_module: Module) {
@@ -51,12 +51,16 @@ impl Module {
         self.content_root = content_root;
     }
 
+    pub fn add_dependencies(&mut self, dependencies: &mut Vec<Dependency>) {
+        self.dependencies.append(dependencies);
+    }
+
     pub fn new(name: &str, path: &str) -> Self {
         Module {
             name: name.to_string(),
             relative_path: path.to_string(),
             facets: vec![],
-            libraries: vec![],
+            dependencies: vec![],
             sub_modules: vec![],
             content_root: ContentRoot::default(),
         }
@@ -65,7 +69,7 @@ impl Module {
 
 #[cfg(test)]
 mod tests {
-    use crate::{Facet, Library, LibraryScope, Module};
+    use crate::{Dependency, DependencyScope, Facet, Module};
 
     #[test]
     fn should_create_module() {
@@ -90,15 +94,15 @@ mod tests {
     fn should_add_library() {
         let mut module = Module::new("foo", "test/path");
 
-        module.add_library(Library {
+        module.add_library(Dependency {
             group: "org.springframework.boot".to_string(),
             name: "spring-boot-starter-web".to_string(),
             version: "1.0.0-RELEASE".to_string(),
-            scope: LibraryScope::Compile,
+            scope: DependencyScope::Compile,
         });
 
-        let lib = module.libraries.get(0).unwrap();
-        assert_eq!(module.libraries.len(), 1);
+        let lib = module.dependencies.get(0).unwrap();
+        assert_eq!(module.dependencies.len(), 1);
         assert_eq!(lib.name, "spring-boot-starter-web");
     }
 

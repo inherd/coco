@@ -1,5 +1,5 @@
 [package]
-name = "coco_struct_analysis"
+name = "coco_struct"
 version = "0.1.0"
 authors = ["Phodal Huang <h@phodal.com>"]
 edition = "2018"
@@ -31,9 +31,6 @@ ignore = "0.4"
 [dependencies.core_model]
 path = "../../core_model"
 
-[dependencies.plugin_interface]
-path = "../../plugin_interface"
-
 [lib]
-name = "coco_struct_analysis"
+name = "coco_struct"
 crate-type = ["cdylib"]

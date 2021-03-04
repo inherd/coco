@@ -14,7 +14,11 @@
     #commit-calendar {
       width: 50%;
     }
+
+    #code-flower,
     #commit-contributions,
+    #line-history,
+    #pipeline,
     #circle-packing, #nested-treemap, #branch-timeline, #members-lifecycle {
       width: 1200px;
       height: auto;
@@ -29,6 +33,10 @@
       font: 12px sans-serif;
       line-height: 20px;
       font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    }
+
+    .nodetext {
+      z-index: 999;
     }
 
     #commits-tree text {
@@ -82,12 +90,19 @@
 <body>
 <h1>Coco Reporter</h1>
 
+<div id="code-flower"></div>
+
+<h1>Coding Skills</h1>
 <h2>Code Frequency</h2>
 <select id="code-frequency-select"></select>
 <div id="code-frequency"></div>
+<h3>Commit Contributions</h3>
 <div id="commit-contributions"></div>
-
+<h3>Line History</h3>
+<div id="line-history"></div>
 <h2>Commit Calendar</h2>
+
+<h1>Deploy Design</h1>
 <div id="commit-calendar"></div>
 <h2>Branches History</h2>
 <div id="branch-timeline"></div>
@@ -95,18 +110,23 @@
 <select id="tags-timeline-select"></select>
 <div id="tags-timeline"></div>
 
+<h1>Tooling Usage</h1>
+<div id="pipeline"></div>
+
+<h1>Knowledge Transform</h1>
 <h2>Learning Curve</h2>
 <div id="learning-curve"></div>
+<h2>Member Lifecycle</h2>
+<div id="members-lifecycle"></div>
 
-<h1>Physical Design</h1>
+<h1>Architecture Design(Physical Design)</h1>
 <h2>Package by Size 1</h2>
 <div id="circle-packing"></div>
 <h2>Package by Size 2</h2>
 <div id="nested-treemap"></div>
+<h2>Coder Flower</h2>
 
-<h2>Member Lifecycle</h2>
-<div id="members-lifecycle"></div>
-
+<h1>Organizational Culture</h1>
 <div class="layout-grid2x2">
   <div>
     <h2>Hour Heatmap</h2>
@@ -137,6 +157,7 @@
 
 <script src="public/js/graph/cloc/circle-packing.js"></script>
 <script src="public/js/graph/cloc/nested-treemap.js"></script>
+<script src="public/js/graph/cloc/code-flower.js"></script>
 
 <script src="public/js/plugins/legend.js"></script>
 
@@ -149,8 +170,10 @@
 <script src="public/js/graph/git/team-learning-curve.js"></script>
 <script src="public/js/graph/git/commit-calendar.js"></script>
 <script src="public/js/graph/git/commit-code-frequency.js"></script>
-<script src="public/js/graph/git/commit-contributions.js"></script>
-<script src="public/js/graph/struct/struct_visual.js"></script>
+<script src="public/js/graph/git/time-interactive-line.js"></script>
+
+<script src="public/js/graph/plugins/struct-visual.js"></script>
+<script src="public/js/graph/plugins/pipeline-visual.js"></script>
 
 <script src="public/js/index.js"></script>
 </body>

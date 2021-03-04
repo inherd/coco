@@ -661,7 +661,7 @@ dependencies = [
 
 [[package]]
 name = "coco"
-version = "0.3.1"
+version = "0.4.1"
 dependencies = [
  "actix-rt 2.0.0",
  "actix-web",
@@ -669,6 +669,7 @@ dependencies = [
  "clap",
  "core_model",
  "dialoguer",
+ "failure",
  "framework",
  "git2",
  "lazy_static",
@@ -697,7 +698,6 @@ version = "0.1.0"
 dependencies = [
  "core_model",
  "dockerfile-parser",
- "plugin_interface",
 ]
 
 [[package]]
@@ -718,7 +718,6 @@ dependencies = [
  "log",
  "md-5",
  "num_cpus",
- "plugin_interface",
  "pretty_assertions",
  "quick-xml 0.21.0",
  "rayon",
@@ -746,17 +745,17 @@ version = "0.1.0"
 dependencies = [
  "core_model",
  "gumdrop",
+ "ignore",
  "jenkinsfile",
  "pest",
  "pest_derive",
- "plugin_interface",
  "serde",
  "serde_derive",
  "serde_json",
 ]
 
 [[package]]
-name = "coco_struct_analysis"
+name = "coco_struct"
 version = "0.1.0"
 dependencies = [
  "core_model",
@@ -764,7 +763,6 @@ dependencies = [
  "ignore",
  "lazy_static",
  "nix",
- "plugin_interface",
  "regex",
  "serde",
  "serde_derive",
@@ -779,7 +777,6 @@ name = "coco_swagger"
 version = "0.1.0"
 dependencies = [
  "core_model",
- "plugin_interface",
 ]
 
 [[package]]
@@ -1836,14 +1833,17 @@ checksum = "dd25036021b0de88a0aff6b850051563c6516d0bf53f8638938edbb9de732736"
 
 [[package]]
 name = "jenkinsfile"
-version = "0.2.0"
+version = "0.2.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "65ebbd08e1ea1e3e903d84414faeb5adcde0e3d6fbdd08e57dc0c7136fb0a386"
+checksum = "1013365ac2f71483846cb5556f659ce6dded72bbb8ce6d5245552fde4e4a0b02"
 dependencies = [
  "lazy_static",
  "pest",
  "pest_derive",
  "regex",
+ "serde",
+ "serde_derive",
+ "serde_json",
 ]
 
 [[package]]
@@ -2449,20 +2449,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3831453b3449ceb48b6d9c7ad7c96d5ea673e9b470a1dc578c2ce6521230884c"
 
 [[package]]
-name = "plugin_interface"
-version = "0.1.0"
-dependencies = [
- "core_model",
-]
-
-[[package]]
 name = "plugin_manager"
 version = "0.1.0"
 dependencies = [
  "core_model",
  "dlopen",
  "dlopen_derive",
- "plugin_interface",
 ]
 
 [[package]]
@@ -2569,13 +2561,13 @@ version = "0.1.1"
 dependencies = [
  "erased-serde",
  "lazy_static",
- "maplit 0.1.6",
  "pathdiff",
  "regex",
  "serde",
  "serde_derive",
  "serde_json",
  "walkdir",
+ "xml-rs",
 ]
 
 [[package]]
@@ -4145,6 +4137,12 @@ dependencies = [
  "winapi 0.2.8",
  "winapi-build",
 ]
+
+[[package]]
+name = "xml-rs"
+version = "0.8.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b07db065a5cf61a7e4ba64f29e67db906fb1787316516c4e6e5ff0fea1efcd8a"
 
 [[package]]
 name = "yaml-rust"

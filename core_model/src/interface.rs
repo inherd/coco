@@ -1,4 +1,4 @@
-use core_model::CocoConfig;
+use crate::CocoConfig;
 
 pub trait PluginInterface {
     /// name of plugins

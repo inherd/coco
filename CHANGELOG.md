@@ -1,4 +1,71 @@
-# [](https://github.com/inherd/coco/compare/v0.3.1...v) (2021-02-25)
+# [](https://github.com/inherd/coco/compare/v0.4.1...v) (2021-03-02)
+
+
+
+## [0.4.1](https://github.com/inherd/coco/compare/v0.4.0...v0.4.1) (2021-03-02)
+
+
+### Bug Fixes
+
+* fix rename struct_analysis test issue ([1930cd2](https://github.com/inherd/coco/commit/1930cd26909fd9a893f4041bd7023623f8c593b0))
+* fix typos ([20fc207](https://github.com/inherd/coco/commit/20fc2072a0be0016ae897e547b8ad37008e16904))
+
+
+### Features
+
+* init basic code ([3b8e07a](https://github.com/inherd/coco/commit/3b8e07a6fa3eb0621c0a67a32b51d5dd191d7b02))
+* make output projects ([891d1da](https://github.com/inherd/coco/commit/891d1dac7779d437e5d150be36604d5aa6ae1012))
+* **export:** make export json works ([92e6308](https://github.com/inherd/coco/commit/92e63088eadb33a4106ac15f8caa1ad6f644035d))
+
+
+
+# [0.4.0](https://github.com/inherd/coco/compare/v0.3.1...v0.4.0) (2021-03-01)
+
+
+### Bug Fixes
+
+* add basic handle for current path for Windows ([687a8e6](https://github.com/inherd/coco/commit/687a8e6c2a17e5b48f3f5225afc8f20974e3cf5d))
+* add java lang to yml ([f16bce8](https://github.com/inherd/coco/commit/f16bce8e20d01080340e94f0b54c284f03ff5ae9))
+* fix core model config None issue ([b77fd52](https://github.com/inherd/coco/commit/b77fd5222dd24c22b435daa160a8357f11decb1b))
+* fix ctags install in Ubuntu ([9b70649](https://github.com/inherd/coco/commit/9b70649076f649d86fd7f14ee184e87a39027c51))
+* fix issue for empty code issue for ctags ([a228cb3](https://github.com/inherd/coco/commit/a228cb3e2ba6c4f9c5d507765b6f7644e28b10ef))
+* fix jenkinsfile in error pos issue ([3f95dd4](https://github.com/inherd/coco/commit/3f95dd4ae68c34fb56365ba3143076e2f70f64cc))
+* fix puml format issue ([fc15b60](https://github.com/inherd/coco/commit/fc15b60bafd305213a81c1bc6ef6b7e019a05fd3))
+* fix typo ([e902ea5](https://github.com/inherd/coco/commit/e902ea5164c6368397859d3896383341c72c44c3))
+* fix typos ([1f4a0a7](https://github.com/inherd/coco/commit/1f4a0a704e075b58140c39566591c7bc97f8c9d2))
+* fix windows path issue ([e900bf7](https://github.com/inherd/coco/commit/e900bf71746af2141c33915b0f98d578ac2806a6))
+* init basic total ([3e74389](https://github.com/inherd/coco/commit/3e743892a9445f0a333ffeba6546afd9d6e121ce))
+* temp reverse for data struct ([719c54e](https://github.com/inherd/coco/commit/719c54e3977e13b784bada64c47354edba4ae7a2))
+* **psa:** fix duplicate content root path. ([5bdc72c](https://github.com/inherd/coco/commit/5bdc72c564d984f224faf3ff765765df1099843e))
+* **psa:** remove unused import. ([d9cbe48](https://github.com/inherd/coco/commit/d9cbe480d3dab1c4429b48f817c0ee1edd9daabc))
+
+
+### Features
+
+* init line history analysis ([d365f8f](https://github.com/inherd/coco/commit/d365f8f95b2f49deb831989e967ad9854fb460d7))
+* make total line works ([120c2b2](https://github.com/inherd/coco/commit/120c2b293d49854328c499c576eb73df360c4bbf))
+* **coco:** add subcommand for downloading and unzip plugins ([61115d0](https://github.com/inherd/coco/commit/61115d090dc5472887e78b3151744f5b5270010f))
+* **coco:** support for init subcommand ([13b9434](https://github.com/inherd/coco/commit/13b94345e3d37b8242a0602c81e49eacc1a8f883))
+* **container:** init project ([7f5e365](https://github.com/inherd/coco/commit/7f5e365c8a179b161e534b27913f52707ab4df85))
+* **container:** make impl container api ([4dff132](https://github.com/inherd/coco/commit/4dff1324daa4492235330f179a45b4e11757b39d))
+* **psa:** add sub moudle to module struct. ([3ec749c](https://github.com/inherd/coco/commit/3ec749c7ac3a0ea8c197481e4ad538b1aaa3a3ff))
+* **psa:** module and content root path change to relative path. ([5eb0a73](https://github.com/inherd/coco/commit/5eb0a7365c9522f780817717e5f120713a278697))
+* **psa:** module content root detect. ([9b20141](https://github.com/inherd/coco/commit/9b2014129b28f14463f2dbc5178013db83bf817e))
+* **psa:** module has sub module. ([a3ea555](https://github.com/inherd/coco/commit/a3ea5553376f2ade2dc65e3097076462341e91ab))
+* **psa:** psa json serialize support. ([ab668e7](https://github.com/inherd/coco/commit/ab668e70fa56625596fe9181bec84a9686edeef9))
+* **psa:** sub module content root detect. ([969f461](https://github.com/inherd/coco/commit/969f46198a671339bcd36c206d4a8d227835030c))
+* **puml:** add basic deps support ([4a5a84d](https://github.com/inherd/coco/commit/4a5a84da51699e8a6669e6a1fdedff9786c69b14))
+* **puml:** make render works ([91cc92d](https://github.com/inherd/coco/commit/91cc92d57b3107daaaf33a03993580eef3c52ec0))
+* **puml:** make return type support ([471abbb](https://github.com/inherd/coco/commit/471abbb8971b77dec77bbc5f5184612cbb6a0fc2))
+* **struct:** add basic handle for array ([3c44a52](https://github.com/inherd/coco/commit/3c44a5223028707031ee6bc13af9c4167805c1e0))
+* **uml:** add extends support ([673b5ba](https://github.com/inherd/coco/commit/673b5baa0e455e5c22630f1b7b6a6a8d43c9a7ea))
+* **uml:** add support for array ([92ed559](https://github.com/inherd/coco/commit/92ed559baf01166f36d0a64909f328b59e195416))
+* **uml:** init convert code ([b1e6b8f](https://github.com/inherd/coco/commit/b1e6b8fa353d1f2f5ed1a2c8ae1af65768f69f74))
+* **uml:** make basic transform uml support ([012bc56](https://github.com/inherd/coco/commit/012bc5669de3cb04f54678bf6e8029c137d6d661))
+* **uml:** make it works for rust ([a1698f8](https://github.com/inherd/coco/commit/a1698f8160617c253bda52a13057e49c72879be1))
+* fix import issue ([b1720d2](https://github.com/inherd/coco/commit/b1720d278b9c29873b0969d7d1c1eeb7507e1d0d))
+* **uml:** make uml working in dir ([560faca](https://github.com/inherd/coco/commit/560facab78866a0a64e0ab6cc2a82d9cfbd26bb8))
+* add global error struct ([b6300a7](https://github.com/inherd/coco/commit/b6300a77201a7e64091958800bb556511ceafe31))
 
 
 

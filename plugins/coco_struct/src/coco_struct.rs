@@ -5,6 +5,7 @@ pub struct MemberInfo {
     pub name: String,
     pub access: String,
     pub data_type: String,
+    pub pure_data_type: String,
 }
 
 impl MemberInfo {
@@ -12,7 +13,8 @@ impl MemberInfo {
         MemberInfo {
             name: name.to_string(),
             access: access.to_string(),
-            data_type: data_type,
+            data_type,
+            pure_data_type: "".to_string(),
         }
     }
 }
@@ -22,14 +24,16 @@ pub struct MethodInfo {
     pub name: String,
     pub access: String,
     pub return_type: String,
+    pub pure_return_type: String,
 }
 
 impl MethodInfo {
-    pub fn new(name: &str, access: &str, data_type: String) -> Self {
+    pub fn new(name: &str, access: &str, return_type: String) -> Self {
         MethodInfo {
             name: name.to_string(),
             access: access.to_string(),
-            return_type: data_type,
+            return_type,
+            pure_return_type: "".to_string(),
         }
     }
 }

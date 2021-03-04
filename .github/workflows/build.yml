@@ -30,8 +30,7 @@ jobs:
       - name: Install ctags on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
-          sudo apt-get update
-          sudo apt-get install exuberant-ctags
+          sudo snap install universal-ctags
 
       - name: Install ctags on macOS
         if: matrix.os == 'macOS-latest'

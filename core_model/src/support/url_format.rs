@@ -5,8 +5,17 @@ use url::Url;
 use crate::Settings;
 
 pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
+    filename_suffix(text, suffix_str, Some("json"))
+}
+
+pub fn filename_suffix(text: &str, name_suffix: Option<&str>, file_suffix: Option<&str>) -> String {
+    let mut filename_suffix = "";
+    if let Some(suf) = name_suffix {
+        filename_suffix = suf;
+    }
+
     let mut suffix = "";
-    if let Some(suf) = suffix_str {
+    if let Some(suf) = file_suffix {
         suffix = suf;
     }
 
@@ -17,25 +26,41 @@ pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
             return match path.file_name() {
                 Some(name) => {
                     let filename = name.to_str().unwrap().to_string();
-                    format!("{}{}.{}", filename, suffix, "json")
+                    format!("{}{}.{}", filename, filename_suffix, suffix)
                 }
                 None => {
-                    format!("default{}.{}", suffix, "json")
+                    format!("default{}.{}", filename_suffix, suffix)
                 }
             };
         }
     };
+
+    if uri_path.host().is_none() {
+        let pth = PathBuf::from(uri_path.path());
+        let last = pth.file_name();
+
+        return format!(
+            "{}{}.{}",
+            last.unwrap().to_str().unwrap(),
+            filename_suffix,
+            suffix
+        );
+    }
 
     let paths = uri_path
         .path_segments()
         .map(|c| c.collect::<Vec<_>>())
         .unwrap();
 
-    return format!("{}{}.{}", paths.last().unwrap(), suffix, "json");
+    return format!("{}{}.{}", paths.last().unwrap(), filename_suffix, suffix);
 }
 
 pub fn json_filename(text: &str) -> String {
     json_filename_suffix(text, None)
+}
+
+pub fn puml_filename(text: &str) -> String {
+    filename_suffix(text, None, Some("puml"))
 }
 
 pub fn uri_to_path(url: &str) -> PathBuf {
@@ -47,6 +72,9 @@ pub fn uri_to_path(url: &str) -> PathBuf {
     };
 
     let root = Path::new(Settings::root());
+    if uri_path.host().is_none() {
+        return PathBuf::from(url);
+    }
     let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
     let segments = uri_path

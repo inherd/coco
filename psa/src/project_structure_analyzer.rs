@@ -1,94 +1,32 @@
-use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
 use crate::psa_project::Project;
-use crate::ProjectStructureAnalyzer;
+use crate::{Module, ModuleAnalyzer};
 
-pub struct ProjectAnalyzer {
-    analyzers: Vec<Box<dyn ProjectStructureAnalyzer>>,
-}
+pub trait ProjectStructureAnalyzer {
+    fn analysis(&self, project_path: &str) -> Project {
+        let project_name = self.get_project_name(project_path);
+        let project_type = self.get_project_type();
 
-impl ProjectAnalyzer {
-    pub fn run(&self, path: &str) -> Option<Project> {
-        for analyzer in self.analyzers.iter() {
-            return match analyzer.is_related(path) {
-                true => Some(analyzer.analysis(path)),
+        let mut project = Project::new(project_name.as_str(), project_path, project_type.as_str());
+
+        if let Some(project_module) = self.analysis_project_module(&project) {
+            project.set_project_module(project_module)
+        }
+
+        project
+    }
+
+    fn analysis_project_module(&self, project: &Project) -> Option<Module> {
+        for module_analyzer in self.get_module_analyzers().iter() {
+            return match module_analyzer.is_related(project) {
+                true => module_analyzer.analysis(&project.absolute_path, &project.absolute_path),
                 _ => continue,
             };
         }
         None
     }
-}
 
-impl Default for ProjectAnalyzer {
-    fn default() -> Self {
-        ProjectAnalyzer {
-            analyzers: vec![Box::new(JvmProjectStructureAnalyzer::default())],
-        }
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use crate::ProjectAnalyzer;
-    use std::path::PathBuf;
-
-    #[test]
-    fn should_analysis_project() {
-        let project_dir_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .to_path_buf()
-            .join("_fixtures")
-            .join("projects")
-            .join("java")
-            .join("simple")
-            .clone();
-        let analyzer = ProjectAnalyzer::default();
-        let project_dir = project_dir_path.display().to_string();
-        let project = analyzer.run(project_dir.as_str()).unwrap();
-
-        assert_eq!(project.name, "simple");
-        assert_eq!(project.absolute_path, project_dir.as_str());
-    }
-
-    #[test]
-    fn should_return_none_when_build_file_not_exists() {
-        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .to_path_buf()
-            .join("_fixtures")
-            .join("projects")
-            .join("java")
-            .clone();
-
-        let analyzer = ProjectAnalyzer::default();
-
-        let project = analyzer.run(project_dir.display().to_string().as_str());
-
-        assert_eq!(project.is_none(), true);
-    }
-
-    #[test]
-    fn should_serialize() {
-        let project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
-            .parent()
-            .unwrap()
-            .to_path_buf()
-            .join("_fixtures")
-            .join("projects")
-            .join("java")
-            .join("multi_mod_maven_project")
-            .clone();
-
-        let analyzer = ProjectAnalyzer::default();
-
-        let project = analyzer
-            .run(project_dir.display().to_string().as_str())
-            .unwrap();
-
-        let project_json = serde_json::to_string_pretty(&project).unwrap();
-
-        println!("{}", project_json);
-        assert_ne!(project_json, "");
-    }
+    fn get_project_name(&self, project_path: &str) -> String;
+    fn get_project_type(&self) -> String;
+    fn is_related(&self, project_path: &str) -> bool;
+    fn get_module_analyzers(&self) -> Vec<Box<dyn ModuleAnalyzer>>;
 }

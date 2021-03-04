@@ -1,7 +1,7 @@
 use std::fs::OpenOptions;
 use std::{
     env, fs, io,
-    io::{Cursor, Read, Write},
+    io::{Cursor, Read},
     path::Path,
     process::exit,
 };
@@ -11,8 +11,8 @@ use reqwest;
 use zip;
 
 use coco::app::analysis;
-use coco::app::cmd::CocoCliOption;
-use coco::error::CocoError;
+use coco::app::CocoCliOption;
+use coco::coco_error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
 
@@ -76,7 +76,7 @@ fn create_config_file() {
         .write(true)
         .create_new(true)
         .open("coco.yml")
-        .map(|mut file| file.write(&serde_yaml::to_vec(&CocoConfig::default()).unwrap()))
+        .map(|file| serde_yaml::to_writer(file, &CocoConfig::default()).unwrap())
     {
         Ok(_) => println!("success created"),
         Err(e) => println!("coco.yml create failed: {}", e),
@@ -88,20 +88,22 @@ fn setup_plugins() {
     create_plugins_dir(&plugins_path)
         .and_then(|msg| {
             println!("{}", msg);
-            download_plugins().map_err(|e| e.into())
+            download_plugins()
         })
-        .and_then(|reader| unzip_plugins(reader, plugins_path).map_err(|e| e.into()))
+        .and_then(|reader| unzip_plugins(reader, plugins_path))
         .unwrap_or_else(|err_msg| {
             println!("Failed: {}", err_msg);
             exit(1);
         });
 }
 
-fn create_plugins_dir(path_name: &Path) -> Result<&'static str, io::Error> {
+fn create_plugins_dir(path_name: &Path) -> Result<&'static str, CocoError> {
     if path_name.exists() {
         return Ok("plugins dir already exists");
     }
-    fs::create_dir(&path_name).and_then(|_| Ok("create plugins dir success"))
+    fs::create_dir(&path_name)
+        .and_then(|_| Ok("create plugins dir success"))
+        .or(Err(CocoError::new("created failed")))
 }
 
 fn download_plugins() -> Result<Cursor<Vec<u8>>, CocoError> {

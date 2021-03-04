@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use coco::app::cmd::CocoCliOption;
+use coco::app::CocoCliOption;
 use core_model::CocoConfig;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
@@ -24,6 +24,4 @@ fn main() {
     let _config = CocoConfig::from_file(config_file);
 
     println!("found config file: {}", config_file);
-
-    //
 }

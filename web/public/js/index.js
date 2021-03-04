@@ -14,6 +14,7 @@ d3.json("data/cloc.json").then(function (json) {
 
   renderPacking(data["reports"])
   renderNestedTreemap(data["reports"])
+  renderCodeFlower(data["reports"], '#code-flower');
 });
 
 d3.json("data/git.json").then(function (json) {
@@ -55,11 +56,43 @@ d3.json("data/git-commits.json").then(function (data) {
   let commitByDays = commit_by_days(data);
 
   renderCommitCalendar(commitByDays, "#commit-calendar");
-  renderCommitContributions(commitByDays, '#commit-contributions');
+  renderTimeInteractiveLine(commitByDays, '#commit-contributions', 'value');
 
-  renderCodeFrequency(commit_by_weeks(data));
+  let lineData = commitByDays.filter(d => d.total_line > 0);
+  renderTimeInteractiveLine(lineData, '#line-history', 'total_line');
+
+  let commitByWeeks = commit_by_weeks(data);
+  renderCodeFrequency(commitByWeeks);
 });
 
-d3.json("data/struct_analysis.json").then(function (data) {
+d3.json("data/struct.json").then(function (data) {
   visualizationStruct(data);
+});
+
+d3.json("data/pipeline.json").then(function (data) {
+  if (!!data) {
+    let pipeline = [];
+    let first_pipeline = data[0];
+    for (let stage of first_pipeline.stages) {
+      let jobs = [];
+      for (let sub_stage of stage.sub_stages) {
+        jobs.push({
+          name: sub_stage.name,
+          desc: sub_stage.jobs,
+        });
+      }
+      if (jobs.length === 0) {
+        jobs.push({
+          name: "",
+          desc: jobs,
+        });
+      }
+      pipeline.push({
+        name: stage.name,
+        children: jobs,
+      })
+    }
+
+    visualizationPipeline(pipeline, '#pipeline');
+  }
 });

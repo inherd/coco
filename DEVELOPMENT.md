@@ -93,8 +93,7 @@ just tests
 Ubuntu
 
 ```
-sudo apt-get update
-sudo apt-get install exuberant-ctags
+sudo snap install universal-ctags
 ```
 
 macOS

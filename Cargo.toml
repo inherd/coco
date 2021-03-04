@@ -1,6 +1,6 @@
 [package]
 name = "coco"
-version = "0.3.1"
+version = "0.4.1"
 authors = ["Inherd Group <group@inherd.org>", "Phodal Huang <h@phodal.com>"]
 edition = "2018"
 license = "MIT"
@@ -21,22 +21,10 @@ exclude = [
   ".gitattributes",
   ".adr.json",
 ]
-#
-#
-#[features]
-#actix = ["actix-web", "mime_guess"]
-#
-#[[visual]]
-#name = "actix"
-#path = "src/bin/visual.rs"
-#required-features = ["actix"]
-#
-#[[visual]]
-#name = "actix"
-#path = "src/app/visual/local_server.rs"
-#required-features = ["actix"]
 
 [dependencies]
+failure = "0.1.8"
+
 lazy_static = "1.4.0"
 
 # time format
@@ -105,9 +93,8 @@ members = [
   'e2e',
   'core_model',
   'plugin_manager',
-  'plugin_interface',
   'plugins/coco_swagger',
-  'plugins/coco_struct_analysis',
+  'plugins/coco_struct',
   'plugins/coco_coverage',
   'plugins/coco_pipeline',
   'plugins/coco_container',

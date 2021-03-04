@@ -56,7 +56,7 @@ mod tests {
 
     use crate::files::join_path;
     use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
-    use crate::{Project, ProjectStructureAnalyzer};
+    use crate::{DependencyScope, Project, ProjectStructureAnalyzer};
 
     #[test]
     fn should_analysis_maven_project_sub_modules() {
@@ -157,6 +157,33 @@ mod tests {
             content_root.test_resource_root.get(0).unwrap(),
             expect_test_resources_root.as_str()
         );
+    }
+
+    #[test]
+    fn should_analysis_dependencies() {
+        let project = do_analysis(vec![
+            "_fixtures",
+            "projects",
+            "java",
+            "multi_mod_maven_project",
+        ]);
+
+        let project_module = project.project_module;
+        let project_dependencies = project_module.unwrap().dependencies;
+
+        assert_eq!(project_dependencies.len(), 2);
+
+        let dep1 = project_dependencies.get(0).unwrap();
+        assert_eq!(dep1.name, "spring-boot-starter-web");
+        assert_eq!(dep1.group, "org.springframework.boot");
+        assert_eq!(dep1.version, "2.0.0.RELEASE");
+        assert_eq!(dep1.scope, DependencyScope::Test);
+
+        let dep2 = project_dependencies.get(1).unwrap();
+        assert_eq!(dep2.name, "spring-boot-starter-logging");
+        assert_eq!(dep2.group, "org.springframework.boot");
+        assert_eq!(dep2.version, "1.0.0.RELEASE");
+        assert_eq!(dep2.scope, DependencyScope::Compile);
     }
 
     fn do_analysis(path: Vec<&str>) -> Project {

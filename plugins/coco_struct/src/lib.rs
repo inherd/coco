@@ -3,16 +3,20 @@ extern crate lazy_static;
 extern crate serde;
 
 use core_model::CocoConfig;
-use plugin_interface::PluginInterface;
+use core_model::PluginInterface;
 
 use std::process::Command;
 
-pub mod cmd_ctags;
+pub use ctags::ctags_cmd;
+pub use ctags::ctags_opt;
+pub use ctags::ctags_parser;
+
+pub use plantuml::plantuml_render;
+
 pub mod coco_struct;
-pub mod ctags_opt;
-pub mod ctags_parser;
-pub mod plantuml_render;
-pub mod struct_analysis;
+pub mod coco_struct_plugin;
+pub mod ctags;
+pub mod plantuml;
 
 pub struct CocoStructAnalysis {}
 
@@ -25,7 +29,7 @@ impl PluginInterface for CocoStructAnalysis {
         match Command::new("ctags").spawn() {
             Ok(_) => {}
             Err(e) => {
-                println!("`ctags` was not found! please install or follow link to setup: https://github.com/phodal/coco/blob/master/DEVELOPMENT.md#install-ctags");
+                show_ctags_install_help();
                 panic!("Error: {:?}", e);
             }
         };
@@ -34,8 +38,41 @@ impl PluginInterface for CocoStructAnalysis {
     fn on_plugin_unload(&self) {}
 
     fn execute(&self, config: CocoConfig) {
-        struct_analysis::execute(config);
+        coco_struct_plugin::execute(config);
     }
+}
+
+#[cfg(target_os = "linux")]
+fn show_ctags_install_help() {
+    println!(
+        "install ctags on Ubuntu:
+
+sudo snap install universal-ctags
+"
+    );
+}
+
+#[cfg(target_os = "macos")]
+fn show_ctags_install_help() {
+    println!(
+        "install ctags on macOS:
+
+brew update
+brew install --HEAD universal-ctags/universal-ctags/universal-ctags
+"
+    )
+}
+
+#[cfg(target_os = "windows")]
+fn show_ctags_install_help() {
+    println!(
+        "install ctags on Windows:
+
+choco install universal-ctags
+
+or download from: https://github.com/universal-ctags/ctags-win32/releases
+"
+    );
 }
 
 impl Default for CocoStructAnalysis {
@@ -52,7 +89,7 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 #[cfg(test)]
 mod tests {
     use crate::coco_struct::ClassInfo;
-    use crate::struct_analysis::execute;
+    use crate::coco_struct_plugin::execute;
     use core_model::{CocoConfig, RepoConfig};
     use std::fs::File;
     use std::io::Read;
@@ -75,8 +112,6 @@ mod tests {
     }
 
     #[test]
-    #[ignore]
-    #[cfg(not(windows))]
     fn should_run_struct_analysis() {
         let mut repos = vec![];
         repos.push(RepoConfig {
@@ -90,16 +125,19 @@ mod tests {
 
         execute(config);
 
-        let output_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        let base_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .join(".coco")
             .join("reporter")
-            .join("struct_analysis")
-            .join("source.json");
+            .join("struct");
+        let output_dir = base_dir.join("source.json");
 
         let mut file = File::open(output_dir).unwrap();
         let mut code = String::new();
         file.read_to_string(&mut code).unwrap();
         let classes: Vec<ClassInfo> = serde_json::from_str(&code).unwrap();
-        assert_eq!(6, classes.len());
+        assert_eq!(9, classes.len());
+
+        let output_dir = base_dir.join("source.puml");
+        let _file = File::open(output_dir).unwrap();
     }
 }

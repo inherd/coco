@@ -75,15 +75,18 @@ function commit_by_days(data) {
     dayMap[day] = {
       date: new Date(range),
       value: 0,
+      total_line: 0,
       commits: []
     }
 
     range = range + 24 * 60 * 60 * 1000;
   }
 
+  let total_line = 0;
   for (let i = 0; i < data.length; i++) {
     let datum = data[i];
     let day = formatDate(datum.date);
+    total_line = total_line + datum.total_added - datum.total_deleted;
     if (dayMap[day]) {
       dayMap[day].value++;
       dayMap[day].commits.push(datum);
@@ -94,6 +97,8 @@ function commit_by_days(data) {
         commits: [datum]
       }
     }
+
+    dayMap[day].total_line = total_line;
   }
 
   let result = [];
@@ -116,7 +121,8 @@ function commit_by_weeks(data) {
       date: range,
       index: index,
       added: 0,
-      deleted: 0
+      deleted: 0,
+      total: 0
     }
 
     range = range + 24 * 60 * 60 * 1000 * 7;
@@ -129,12 +135,14 @@ function commit_by_weeks(data) {
     if (weekMap[week]) {
       weekMap[week].added = weekMap[week].added + datum.total_added;
       weekMap[week].deleted = weekMap[week].deleted + datum.total_deleted;
+      weekMap[week].total = weekMap[week].added - weekMap[week].deleted
     } else {
       weekMap[week] = {
         date: weekMap[week].range,
         index: weekMap[week].index,
         added: datum.total_added,
         deleted: datum.total_deleted,
+        total: datum.total_added - datum.total_deleted
       }
     }
   }

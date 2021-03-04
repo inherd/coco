@@ -25,14 +25,13 @@ jobs:
       - name: Build
         run: just release
 
-      - name: Install ctags on Linux
+      - name: Install ctags on Ubuntu
         run: |
-          sudo apt-get update
-          sudo apt-get install exuberant-ctags
+          sudo snap install universal-ctags
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths coco_plugins target/release/libcoco_swagger.so target/release/libcoco_struct_analysis.so target/release/libcoco_coverage.so
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.so target/release/libcoco_struct.so target/release/libcoco_coverage.so target/release/libcoco_pipeline.so
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
@@ -83,7 +82,7 @@ jobs:
 
       - name: Zip Plugins
         run: |
-          powershell Compress-Archive -Path target\release\coco_swagger.dll,target\release\coco_struct_analysis.dll,target\release\coco_coverage.dll -DestinationPath coco_plugins.zip
+          powershell Compress-Archive -Path target\release\coco_swagger.dll,target\release\coco_struct.dll,target\release\coco_coverage.dll,target\release\coco_pipeline.dll -DestinationPath coco_plugins.zip
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release
@@ -128,14 +127,14 @@ jobs:
       - name: Build
         run: just release
 
-      - name: Install ctags on Windows
+      - name: Install ctags on macOS
         run: |
           brew update
           brew install --HEAD universal-ctags/universal-ctags/universal-ctags
 
       - name: Zip Plugins
         run: |
-          zip --junk-paths coco_plugins target/release/libcoco_swagger.dylib target/release/libcoco_struct_analysis.dylib target/release/libcoco_coverage.dylib
+          zip --junk-paths coco_plugins target/release/libcoco_swagger.dylib target/release/libcoco_struct.dylib target/release/libcoco_coverage.dylib target/release/libcoco_pipeline.dylib
 
       - name: Upload visual to release
         uses: svenstaro/upload-release-action@v1-release

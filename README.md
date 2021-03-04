@@ -1,10 +1,8 @@
 # Coco
 
-![Coco Build](https://github.com/phodal/coco/workflows/Coco%20Build/badge.svg)
+[![Coco Build](https://github.com/inherd/coco/actions/workflows/build.yml/badge.svg)](https://github.com/inherd/coco/actions/workflows/build.yml)
 
 > (aka coconut, juice), an automatic DevOps metrics analysis tool.
-
-Online Reporter Demo: [https://inherd.github.io/coco/web/](https://inherd.github.io/coco/web/)
 
 Case Studies: [Coco cases](https://inherd.github.io/cases/)
 
@@ -13,6 +11,7 @@ Support OS: macOS, Windows, GNU/Linux
 特性（features in Chinese）：
 
  - 可交互式架构分析
+ - UML 可视化
  - 团队/项目健康值分析
  - 框架检测与分析
  - 云原生成熟度分析
@@ -102,7 +101,7 @@ reporter
  - [x] git analysis
     - [x] merge code from [coca](https://github.com/phodal/coca/tree/master/pkg)
     - [x] local repo support
-    - [ ] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
+    - [x] project calendar view [https://observablehq.com/@d3/calendar-view](https://observablehq.com/@d3/calendar-view)
     - [x] change
        - [x] line change
        - [x] changed file
@@ -114,9 +113,9 @@ reporter
     - [x] git commit time analysis
        - [x] storage all commits
        - [x] working night count
- - [ ] cloc analysis
+ - [x] cloc analysis
     - [x] spike cloc tools [Tokei](https://github.com/XAMPPRocky/tokei)
-    - [ ] history cloc changes
+    - [x] history cloc changes
     - [x] commit cloc changes
  - [ ] framework analysis.
     - framework detector
@@ -124,7 +123,6 @@ reporter
     - [x] framework output
     - [ ] tech stack generate
     - [ ] cloud native
-        - [ ] dockerfile analysis
  - [ ] module analysis
     - [x] base framework for directory
        - [x] gitignore support
@@ -137,14 +135,13 @@ reporter
        - 以加入时间开始度量平均提交：上手成本分析
        - 平均加入时长
        - 成员加入时间点
-    - [ ] member growth
+    - [x] member growth
     - [x] count system size & learning curve
-    - [ ] micro services size
  - [ ] commit analysis
-    - [ ] commit times analysis (hours)
+    - [x] commit times analysis (hours)
     - [ ] rule regex support in config
     - [ ] participle（分词）
-    - [ ] tags generate
+    - [x] tags generate
  - [ ] suggestion API
     - [ ] document manage system
     - [ ] suggest to ledge
@@ -162,9 +159,6 @@ reporter
     - [ ] tools config identify
     - [ ] tools suggest (identify old tools)
     - [ ] cloud-native config
- - [ ] third-party integration
-    - [ ] jenkins api analysis
-    - [ ] test coverage integration
  - [ ] case study
     - [x] homepage: [https://github.com/inherd/cases](https://github.com/inherd/cases)
     - [ ] auto clone and auto deploy
@@ -182,9 +176,13 @@ reporter
  - [ ] plugin
     - [ ] struct analysis
        - [x] ctags
-       - [x] visual
+       - [ ] visual
+       - [x] uml
     - [ ] swagger
+       - [ ] micro services size
     - [ ] coverage
+    - [x] Jenkinsfile
+    - [ ] Dockerfile
 
 Visual and Reporter
 
@@ -193,16 +191,16 @@ Visual and Reporter
         - [x] http server: [actix_web](https://github.com/actix/actix-web)
         - [x] static server: [Rust Embed](https://github.com/pyros2097/rust-embed)
      - [x] export assets
-     - [ ] cli prompt for projects
+     - [x] cli prompt for projects
      - [ ] query JSON API
      - [ ] CLI JSON API
  - visual web
-     - [ ] spike d3.js code organization
+     - [x] spike d3.js code organization
      - [ ] typescript with frontend framework
         - [ ] use deno ?
      - [ ] architecture
         - [x] first demo
-        - [ ] code flower, examples: [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html), [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
+        - [x] code flower 1, [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
      - [ ] git
         - [x] branch history demo
      - [ ] commits in years/month
@@ -210,11 +208,17 @@ Visual and Reporter
      - [ ] changes in years/month
         - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
     - [ ] graph support for velocity
-        - [ ] code commits by daily
+        - [x] code commits by daily
         - [ ] PR times by daily
     - [ ] story velocity
         - [ ] commit message analysis
         - [ ] story spend days
+    - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
+        - source code: https://github.com/kornysietsma/polyglot-code-explorer/tree/master/src
+        - [ ] Age since last change
+        - [ ] Creation date
+        - [ ] Unique changers
+        - [ ] Temporal Coupling
  - [ ] reporter
      - [ ] framework
      - [ ] cloc
@@ -227,6 +231,8 @@ DevOps pipeline
 
 Tech Debt Integration
 
+ - [ ] Git 2
+     - [ ] Code check with: [https://github.com/kornysietsma/polyglot-code-scanner](https://github.com/kornysietsma/polyglot-code-scanner)
  - [ ] Integration Sonarqube ?
      - [ ] [Our 10-Point Technical Debt Assessment](https://codeclimate.com/blog/10-point-technical-debt-assessment/)
 
@@ -236,7 +242,7 @@ Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/mas
 
 ## Thanks
 
-[![PyCharm](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
+[![Jetbrains](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
 
 License
 ---
