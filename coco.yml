@@ -28,17 +28,3 @@ commit:
     - tag
     - id
   samples: feature/JIR-124:test commit message
-
-# todo: add team
-team:
-  type: platform
-  member:
-    - name: Phodal
-      join_time: 2021-01-28
-      offset_time: 28
-      email:
-        - h@phodal.com
-        - h1@phodal.com
-        - h2@phodal.com
-    - name: Zero
-      email: zero@inherd.com
