@@ -36,8 +36,8 @@ fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
     let _ = fs::copy(tags, &data_dir.join("git-tags.json"));
 
     // file_history
-    let file_history = Settings::cloc().join(format!("{}-file-history.json", project));
-    let _ = fs::copy(file_history, &data_dir.join("cloc.json"));
+    let file_history = Settings::git().join(format!("{}-file-history.json", project));
+    let _ = fs::copy(file_history, &data_dir.join("git-file-history.json"));
 
     // cloc
     let cloc = Settings::cloc().join(format!("{}.json", project));
