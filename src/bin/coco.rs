@@ -11,7 +11,7 @@ use reqwest;
 use zip;
 
 use coco::app::analysis;
-use coco::app::CocoCliOption;
+use coco::app::CocoOpt;
 use coco::coco_error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
@@ -57,7 +57,7 @@ fn main() {
 
     let config_file = matches.value_of("config").unwrap_or("coco.yml");
 
-    let cli_option = CocoCliOption::default();
+    let cli_option = CocoOpt::default();
 
     let config = CocoConfig::from_file(config_file);
 

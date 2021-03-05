@@ -1,5 +1,5 @@
-pub use cli_option::CocoCliOption;
+pub use coco_opt::CocoOpt;
 
 pub mod analysis;
-pub mod cli_option;
+pub mod coco_opt;
 pub mod visual;

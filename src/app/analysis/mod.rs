@@ -5,7 +5,7 @@ mod git_analysis;
 use git_analysis::*;
 use std::fs;
 
-use super::CocoCliOption;
+use super::CocoOpt;
 use core_model::url_format;
 use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
@@ -26,7 +26,7 @@ impl From<&CocoConfig> for Analyst {
 }
 
 impl Analyst {
-    pub fn analysis(&self, _cli_option: CocoCliOption) {
+    pub fn analysis(&self, _cli_option: CocoOpt) {
         // todo: add tasks for parallel run analysis tasks for one or more repos
         let start = Instant::now();
         self.repos.par_iter().for_each(|repo| {
