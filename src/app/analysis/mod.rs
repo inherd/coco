@@ -87,7 +87,7 @@ fn analysis_tags(url_str: &str) {
     fs::write(output_file, result).expect("cannot write file");
 }
 
-fn analysis_file_history(url_str: &str, git_years: u64) {
+fn analysis_file_history(url_str: &str, git_years: f64) {
     let tree = file_analysis::analysis(url_str, git_years);
     let file_name = url_format::json_filename_suffix(url_str, Some("-file-history"));
 

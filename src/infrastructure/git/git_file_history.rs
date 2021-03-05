@@ -174,7 +174,7 @@ impl IndicatorCalculator for LocCalculator {
     }
 }
 
-pub fn by_path(root: PathBuf, git_years: u64) -> FlareTreeNode {
+pub fn by_path(root: PathBuf, git_years: f64) -> FlareTreeNode {
     let mut tics: Vec<Box<dyn IndicatorCalculator>> = vec![];
     let calculator = Box::new(GitCalculator::new(
         GitLogConfig::default()

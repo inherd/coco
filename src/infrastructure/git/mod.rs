@@ -96,7 +96,7 @@ mod test {
         initialize();
 
         let root = url_format::uri_to_path("https://github.com/coco-rs/coco.fixtures");
-        let tree = git_file_history::by_path(root, 1);
+        let tree = git_file_history::by_path(root, 1.0);
 
         let name = tree.get_children()[0].name();
         assert_eq!("LICENSE", name.to_str().unwrap());

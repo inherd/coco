@@ -19,8 +19,8 @@ pub struct CocoOpt {
     pub branches: bool,
 
     /// Set git commits scan years, default 1,
-    #[structopt(long, short = "y", default_value = "1")]
-    pub git_years: u64,
+    #[structopt(long, short = "y", parse(try_from_str), default_value = "1.0")]
+    pub git_years: f64,
 
     /// with file history
     #[structopt(long, short, short = "f", parse(try_from_str), default_value = "false")]
@@ -49,7 +49,7 @@ impl Default for CocoOpt {
             config_file: "coco.yml".to_string(),
             commits: false,
             branches: false,
-            git_years: 0,
+            git_years: 0.0,
             file_history: false,
             tags: false,
             cmd: None,
