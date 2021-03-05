@@ -47,13 +47,13 @@ function renderCodeExplorer(freedom, data, elementId) {
     })
 
   labels.selectAll('text')
-    .data(allNodes)
+    .data(allNodes.filter(d => d.depth === 2))
     .enter()
     .append('text')
     .attr('class', d => `label-${d.id}`)
     .attr('text-anchor', 'middle')
     .attr("transform", d => {
-      // return "translate(" + [d.data.layout.polygon.site.x, d.data.layout.polygon.site.y + 6] + ")"
+      return "translate(" + [d.data.layout.center[0], d.data.layout.center[1] + 6] + ")"
     })
     .text(d => {
       return d.data.path
@@ -64,30 +64,4 @@ function renderCodeExplorer(freedom, data, elementId) {
     .attr('cursor', 'default')
     .attr('pointer-events', 'none')
     .attr('fill', 'white')
-
-  // pop_labels.selectAll('text')
-  //   .data(allNodes.filter(d => d.depth === 2))
-  //   .enter()
-  //   .append('text')
-  //   .attr('class', d => `label-${d.id}`)
-  //   .attr('text-anchor', 'middle')
-  //   // .attr("transform", d => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
-  //   .text(d => bigFormat(d.data.value))
-  //   //.attr('opacity', d => d.data.key === hoveredShape ? 1 : 0)
-  //   .attr('opacity', function (d) {
-  //     if (d.data.key === hoveredShape) {
-  //       return (1);
-  //     } else if (d.data.value > 130000000) {
-  //       return (1);
-  //     } else {
-  //       return (0);
-  //     }
-  //   })
-  //
-  //   .attr('cursor', 'default')
-  //   .attr('pointer-events', 'none')
-  //   .attr('fill', 'black')
-  //   .style('font-size', '12px')
-  //   .style('font-family', 'Montserrat');
-
 }
