@@ -73,7 +73,7 @@ d3.json("data/git-file-history.json").then(function (data) {
   data.width = GraphConfig.width;
   let layout = calculateCodeLayout(data);
 
-  renderCodeExplorer(json, layout, '#file-explorer');
+  renderCodeExplorer(layout, '#file-explorer');
 });
 
 d3.json("data/pipeline.json").then(function (data) {

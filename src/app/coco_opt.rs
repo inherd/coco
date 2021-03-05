@@ -27,7 +27,7 @@ pub struct CocoOpt {
     pub file_history: bool,
 
     /// with tags features
-    #[structopt(short, long, parse(try_from_str), default_value = "false")]
+    #[structopt(short, long, parse(try_from_str), default_value = "true")]
     pub tags: bool,
 
     #[structopt(subcommand)] // Note that we mark a field as a subcommand
