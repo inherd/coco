@@ -6,11 +6,12 @@ use std::{
     process::exit,
 };
 
-use clap::{App, Arg};
 use reqwest;
+use structopt::StructOpt;
 use zip;
 
 use coco::app::analysis;
+use coco::app::coco_opt::CocoCommand;
 use coco::app::CocoOpt;
 use coco::coco_error::CocoError;
 use core_model::CocoConfig;
@@ -19,52 +20,27 @@ use plugin_manager::plugin_manager::PluginManager;
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 fn main() {
-    let matches = App::new("Coco")
-        .version(VERSION)
-        .author("Inherd Group")
-        .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
-        .arg(
-            Arg::with_name("config")
-                .short("c")
-                .long("config")
-                .value_name("FILE")
-                .help("config file")
-                .takes_value(true),
-        )
-        .subcommand(
-            App::new("init")
-                .version(VERSION)
-                .author("Inherd Group")
-                .about("A DevOps Efficiency Analysis and Auto-suggestion Tool."),
-        )
-        .subcommand(
-            App::new("plugins")
-                .version(VERSION)
-                .author("Inherd Group")
-                .about("A DevOps Efficiency Analysis and Auto-suggestion Tool."),
-        )
-        .get_matches();
-
-    if matches.is_present("init") {
-        create_config_file();
-        exit(0);
+    let opt: CocoOpt = CocoOpt::from_args();
+    if let Some(sub_cmd) = opt.cmd {
+        match sub_cmd {
+            CocoCommand::Init => {
+                create_config_file();
+                exit(0);
+            }
+            CocoCommand::Plugins => {
+                setup_plugins();
+                exit(0);
+            }
+        }
     }
 
-    if matches.is_present("plugins") {
-        setup_plugins();
-        exit(0);
-    }
-
-    let config_file = matches.value_of("config").unwrap_or("coco.yml");
-
-    let cli_option = CocoOpt::default();
-
+    let config_file = &opt.config_file;
     let config = CocoConfig::from_file(config_file);
 
     println!("found config file: {}", config_file);
 
     let analyst = analysis::Analyst::from(&config);
-    analyst.analysis(cli_option);
+    analyst.analysis(opt);
 
     let plugin_manager = PluginManager::from(&config);
     plugin_manager.run_all();
@@ -171,8 +147,9 @@ fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) -> Result<(), Coc
 
 #[cfg(test)]
 mod test {
-    use core_model::CocoConfig;
     use std::env;
+
+    use core_model::CocoConfig;
 
     #[test]
     fn should_set_default_config() {
