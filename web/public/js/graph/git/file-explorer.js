@@ -18,6 +18,13 @@ function renderCodeExplorer(freedom, data, elementId) {
     }
     return 0;
   });
+  const average = d3.mean(allNodes, d => {
+    if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
+      return Math.abs(d.data.data.git.details.length)
+    }
+    return 0;
+  });
+
   let color = d3.scaleLinear()
     .domain([0, +max])
     .range(["#9be9a8", "red"])
@@ -103,7 +110,15 @@ function renderCodeExplorer(freedom, data, elementId) {
   });
 
   labels.selectAll('text')
-    .data(allNodes)
+    .data(allNodes.filter(d => {
+      if (d.data.data && d.data.data.git) {
+        if (d.data.data.git.details.length > average) {
+          return true;
+        }
+      }
+
+      return false;
+    }))
     .enter()
     .append('text')
     .attr('class', d => `label-${d.id}`)
