@@ -94,6 +94,11 @@ function renderCodeExplorer(data, elementId) {
       d3.select(this).attr("opacity", "1")
       tooltip.style("opacity", 0)
     })
+    .on("click", function (event, d) {
+      if (d.data.data && d.data.data.git) {
+        renderSubGraph(d.data.data.git.details);
+      }
+    })
     .transition()
     .duration(1000)
     .attr("stroke-width", d => {
@@ -135,4 +140,53 @@ function renderCodeExplorer(data, elementId) {
     .attr('cursor', 'default')
     .attr('pointer-events', 'none')
     .attr('fill', 'white')
+
+  function renderSubGraph(commit_data) {
+    let width = GraphConfig.width - margin.left - margin.right;
+    let height = 200 - margin.top - margin.bottom;
+
+    d3.select("svg#sub_commit_graph").remove();
+    let svg = d3.select(elementId)
+      .append("svg")
+      .attr("id", "sub_commit_graph")
+      .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+      .append("g")
+      .attr("transform",
+        "translate(" + margin.left + "," + margin.top + ")");
+
+    let x = d3.scaleTime()
+      .domain(d3.extent(commit_data, function (d) {
+        return d.commit_day * 1000;
+      }))
+      .range([0, width]);
+
+    svg.append("g")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+    let y = d3.scaleLinear()
+      .domain([0, d3.max(commit_data, function (d) {
+        return +d.lines_added;
+      })])
+      .range([height, 0]);
+    svg.append("g")
+      .call(d3.axisLeft(y));
+
+    // Add the line
+    svg.append("path")
+      .datum(commit_data)
+      .attr("fill", "none")
+      .attr("stroke", "steelblue")
+      .attr("stroke-width", 1.5)
+      .attr("d", d3.line()
+        .x(function (d) {
+          return x(d.commit_day * 1000)
+        })
+        .y(function (d) {
+          return y(d.lines_added)
+        })
+      )
+
+  }
 }
