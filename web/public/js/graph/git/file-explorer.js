@@ -1,4 +1,4 @@
-function renderCodeExplorer(freedom, data, elementId) {
+function renderCodeExplorer(freedom, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
   let width = GraphConfig.width - margin.left - margin.right;
   let height = GraphConfig.width - margin.top - margin.bottom;
@@ -24,32 +24,10 @@ function renderCodeExplorer(freedom, data, elementId) {
     }
   });
 
-  let some = calculateCodeLayout(data);
-  console.log(some);
   let freedom_nest = d3.group(freedom_year, d => d.region_simple)
   let data_nested = {key: "freedom_nest", values: freedom_nest}
 
-  function treemap(data) {
-    return d3.treemap()
-      (d3.hierarchy(data)
-        .sum(d => {
-          d.line = 0;
-          if (d.data && d.data.git && d.data.git.details) {
-            for (let datum of d.data.git.details) {
-              d.line = d.line + datum.lines_added - datum.lines_deleted
-            }
-          }
-          return d.line
-        })
-        .sum(d => d.line)
-      )
-  }
-
-  let root = treemap(data);
-  console.log(root);
-
   let population_hierarchy = d3.hierarchy(data_nested.values).sum(d => d.value);
-  console.log(population_hierarchy);
 
   let regionColor = function (region) {
     let colors = {
