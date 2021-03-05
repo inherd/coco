@@ -24,12 +24,29 @@ function renderCodeExplorer(freedom, data, elementId) {
   const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   const pop_labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+
+  const max = d3.quantile(allNodes, 0.9975, d => {
+    if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
+      return Math.abs(d.data.data.git.details.length)
+    }
+    return 0;
+  });
+  let color = d3.scaleLinear()
+    .domain([0, +max])
+    .range(["#9be9a8", "#216e39"])
+
   voronoi.selectAll('path')
     .data(allNodes)
     .enter()
     .append('path')
     .attr('d', d => `${d3.line()(d.data.layout.polygon)}z`)
-    .style('fill', d => d.parent ? d.parent.color : d.color)
+    .style('fill', d => {
+      if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
+        return color(d.data.data.git.details.length)
+      } else {
+        return color(0);
+      }
+    })
     .attr("stroke", "#F5F5F2")
     .on('mouseenter', d => {
       let label = labels.select(`.label-${d.id}`);
@@ -43,6 +60,7 @@ function renderCodeExplorer(freedom, data, elementId) {
     .transition()
     .duration(1000)
     .attr("stroke-width", d => {
+      if (d.data.layout.algorithm === "circlePack") return 0;
       return d.depth < 4 ? 4 - d.depth : 1;
     })
 
@@ -56,7 +74,10 @@ function renderCodeExplorer(freedom, data, elementId) {
       return "translate(" + [d.data.layout.center[0], d.data.layout.center[1] + 6] + ")"
     })
     .text(d => {
-      return d.data.path
+      if (d.data.data) {
+        return d.data.path + ":" + d.data.data.git.details.length
+      }
+      return d.data.path;
     })
     .attr('opacity', function (d) {
 
