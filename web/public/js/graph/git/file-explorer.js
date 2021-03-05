@@ -3,13 +3,6 @@ function renderCodeExplorer(freedom, data, elementId) {
   let width = GraphConfig.width - margin.left - margin.right;
   let height = GraphConfig.width - margin.top - margin.bottom;
 
-  let ellipse = d3
-    .range(100)
-    .map(i => [
-      (width * (1 + 0.99 * Math.cos((i / 50) * Math.PI))) / 2,
-      (height * (1 + 0.99 * Math.sin((i / 50) * Math.PI))) / 2
-    ])
-
   const rootNode = d3.hierarchy(data); // .sum(d => d.value);
   rootNode.descendants().forEach((node) => {
     node.data.hierarchNode = node;
@@ -31,11 +24,6 @@ function renderCodeExplorer(freedom, data, elementId) {
   const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   const pop_labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  let seed = new Math.seedrandom(20);
-  let voronoiTreeMap = d3.voronoiTreemap()
-    .prng(seed)
-    .clip(ellipse);
-
   voronoi.selectAll('path')
     .data(allNodes)
     .enter()
@@ -43,9 +31,6 @@ function renderCodeExplorer(freedom, data, elementId) {
     .attr('d', d => `${d3.line()(d.data.layout.polygon)}z`)
     .style('fill', d => d.parent ? d.parent.color : d.color)
     .attr("stroke", "#F5F5F2")
-    // .attr("stroke-width", 0)
-    // .style('fill-opacity', d => d.depth === 2 ? 1 : 0)
-    // .attr('pointer-events', d => d.depth === 2 ? 'all' : 'none')
     .on('mouseenter', d => {
       let label = labels.select(`.label-${d.id}`);
       label.attr('opacity', 1)
@@ -53,15 +38,13 @@ function renderCodeExplorer(freedom, data, elementId) {
       pop_label.attr('opacity', 1)
     })
     .on('mouseleave', d => {
-      // let label = labels.select(`.label-${d.id}`);
-      // label.attr('opacity', d => d.data.value > 130000000 ? 1 : 0)
-      // let pop_label = pop_labels.select(`.label-${d.id}`);
-      // pop_label.attr('opacity', d => d.data.value > 130000000 ? 1 : 0)
+
     })
     .transition()
     .duration(1000)
-    .attr("stroke-width", d => 7 - d.depth * 2.8)
-  // .style('fill', d => d.color);
+    .attr("stroke-width", d => {
+      return d.depth < 4 ? 4 - d.depth : 1;
+    })
 
   labels.selectAll('text')
     .data(allNodes)

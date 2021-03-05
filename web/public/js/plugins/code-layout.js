@@ -120,11 +120,13 @@ function calculateVoronoi(
   let bestPolygons = undefined;
   while (!simulationLoopEnded) {
 
+    let seed = new Math.seedrandom(20);
     console.log(node.children);
       var simulation = d3.voronoiMapSimulation(node.children)
         .maxIterationCount(MAX_ITERATION_COUNT)
         .minWeightRatio(MIN_WEIGHT_RATIO)
         .weight((d) => d.value)
+        .prng(seed)
         .clip(clipPolygon)
         .stop();
 
