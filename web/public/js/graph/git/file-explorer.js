@@ -1,4 +1,4 @@
-function renderCodeExplorer(freedom, elementId) {
+function renderCodeExplorer(freedom, data, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
   let width = GraphConfig.width - margin.left - margin.right;
   let height = GraphConfig.width - margin.top - margin.bottom;
@@ -17,9 +17,8 @@ function renderCodeExplorer(freedom, elementId) {
   freedom.map(obj => {
     if (obj.year === selectedYear) {
       freedom_year.push({
-        countries: obj.countries,
-        year: obj.year,
-        population: parseInt(obj.population, 10),
+        name: obj.countries,
+        value: parseInt(obj.population, 10),
         region_simple: obj.region_simple
       });
     }
@@ -27,7 +26,28 @@ function renderCodeExplorer(freedom, elementId) {
 
   let freedom_nest = d3.group(freedom_year, d => d.region_simple)
   let data_nested = {key: "freedom_nest", values: freedom_nest}
-  let population_hierarchy = d3.hierarchy(data_nested.values).sum(d => d.population);
+
+  function treemap(data) {
+    return d3.treemap()
+      (d3.hierarchy(data)
+        .sum(d => {
+          d.line = 0;
+          if (d.data && d.data.git && d.data.git.details) {
+            for (let datum of d.data.git.details) {
+              d.line = d.line + datum.lines_added - datum.lines_deleted
+            }
+          }
+          return d.line
+        })
+        .sum(d => d.line)
+      )
+  }
+
+  let root = treemap(data);
+  console.log(root);
+
+  let population_hierarchy = d3.hierarchy(data_nested.values).sum(d => d.value);
+  console.log(population_hierarchy);
 
   let regionColor = function (region) {
     let colors = {
@@ -99,9 +119,9 @@ function renderCodeExplorer(freedom, elementId) {
     })
     .on('mouseleave', d => {
       let label = labels.select(`.label-${d.id}`);
-      label.attr('opacity', d => d.data.population > 130000000 ? 1 : 0)
+      label.attr('opacity', d => d.data.value > 130000000 ? 1 : 0)
       let pop_label = pop_labels.select(`.label-${d.id}`);
-      pop_label.attr('opacity', d => d.data.population > 130000000 ? 1 : 0)
+      pop_label.attr('opacity', d => d.data.value > 130000000 ? 1 : 0)
     })
     .transition()
     .duration(1000)
@@ -115,11 +135,11 @@ function renderCodeExplorer(freedom, elementId) {
     .attr('class', d => `label-${d.id}`)
     .attr('text-anchor', 'middle')
     .attr("transform", d => "translate(" + [d.polygon.site.x, d.polygon.site.y + 6] + ")")
-    .text(d => d.data.key || d.data.countries)
+    .text(d => d.data.key || d.data.name)
     .attr('opacity', function (d) {
       if (d.data.key === hoveredShape) {
         return (1);
-      } else if (d.data.population > 130000000) {
+      } else if (d.data.value > 130000000) {
         return (1);
       } else {
         return (0);
@@ -138,12 +158,12 @@ function renderCodeExplorer(freedom, elementId) {
     .attr('class', d => `label-${d.id}`)
     .attr('text-anchor', 'middle')
     .attr("transform", d => "translate(" + [d.polygon.site.x, d.polygon.site.y + 25] + ")")
-    .text(d => bigFormat(d.data.population))
+    .text(d => bigFormat(d.data.value))
     //.attr('opacity', d => d.data.key === hoveredShape ? 1 : 0)
     .attr('opacity', function (d) {
       if (d.data.key === hoveredShape) {
         return (1);
-      } else if (d.data.population > 130000000) {
+      } else if (d.data.value > 130000000) {
         return (1);
       } else {
         return (0);
