@@ -38,6 +38,9 @@ fn main() {
     let config = CocoConfig::from_file(config_file);
 
     println!("found config file: {}", config_file);
+    if opt.debug {
+        println!("{:?}", opt);
+    }
 
     let analyst = analysis::Analyst::from(&config);
     analyst.analysis(opt);

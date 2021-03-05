@@ -10,6 +10,10 @@ pub struct CocoOpt {
     #[structopt(short, long, default_value = "coco.yml")]
     pub config_file: String,
 
+    /// with Git Commits
+    #[structopt(long, parse(try_from_str), default_value = "true")]
+    pub commits: bool,
+
     /// with Git Branches
     #[structopt(short, long, parse(try_from_str), default_value = "true")]
     pub branches: bool,
@@ -43,6 +47,7 @@ impl Default for CocoOpt {
         CocoOpt {
             debug: false,
             config_file: "coco.yml".to_string(),
+            commits: false,
             branches: false,
             git_years: 0,
             file_history: false,

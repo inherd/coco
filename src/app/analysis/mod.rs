@@ -26,7 +26,7 @@ impl From<&CocoConfig> for Analyst {
 }
 
 impl Analyst {
-    pub fn analysis(&self, _cli_option: CocoOpt) {
+    pub fn analysis(&self, cli_option: CocoOpt) {
         // todo: add tasks for parallel run analysis tasks for one or more repos
         let start = Instant::now();
         self.repos.par_iter().for_each(|repo| {
@@ -34,10 +34,19 @@ impl Analyst {
             // todo: thinking in refactor to patterns
 
             // todo: merge to one app?
-            analysis_branches(url_str);
-            analysis_commits(url_str);
-            analysis_tags(url_str);
-            analysis_file_history(url_str);
+
+            if cli_option.branches {
+                analysis_branches(url_str);
+            }
+            if cli_option.commits {
+                analysis_commits(url_str);
+            }
+            if cli_option.tags {
+                analysis_tags(url_str);
+            }
+            if cli_option.file_history {
+                analysis_file_history(url_str, cli_option.git_years.clone());
+            }
 
             analysis_framework(url_str);
             analysis_cloc(url_str);
@@ -78,8 +87,8 @@ fn analysis_tags(url_str: &str) {
     fs::write(output_file, result).expect("cannot write file");
 }
 
-fn analysis_file_history(url_str: &str) {
-    let tree = file_analysis::analysis(url_str);
+fn analysis_file_history(url_str: &str, git_years: u64) {
+    let tree = file_analysis::analysis(url_str, git_years);
     let file_name = url_format::json_filename_suffix(url_str, Some("-file-history"));
 
     let result = serde_json::to_string_pretty(&tree).unwrap();

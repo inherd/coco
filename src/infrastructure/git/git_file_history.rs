@@ -174,10 +174,12 @@ impl IndicatorCalculator for LocCalculator {
     }
 }
 
-pub fn by_path(root: PathBuf) -> FlareTreeNode {
+pub fn by_path(root: PathBuf, git_years: u64) -> FlareTreeNode {
     let mut tics: Vec<Box<dyn IndicatorCalculator>> = vec![];
     let calculator = Box::new(GitCalculator::new(
-        GitLogConfig::default().include_merges(true).since_years(3),
+        GitLogConfig::default()
+            .include_merges(true)
+            .since_years(git_years),
         true,
     ));
 
