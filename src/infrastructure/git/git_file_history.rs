@@ -121,6 +121,7 @@ pub struct Stats {
     pub name: PathBuf,
 }
 
+#[allow(unused_assignments)]
 fn parse_file(filename: &Path) -> Result<LanguageLocData, Error> {
     let config = Config::default();
     let mut language_name = None;

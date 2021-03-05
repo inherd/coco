@@ -71,10 +71,16 @@ function renderCodeExplorer(freedom, data, elementId) {
     .attr("stroke", "#F5F5F2")
     .on("mouseover", function (event, d) {
       d3.select(this).attr("opacity", "0.5")
+      let commits = 0;
+      if (d.data.data && d.data.data.git) {
+        commits = d.data.data.git.details.length;
+      }
       tooltip
         .style("opacity", 1)
-        .html(`<h1>${d.data.name}</h1>
-<h2>${d.data.path}</h2>
+        .html(`<h2>${d.data.name}</h2>
+<h4>${d.data.path}</h4>
+<h4>line: ${d.data.value}</h4>
+<h4>commits: ${commits}</h4>
 `)
     })
     .on("mouseleave", function (event, d) {
@@ -106,7 +112,7 @@ function renderCodeExplorer(freedom, data, elementId) {
       return "translate(" + [d.data.layout.center[0], d.data.layout.center[1] + 6] + ")"
     })
     .text(d => {
-      if (d.data.data) {
+      if (d.data.data && d.data.data.git) {
         return d.data.name + ":" + d.data.data.git.details.length
       }
       return d.data.name;
