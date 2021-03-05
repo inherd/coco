@@ -32,7 +32,6 @@ chrono = "0.4"
 
 git2 = "0.13"
 git-scanner = "0.1.4"
-
 # for cli usage
 clap = "2.33.3"
 
@@ -78,6 +77,8 @@ shellexpand = "2.1.0"
 # download plugins
 reqwest = { version = "0.11", features = ["blocking", "json"] }
 zip = "0.5"
+
+content_inspector = "0.2.4"
 
 [dependencies.framework]
 path = "framework"
