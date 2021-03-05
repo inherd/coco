@@ -1,6 +1,6 @@
 [package]
 name = "coco"
-version = "0.4.1"
+version = "0.4.2"
 authors = ["Inherd Group <group@inherd.org>", "Phodal Huang <h@phodal.com>"]
 edition = "2018"
 license = "MIT"
@@ -80,6 +80,7 @@ zip = "0.5"
 
 content_inspector = "0.2.4"
 
+structopt = "0.3"
 [dependencies.framework]
 path = "framework"
 
