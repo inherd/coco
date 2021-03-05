@@ -119,7 +119,8 @@ function calculateVoronoi(
   let bestConvergenceRatio = 1.0;
   let bestPolygons = undefined;
   while (!simulationLoopEnded) {
-    try {
+
+    console.log(node.children);
       var simulation = d3.voronoiMapSimulation(node.children)
         .maxIterationCount(MAX_ITERATION_COUNT)
         .minWeightRatio(MIN_WEIGHT_RATIO)
@@ -183,44 +184,7 @@ function calculateVoronoi(
         }
         simulationLoopEnded = true;
       }
-    } catch (e) {
-      // re-try from scratch but only after predictable exceptions
-      console.warn('caught e', e.message);
-      if (!(e instanceof Error) && !(e instanceof TypeError)) {
-        console.error('not Error or TypeError');
-        throw e;
-      }
-      if (
-        e.message === 'handleOverweighted1 is looping too much' ||
-        e.message ===
-        'at least 1 site has no area, which is not supposed to arise'
-      ) {
-        simulationCount = simulationCount + 1;
-        if (simulationCount < MAX_SIMULATION_COUNT) {
-          console.warn(
-            `caught ${e.message}, retrying from scratch`,
-            simulationCount
-          );
-        } else {
-          console.error(
-            `caught ${e.message}, too many errors!`,
-            simulationCount
-          );
-          simulationLoopEnded = true;
-          if (!goodenough) {
-            throw Error("Too many retries, can't provide good simulation");
-          } else {
-            console.warn('returning good-enough result', bestConvergenceRatio);
-          }
-        }
-      } else {
-        console.error(
-          `unhandled exception ${e.name}:${e.message} - rethrowing`
-        );
-        throw e;
-      }
     }
-  }
   var polygons = state.polygons;
   if (bestPolygons) {
     console.error(
@@ -271,8 +235,8 @@ function codeLayout(input, points, circles) {
     });
     d3.packSiblings(children);
     // top level layout
-    const enclosingCirle = d3.packEnclose(children);
-    const { x, y, r } = enclosingCirle;
+    const enclosingCircle = d3.packEnclose(children);
+    const { x, y, r } = enclosingCircle;
     // TODO: offset by x/y
     parsedData.layout = {
       polygon: computeCirclingPolygon(points, r),
