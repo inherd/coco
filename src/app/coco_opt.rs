@@ -3,18 +3,19 @@ use structopt::StructOpt;
 #[derive(StructOpt, Debug, Clone)]
 #[structopt(name = "coco")]
 pub struct CocoOpt {
-    /// Activate debug mode
+    /// Debug mode
     #[structopt(short, long, parse(try_from_str), default_value = "false")]
     pub debug: bool,
 
+    /// Config file .yml
     #[structopt(short, long, default_value = "coco.yml")]
     pub config_file: String,
 
-    /// with Git Commits
+    /// With all commits
     #[structopt(long, parse(try_from_str), default_value = "true")]
     pub commits: bool,
 
-    /// with Git Branches
+    /// With all branches
     #[structopt(short, long, parse(try_from_str), default_value = "true")]
     pub branches: bool,
 
@@ -22,15 +23,15 @@ pub struct CocoOpt {
     #[structopt(long, short = "y", parse(try_from_str), default_value = "1.0")]
     pub git_years: f64,
 
-    /// with file history
+    /// Scan file change list from git & cloc
     #[structopt(long, short, short = "f", parse(try_from_str), default_value = "false")]
     pub file_history: bool,
 
-    /// with tags features
+    /// With all tags
     #[structopt(short, long, parse(try_from_str), default_value = "true")]
     pub tags: bool,
 
-    #[structopt(subcommand)] // Note that we mark a field as a subcommand
+    #[structopt(subcommand)]
     pub cmd: Option<CocoCommand>,
 }
 

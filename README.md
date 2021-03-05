@@ -43,13 +43,13 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -b, --branches <branches>            with Git Branches [default: true]
-        --commits <commits>              with Git Commits [default: true]
-    -c, --config-file <config-file>       [default: coco.yml]
-    -d, --debug <debug>                  Activate debug mode [default: false]
-    -f, --file-history <file-history>    with file history [default: false]
+    -b, --branches <branches>            With all branches [default: true]
+        --commits <commits>              With all commits [default: true]
+    -c, --config-file <config-file>      Config file .yml [default: coco.yml]
+    -d, --debug <debug>                  Debug mode [default: false]
+    -f, --file-history <file-history>    Scan file change list from git & cloc [default: false]
     -y, --git-years <git-years>          Set git commits scan years, default 1, [default: 1.0]
-    -t, --tags <tags>                    with tags features [default: true]
+    -t, --tags <tags>                    With all tags [default: true]
 
 SUBCOMMANDS:
     help       Prints this message or the help of the given subcommand(s)
