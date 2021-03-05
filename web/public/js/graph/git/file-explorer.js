@@ -1,9 +1,6 @@
 function renderCodeExplorer(freedom, data, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
-  let width = GraphConfig.width - margin.left - margin.right;
-  let height = GraphConfig.width - margin.top - margin.bottom;
-
-  const rootNode = d3.hierarchy(data); // .sum(d => d.value);
+  const rootNode = d3.hierarchy(data);
   rootNode.descendants().forEach((node) => {
     node.data.hierarchNode = node;
   });
@@ -76,7 +73,7 @@ function renderCodeExplorer(freedom, data, elementId) {
     })
 
   labels.selectAll('text')
-    .data(allNodes.filter(d => d.depth === 2))
+    .data(allNodes)
     .enter()
     .append('text')
     .attr('class', d => `label-${d.id}`)
@@ -86,14 +83,29 @@ function renderCodeExplorer(freedom, data, elementId) {
     })
     .text(d => {
       if (d.data.data) {
-        return d.data.path + ":" + d.data.data.git.details.length
+        return d.data.name + ":" + d.data.data.git.details.length
       }
-      return d.data.path;
-    })
-    .attr('opacity', function (d) {
-
+      return d.data.name;
     })
     .attr('cursor', 'default')
     .attr('pointer-events', 'none')
     .attr('fill', 'white')
+
+  pop_labels.selectAll('text')
+    .data(allNodes)
+    .enter()
+    .append('text')
+    .attr('class', d => {
+      `label-${d.id}`
+    })
+    .attr("transform", d => {
+      return "translate(" + [d.data.layout.center[0], d.data.layout.center[1] + 6] + ")"
+    })
+    .attr('text-anchor', 'middle')
+    .text(d => d.data.value)
+    .attr('opacity', 0)
+    .attr('cursor', 'default')
+    .attr('pointer-events', 'none')
+    .attr('fill', 'black')
+    .style('font-size', '12px');
 }
