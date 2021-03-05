@@ -41,29 +41,45 @@ function renderCodeExplorer(freedom, data, elementId) {
 
   const voronoi = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
   const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  const pop_labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  let createTooltip = function (el) {
+    el
+      .attr("class", "tooltip")
+      .style("pointer-events", "none")
+      .style("top", 0)
+      .style("opacity", 0)
+  }
+  const tooltip = d3.select(document.createElement("div")).call(createTooltip);
+  let element = document.getElementById("file-explorer");
+  element.append(tooltip.node());
+
+
+  function fillFn(d) {
+    if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
+      return color(d.data.data.git.details.length)
+    } else {
+      return color(0);
+    }
+  }
 
   voronoi.selectAll('path')
     .data(allNodes)
     .enter()
     .append('path')
     .attr('d', d => `${d3.line()(d.data.layout.polygon)}z`)
-    .style('fill', d => {
-      if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
-        return color(d.data.data.git.details.length)
-      } else {
-        return color(0);
-      }
-    })
+    .attr('fill', fillFn)
     .attr("stroke", "#F5F5F2")
-    .on('mouseenter', d => {
-      let label = labels.select(`.label-${d.id}`);
-      label.attr('opacity', 1)
-      let pop_label = pop_labels.select(`.label-${d.id}`);
-      pop_label.attr('opacity', 1)
+    .on("mouseover", function (event, d) {
+      d3.select(this).attr("opacity", "0.5")
+      tooltip
+        .style("opacity", 1)
+        .html(`<h1>${d.data.name}</h1>
+<h2>${d.data.path}</h2>
+`)
     })
-    .on('mouseleave', d => {
-
+    .on("mouseleave", function (event, d) {
+      d3.select(this).attr("opacity", "1")
+      tooltip.style("opacity", 0)
     })
     .transition()
     .duration(1000)
@@ -71,6 +87,14 @@ function renderCodeExplorer(freedom, data, elementId) {
       if (d.data.layout.algorithm === "circlePack") return 0;
       return d.depth < 4 ? 4 - d.depth : 1;
     })
+
+  svg.on("mousemove", function (event, d) {
+    let [x, y] = d3.pointer(event);
+
+    tooltip
+      .style("left", x + GraphConfig.width / 2 + "px")
+      .style("top", y + GraphConfig.width / 2 + "px")
+  });
 
   labels.selectAll('text')
     .data(allNodes)
@@ -90,22 +114,4 @@ function renderCodeExplorer(freedom, data, elementId) {
     .attr('cursor', 'default')
     .attr('pointer-events', 'none')
     .attr('fill', 'white')
-
-  pop_labels.selectAll('text')
-    .data(allNodes)
-    .enter()
-    .append('text')
-    .attr('class', d => {
-      `label-${d.id}`
-    })
-    .attr("transform", d => {
-      return "translate(" + [d.data.layout.center[0], d.data.layout.center[1] + 6] + ")"
-    })
-    .attr('text-anchor', 'middle')
-    .text(d => d.data.value)
-    .attr('opacity', 0)
-    .attr('cursor', 'default')
-    .attr('pointer-events', 'none')
-    .attr('fill', 'black')
-    .style('font-size', '12px');
 }
