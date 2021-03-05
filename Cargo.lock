@@ -1543,9 +1543,9 @@ checksum = "f6503fe142514ca4799d4c26297c4248239fe8838d827db6bd6065c6ed29a6ce"
 
 [[package]]
 name = "git-scanner"
-version = "0.1.4"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2d6a4e049b74eaea003a7f18b0912f9e1f5dc130201202f7c98b58f8a09dffa7"
+checksum = "7a02e713c17672b1dc027acda50f50bc1e59c07cd7b5f1602ff312da507e29ca"
 dependencies = [
  "chrono",
  "derive-getters",
