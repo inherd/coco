@@ -24,6 +24,8 @@ function renderCodeExplorer(freedom, data, elementId) {
     }
   });
 
+  let some = calculateCodeLayout(data);
+  console.log(some);
   let freedom_nest = d3.group(freedom_year, d => d.region_simple)
   let data_nested = {key: "freedom_nest", values: freedom_nest}
 
