@@ -7,23 +7,13 @@ function renderCodeExplorer(freedom, data, elementId) {
   rootNode.descendants().forEach((node) => {
     node.data.hierarchNode = node;
   });
-  let maxDepth = 3;
+  let maxDepth = 10;
   const allNodes = rootNode
     .descendants()
     .filter((d) => d.depth <= maxDepth)
     .filter(
       (d) => d.children === undefined || d.depth === maxDepth
     );
-
-  let svg = d3.select(elementId).append("svg")
-    .attr("width", GraphConfig.width)
-    .attr("height", GraphConfig.width)
-    .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.height / 2, GraphConfig.width, GraphConfig.height,]);
-
-  const voronoi = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-  const pop_labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
 
   const max = d3.quantile(allNodes, 0.9975, d => {
     if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
@@ -33,7 +23,28 @@ function renderCodeExplorer(freedom, data, elementId) {
   });
   let color = d3.scaleLinear()
     .domain([0, +max])
-    .range(["#9be9a8", "#216e39"])
+    .range(["#9be9a8", "red"])
+
+  legend(
+    {
+      color,
+      title: "Daily commits",
+      ticks: 10,
+      tickFormat: function (d) {
+        return d;
+      }
+    },
+    d3.select(elementId)
+  )
+
+  let svg = d3.select(elementId).append("svg")
+    .attr("width", GraphConfig.width)
+    .attr("height", GraphConfig.width)
+    .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.height / 2, GraphConfig.width, GraphConfig.height,]);
+
+  const voronoi = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+  const pop_labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   voronoi.selectAll('path')
     .data(allNodes)
