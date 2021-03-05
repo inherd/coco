@@ -18,16 +18,16 @@ function renderCodeExplorer(data, elementId) {
     }
     return 0;
   });
-  const average = d3.mean(allNodes, d => {
+  const average = Math.round(d3.quantile(allNodes, 0.90, d => {
     if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
       return Math.abs(d.data.data.git.details.length)
     }
     return 0;
-  });
+  }));
 
   let color = d3.scaleLinear()
-    .domain([0, +max])
-    .range(["#9be9a8", "red"])
+    .domain([0, average, +max])
+    .range(['green', 'blue', 'red']);
 
   legend(
     {
