@@ -100,12 +100,13 @@ function calculateVoronoi(
   if (!node.children) {
     return;
   }
-  if (depth < 3) {
-    console.warn(`calculating voronoi for ${name}`);
-  } else if (depth === 3) {
-    console.warn(`calculating voronoi for ${name} and descendants`);
-  }
   if (debug) {
+    if (depth < 3) {
+      console.warn(`calculating voronoi for ${name}`);
+    } else if (depth === 3) {
+      console.warn(`calculating voronoi for ${name} and descendants`);
+    }
+
     console.warn(
       `calculating voronoi for ${name} with ${node.children.length} children and a clip polygon with ${clipPolygon.length} vertices`
     );
@@ -121,72 +122,71 @@ function calculateVoronoi(
   while (!simulationLoopEnded) {
 
     let seed = new Math.seedrandom(20);
-    console.log(node.children);
-      var simulation = d3.voronoiMapSimulation(node.children)
-        .maxIterationCount(MAX_ITERATION_COUNT)
-        .minWeightRatio(MIN_WEIGHT_RATIO)
-        .weight((d) => d.value)
-        .prng(seed)
-        .clip(clipPolygon)
-        .stop();
+    var simulation = d3.voronoiMapSimulation(node.children)
+      .maxIterationCount(MAX_ITERATION_COUNT)
+      .minWeightRatio(MIN_WEIGHT_RATIO)
+      .weight((d) => d.value)
+      .prng(seed)
+      .clip(clipPolygon)
+      .stop();
 
-      var state = simulation.state();
+    var state = simulation.state();
 
-      let tickCount = 0;
-      let warningTime = Date.now();
-      while (!state.ended) {
-        tickCount += 1;
-        const now = Date.now();
-        if (now - warningTime > 10000) {
-          // every 10 seconds
-          warningTime = now;
-          console.warn(
-            `slow voronoi processing of ${name} with ${node.children.length} children, tick count: ${tickCount}`
-          );
-        }
-        simulation.tick();
-        state = simulation.state();
+    let tickCount = 0;
+    let warningTime = Date.now();
+    while (!state.ended) {
+      tickCount += 1;
+      const now = Date.now();
+      if (now - warningTime > 10000) {
+        // every 10 seconds
+        warningTime = now;
+        console.warn(
+          `slow voronoi processing of ${name} with ${node.children.length} children, tick count: ${tickCount}`
+        );
       }
-      if (tickCount === MAX_ITERATION_COUNT) {
-        if (state.convergenceRatio < bestConvergenceRatio) {
-          if (debug) {
-            console.warn(
-              'best iteration result so far',
-              simulationCount,
-              state.convergenceRatio
-            );
-          }
-          bestConvergenceRatio = state.convergenceRatio;
-          bestPolygons = [...state.polygons];
-        }
-
-        if (simulationCount < MAX_SIMULATION_COUNT) {
-          simulationCount = simulationCount + 1;
-
+      simulation.tick();
+      state = simulation.state();
+    }
+    if (tickCount === MAX_ITERATION_COUNT) {
+      if (state.convergenceRatio < bestConvergenceRatio) {
+        if (debug) {
           console.warn(
-            `processing ${name} with ${node.children.length} children - Exceeded tick count ${tickCount} - retrying from scratch, try ${simulationCount}`
-          );
-        } else {
-          console.error('Too many meta retries - stopping');
-          simulationLoopEnded = true;
-          if (!goodenough) {
-            throw Error("Too many retries, can't provide good simulation");
-          } else {
-            console.warn('returning good-enough result', bestConvergenceRatio);
-          }
-        }
-      } else {
-        if (bestPolygons) {
-          console.warn(
-            'successful converging layout, using real ratio not best-so-far: ',
+            'best iteration result so far',
+            simulationCount,
             state.convergenceRatio
           );
-          bestPolygons = undefined;
-          bestConvergenceRatio = state.convergenceRatio;
         }
-        simulationLoopEnded = true;
+        bestConvergenceRatio = state.convergenceRatio;
+        bestPolygons = [...state.polygons];
       }
+
+      if (simulationCount < MAX_SIMULATION_COUNT) {
+        simulationCount = simulationCount + 1;
+
+        console.warn(
+          `processing ${name} with ${node.children.length} children - Exceeded tick count ${tickCount} - retrying from scratch, try ${simulationCount}`
+        );
+      } else {
+        console.error('Too many meta retries - stopping');
+        simulationLoopEnded = true;
+        if (!goodenough) {
+          throw Error("Too many retries, can't provide good simulation");
+        } else {
+          console.warn('returning good-enough result', bestConvergenceRatio);
+        }
+      }
+    } else {
+      if (bestPolygons) {
+        console.warn(
+          'successful converging layout, using real ratio not best-so-far: ',
+          state.convergenceRatio
+        );
+        bestPolygons = undefined;
+        bestConvergenceRatio = state.convergenceRatio;
+      }
+      simulationLoopEnded = true;
     }
+  }
   var polygons = state.polygons;
   if (bestPolygons) {
     console.error(
@@ -224,21 +224,21 @@ function codeLayout(input, points, circles) {
   const parsedData = input
   const width = 1024;
 
-  console.warn('getting values recursively');
+  // console.warn('getting values recursively');
   calculate_values(parsedData);
-  console.warn('pruning empty nodes');
+  // console.warn('pruning empty nodes');
   pruneWeightlessNodes(parsedData);
 
   // top level clip shape
   if (circles) {
     // area = pi r^2 so r = sqrt(area/pi) or just use sqrt(area) for simplicity
     const children = parsedData.children.map((child) => {
-      return { r: Math.sqrt(child.value), originalObject: child };
+      return {r: Math.sqrt(child.value), originalObject: child};
     });
     d3.packSiblings(children);
     // top level layout
     const enclosingCircle = d3.packEnclose(children);
-    const { x, y, r } = enclosingCircle;
+    const {x, y, r} = enclosingCircle;
     // TODO: offset by x/y
     parsedData.layout = {
       polygon: computeCirclingPolygon(points, r),
