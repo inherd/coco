@@ -30,6 +30,33 @@ Support OS: macOS, Windows, GNU/Linux
    - `visual`, visualization of data
    - `suggest`, generate suggestion
 
+### Coco
+
+```
+coco 0.4.2
+
+USAGE:
+    coco [OPTIONS] [SUBCOMMAND]
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+
+OPTIONS:
+    -b, --branches <branches>            with Git Branches [default: true]
+        --commits <commits>              with Git Commits [default: true]
+    -c, --config-file <config-file>       [default: coco.yml]
+    -d, --debug <debug>                  Activate debug mode [default: false]
+    -f, --file-history <file-history>    with file history [default: false]
+    -y, --git-years <git-years>          Set git commits scan years, default 1, [default: 1.0]
+    -t, --tags <tags>                    with tags features [default: true]
+
+SUBCOMMANDS:
+    help       Prints this message or the help of the given subcommand(s)
+    init       Create default coco.yml files
+    plugins    Download plugins from GitHub
+```
+
 ### coco.yml
 
 #### 配置 (config in Chinese)
