@@ -1,10 +1,35 @@
 use crate::{Dependency, DependencyAnalyzer, DependencyScope};
 use std::fs::read_to_string;
 use std::path::PathBuf;
-use sxd_document::parser;
+use sxd_document::{parser, Package};
 use sxd_xpath::{Context, Factory, Value};
 
 pub struct MavenDependencyAnalyzer {}
+
+struct XPathContext<'a> {
+    factory: Factory,
+    context: Context<'a>,
+    package: Package,
+}
+
+impl<'a> XPathContext<'a> {
+    fn new(xml_content: &str) -> XPathContext {
+        let mut context = Context::new();
+        context.set_namespace("ns", "http://maven.apache.org/POM/4.0.0");
+        XPathContext {
+            package: parser::parse(xml_content).unwrap(),
+            factory: Factory::new(),
+            context,
+        }
+    }
+
+    fn evaluate(&self, expression: &str) -> Value {
+        let xpath = self.factory.build(expression).unwrap().unwrap();
+        xpath
+            .evaluate(&self.context, self.package.as_document().root())
+            .unwrap()
+    }
+}
 
 impl DependencyAnalyzer for MavenDependencyAnalyzer {
     fn is_build_file(&self, file: &str) -> bool {
@@ -30,73 +55,61 @@ impl DependencyAnalyzer for MavenDependencyAnalyzer {
 
 fn parse_deps(xml_content: &str) -> Vec<Dependency> {
     let mut deps = vec![];
-    let project = parser::parse(xml_content).unwrap();
-    let document = project.as_document();
-    let factory = Factory::new();
-    let mut context = Context::new();
-    context.set_namespace("ns", "http://maven.apache.org/POM/4.0.0");
+    let xpath_context = XPathContext::new(xml_content);
 
-    let xpath = factory
-        .build("count(/ns:project/ns:dependencies/ns:dependency)")
-        .unwrap()
-        .unwrap();
-    let num_of_deps = xpath.evaluate(&context, document.root()).unwrap();
+    let num_of_deps = xpath_context.evaluate("count(/ns:project/ns:dependencies/ns:dependency)");
     if let Value::Number(ref count) = num_of_deps {
         for i in 0..(count.round() as i64) {
-            let group_id_expression = format!(
-                "/ns:project/ns:dependencies/ns:dependency[{}]/ns:groupId",
-                i + 1
-            );
-            let group_id_xpath = factory
-                .build(group_id_expression.as_str())
-                .unwrap()
-                .unwrap();
-            let group = group_id_xpath
-                .evaluate(&context, document.root())
-                .unwrap()
-                .string();
-
-            let artifact_id_expression = format!(
-                "/ns:project/ns:dependencies/ns:dependency[{}]/ns:artifactId",
-                i + 1
-            );
-            let artifact_id_xpath = factory
-                .build(artifact_id_expression.as_str())
-                .unwrap()
-                .unwrap();
-            let name = artifact_id_xpath
-                .evaluate(&context, document.root())
-                .unwrap()
-                .string();
-
-            let version_expression = format!(
-                "/ns:project/ns:dependencies/ns:dependency[{}]/ns:version",
-                i + 1
-            );
-            let version_xpath = factory.build(version_expression.as_str()).unwrap().unwrap();
-            let version = version_xpath
-                .evaluate(&context, document.root())
-                .unwrap()
-                .string();
-
-            let scope_expression = format!(
-                "/ns:project/ns:dependencies/ns:dependency[{}]/ns:scope",
-                i + 1
-            );
-            let scope_xpath = factory.build(scope_expression.as_str()).unwrap().unwrap();
-            let scope_content = scope_xpath.evaluate(&context, document.root()).unwrap();
-            let scope = match scope_content.string().as_str() {
-                "test" => DependencyScope::Test,
-                _ => DependencyScope::Compile,
-            };
-
             deps.push(Dependency {
-                group,
-                name,
-                version,
-                scope,
+                group: parse_group_id(&xpath_context, i),
+                name: parse_artifact_id(&xpath_context, i),
+                version: parse_version(&xpath_context, i),
+                scope: parse_scope(&xpath_context, i),
             });
         }
     };
     deps
+}
+
+fn parse_group_id(xpath_context: &XPathContext, i: i64) -> String {
+    let group_id_expression = format!(
+        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:groupId",
+        i + 1
+    );
+    xpath_context
+        .evaluate(group_id_expression.as_str())
+        .string()
+}
+
+fn parse_artifact_id(xpath_context: &XPathContext, i: i64) -> String {
+    let artifact_id_expression = format!(
+        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:artifactId",
+        i + 1
+    );
+    let name = xpath_context
+        .evaluate(artifact_id_expression.as_str())
+        .string();
+    name
+}
+
+fn parse_version(xpath_context: &XPathContext, i: i64) -> String {
+    let version_expression = format!(
+        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:version",
+        i + 1
+    );
+    let version = xpath_context.evaluate(version_expression.as_str()).string();
+    version
+}
+
+fn parse_scope(xpath_context: &XPathContext, i: i64) -> DependencyScope {
+    let scope_expression = format!(
+        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:scope",
+        i + 1
+    );
+    let scope_content = xpath_context.evaluate(scope_expression.as_str());
+    let scope = match scope_content.string().as_str() {
+        "test" => DependencyScope::Test,
+        _ => DependencyScope::Compile,
+    };
+    scope
 }
