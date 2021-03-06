@@ -1,5 +1,8 @@
 function renderCodeExplorer(data, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
+  let focusHeight = 100;
+  let width = GraphConfig.width - margin.left - margin.right;
+
   const rootNode = d3.hierarchy(data);
   rootNode.descendants().forEach((node) => {
     node.data.hierarchNode = node;
@@ -190,8 +193,85 @@ function renderCodeExplorer(data, elementId) {
         })
         .y(function (d) {
           return y(d[y_key])
-        })
-      )
-
+        }))
   }
+
+  let x = d3.scaleUtc()
+    .domain(d3.extent(allNodes, d => {
+      return d.data.data.git.creation_date
+    }))
+    .range([margin.left, width - margin.right])
+
+  let y = d3.scaleLinear()
+    .domain([0, d3.max(allNodes, d => {
+      return d.data.data.git.details.length
+    })])
+    .range([200 - margin.bottom, margin.top])
+
+  function focus(data_key) {
+    let xAxis = (g) => g
+      .attr("transform", `translate(0,${focusHeight - margin.bottom})`)
+      .call(d3.axisBottom(x).ticks(width / 80).tickSizeOuter(0))
+
+    let yAxis = (g, title) => g
+      .attr("transform", `translate(${margin.left},0)`)
+      .call(d3.axisLeft(y))
+      .call(g => g.select(".domain").remove())
+      .call(g => g.selectAll(".title").data([title]).join("text")
+        .attr("class", "title")
+        .attr("x", -margin.left)
+        .attr("y", 10)
+        .attr("fill", "currentColor")
+        .attr("text-anchor", "start")
+        .text(title))
+
+    let area = (x, y) => d3.area()
+      .defined(d => !isNaN(d[data_key]))
+      .x(d => x(d.date))
+      .y0(y(0))
+      .y1(d => y(d[data_key]))
+
+    const svg = d3.select(elementId)
+      .append("svg")
+      .attr("viewBox", [0, 0, width, focusHeight])
+      .style("display", "block");
+
+    const brush = d3.brushX()
+      .extent([[margin.left, 0.5], [width - margin.right, focusHeight - margin.bottom + 0.5]])
+      .on("brush", brushed)
+      .on("end", brushended);
+
+    const defaultSelection = [x(d3.utcYear.offset(x.domain()[1], -1)), x.range()[1]];
+
+    svg.append("g")
+      .call(xAxis, x, focusHeight);
+
+    svg.append("path")
+      .datum(data)
+      .attr("fill", "#cce5df")
+      .attr("d", area(x, y.copy().range([focusHeight - margin.bottom, 4])));
+
+    const gb = svg.append("g")
+      .call(brush)
+      .call(brush.move, defaultSelection);
+
+    function brushed({selection}) {
+      if (selection) {
+        svg.property("value", selection.map(x.invert, x).map(d3.utcDay.round));
+        svg.dispatch("input");
+      }
+    }
+
+    function brushended({selection}) {
+      if (!selection) {
+        gb.call(brush.move, defaultSelection);
+      }
+    }
+
+    return svg.node();
+  }
+
+  let focus_chart = d3.select(focus("name"));
+  console.log(focus_chart);
+
 }
