@@ -78,7 +78,12 @@ restart shell，or execute ``` source $HOME/.cargo/env ```
 brew install just
 ```
 
-3.Run tests
+3. build plugin
+```
+cargo build --all
+```
+
+4. Run tests
 
 ```
 just tests
