@@ -96,7 +96,7 @@ function renderCodeExplorer(data, elementId) {
     })
     .on("click", function (event, d) {
       if (d.data.data && d.data.data.git) {
-        renderSubGraph(d.data.data.git.details);
+        renderSubGraph(d.data.data.git.details, "commit_day", "lines_added");
       }
     })
     .transition()
@@ -141,7 +141,7 @@ function renderCodeExplorer(data, elementId) {
     .attr('pointer-events', 'none')
     .attr('fill', 'white')
 
-  function renderSubGraph(commit_data) {
+  function renderSubGraph(sub_data, x_key, y_key) {
     let width = GraphConfig.width - margin.left - margin.right;
     let height = 200 - margin.top - margin.bottom;
 
@@ -156,8 +156,8 @@ function renderCodeExplorer(data, elementId) {
         "translate(" + margin.left + "," + margin.top + ")");
 
     let x = d3.scaleTime()
-      .domain(d3.extent(commit_data, function (d) {
-        return d.commit_day * 1000;
+      .domain(d3.extent(sub_data, function (d) {
+        return d[x_key] * 1000;
       }))
       .range([0, width]);
 
@@ -166,25 +166,25 @@ function renderCodeExplorer(data, elementId) {
       .call(d3.axisBottom(x));
 
     let y = d3.scaleLinear()
-      .domain([0, d3.max(commit_data, function (d) {
-        return +d.lines_added;
+      .domain([0, d3.max(sub_data, function (d) {
+        return +d[y_key];
       })])
       .range([height, 0]);
+
     svg.append("g")
       .call(d3.axisLeft(y));
 
-    // Add the line
     svg.append("path")
-      .datum(commit_data)
+      .datum(sub_data)
       .attr("fill", "none")
       .attr("stroke", "steelblue")
       .attr("stroke-width", 1.5)
       .attr("d", d3.line()
         .x(function (d) {
-          return x(d.commit_day * 1000)
+          return x(d[x_key] * 1000)
         })
         .y(function (d) {
-          return y(d.lines_added)
+          return y(d[y_key])
         })
       )
 
