@@ -12,6 +12,8 @@ pub use psa_project::Project;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde;
+extern crate sxd_document;
+extern crate sxd_xpath;
 
 pub mod dependency_analyzer;
 pub mod files;
