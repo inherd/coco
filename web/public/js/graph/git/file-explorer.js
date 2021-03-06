@@ -23,10 +23,14 @@ function renderCodeExplorer(data, elementId) {
 
   let moving = false;
   let currentValue = 0;
-  let startDate = new Date("2004-11-01");
-  let endDate = new Date();
+
+
+  let min_time = d3.min(allNodes, d => d.data.data.git.creation_date) * 1000;
+  let max_time = d3.max(allNodes, d => d.data.data.git.last_update) * 1000;
+  let startDate = min_time;
+
   let targetValue = width;
-  let formatDate = d3.timeFormat("%b %Y");
+  let formatDate = d3.timeFormat("%Y %b %d");
   let formatDateIntoYear = d3.timeFormat("%Y");
 
   let playButton = d3.select("#play-button");
@@ -60,7 +64,7 @@ function renderCodeExplorer(data, elementId) {
   }
 
   let x = d3.scaleTime()
-    .domain([startDate, endDate])
+    .domain([min_time, max_time])
     .range([0, targetValue])
     .clamp(true);
 
@@ -131,18 +135,30 @@ function renderCodeExplorer(data, elementId) {
     renderMainChart(newData, h);
   }
 
-  function renderMainChart(nodes, new_time) {
-    d3.select("svg#main-explorer").remove();
+  let svg = d3.select(elementId).append("svg")
+    .attr("id", "main-explorer")
+    .attr("width", GraphConfig.width)
+    .attr("height", GraphConfig.width)
+    .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.height / 2, GraphConfig.width, GraphConfig.height,]);
 
+  function filter_by_time(d, new_time) {
+    return d.data.data.git.details.filter(d => {
+      return d.commit_day * 1000 > new_time
+    });
+  }
+
+  function renderMainChart(nodes, new_time) {
     const max = d3.quantile(nodes, 0.9975, d => {
       if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
-        return Math.abs(d.data.data.git.details.length)
+        let length = filter_by_time(d, new_time).length;
+        return Math.abs(length)
       }
       return 0;
     });
     const average = Math.round(d3.quantile(nodes, 0.90, d => {
       if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
-        return Math.abs(d.data.data.git.details.length)
+        let length = filter_by_time(d, new_time).length;
+        return length
       }
       return 0;
     }));
@@ -150,6 +166,15 @@ function renderCodeExplorer(data, elementId) {
     let color = d3.scaleLinear()
       .domain([0, average, +max])
       .range(['green', 'blue', 'red']);
+
+    function fillFn(d) {
+      if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
+        let length = filter_by_time(d, new_time).length;
+        return color(length)
+      } else {
+        return color(0);
+      }
+    }
 
     // legend({
     //     color,
@@ -161,12 +186,6 @@ function renderCodeExplorer(data, elementId) {
     //   },
     //   d3.select(elementId))
 
-    let svg = d3.select(elementId).append("svg")
-      .attr("id", "main-explorer")
-      .attr("width", GraphConfig.width)
-      .attr("height", GraphConfig.width)
-      .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.height / 2, GraphConfig.width, GraphConfig.height,]);
-
     const voronoi = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -177,18 +196,10 @@ function renderCodeExplorer(data, elementId) {
         .style("top", 0)
         .style("opacity", 0)
     }
+    d3.select(".tooltip").remove();
     const tooltip = d3.select(document.createElement("div")).call(createTooltip);
     let element = document.getElementById("file-explorer");
     element.append(tooltip.node());
-
-
-    function fillFn(d) {
-      if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
-        return color(d.data.data.git.details.length)
-      } else {
-        return color(0);
-      }
-    }
 
     voronoi.selectAll('path')
       .data(nodes)
@@ -201,7 +212,8 @@ function renderCodeExplorer(data, elementId) {
         d3.select(this).attr("opacity", "0.5")
         let commits = 0;
         if (d.data.data && d.data.data.git) {
-          commits = d.data.data.git.details.length;
+          let filter_commits = filter_by_time(d, new_time);
+          commits = filter_commits.length;
         }
         tooltip
           .style("opacity", 1)
@@ -220,8 +232,8 @@ function renderCodeExplorer(data, elementId) {
           renderSubGraph(d.data.data.git.details, "commit_day", "lines_added");
         }
       })
-      .transition()
-      .duration(1000)
+      // .transition()
+      // .duration(1000)
       .attr("stroke-width", d => {
         if (d.data.layout.algorithm === "circlePack") return 0;
         return d.depth < 4 ? 4 - d.depth : 1;
@@ -238,7 +250,8 @@ function renderCodeExplorer(data, elementId) {
     labels.selectAll('text')
       .data(nodes.filter(d => {
         if (d.data.data && d.data.data.git) {
-          if (d.data.data.git.details.length > average) {
+          let length = filter_by_time(d, new_time).length;
+          if (length > average) {
             return true;
           }
         }
@@ -254,7 +267,8 @@ function renderCodeExplorer(data, elementId) {
       })
       .text(d => {
         if (d.data.data && d.data.data.git) {
-          return d.data.name + ":" + d.data.data.git.details.length
+          let length = filter_by_time(d, new_time).length;
+          return d.data.name + ":" + length
         }
         return d.data.name;
       })
