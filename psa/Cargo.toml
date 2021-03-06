@@ -34,6 +34,6 @@ regex = "1"
 
 pathdiff = "0.2.0"
 
-xml-rs = "0.8"
+sxd-xpath= "0.4.2"
 
-
+sxd-document= "0.3.2"
