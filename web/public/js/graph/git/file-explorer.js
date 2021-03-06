@@ -100,7 +100,9 @@ function renderCodeExplorer(data, elementId) {
     .attr("x", x)
     .attr("y", 10)
     .attr("text-anchor", "middle")
-    .text(function(d) { return formatDateIntoYear(d); });
+    .text(function (d) {
+      return formatDateIntoYear(d);
+    });
 
   let handle = slider.insert("circle", ".track-overlay")
     .attr("class", "handle")
@@ -120,14 +122,16 @@ function renderCodeExplorer(data, elementId) {
       .text(formatDate(h));
 
     // filter data set and redraw plot
-    // let newData = allNodes.filter(function(d) {
-    //     return d.date < h;
-    //   });
-    // drawPlot(newData);
+    let newData = allNodes.filter(function (d) {
+      if (d.data.data && d.data.data.git && d.data.data.git) {
+        return d.data.data.git.last_update * 1000 > h;
+      }
+      return true;
+    });
+    renderMainChart(newData, h);
   }
 
-
-  function renderMainChart(nodes) {
+  function renderMainChart(nodes, new_time) {
     d3.select("svg#main-explorer").remove();
 
     const max = d3.quantile(nodes, 0.9975, d => {
@@ -147,15 +151,15 @@ function renderCodeExplorer(data, elementId) {
       .domain([0, average, +max])
       .range(['green', 'blue', 'red']);
 
-    legend({
-        color,
-        title: "Daily commits",
-        ticks: 10,
-        tickFormat: function (d) {
-          return d;
-        }
-      },
-      d3.select(elementId))
+    // legend({
+    //     color,
+    //     title: "Daily commits",
+    //     ticks: 10,
+    //     tickFormat: function (d) {
+    //       return d;
+    //     }
+    //   },
+    //   d3.select(elementId))
 
     let svg = d3.select(elementId).append("svg")
       .attr("id", "main-explorer")
