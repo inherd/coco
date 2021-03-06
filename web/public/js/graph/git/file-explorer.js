@@ -1,6 +1,6 @@
 function renderCodeExplorer(data, elementId) {
   let margin = {top: 20, right: 20, bottom: 50, left: 50};
-  let focusHeight = 100;
+  let height = GraphConfig.height - margin.left - margin.right;
   let width = GraphConfig.width - margin.left - margin.right;
 
   const rootNode = d3.hierarchy(data);
@@ -14,6 +14,118 @@ function renderCodeExplorer(data, elementId) {
     .filter(
       (d) => d.children === undefined || d.depth === maxDepth
     );
+
+  let slider_svg = d3.select(elementId)
+    .append("svg")
+    .attr("width", GraphConfig.width)
+    .attr("height", 100)
+    .attr("id", "slider-chart");
+
+  let moving = false;
+  let currentValue = 0;
+  let startDate = new Date("2004-11-01");
+  let endDate = new Date();
+  let targetValue = width;
+  let formatDate = d3.timeFormat("%b %Y");
+  let formatDateIntoYear = d3.timeFormat("%Y");
+
+  let playButton = d3.select("#play-button");
+  let timer;
+  playButton
+    .on("click", function () {
+      let button = d3.select(this);
+      if (button.text() === "Pause") {
+        moving = false;
+        clearInterval(timer);
+        // timer = 0;
+        button.text("Play");
+      } else {
+        moving = true;
+        timer = setInterval(step, 100);
+        button.text("Pause");
+      }
+      console.log("Slider moving: " + moving);
+    })
+
+  function step() {
+    update(x.invert(currentValue));
+    currentValue = currentValue + (targetValue / 151);
+    if (currentValue > targetValue) {
+      moving = false;
+      currentValue = 0;
+      clearInterval(timer);
+      playButton.text("Play");
+      console.log("Slider moving: " + moving);
+    }
+  }
+
+  let x = d3.scaleTime()
+    .domain([startDate, endDate])
+    .range([0, targetValue])
+    .clamp(true);
+
+  let slider = slider_svg.append("g")
+    .attr("class", "slider")
+    .attr("transform", "translate(" + margin.left + "," + 50 + ")");
+
+  slider.append("line")
+    .attr("class", "track")
+    .attr("x1", x.range()[0])
+    .attr("x2", x.range()[1])
+    .select(function () {
+      return this.parentNode.appendChild(this.cloneNode(true));
+    })
+    .attr("class", "track-inset")
+    .select(function () {
+      return this.parentNode.appendChild(this.cloneNode(true));
+    })
+    .attr("class", "track-overlay")
+    .call(d3.drag()
+      .on("start.interrupt", function () {
+        slider.interrupt();
+      })
+      .on("start drag", function (event) {
+        currentValue = event.x;
+        update(x.invert(currentValue));
+      })
+    );
+
+  slider.insert("g", ".track-overlay")
+    .attr("class", "ticks")
+    .attr("transform", "translate(0," + 18 + ")")
+    .selectAll("text")
+    .data(x.ticks(10))
+    .enter()
+    .append("text")
+    .attr("x", x)
+    .attr("y", 10)
+    .attr("text-anchor", "middle")
+    .text(function(d) { return formatDateIntoYear(d); });
+
+  let handle = slider.insert("circle", ".track-overlay")
+    .attr("class", "handle")
+    .attr("r", 9);
+
+  let label = slider.append("text")
+    .attr("class", "label")
+    .attr("text-anchor", "middle")
+    .text(formatDate(startDate))
+    .attr("transform", "translate(0," + (-25) + ")")
+
+  function update(h) {
+    // update position and text of label according to slider scale
+    handle.attr("cx", x(h));
+    label
+      .attr("x", x(h))
+      .text(formatDate(h));
+
+    // filter data set and redraw plot
+    // let newData = allNodes.filter(function(d) {
+    //     return d.date < h;
+    //   });
+    // drawPlot(newData);
+  }
+
 
   function renderMainChart(nodes) {
     d3.select("svg#main-explorer").remove();

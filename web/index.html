@@ -15,6 +15,7 @@
       width: 50%;
     }
 
+    #slider-chart,
     #code-flower,
     #file-explorer,
     #commit-contributions,
@@ -76,6 +77,61 @@
       fill: none;
       stroke: black;
       stroke-width: 2px;
+    }
+
+
+    /* slider */
+    #play-button {
+      position: relative;
+      left: 50px;
+      background: #f08080;
+      border-radius: 3px;
+      border: none;
+      color: white;
+      margin: 0;
+      padding: 0 12px;
+      width: 60px;
+      cursor: pointer;
+      height: 30px;
+    }
+
+    #play-button:hover {
+      background-color: #696969;
+    }
+
+    .ticks {
+      font-size: 10px;
+    }
+
+    .track,
+    .track-inset,
+    .track-overlay {
+      stroke-linecap: round;
+    }
+
+    .track {
+      stroke: #000;
+      stroke-opacity: 0.3;
+      stroke-width: 10px;
+    }
+
+    .track-inset {
+      stroke: #dcdcdc;
+      stroke-width: 8px;
+    }
+
+    .track-overlay {
+      pointer-events: stroke;
+      stroke-width: 50px;
+      stroke: transparent;
+      cursor: crosshair;
+    }
+
+    .handle {
+      fill: #fff;
+      stroke: #000;
+      stroke-opacity: 0.5;
+      stroke-width: 1.25px;
     }
   </style>
 </head>
