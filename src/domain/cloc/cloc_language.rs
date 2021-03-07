@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
-pub struct ClocLanguage {
+pub struct ClocSummary {
     pub language: String,
     pub blanks: usize,
     pub code: usize,
@@ -9,9 +9,9 @@ pub struct ClocLanguage {
     pub reports: Vec<ClocDetail>,
 }
 
-impl Default for ClocLanguage {
+impl Default for ClocSummary {
     fn default() -> Self {
-        ClocLanguage {
+        ClocSummary {
             language: "".to_string(),
             blanks: 0,
             code: 0,

@@ -1,8 +1,8 @@
-use crate::domain::cloc::{ClocDetail, ClocLanguage};
+use crate::domain::cloc::{ClocDetail, ClocSummary};
 use crate::infrastructure::cloc;
 use std::path::PathBuf;
 
-pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
+pub fn analysis(path: PathBuf) -> Vec<ClocSummary> {
     let mut languages = vec![];
     for (lang_type, language) in cloc::by_dir(&path) {
         let mut details = vec![];
@@ -24,7 +24,7 @@ pub fn analysis(path: PathBuf) -> Vec<ClocLanguage> {
             });
         }
 
-        languages.push(ClocLanguage {
+        languages.push(ClocSummary {
             language: lang_type.to_string(),
             blanks: language.blanks,
             code: language.code,
