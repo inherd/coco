@@ -27,7 +27,13 @@ follow: [https://github.com/casey/just](https://github.com/casey/just)
 just tests
 ```
 
-4.test command
+4. build all plugins
+
+```
+cargo build --all
+```
+
+5.test command
 
 ```
 cargo run --bin coco
@@ -55,7 +61,13 @@ sudo apt-get install gcc cmake g++ pkg-config libssl-dev
 sudo apt-get install libfreetype6-dev expat libxml2 libasound2-dev libexpat1-dev libxcb-composite0-dev
 ```
 
-4. Run tests
+4. build all plugins
+
+```
+cargo build --all
+```
+
+5. Run tests
 
 ```
 just tests
