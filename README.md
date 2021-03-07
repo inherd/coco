@@ -172,10 +172,10 @@ reporter
  - [ ] suggestion API
     - [ ] document manage system
     - [ ] suggest to ledge
-    - [ ] suggest to coco.server ?
-    - [ ] online suggest
+    - [ ] suggest to cases 
+    - [ ] suggest to coco.server?
+       - [ ] online suggest ?
        - [ ] link daily checking
-    - [ ] cases collection
     - [ ] architecture design rules
  - [ ] architecture 
     - [ ] tech stack version check (more than 3 years ?) 
@@ -198,7 +198,7 @@ reporter
        - [x] fix tests
        - [x] make it works
  - [ ] C4 Model
-    - [ ] graphviz call chain
+    - [ ] PUML for call chain
        - [ ] symbol design - IsA, Use-In-The-Interface, Uses-In-The-Implementation  
  - [ ] plugin
     - [ ] struct analysis
@@ -224,25 +224,26 @@ Visual and Reporter
  - visual web
      - [x] spike d3.js code organization
      - [ ] typescript with frontend framework
-        - [ ] use deno ?
-     - [ ] architecture
+        - [ ] use Deno ?
+     - [x] architecture
         - [x] first demo
         - [x] code flower 1, [D3.js code flower](https://github.com/fzaninotto/CodeFlower)
+        - [x] circle
      - [ ] git
-        - [x] branch history demo
-     - [ ] commits in years/month
+        - [x] branch history
+     - [x] commits in years/month
         - examples: [gilot](https://github.com/hirokidaichi/gilot) average committer in month
-     - [ ] changes in years/month
-        - [ ] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
+        - [ ] changes in years/month
+           - [x] [Stacked Area Chart](https://observablehq.com/@d3/stacked-area-chart)
     - [ ] graph support for velocity
         - [x] code commits by daily
-        - [ ] PR times by daily
+        - ~~PR times by daily~~
     - [ ] story velocity
         - [ ] commit message analysis
         - [ ] story spend days
     - [ ] advanced code flower, [Polyglot Code Explorer](https://blog.korny.info/2020/09/06/introducing-the-polyglot-code-explorer.html)
         - source code: https://github.com/kornysietsma/polyglot-code-explorer/tree/master/src
-        - [Weighted Voronoi diagram](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)
+        - [x] [Weighted Voronoi diagram](https://en.wikipedia.org/wiki/Weighted_Voronoi_diagram)
         - [ ] Age since last change
         - [ ] Creation date
         - [ ] Unique changers
