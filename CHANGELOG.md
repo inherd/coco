@@ -1,4 +1,68 @@
-# [](https://github.com/inherd/coco/compare/v0.4.1...v) (2021-03-02)
+# [](https://github.com/inherd/coco/compare/v0.5.0...v) (2021-03-07)
+
+
+
+# [0.5.0](https://github.com/inherd/coco/compare/v0.4.2...v0.5.0) (2021-03-07)
+
+
+### Bug Fixes
+
+* add lost file history ([bd02648](https://github.com/inherd/coco/commit/bd026481c2f1e3c9bb3f5c447ea856a8a00c72ae))
+* fix draw random issue ([634cb09](https://github.com/inherd/coco/commit/634cb0946a3e2f7e77273cdb7a50346e406d5540))
+* fix error handling issue ([21b1879](https://github.com/inherd/coco/commit/21b187927874a0ce312efeae545956e335cc41e7))
+* fix export not create data dir issue ([d9b6c64](https://github.com/inherd/coco/commit/d9b6c64fa82631361603ac3ba25f287d106325b3))
+* fix lost links issue ([1186c2b](https://github.com/inherd/coco/commit/1186c2b1eae7011f4cc2ad26b4402e39839a4aa4))
+* fix pipline use old data ([7b8e8c3](https://github.com/inherd/coco/commit/7b8e8c32ed05497d88d6840eeebf87cd9d233cae))
+* fix testings ([24d6619](https://github.com/inherd/coco/commit/24d6619e9621cef45ade0ad32d72bf0907a19b7d))
+* fix typo ([55ed061](https://github.com/inherd/coco/commit/55ed06114cab017cde2e832753764352c6d1c302))
+* fix typo‘ ([01ca42b](https://github.com/inherd/coco/commit/01ca42b21806edecf5819fa137e8b97fa81e58d7))
+* fix version lost ([96c1195](https://github.com/inherd/coco/commit/96c11957765ea572ba840e660dc592a88306d8bb))
+* list high changes ([61bf0e3](https://github.com/inherd/coco/commit/61bf0e316665255e99f0e33b1c4dc55dfc7fafaf))
+
+
+### Features
+
+* **cli:** make git years support ([285324d](https://github.com/inherd/coco/commit/285324d67d7095856fd03487a334302c34697bbb))
+* **codeflower:** add code flower drags ([90964e3](https://github.com/inherd/coco/commit/90964e32a286945fc63e6ff5fe739883a6ea2373))
+* **codeflower:** add tooltip ([4ca5ce2](https://github.com/inherd/coco/commit/4ca5ce2cf207b990b62a2b875405ed31f11f11bc))
+* **codeflower:** init basic force layout code ([f2063d5](https://github.com/inherd/coco/commit/f2063d52ffabc13c5027c4f4c4a415d6b67adaf5))
+* **codeflower:** init basic struct for fill code ([749cde4](https://github.com/inherd/coco/commit/749cde4439e560d55a6676bf5e9117e16b46e245))
+* **codeflower:** make basic vertical flow ([2d7241a](https://github.com/inherd/coco/commit/2d7241af48d9e6f2baae75603134859df4967bb0))
+* **codeflower:** make it works ([f7cbdfa](https://github.com/inherd/coco/commit/f7cbdfa509647dd51fee2bbea9d56a891ed92768))
+* **codeflower:** make really data ([d880d87](https://github.com/inherd/coco/commit/d880d871bc7fb6ea060871abbcc6ea8de1b7ae9c))
+* **explorer:** add code layout ([e26f220](https://github.com/inherd/coco/commit/e26f220b04db0e8920c798c43db9ab3d30de056b))
+* **explorer:** add filter for average line ([286548a](https://github.com/inherd/coco/commit/286548a94beb29fd97b87c48d70cbc0facc10c89))
+* **explorer:** add focus chart ([0570501](https://github.com/inherd/coco/commit/05705018990acb524ee1cee27a0fc696aea952c2))
+* **explorer:** add lost popoed lables ([6c94ba4](https://github.com/inherd/coco/commit/6c94ba418270488af29195f9012c828261f35047))
+* **explorer:** add slider working ([d8d4e26](https://github.com/inherd/coco/commit/d8d4e265b4c92905d3293e1b54e4e8ccc87a96c3))
+* **explorer:** add sub graph ([f6657b2](https://github.com/inherd/coco/commit/f6657b2b07d0a28e9e0971d4dae653610388c996))
+* **explorer:** init file explorer ([55a3f44](https://github.com/inherd/coco/commit/55a3f447cf7f0849d2dc24ba6819bd5bad9fac69))
+* **explorer:** make color works ([99b7300](https://github.com/inherd/coco/commit/99b730006657cf5bab97a3a29dd097aad23f4c77))
+* **explorer:** make data works ([3a2f3e6](https://github.com/inherd/coco/commit/3a2f3e6c6e2a3bb8f466e5423f15f306a1c19eb5))
+* **explorer:** make draw map works ([fbfc2b2](https://github.com/inherd/coco/commit/fbfc2b26c022c3542942221ee491024adaaf1fb7))
+* **explorer:** make export file history ([a9b3b9c](https://github.com/inherd/coco/commit/a9b3b9c85d19c97fd31593f8ddca1070a1a2f7b5))
+* **explorer:** make it basic works ([79bd3db](https://github.com/inherd/coco/commit/79bd3dbf81a0183c2c4e0f0af9006eda3f55a757))
+* **explorer:** make it works ([3e2fef4](https://github.com/inherd/coco/commit/3e2fef4ce29a8acbf24b782281a28b5d418a2013))
+* **explorer:** make show commits ([39691d4](https://github.com/inherd/coco/commit/39691d4fb6765d87ec2b1d3cf43fd40bf5a689ad))
+* **explorer:** make tooltip works ([c5160ab](https://github.com/inherd/coco/commit/c5160ab280f667e26e0995a67ad72746d22e3f9a))
+* **explorer:** rename date field to match data ([1aff4aa](https://github.com/inherd/coco/commit/1aff4aa02eef1b6693898d5f11cf910c0e435ac2))
+* **history:** make git-scanner works with coco ([93d307a](https://github.com/inherd/coco/commit/93d307af2c833dbf4ffbc98e8d58973affcbebdb))
+* **history:** make history works ([e01ec73](https://github.com/inherd/coco/commit/e01ec73dc1d433dea12fa4e88e62b55709ea1653))
+* **pipeline:** make visual code works ([f7f908e](https://github.com/inherd/coco/commit/f7f908efbbdbd6ac9ed4ba2a7a8358a079ac130d))
+* **pipeline:** support for parallel ([21d05f1](https://github.com/inherd/coco/commit/21d05f19c1266286a033b766d76eb918ac04ceee))
+* **pipeline:** use really data for pipeline ([20cbea3](https://github.com/inherd/coco/commit/20cbea3d96e6af1d01b53154c23638ef3a0e706b))
+* **psa:** parse maven dependencies from pom.xml. ([c366114](https://github.com/inherd/coco/commit/c3661145adf87c9e64a0f6df965655c4ee2304f3))
+* add file size for cloc ([6eaa473](https://github.com/inherd/coco/commit/6eaa4731bd7cec1e54503e3a012c682f22301e3d))
+* **pipeline:** add desc for mouserover ([425f2dc](https://github.com/inherd/coco/commit/425f2dc041127c0e8a0fdbbbd15e96fe938d257b))
+
+
+
+## [0.4.2](https://github.com/inherd/coco/compare/v0.4.1...v0.4.2) (2021-03-02)
+
+
+### Bug Fixes
+
+* fix typo ([6825cb7](https://github.com/inherd/coco/commit/6825cb771228f317156ee1e1155376c8566d0e99))
 
 
 
