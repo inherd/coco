@@ -46,7 +46,7 @@ impl GitBranch {
             branch.commits.push(oid.to_string());
         }
 
-        if commit_times.len() <= 0 {
+        if commit_times.len() == 0 {
             panic!("not found commits");
         }
 
@@ -68,11 +68,11 @@ impl GitBranch {
             .cloned()
             .collect();
 
-        return if filter.len() > 0 {
-            Some(filter[0].clone())
-        } else {
+        if filter.is_empty() {
             None
-        };
+        } else {
+            Some(filter[0].clone())
+        }
     }
 
     pub fn build_changes(commit: &Commit) {
