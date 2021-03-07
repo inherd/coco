@@ -91,6 +91,7 @@ impl Default for LanguageLocData {
         }
     }
 }
+
 impl LanguageLocData {
     fn from_binary(language_name: String, filename: &Path) -> Result<Self, Error> {
         Ok(LanguageLocData {

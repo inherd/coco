@@ -33,8 +33,6 @@ pub struct ClocDetail {
     pub file_name: String,
     /// really path
     pub path: String,
-    /// File size in bytes
-    pub bytes: u64,
 }
 
 impl Default for ClocDetail {
@@ -45,7 +43,6 @@ impl Default for ClocDetail {
             comments: 0,
             file_name: "".to_string(),
             path: "".to_string(),
-            bytes: 0,
         }
     }
 }
