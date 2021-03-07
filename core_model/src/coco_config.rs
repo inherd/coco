@@ -30,7 +30,7 @@ impl CocoConfig {
             }
         }
 
-        if plugin.name == "" {
+        if plugin.name.is_empty() {
             return None;
         }
 

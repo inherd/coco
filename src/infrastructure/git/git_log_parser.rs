@@ -72,7 +72,7 @@ impl GitMessageParser {
 
     fn push_to_commits(&mut self) {
         self.current_file_change = vec![];
-        for (_filename, change) in &self.current_file_change_map {
+        for change in self.current_file_change_map.values() {
             self.current_file_change.push(change.clone());
         }
 
