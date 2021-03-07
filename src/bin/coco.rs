@@ -28,7 +28,8 @@ fn main() {
                 exit(0);
             }
             CocoCommand::Plugins => {
-                setup_plugins();
+                let plugins_path = Path::new("coco_plugins");
+                setup_plugins(&plugins_path);
                 exit(0);
             }
         }
@@ -62,9 +63,8 @@ fn create_config_file() {
     }
 }
 
-fn setup_plugins() {
-    let plugins_path = Path::new("coco_plugins");
-    create_plugins_dir(&plugins_path)
+fn setup_plugins(name: &Path) {
+    create_plugins_dir(name)
         .and_then(|msg| {
             println!("{}", msg);
             download_plugins()
