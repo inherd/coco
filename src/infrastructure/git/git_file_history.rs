@@ -30,7 +30,7 @@ use git_scanner::flare::FlareTreeNode;
 use git_scanner::git::GitCalculator;
 use git_scanner::git_logger::GitLogConfig;
 use git_scanner::{file_walker, IndicatorCalculator};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::Value;
 use tokei::{Config, LanguageType};
 
@@ -104,22 +104,6 @@ impl LanguageLocData {
             bytes: file_size(filename)?,
         })
     }
-}
-
-/// A struct representing the statistics of a file.
-#[derive(Deserialize, Serialize, Clone, Debug, PartialEq)]
-pub struct Stats {
-    /// Number of blank lines within the file.
-    pub blanks: usize,
-    /// Number of lines of code within the file.
-    pub code: usize,
-    /// Number of comments within the file. (_includes both multi line, and
-    /// single line comments_)
-    pub comments: usize,
-    /// Total number of lines within the file.
-    pub lines: usize,
-    /// File name.
-    pub name: PathBuf,
 }
 
 #[allow(unused_assignments)]
