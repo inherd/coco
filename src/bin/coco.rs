@@ -1,19 +1,12 @@
 use std::fs::OpenOptions;
-use std::{
-    env, fs, io,
-    io::{Cursor, Read},
-    path::Path,
-    process::exit,
-};
+use std::{env, path::Path, process::exit};
 
-use reqwest;
 use structopt::StructOpt;
-use zip;
 
 use coco::app::analysis;
 use coco::app::coco_opt::CocoCommand;
+use coco::app::plugin_helper::PluginHelper;
 use coco::app::CocoOpt;
-use coco::coco_error::CocoError;
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
 
@@ -29,7 +22,7 @@ fn main() {
             }
             CocoCommand::Plugins => {
                 let plugins_path = Path::new("coco_plugins");
-                setup_plugins(&plugins_path);
+                PluginHelper::setup_plugins(&plugins_path, VERSION);
                 exit(0);
             }
         }
@@ -38,8 +31,8 @@ fn main() {
     let config_file = &opt.config_file;
     let config = CocoConfig::from_file(config_file);
 
-    println!("found config file: {}", config_file);
     if opt.debug {
+        println!("found config file: {}", config_file);
         println!("{:?}", opt);
     }
 
@@ -61,91 +54,6 @@ fn create_config_file() {
         Ok(_) => println!("success created"),
         Err(e) => println!("coco.yml create failed: {}", e),
     }
-}
-
-fn setup_plugins(name: &Path) {
-    create_plugins_dir(name)
-        .and_then(|msg| {
-            println!("{}", msg);
-            download_plugins()
-        })
-        .and_then(|reader| unzip_plugins(reader, plugins_path))
-        .unwrap_or_else(|err_msg| {
-            println!("Failed: {}", err_msg);
-            exit(1);
-        });
-}
-
-fn create_plugins_dir(path_name: &Path) -> Result<&'static str, CocoError> {
-    if path_name.exists() {
-        return Ok("plugins dir already exists");
-    }
-    fs::create_dir(&path_name)
-        .and_then(|_| Ok("create plugins dir success"))
-        .or(Err(CocoError::new("created failed")))
-}
-
-fn download_plugins() -> Result<Cursor<Vec<u8>>, CocoError> {
-    let target = format!(
-        "https://github.com/inherd/coco/releases/download/v{}/coco_plugins_{}.zip",
-        VERSION,
-        env::consts::OS
-    );
-    println!("download from {}", target);
-
-    let mut response = reqwest::blocking::get(&target)?;
-    let mut buf: Vec<u8> = vec![];
-    response.read_to_end(&mut buf)?;
-    Ok(Cursor::new(buf))
-}
-
-fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) -> Result<(), CocoError> {
-    let mut archive = zip::ZipArchive::new(reader)?;
-
-    for i in 0..archive.len() {
-        let mut file = archive.by_index(i)?;
-        let out_path = match file.enclosed_name() {
-            Some(path) => plugins_path.join(path),
-            None => continue,
-        };
-
-        {
-            let comment = file.comment();
-            if !comment.is_empty() {
-                println!("Plugin {} comment: {}", i, comment);
-            }
-        }
-
-        if (&*file.name()).ends_with('/') {
-            println!("File {} extracted to \"{}\"", i, out_path.display());
-            fs::create_dir_all(&out_path)?;
-        } else {
-            println!(
-                "File {} extracted to \"{}\" ({} bytes)",
-                i,
-                out_path.display(),
-                file.size()
-            );
-            if let Some(p) = out_path.parent() {
-                if !p.exists() {
-                    fs::create_dir_all(&p)?;
-                }
-            }
-            let mut outfile = fs::File::create(&out_path)?;
-            io::copy(&mut file, &mut outfile)?;
-        }
-
-        // Get and Set permissions
-        #[cfg(unix)]
-        {
-            use std::os::unix::fs::PermissionsExt;
-
-            if let Some(mode) = file.unix_mode() {
-                fs::set_permissions(&out_path, fs::Permissions::from_mode(mode))?;
-            }
-        }
-    }
-    Ok(())
 }
 
 #[cfg(test)]
