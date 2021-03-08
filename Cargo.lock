@@ -1213,6 +1213,7 @@ name = "e2e"
 version = "0.1.0"
 dependencies = [
  "assert_cmd",
+ "walkdir",
 ]
 
 [[package]]

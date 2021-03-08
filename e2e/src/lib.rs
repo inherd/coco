@@ -42,6 +42,7 @@ mod tests {
     use assert_cmd::Command;
     use std::path::PathBuf;
     use std::process;
+    use walkdir::WalkDir;
 
     #[test]
     fn should_exe_coco_failure_when_in_e2e_path() {
@@ -68,6 +69,16 @@ mod tests {
         cmd.arg("plugins");
 
         cmd.assert().success();
+
+        let mut vec = vec![];
+        for entry in WalkDir::new("coco_plugins") {
+            let entry = entry.unwrap();
+            if entry.path().is_file() {
+                vec.push(entry);
+            }
+        }
+
+        assert_eq!(4, vec.len());
     }
 
     #[test]

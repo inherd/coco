@@ -9,3 +9,5 @@ edition = "2018"
 [dependencies]
 assert_cmd = "1.0.2"
 
+[dev-dependencies]
+walkdir = "2"
