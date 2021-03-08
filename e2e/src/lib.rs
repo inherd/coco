@@ -5,11 +5,16 @@ use std::path::PathBuf;
 pub struct CliSupport {}
 
 impl CliSupport {
-    pub fn coco(path: PathBuf) -> Command {
-        let mut cmd = Command::cargo_bin("coco").unwrap();
+    pub fn coco_run(path: PathBuf) -> Command {
+        let mut cmd = CliSupport::coco();
 
         cmd.arg("-c")
             .arg(format!("{}", path.into_os_string().to_str().unwrap()));
+        cmd
+    }
+
+    fn coco() -> Command {
+        let cmd = Command::cargo_bin("coco").unwrap();
         cmd
     }
 
@@ -48,7 +53,7 @@ mod tests {
     fn should_build_fixtures_code() {
         let mut path = PathBuf::from("_fixtures");
         path.push("coco-fixtures.yml");
-        let mut cmd = CliSupport::coco(path);
+        let mut cmd = CliSupport::coco_run(path);
         cmd.assert().success();
 
         assert!(CliSupport::read_reporter("cloc").len() > 0);
@@ -58,10 +63,18 @@ mod tests {
     }
 
     #[test]
+    fn should_download_plugins() {
+        let mut cmd = CliSupport::coco();
+        cmd.arg("plugins");
+
+        cmd.assert().success();
+    }
+
+    #[test]
     fn should_pass_no_plugins() {
         let mut path = PathBuf::from("_fixtures");
         path.push("no-plugin.yml");
-        let mut cmd = CliSupport::coco(path);
+        let mut cmd = CliSupport::coco_run(path);
         cmd.assert().success();
     }
 
