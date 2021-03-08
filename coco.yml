@@ -15,6 +15,10 @@ plugins:
       - key: ctags
         value: /usr/local/bin/ctags
 
+config:
+# openApi need version information for different version
+  - openapiVersion: 2.0
+
 # todo: add commit
 commit:
   # default: conventional commit: (?<type>build)(?<scope>(?:\([^()\r\n]*\)|\()?(?<breaking>!)?)(?<subject>:.*)?
