@@ -6,6 +6,11 @@
 
 Case Studies: [Coco cases](https://inherd.github.io/cases/)
 
+Online Demos:
+
+ - [Element-Plus](https://inherd.org/cases/element-plus/)
+ - [Nginx](https://inherd.org/cases/nginx/)
+
 Support OS: macOS, Windows, GNU/Linux
 
 特性（features in Chinese）：
