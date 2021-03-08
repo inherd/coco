@@ -93,3 +93,17 @@ impl PluginHelper {
         Ok(())
     }
 }
+
+#[cfg(test)]
+mod test {
+    use crate::app::plugin_helper::PluginHelper;
+    use std::path::Path;
+
+    // todo: add in GitHub actions
+    #[ignore]
+    #[test]
+    fn should_download_plugin() {
+        let temp_path = Path::new("temp");
+        PluginHelper::setup_plugins(temp_path, "0.5.0");
+    }
+}
