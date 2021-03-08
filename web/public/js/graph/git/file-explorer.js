@@ -147,7 +147,7 @@ function renderCodeExplorer(data, elementId) {
     .attr("id", "main-explorer")
     .attr("width", GraphConfig.width)
     .attr("height", GraphConfig.width)
-    .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.height / 2, GraphConfig.width, GraphConfig.height,]);
+    .attr("viewBox", [-GraphConfig.width / 2, -GraphConfig.width / 2, GraphConfig.width, GraphConfig.width,]);
 
   function filter_by_time(d, new_time) {
     return d.data.data.git.details.filter(d => {
@@ -245,8 +245,6 @@ function renderCodeExplorer(data, elementId) {
           renderSubGraph(d.data.data.git.details, "commit_day", "lines_added");
         }
       })
-      // .transition()
-      // .duration(1000)
       .attr("stroke-width", d => {
         if (d.data.layout.algorithm === "circlePack") return 0;
         return d.depth < 4 ? 4 - d.depth : 1;
