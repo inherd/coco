@@ -1,16 +1,15 @@
 extern crate openapi;
 
+use self::openapi::OpenApi;
 use std::path::Path;
 
-pub fn analysis(path: &Path) {
-    match openapi::from_path(path) {
-        Ok(spec) => println!("spec: {:?}", spec),
-        Err(err) => println!("error: {}", err),
-    }
+pub fn analysis(path: &Path) -> openapi::Result<OpenApi> {
+    openapi::from_path(path)
 }
 
 #[cfg(test)]
 mod tests {
+    use super::openapi::OpenApi;
     use crate::coco_swagger_plugin::analysis;
     use std::path::PathBuf;
 
@@ -32,8 +31,10 @@ mod tests {
 
     #[test]
     fn should_run_openapi_analysis() {
-        analysis(&*swagger_dir());
-        // println!("{:?}", spec);
-        // assert_eq!("", spec.host.unwrap());
+        let result = analysis(&*swagger_dir()).unwrap();
+        if let OpenApi::V3_0(spec) = result {
+            let url = &spec.servers.unwrap()[0].url;
+            assert_eq!("http://petstore.swagger.io/v1", url)
+        }
     }
 }
