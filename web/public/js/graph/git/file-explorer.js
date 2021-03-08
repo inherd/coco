@@ -15,6 +15,13 @@ function renderCodeExplorer(data, elementId) {
       (d) => d.children === undefined || d.depth === maxDepth
     );
 
+
+  let color = d3.scaleLinear()
+    .domain([0, 1, 1])
+    .range(['green', 'blue', 'red']);
+
+  renderLegend(color);
+
   let slider_svg = d3.select(elementId)
     .append("svg")
     .attr("width", GraphConfig.width)
@@ -132,6 +139,7 @@ function renderCodeExplorer(data, elementId) {
       }
       return true;
     });
+
     renderMainChart(newData, h);
   }
 
@@ -145,6 +153,19 @@ function renderCodeExplorer(data, elementId) {
     return d.data.data.git.details.filter(d => {
       return d.commit_day * 1000 > new_time
     });
+  }
+
+  function renderLegend(color) {
+    d3.select("#file-explorer-legend").remove();
+    legend({
+        color,
+        title: "Daily commits",
+        ticks: 10,
+        tickFormat: function (d) {
+          return d;
+        }
+      },
+      d3.select(elementId).append("svg").attr("id", "file-explorer-legend"))
   }
 
   function renderMainChart(nodes, new_time) {
@@ -167,6 +188,8 @@ function renderCodeExplorer(data, elementId) {
       .domain([0, average, +max])
       .range(['green', 'blue', 'red']);
 
+    renderLegend(color);
+
     function fillFn(d) {
       if (d.data.data && d.data.data.git && d.data.data.git.details.length) {
         let length = filter_by_time(d, new_time).length;
@@ -175,16 +198,6 @@ function renderCodeExplorer(data, elementId) {
         return color(0);
       }
     }
-
-    // legend({
-    //     color,
-    //     title: "Daily commits",
-    //     ticks: 10,
-    //     tickFormat: function (d) {
-    //       return d;
-    //     }
-    //   },
-    //   d3.select(elementId))
 
     const voronoi = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
     const labels = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");

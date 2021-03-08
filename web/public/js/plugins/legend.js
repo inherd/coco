@@ -11,9 +11,9 @@ function legend({
                   ticks = width / 64,
                   tickFormat,
                   tickValues
-                } = {}, parentElement) {
+                } = {}, element) {
 
-  const svg = parentElement.append("svg")
+  const svg = element
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", [0, 0, width, height])
