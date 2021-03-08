@@ -685,7 +685,7 @@ dependencies = [
  "rust-embed",
  "serde",
  "serde_json",
- "serde_yaml",
+ "serde_yaml 0.8.15",
  "shellexpand",
  "structopt",
  "tokei",
@@ -780,6 +780,7 @@ name = "coco_swagger"
 version = "0.1.0"
 dependencies = [
  "core_model",
+ "openapi",
 ]
 
 [[package]]
@@ -859,7 +860,7 @@ dependencies = [
  "lazy_static",
  "serde",
  "serde_json",
- "serde_yaml",
+ "serde_yaml 0.8.15",
  "url",
 ]
 
@@ -1284,6 +1285,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0465971a8cc1fa2455c8465aaa377131e1f1cf4983280f474a13e68793aa770c"
 dependencies = [
  "serde",
+]
+
+[[package]]
+name = "error-chain"
+version = "0.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d9435d864e017c3c6afeac1654189b06cdb491cf2ff73dbf0d73b0f292f42ff8"
+dependencies = [
+ "backtrace",
 ]
 
 [[package]]
@@ -2384,6 +2394,19 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "624a8340c38c1b80fd549087862da4ba43e08858af025b236e509b6649fc13d5"
 
 [[package]]
+name = "openapi"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "739caefcf8a5f4638175df8971aba0be5f4651b58d4a217c36f5dd665f83ea00"
+dependencies = [
+ "error-chain 0.10.0",
+ "serde",
+ "serde_derive",
+ "serde_json",
+ "serde_yaml 0.7.5",
+]
+
+[[package]]
 name = "openssl"
 version = "0.10.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3196,6 +3219,18 @@ dependencies = [
 
 [[package]]
 name = "serde_yaml"
+version = "0.7.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ef8099d3df28273c99a1728190c7a9f19d444c941044f64adf986bee7ec53051"
+dependencies = [
+ "dtoa",
+ "linked-hash-map",
+ "serde",
+ "yaml-rust",
+]
+
+[[package]]
+name = "serde_yaml"
 version = "0.8.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "971be8f6e4d4a47163b405a3df70d14359186f9ab0f3a3ec37df144ca1ce089f"
@@ -3274,7 +3309,7 @@ checksum = "7a6deb8efaf3ad8fd784139db8bbd51806bfbcee87c7be7578e9c930981fb808"
 dependencies = [
  "bytecount",
  "cargo_metadata 0.10.0",
- "error-chain",
+ "error-chain 0.12.4",
  "glob",
  "pulldown-cmark",
  "tempfile",

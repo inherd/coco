@@ -1,6 +1,8 @@
 use core_model::CocoConfig;
 use core_model::PluginInterface;
 
+pub mod coco_swagger_plugin;
+
 pub struct CocoSwagger {}
 
 impl PluginInterface for CocoSwagger {
