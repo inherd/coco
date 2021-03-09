@@ -49,6 +49,66 @@ impl<'a> PomParser<'a> {
         }
         properties
     }
+
+    fn parse_deps(&self) -> Vec<Dependency> {
+        let mut deps = vec![];
+        let num_of_deps = self.xpath_evaluate("count(/ns:project/ns:dependencies/ns:dependency)");
+        if let Value::Number(ref count) = num_of_deps {
+            for i in 0..(count.round() as i64) {
+                deps.push(Dependency {
+                    group: self.parse_group_id(i),
+                    name: self.parse_artifact_id(i),
+                    version: self.parse_version(i),
+                    scope: self.parse_scope(i),
+                });
+            }
+        };
+        deps
+    }
+
+    fn parse_group_id(&self, index_of_dep: i64) -> String {
+        let group_id_expression = format!(
+            "/ns:project/ns:dependencies/ns:dependency[{}]/ns:groupId",
+            index_of_dep + 1
+        );
+        self.xpath_evaluate(group_id_expression.as_str()).string()
+    }
+
+    fn parse_artifact_id(&self, index_of_dep: i64) -> String {
+        let artifact_id_expression = format!(
+            "/ns:project/ns:dependencies/ns:dependency[{}]/ns:artifactId",
+            index_of_dep + 1
+        );
+        self.xpath_evaluate(artifact_id_expression.as_str())
+            .string()
+    }
+
+    fn parse_version(&self, index_of_dep: i64) -> String {
+        let version_expression = format!(
+            "/ns:project/ns:dependencies/ns:dependency[{}]/ns:version",
+            index_of_dep + 1
+        );
+        let version = self.xpath_evaluate(version_expression.as_str()).string();
+        if version.starts_with("${") && version.ends_with("}") {
+            let properties = self.parse_properties();
+            let prop_name = &version[2..version.len() - 1];
+            return properties.get(prop_name).unwrap().as_str().to_string();
+        }
+        version
+    }
+
+    fn parse_scope(&self, index_of_dep: i64) -> DependencyScope {
+        let scope_expression = format!(
+            "/ns:project/ns:dependencies/ns:dependency[{}]/ns:scope",
+            index_of_dep + 1
+        );
+        let scope_content = self.xpath_evaluate(scope_expression.as_str());
+        let scope = match scope_content.string().as_str() {
+            "test" => DependencyScope::Test,
+            _ => DependencyScope::Compile,
+        };
+        scope
+    }
 }
 
 impl MavenDependencyAnalyzer {}
@@ -69,74 +129,11 @@ impl DependencyAnalyzer for MavenDependencyAnalyzer {
         let build_file_content =
             read_to_string(build_file_path.as_str()).expect("can not open build file");
         match !build_file_content.is_empty() {
-            true => parse_deps(build_file_content.as_str()),
+            true => {
+                let pom_parser = PomParser::new(build_file_content.as_str());
+                pom_parser.parse_deps()
+            }
             _ => vec![],
         }
     }
-}
-
-fn parse_deps(xml_content: &str) -> Vec<Dependency> {
-    let mut deps = vec![];
-    let pom_parser = PomParser::new(xml_content);
-
-    let num_of_deps = pom_parser.xpath_evaluate("count(/ns:project/ns:dependencies/ns:dependency)");
-    if let Value::Number(ref count) = num_of_deps {
-        for i in 0..(count.round() as i64) {
-            deps.push(Dependency {
-                group: parse_group_id(&pom_parser, i),
-                name: parse_artifact_id(&pom_parser, i),
-                version: parse_version(&pom_parser, i),
-                scope: parse_scope(&pom_parser, i),
-            });
-        }
-    };
-    deps
-}
-
-fn parse_group_id(pom_parser: &PomParser, i: i64) -> String {
-    let group_id_expression = format!(
-        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:groupId",
-        i + 1
-    );
-    pom_parser
-        .xpath_evaluate(group_id_expression.as_str())
-        .string()
-}
-
-fn parse_artifact_id(pom_parser: &PomParser, i: i64) -> String {
-    let artifact_id_expression = format!(
-        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:artifactId",
-        i + 1
-    );
-    let name = pom_parser
-        .xpath_evaluate(artifact_id_expression.as_str())
-        .string();
-    name
-}
-
-fn parse_version(pom_parser: &PomParser, i: i64) -> String {
-    let version_expression = format!(
-        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:version",
-        i + 1
-    );
-    let version = pom_parser.xpath_evaluate(version_expression.as_str()).string();
-    if version.starts_with("${") && version.ends_with("}") {
-        let properties = pom_parser.parse_properties();
-        let prop_name = &version[2..version.len() - 1];
-        return properties.get(prop_name).unwrap().as_str().to_string();
-    }
-    version
-}
-
-fn parse_scope(pom_parser: &PomParser, i: i64) -> DependencyScope {
-    let scope_expression = format!(
-        "/ns:project/ns:dependencies/ns:dependency[{}]/ns:scope",
-        i + 1
-    );
-    let scope_content = pom_parser.xpath_evaluate(scope_expression.as_str());
-    let scope = match scope_content.string().as_str() {
-        "test" => DependencyScope::Test,
-        _ => DependencyScope::Compile,
-    };
-    scope
 }
