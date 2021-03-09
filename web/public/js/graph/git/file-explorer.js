@@ -159,7 +159,7 @@ function renderCodeExplorer(data, elementId) {
     d3.select("#file-explorer-legend").remove();
     legend({
         color,
-        title: "Daily commits",
+        title: "Commits",
         ticks: 10,
         tickFormat: function (d) {
           return d;
