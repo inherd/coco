@@ -71,9 +71,19 @@ d3.json("data/struct.json").then(function (data) {
 
 d3.json("data/git-file-history.json").then(function (data) {
   data.width = GraphConfig.width;
-  let layout = calculateCodeLayout(data);
+  d3.select("#file-history-select").on("change", function (d) {
+    let isCircles = false;
+    if (d.target.value === "-") {
+      return;
+    }
+    if (d.target.value === "circles") {
+      isCircles = true;
+    }
 
-  renderCodeExplorer(layout, '#file-explorer');
+    let layout = calculateCodeLayout(data, isCircles);
+    d3.select("#file-explorer").html("");
+    renderCodeExplorer(layout, '#file-explorer');
+  })
 });
 
 d3.json("data/pipeline.json").then(function (data) {

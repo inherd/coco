@@ -15,7 +15,6 @@ function renderCodeExplorer(data, elementId) {
       (d) => d.children === undefined || d.depth === maxDepth
     );
 
-
   let color = d3.scaleLinear()
     .domain([0, 1, 1])
     .range(['green', 'blue', 'red']);

@@ -216,8 +216,8 @@ function calculateVoronoi(
   }
 }
 
-function calculateCodeLayout(input) {
-  return codeLayout(input, 128, false);
+function calculateCodeLayout(input, circles) {
+  return codeLayout(input, 128, circles);
 }
 
 function codeLayout(input, points, circles) {
