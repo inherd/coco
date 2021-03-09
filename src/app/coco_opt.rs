@@ -57,6 +57,7 @@ impl Default for CocoOpt {
             git_years: 0.0,
             file_history: false,
             tags: false,
+            format_commit: false,
             cmd: None,
         }
     }
