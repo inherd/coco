@@ -71,6 +71,16 @@ d3.json("data/struct.json").then(function (data) {
 
 d3.json("data/git-file-history.json").then(function (data) {
   data.width = GraphConfig.width;
+
+  let options = ["-", "circles", "normal"];
+  d3.select("#file-history-select")
+    .selectAll('myOptions')
+    .data(options)
+    .enter()
+    .append('option')
+    .text(d => d)
+    .attr("value", d => d)
+
   d3.select("#file-history-select").on("change", function (d) {
     let isCircles = false;
     if (d.target.value === "-") {
