@@ -182,7 +182,7 @@ mod tests {
         let dep2 = project_dependencies.get(1).unwrap();
         assert_eq!(dep2.name, "spring-boot-starter-logging");
         assert_eq!(dep2.group, "org.springframework.boot");
-        assert_eq!(dep2.version, "${spring-boot-starter.version}");
+        assert_eq!(dep2.version, "1.0.0.RELEASE");
         assert_eq!(dep2.scope, DependencyScope::Compile);
     }
 
