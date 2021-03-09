@@ -4,6 +4,7 @@ use crate::files::{find_in_path, list_file_names};
 use crate::jvm::maven_dependency::MavenDependencyAnalyzer;
 use crate::Project;
 use crate::{DependencyAnalyzer, ModuleAnalyzer};
+use std::collections::HashMap;
 
 pub struct MavenModuleAnalyzer {}
 
@@ -51,6 +52,8 @@ impl ModuleAnalyzer for MavenModuleAnalyzer {
     }
 
     fn get_dependency_analyzer(&self) -> Box<dyn DependencyAnalyzer> {
-        Box::new(MavenDependencyAnalyzer {})
+        Box::new(MavenDependencyAnalyzer {
+            properties: HashMap::with_capacity(10),
+        })
     }
 }

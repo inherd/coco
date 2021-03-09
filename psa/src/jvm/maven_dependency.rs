@@ -1,10 +1,13 @@
 use crate::{Dependency, DependencyAnalyzer, DependencyScope};
+use std::collections::HashMap;
 use std::fs::read_to_string;
 use std::path::PathBuf;
 use sxd_document::{parser, Package};
 use sxd_xpath::{Context, Factory, Value};
 
-pub struct MavenDependencyAnalyzer {}
+pub struct MavenDependencyAnalyzer {
+    pub properties: HashMap<String, String>,
+}
 
 struct XPathContext<'a> {
     factory: Factory,
@@ -16,6 +19,7 @@ impl<'a> XPathContext<'a> {
     fn new(xml_content: &str) -> XPathContext {
         let mut context = Context::new();
         context.set_namespace("ns", "http://maven.apache.org/POM/4.0.0");
+
         XPathContext {
             package: parser::parse(xml_content).unwrap(),
             factory: Factory::new(),
@@ -29,7 +33,25 @@ impl<'a> XPathContext<'a> {
             .evaluate(&self.context, self.package.as_document().root())
             .unwrap()
     }
+
+    fn parse_properties(&self) -> HashMap<String, String> {
+        let mut properties = HashMap::with_capacity(10);
+        let num_of_properties = self.evaluate("count(/ns:project/ns:properties/*)");
+        if let Value::Number(ref count) = num_of_properties {
+            for i in 0..(count.round() as i64) {
+                let prop_name_expression = format!("name(/ns:project/ns:properties/*[{}])", i + 1);
+                let prop_value_expression = format!("/ns:project/ns:properties/*[{}]", i + 1);
+
+                let prop_name = self.evaluate(prop_name_expression.as_str());
+                let prop_value = self.evaluate(prop_value_expression.as_str());
+                properties.insert(prop_name.string(), prop_value.string());
+            }
+        }
+        properties
+    }
 }
+
+impl MavenDependencyAnalyzer {}
 
 impl DependencyAnalyzer for MavenDependencyAnalyzer {
     fn is_build_file(&self, file: &str) -> bool {
@@ -98,6 +120,11 @@ fn parse_version(xpath_context: &XPathContext, i: i64) -> String {
         i + 1
     );
     let version = xpath_context.evaluate(version_expression.as_str()).string();
+    if version.starts_with("${") && version.ends_with("}") {
+        let properties = xpath_context.parse_properties();
+        let prop_name = &version[2..version.len() - 1];
+        return properties.get(prop_name).unwrap().as_str().to_string();
+    }
     version
 }
 

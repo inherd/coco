@@ -14,6 +14,7 @@
 
     <properties>
         <spring-boot-starter.version>1.0.0.RELEASE</spring-boot-starter.version>
+        <other>other properties</other>
     </properties>
 
     <dependencies>
