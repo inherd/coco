@@ -31,6 +31,10 @@ pub struct CocoOpt {
     #[structopt(short, long, parse(try_from_str), default_value = "true")]
     pub tags: bool,
 
+    /// Format commit message like, conventional commit, jira-format
+    #[structopt(short, long, parse(try_from_str), default_value = "false")]
+    pub format_commit: bool,
+
     #[structopt(subcommand)]
     pub cmd: Option<CocoCommand>,
 }
