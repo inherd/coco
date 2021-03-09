@@ -46,7 +46,7 @@ function renderCommitCalendar(data, elementId = "#commit-calendar") {
         return d;
       }
     },
-    d3.select(elementId)
+    d3.select(elementId).append("svg")
   )
 
   let years = d3.groups(data, d => d.date.getUTCFullYear()).reverse();
