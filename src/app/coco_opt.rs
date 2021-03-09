@@ -32,7 +32,7 @@ pub struct CocoOpt {
     pub tags: bool,
 
     /// Format commit message like, conventional commit, jira-format
-    #[structopt(short, long, parse(try_from_str), default_value = "false")]
+    #[structopt(long, parse(try_from_str), default_value = "false")]
     pub format_commit: bool,
 
     #[structopt(subcommand)]
