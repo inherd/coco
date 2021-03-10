@@ -19,3 +19,5 @@ url = "2.2.0"
 
 # handle for shell path like ~
 shellexpand = "2.1.0"
+
+regex = "1"

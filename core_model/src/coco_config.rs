@@ -1,12 +1,57 @@
+use regex::Regex;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 use std::{env, fs};
 
-/// Coco Config from `coco.yml`
 #[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub struct CocoConfig {
     pub repos: Vec<RepoConfig>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plugins: Option<Vec<CocoPlugin>>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub commit_config: Option<Vec<CocoCommitConfig>>,
+}
+
+/// Coco Commit Config from `coco.yml`
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+pub struct CocoCommitConfig {
+    pub regex: String,
+    pub matches: Vec<String>,
+    pub samples: Option<String>,
+}
+
+#[allow(dead_code)]
+impl CocoCommitConfig {
+    fn verify_config(config: &CocoCommitConfig) -> HashMap<String, String> {
+        let mut items: HashMap<String, String> = Default::default();
+        match Regex::new(&config.regex) {
+            Ok(re) => match re.captures(&config.samples.as_ref().unwrap()) {
+                None => {
+                    println!("....");
+                }
+                Some(caps) => {
+                    if caps.len() - 1 != config.matches.len() {
+                        panic!(
+                            "error, matches fields length {:?} not equal regex captures length {:?}",
+                            caps.len() - 1,
+                            config.matches.len()
+                        );
+                    }
+
+                    let mut index = 1;
+                    for key in &config.matches {
+                        items.insert(key.clone(), caps.get(index).unwrap().as_str().to_string());
+                        index = index + 1;
+                    }
+                }
+            },
+            Err(err) => {
+                println!("parse regex error: {:?}", err);
+            }
+        }
+
+        items
+    }
 }
 
 impl Default for CocoConfig {
@@ -14,6 +59,7 @@ impl Default for CocoConfig {
         CocoConfig {
             repos: vec![],
             plugins: None,
+            commit_config: None,
         }
     }
 }
@@ -54,6 +100,7 @@ impl CocoConfig {
                 CocoConfig {
                     repos: repo,
                     plugins: None,
+                    commit_config: None,
                 }
             }
         }
@@ -107,6 +154,7 @@ pub struct CocoPluginConfig {
 
 #[cfg(test)]
 mod test {
+    use crate::coco_config::CocoCommitConfig;
     use crate::CocoConfig;
 
     #[test]
@@ -149,5 +197,26 @@ plugins:
         assert_eq!(1, config.len());
         assert_eq!("ctags", config[0].key);
         assert_eq!("/usr/local/bin/ctags", config[0].value);
+    }
+
+    #[test]
+    fn should_match_commit_message_config() {
+        let data = r#"
+regex: ^(feature|fix)/([a-z,A-Z]+-\d*):(.*)
+matches:
+ - scope
+ - id
+ - message
+samples: feature/JIR-124:test commit message
+"#;
+
+        let config: CocoCommitConfig =
+            serde_yaml::from_str(&data).expect("parse config file error");
+
+        let items = CocoCommitConfig::verify_config(&config);
+
+        assert_eq!(3, items.len());
+        assert_eq!("feature", items.get("scope").unwrap());
+        assert_eq!("JIR-124", items.get("id").unwrap());
     }
 }

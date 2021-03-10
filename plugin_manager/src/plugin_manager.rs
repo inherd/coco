@@ -118,19 +118,6 @@ mod tests {
     }
 
     #[test]
-    fn test_single_run_method() {
-        let config = CocoConfig {
-            repos: vec![RepoConfig::default()],
-            plugins: Some(vec![CocoPlugin {
-                name: "swagger".to_string(),
-                config: None,
-            }]),
-        };
-        let manager = PluginManager::from(&config);
-        manager.run("swagger");
-    }
-
-    #[test]
     fn test_manager_from_config() {
         let config = CocoConfig::default();
         let manager = PluginManager::from(&config);

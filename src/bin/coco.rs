@@ -22,7 +22,7 @@ fn main() {
             }
             CocoCommand::Plugins => {
                 let plugins_path = Path::new("coco_plugins");
-                PluginHelper::setup_plugins(&plugins_path, VERSION);
+                PluginHelper::setup(&plugins_path, VERSION);
                 exit(0);
             }
         }

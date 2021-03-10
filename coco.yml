@@ -26,7 +26,7 @@ commit:
   #
   # jira: ^(feature|fix)\/(([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
   # jira test case: feature/JIR-124:test commit message
-  regex: ^(feature|fix)\/(?<id>([a-z,A-Z]+))(-)(\d*)(:)([a-z,0–9])
+  regex: ^(feature|fix)/([a-z,A-Z]+-\d*):([a-z,0–9])
   matches:
     - scope
     - tag

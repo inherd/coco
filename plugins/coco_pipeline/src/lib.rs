@@ -68,6 +68,7 @@ mod tests {
         let config = CocoConfig {
             repos,
             plugins: None,
+            commit_config: None,
         };
 
         execute(config);
