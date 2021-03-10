@@ -29,3 +29,4 @@
 * [27. dockefile-analysis](0027-dockefile-analysis.md)
 * [28. kubernetes-analysis](0028-kubernetes-analysis.md)
 * [29. integration-openapi-source-code](0029-integration-openapi-source-code.md)
+* [30. extract-infrastructure-mod](0030-extract-infrastructure-mod.md)
