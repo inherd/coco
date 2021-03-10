@@ -8,20 +8,20 @@ use crate::coco_error::CocoError;
 pub struct PluginHelper;
 
 impl PluginHelper {
-    pub fn setup_plugins(plugins_path: &Path, version: &str) {
-        PluginHelper::create_plugins_dir(plugins_path)
+    pub fn setup(plugins_path: &Path, version: &str) {
+        PluginHelper::create_dir(plugins_path)
             .and_then(|msg| {
                 println!("{}", msg);
-                PluginHelper::download_plugins(version)
+                PluginHelper::download(version)
             })
-            .and_then(|reader| PluginHelper::unzip_plugins(reader, plugins_path))
+            .and_then(|reader| PluginHelper::unzip_all(reader, plugins_path))
             .unwrap_or_else(|err_msg| {
                 println!("Failed: {}", err_msg);
                 exit(1);
             });
     }
 
-    fn create_plugins_dir(path_name: &Path) -> Result<&'static str, CocoError> {
+    fn create_dir(path_name: &Path) -> Result<&'static str, CocoError> {
         if path_name.exists() {
             return Ok("plugins dir already exists");
         }
@@ -30,7 +30,7 @@ impl PluginHelper {
             .or(Err(CocoError::new("created failed")))
     }
 
-    fn download_plugins(version: &str) -> Result<Cursor<Vec<u8>>, CocoError> {
+    fn download(version: &str) -> Result<Cursor<Vec<u8>>, CocoError> {
         let target = format!(
             "https://github.com/inherd/coco/releases/download/v{}/coco_plugins_{}.zip",
             version,
@@ -44,7 +44,7 @@ impl PluginHelper {
         Ok(Cursor::new(buf))
     }
 
-    fn unzip_plugins(reader: Cursor<Vec<u8>>, plugins_path: &Path) -> Result<(), CocoError> {
+    fn unzip_all(reader: Cursor<Vec<u8>>, plugins_path: &Path) -> Result<(), CocoError> {
         let mut archive = zip::ZipArchive::new(reader)?;
 
         for i in 0..archive.len() {
