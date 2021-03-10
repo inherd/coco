@@ -16,3 +16,6 @@ serde_yaml = "0.8" # for config parse
 
 # parse for url
 url = "2.2.0"
+
+# handle for shell path like ~
+shellexpand = "2.1.0"

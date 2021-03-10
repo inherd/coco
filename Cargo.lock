@@ -686,7 +686,6 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml",
- "shellexpand",
  "structopt",
  "tokei",
  "url",
@@ -861,6 +860,7 @@ dependencies = [
  "serde",
  "serde_json",
  "serde_yaml",
+ "shellexpand",
  "url",
 ]
 
