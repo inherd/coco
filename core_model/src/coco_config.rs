@@ -43,8 +43,8 @@ impl CocoCommitConfig {
 
                         let mut index = 1;
                         for key in &config.matches {
-                            items
-                                .insert(key.clone(), caps.get(index).unwrap().as_str().to_string());
+                            let value = caps.get(index).unwrap().as_str().to_string();
+                            items.insert(key.clone(), value);
                             index = index + 1;
                         }
                     }
@@ -221,5 +221,48 @@ samples: feature/JIR-124:test commit message
         assert_eq!(3, items.len());
         assert_eq!("feature", items.get("scope").unwrap());
         assert_eq!("JIR-124", items.get("id").unwrap());
+    }
+
+    #[test]
+    fn should_handle_lost_matches() {
+        let data = r#"
+regex: ^(feature|fix)/([a-z,A-Z]+-\d*):(.*)
+matches:
+ - scope
+ - id
+samples: feature/JIR-124:test commit message
+"#;
+
+        let config: CocoCommitConfig =
+            serde_yaml::from_str(&data).expect("parse config file error");
+
+        if let Err(err) = CocoCommitConfig::verify_config(&config) {
+            let err_msg = "error, matches fields length 3 not equal regex captures length 2";
+            assert_eq!(err_msg, err)
+        } else {
+            panic!("verify lost matches not working")
+        }
+    }
+
+    #[test]
+    fn should_handle_sample_not_match() {
+        let data = r#"
+regex: ^(feature|fix)/([a-z,A-Z]+-\d*):(.*)
+matches:
+ - scope
+ - id
+ - matches
+samples: feature:test commit message
+"#;
+
+        let config: CocoCommitConfig =
+            serde_yaml::from_str(&data).expect("parse config file error");
+
+        if let Err(err) = CocoCommitConfig::verify_config(&config) {
+            let err_msg = "regex not match samples! Please check you config";
+            assert_eq!(err_msg, err)
+        } else {
+            panic!("verify lost matches not working")
+        }
     }
 }
