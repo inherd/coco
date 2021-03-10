@@ -22,35 +22,38 @@ pub struct CocoCommitConfig {
 
 #[allow(dead_code)]
 impl CocoCommitConfig {
-    fn verify_config(config: &CocoCommitConfig) -> HashMap<String, String> {
+    fn verify_config(config: &CocoCommitConfig) -> Result<HashMap<String, String>, String> {
         let mut items: HashMap<String, String> = Default::default();
         match Regex::new(&config.regex) {
-            Ok(re) => match re.captures(&config.samples.as_ref().unwrap()) {
-                None => {
-                    println!("....");
+            Ok(re) => {
+                if config.samples.as_ref().is_none() {
+                    return Ok(items);
                 }
-                Some(caps) => {
-                    if caps.len() - 1 != config.matches.len() {
-                        panic!(
-                            "error, matches fields length {:?} not equal regex captures length {:?}",
-                            caps.len() - 1,
-                            config.matches.len()
-                        );
-                    }
 
-                    let mut index = 1;
-                    for key in &config.matches {
-                        items.insert(key.clone(), caps.get(index).unwrap().as_str().to_string());
-                        index = index + 1;
+                match re.captures(&config.samples.as_ref().unwrap()) {
+                    None => {
+                        return Err("regex not match samples! Please check you config".to_string())
+                    }
+                    Some(caps) => {
+                        if caps.len() - 1 != config.matches.len() {
+                            return Err(format!("error, matches fields length {:?} not equal regex captures length {:?}",
+                                               caps.len() - 1,
+                                               config.matches.len()));
+                        }
+
+                        let mut index = 1;
+                        for key in &config.matches {
+                            items
+                                .insert(key.clone(), caps.get(index).unwrap().as_str().to_string());
+                            index = index + 1;
+                        }
                     }
                 }
-            },
-            Err(err) => {
-                println!("parse regex error: {:?}", err);
             }
+            Err(err) => return Err(format!("parse regex error: {:?}", err)),
         }
 
-        items
+        Ok(items)
     }
 }
 
@@ -213,7 +216,7 @@ samples: feature/JIR-124:test commit message
         let config: CocoCommitConfig =
             serde_yaml::from_str(&data).expect("parse config file error");
 
-        let items = CocoCommitConfig::verify_config(&config);
+        let items = CocoCommitConfig::verify_config(&config).unwrap();
 
         assert_eq!(3, items.len());
         assert_eq!("feature", items.get("scope").unwrap());
