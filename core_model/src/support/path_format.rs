@@ -1,7 +1,7 @@
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 
-pub fn expand(path: &Path) -> PathBuf {
-    let input = &path.display().to_string();
+pub fn expand(path: &str) -> PathBuf {
+    let input = &PathBuf::from(path).display().to_string();
     let path = shellexpand::tilde(input);
     return PathBuf::from(path.to_string());
 }
@@ -9,12 +9,10 @@ pub fn expand(path: &Path) -> PathBuf {
 #[cfg(test)]
 mod test {
     use crate::support::path_format::expand;
-    use std::path::Path;
 
     #[test]
     fn format_path() {
-        let path = Path::new("~");
-        let string = expand(path);
+        let string = expand("~");
         assert_ne!(string.display().to_string(), "~");
     }
 }

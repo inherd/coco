@@ -2,6 +2,7 @@ use std::path::{Path, PathBuf};
 
 use url::Url;
 
+use crate::support::path_format;
 use crate::Settings;
 
 pub fn json_filename_suffix(text: &str, suffix_str: Option<&str>) -> String {
@@ -67,13 +68,13 @@ pub fn uri_to_path(url: &str) -> PathBuf {
     let uri_path = match Url::parse(url) {
         Ok(url) => url,
         Err(_e) => {
-            return PathBuf::from(url);
+            return path_format::expand(url);
         }
     };
 
     let root = Path::new(Settings::root());
     if uri_path.host().is_none() {
-        return PathBuf::from(url);
+        return path_format::expand(url);
     }
     let mut buf = root.join(PathBuf::from(uri_path.host().unwrap().to_string()));
 
