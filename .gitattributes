@@ -1,0 +1,3 @@
+_fixtures/* linguist-vendored=true
+web/public/js/libs/* linguist-vendored=true
+web/public/js/plugins/* linguist-vendored=true
