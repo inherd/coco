@@ -6,6 +6,9 @@ extern crate pest;
 #[macro_use]
 extern crate pest_derive;
 
+pub use domain::CocoCommand;
+pub use domain::CocoOpt;
+
 pub mod app;
 pub mod coco_error;
 pub mod domain;

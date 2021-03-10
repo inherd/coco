@@ -5,3 +5,8 @@ pub mod coco_branch;
 pub mod coco_commit;
 pub mod coco_commit_message;
 pub mod coco_tag;
+
+#[allow(dead_code)]
+pub struct CocoCommitOpt {
+    format_commits: bool,
+}

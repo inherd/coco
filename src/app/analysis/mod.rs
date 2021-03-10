@@ -5,11 +5,11 @@ mod git_analysis;
 use git_analysis::*;
 use std::fs;
 
-use super::CocoOpt;
 use core_model::url_format;
 use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 
+use crate::CocoOpt;
 use rayon::prelude::*;
 use std::time::Instant;
 
@@ -27,13 +27,9 @@ impl From<&CocoConfig> for Analyst {
 
 impl Analyst {
     pub fn analysis(&self, cli_option: CocoOpt) {
-        // todo: add tasks for parallel run analysis tasks for one or more repos
         let start = Instant::now();
         self.repos.par_iter().for_each(|repo| {
             let url_str = repo.url.as_str();
-            // todo: thinking in refactor to patterns
-
-            // todo: merge to one app?
 
             if cli_option.branches {
                 analysis_branches(url_str);

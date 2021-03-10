@@ -1,5 +1,5 @@
 use clap::{App, Arg};
-use coco::app::CocoOpt;
+use coco::CocoOpt;
 use core_model::CocoConfig;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
