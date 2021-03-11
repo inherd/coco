@@ -18,7 +18,6 @@ pub struct ArchitectureEvolution {
 #[derive(Serialize, Deserialize, PartialEq, Debug, Clone)]
 pub struct ArchitectureFitness {
     pub tests: String,
-    pub tests_coverage: i32,
 }
 
 pub enum Practise {

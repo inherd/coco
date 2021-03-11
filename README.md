@@ -210,9 +210,7 @@ reporter
        - [x] ctags
        - [ ] visual
        - [x] uml
-    - [ ] swagger
-       - [ ] micro services size
-    - [ ] coverage
+    - [x] swagger
     - [x] Jenkinsfile
     - [ ] Dockerfile
 
