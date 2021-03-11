@@ -33,7 +33,6 @@ pub fn plugin() -> Box<dyn PluginInterface> {
 #[cfg(test)]
 mod tests {
     use crate::coco_container_plugin::analysis;
-    use dockerfile_parser::Dockerfile;
     use std::path::PathBuf;
 
     pub fn dockerfile_dir() -> PathBuf {

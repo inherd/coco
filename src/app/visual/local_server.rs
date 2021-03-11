@@ -66,8 +66,8 @@ fn lookup_coco_reporter(req: HttpRequest, project: &str) -> HttpResponse {
     let output_path = Settings::reporter(Some(coco_type.as_str())).join(project_file);
 
     println!("lookup file: {:?}", output_path);
-`    let content = fs::read_to_string(output_path).unwrap();
-`
+    let content = fs::read_to_string(output_path).unwrap();
+
     return HttpResponse::Ok()
         .content_type("application/json")
         .body(content.into_bytes());

@@ -97,7 +97,7 @@ impl From<&CocoConfig> for PluginManager {
 mod tests {
     use crate::plugin_manager::PluginManager;
     use core_model::coco_config::CocoPlugin;
-    use core_model::{CocoConfig, RepoConfig};
+    use core_model::CocoConfig;
 
     #[test]
     fn test_plugin_run_all_in_local() {
