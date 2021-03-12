@@ -2,6 +2,7 @@ pub use coco_opt::CocoCommand;
 pub use coco_opt::CocoOpt;
 
 pub mod coco_opt;
+pub mod visual_opt;
 
 pub mod architecture;
 pub mod cloc;
