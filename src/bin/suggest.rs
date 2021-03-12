@@ -1,25 +1,9 @@
-use clap::{App, Arg};
-use core_model::CocoConfig;
+use structopt::StructOpt;
 
-const VERSION: &'static str = env!("CARGO_PKG_VERSION");
+use coco::domain::SuggestOpt;
 
 fn main() {
-    let matches = App::new("Coco")
-        .version(VERSION)
-        .author("Inherd Group")
-        .about("A DevOps Efficiency Analysis and Auto-suggestion Tool.")
-        .arg(
-            Arg::with_name("concept")
-                .long("concept")
-                .value_name("FILE")
-                .help("list concept of some words")
-                .takes_value(true),
-        )
-        .get_matches();
+    let opt: SuggestOpt = SuggestOpt::from_args();
 
-    let config_file = matches.value_of("config").unwrap_or("coco.yml");
-
-    let _config = CocoConfig::from_file(config_file);
-
-    println!("found config file: {}", config_file);
+    println!("found config file: {:?}", opt);
 }
