@@ -92,9 +92,9 @@ mod tests {
     #[test]
     fn should_run_export() {
         let mut cmd = CliSupport::visual();
-        cmd.arg("--name").arg("default");
 
         cmd.arg("export");
+        cmd.arg("--name").arg("default");
 
         cmd.assert().success();
     }
