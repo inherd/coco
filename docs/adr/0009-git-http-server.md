@@ -6,6 +6,8 @@ Date: 2021-02-03
 
 2021-02-03 proposed
 
+2021-03-12 done
+
 ## Context
 
 In the case, we need a HTTP Server for query different git information:

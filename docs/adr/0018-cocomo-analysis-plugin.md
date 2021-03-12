@@ -6,6 +6,8 @@ Date: 2021-02-10
 
 2021-02-10 proposed
 
+2021-03-12 deprecated
+
 ## Context
 
 COCOMO (Constructive Cost Model)

@@ -6,6 +6,8 @@ Date: 2021-02-14
 
 2021-02-14 proposed
 
+2021-03-12 deprecated
+
 ## Context
 
 Code coverage is a way for fitness, we need to collect test information in our projects. 
