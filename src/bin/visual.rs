@@ -18,8 +18,9 @@ async fn main() -> std::io::Result<()> {
 
     if let Some(sub_cmd) = &opt.cmd {
         match sub_cmd {
-            SubVisualCommand::Export => {
-                start_export_reporter(opt.output, project.clone());
+            SubVisualCommand::Export { output } => {
+                start_export_reporter(output, project.clone());
+                return Ok(());
             }
         }
     }
@@ -27,7 +28,7 @@ async fn main() -> std::io::Result<()> {
     return start_local_server(project, opt.port.as_str()).await;
 }
 
-fn start_export_reporter(output: String, project_name: String) {
+fn start_export_reporter(output: &String, project_name: String) {
     output_static::run(output, project_name);
 }
 

@@ -11,10 +11,6 @@ pub struct VisualOpt {
     #[structopt(long, short, parse(try_from_str), default_value = "8000")]
     pub port: String,
 
-    /// output path
-    #[structopt(long, short, parse(try_from_str), default_value = "coco_static")]
-    pub output: String,
-
     /// project name
     #[structopt(long, short, parse(try_from_str))]
     pub name: Option<String>,
@@ -25,5 +21,9 @@ pub struct VisualOpt {
 
 #[derive(StructOpt, Debug, Clone)]
 pub enum SubVisualCommand {
-    Export,
+    Export {
+        /// output path
+        #[structopt(long, short, parse(try_from_str), default_value = "coco_static")]
+        output: String,
+    },
 }
