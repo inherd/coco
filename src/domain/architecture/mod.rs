@@ -21,7 +21,11 @@ pub struct ArchitectureFitness {
 }
 
 pub enum Practise {
-    /// ?
+    /// check in PR
+    CodeReview,
+    /// check pull request way?
+    PullRequest,
+    /// test with code change
     TDD,
 }
 
