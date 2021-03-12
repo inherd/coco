@@ -9,7 +9,7 @@ use core_model::url_format;
 use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 
-use crate::CocoOpt;
+use crate::domain::CocoOpt;
 use rayon::prelude::*;
 use std::time::Instant;
 

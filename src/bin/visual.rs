@@ -4,7 +4,7 @@ use webbrowser;
 use structopt::StructOpt;
 
 use coco::app::visual::{local_server, output_static};
-use coco::domain::visual_opt::{SubVisualCommand, VisualOpt};
+use coco::domain::{SubVisualCommand, VisualOpt};
 use coco::infrastructure::file_scanner;
 
 #[actix_web::main]

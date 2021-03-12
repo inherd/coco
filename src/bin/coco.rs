@@ -5,8 +5,7 @@ use structopt::StructOpt;
 
 use coco::app::analysis;
 use coco::app::plugin_helper::PluginHelper;
-use coco::domain::coco_opt::CocoCommand;
-use coco::CocoOpt;
+use coco::domain::{CocoCommand, CocoOpt};
 use core_model::CocoConfig;
 use plugin_manager::plugin_manager::PluginManager;
 
