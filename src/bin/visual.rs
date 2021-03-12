@@ -11,19 +11,24 @@ use coco::infrastructure::file_scanner;
 async fn main() -> std::io::Result<()> {
     let opt: VisualOpt = VisualOpt::from_args();
 
-    let project = match opt.name {
-        Some(proj) => proj.to_string(),
-        None => select_project_prompt(),
-    };
-
     if let Some(sub_cmd) = &opt.cmd {
         match sub_cmd {
-            SubVisualCommand::Export { output } => {
+            SubVisualCommand::Export { output, name } => {
+                let project = match name {
+                    Some(proj) => proj.to_string(),
+                    None => select_project_prompt(),
+                };
+
                 start_export_reporter(output, project.clone());
                 return Ok(());
             }
         }
     }
+
+    let project = match opt.name {
+        Some(proj) => proj.to_string(),
+        None => select_project_prompt(),
+    };
 
     return start_local_server(project, opt.port.as_str()).await;
 }

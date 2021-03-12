@@ -25,5 +25,8 @@ pub enum SubVisualCommand {
         /// output path
         #[structopt(long, short, parse(try_from_str), default_value = "coco_static")]
         output: String,
+
+        #[structopt(long, short, parse(try_from_str))]
+        name: Option<String>,
     },
 }
