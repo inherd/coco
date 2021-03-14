@@ -186,6 +186,49 @@ mod tests {
         assert_eq!(dep2.scope, DependencyScope::Compile);
     }
 
+    #[test]
+    fn should_analysis_submodule_dependencies() {
+        let project = do_analysis(vec![
+            "_fixtures",
+            "projects",
+            "java",
+            "multi_mod_maven_project",
+        ]);
+
+        let project_module = project.project_module.unwrap();
+        let module1 = project_module.sub_modules.get(0).unwrap();
+        let module2 = project_module.sub_modules.get(1).unwrap();
+        let module1_dependencies = &module1.dependencies;
+        let module2_dependencies = &module2.dependencies;
+
+        assert_eq!(module1_dependencies.len(), 2);
+        assert_eq!(module2_dependencies.len(), 2);
+
+        let dep1 = module1_dependencies.get(0).unwrap();
+        assert_eq!(dep1.name, "spring-boot-starter-web");
+        assert_eq!(dep1.group, "org.springframework.boot");
+        assert_eq!(dep1.version, "2.0.0.RELEASE");
+        assert_eq!(dep1.scope, DependencyScope::Test);
+
+        let dep2 = module1_dependencies.get(1).unwrap();
+        assert_eq!(dep2.name, "spring-boot-starter-logging");
+        assert_eq!(dep2.group, "org.springframework.boot");
+        assert_eq!(dep2.version, "1.0.1.RELEASE");
+        assert_eq!(dep2.scope, DependencyScope::Compile);
+
+        let dep1 = module2_dependencies.get(0).unwrap();
+        assert_eq!(dep1.name, "spring-boot-starter-web");
+        assert_eq!(dep1.group, "org.springframework.boot");
+        assert_eq!(dep1.version, "2.0.0.RELEASE");
+        assert_eq!(dep1.scope, DependencyScope::Test);
+
+        let dep2 = module2_dependencies.get(1).unwrap();
+        assert_eq!(dep2.name, "spring-boot-starter-logging");
+        assert_eq!(dep2.group, "org.springframework.boot");
+        assert_eq!(dep2.version, "1.0.2.RELEASE");
+        assert_eq!(dep2.scope, DependencyScope::Compile);
+    }
+
     fn do_analysis(path: Vec<&str>) -> Project {
         let mut project_dir = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .parent()

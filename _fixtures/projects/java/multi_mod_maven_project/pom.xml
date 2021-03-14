@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>saas-plus-spring-boot</artifactId>
+    <artifactId>multi_mod_maven_project</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
