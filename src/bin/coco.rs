@@ -5,9 +5,9 @@ use structopt::StructOpt;
 
 use coco::app::analysis;
 use coco::app::plugin_helper::PluginHelper;
+use coco::app::PluginManager;
 use coco::domain::{CocoCommand, CocoOpt};
 use core_model::CocoConfig;
-use plugin_manager::plugin_manager::PluginManager;
 
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 

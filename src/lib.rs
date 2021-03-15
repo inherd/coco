@@ -6,6 +6,10 @@ extern crate pest;
 #[macro_use]
 extern crate pest_derive;
 
+extern crate dlopen;
+#[macro_use]
+extern crate dlopen_derive;
+
 pub mod app;
 pub mod coco_error;
 pub mod domain;

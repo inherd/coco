@@ -645,6 +645,8 @@ dependencies = [
  "content_inspector",
  "core_model",
  "dialoguer",
+ "dlopen",
+ "dlopen_derive",
  "failure",
  "fluent",
  "framework",
@@ -654,7 +656,6 @@ dependencies = [
  "mime_guess",
  "pest",
  "pest_derive",
- "plugin_manager",
  "rayon",
  "regex",
  "reqwest",
@@ -2495,15 +2496,6 @@ name = "pkg-config"
 version = "0.3.19"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3831453b3449ceb48b6d9c7ad7c96d5ea673e9b470a1dc578c2ce6521230884c"
-
-[[package]]
-name = "plugin_manager"
-version = "0.1.0"
-dependencies = [
- "core_model",
- "dlopen",
- "dlopen_derive",
-]
 
 [[package]]
 name = "ppv-lite86"

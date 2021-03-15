@@ -32,8 +32,7 @@ impl PluginManager {
         } else {
             let debug_root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
             let plugin_path = Self::get_plugin_path(plugin_name, false);
-            // because cargo project settings
-            path = debug_root.parent().unwrap().join(plugin_path);
+            path = debug_root.join(plugin_path);
         }
 
         println!("search plugins in path: {:?}", path.display());
@@ -95,7 +94,7 @@ impl From<&CocoConfig> for PluginManager {
 
 #[cfg(test)]
 mod tests {
-    use crate::plugin_manager::PluginManager;
+    use crate::app::PluginManager;
     use core_model::coco_config::CocoPlugin;
     use core_model::CocoConfig;
 

@@ -84,21 +84,21 @@ unic-langid = { version = "0.9.0", features = ["macros"] }
 
 # cli options to struct
 structopt = "0.3"
+
+# plugin manager
+dlopen = "0.1.8"
+dlopen_derive = "0.1.4"
 [dependencies.framework]
 path = "framework"
 
 [dependencies.core_model]
 path = "core_model"
 
-[dependencies.plugin_manager]
-path = "plugin_manager"
-
 [workspace]
 members = [
   'framework',
   'e2e',
   'core_model',
-  'plugin_manager',
   'plugins/coco_swagger',
   'plugins/coco_struct',
   'plugins/coco_pipeline',
