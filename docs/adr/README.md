@@ -30,3 +30,4 @@
 * [28. kubernetes-analysis](0028-kubernetes-analysis.md)
 * [29. integration-openapi-source-code](0029-integration-openapi-source-code.md)
 * [30. extract-infrastructure-mod](0030-extract-infrastructure-mod.md)
+* [31. markdown-for-terminal-output](0031-markdown-for-terminal-output.md)

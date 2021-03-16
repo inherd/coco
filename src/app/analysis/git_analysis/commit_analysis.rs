@@ -1,6 +1,7 @@
 use crate::domain::git::CocoCommit;
 use crate::infrastructure::git::cmd_git::commit_message;
 use crate::infrastructure::git::git_log_parser::GitMessageParser;
+use core_model::coco_config::CocoCommitConfig;
 use core_model::url_format;
 use serde::{Deserialize, Serialize};
 
@@ -37,7 +38,7 @@ impl ShortCommit {
     }
 }
 
-pub fn analysis(url: &str) -> Vec<ShortCommit> {
+pub fn analysis(url: &str, commit_config: Option<Vec<CocoCommitConfig>>) -> Vec<ShortCommit> {
     let local_path = url_format::uri_to_path(url);
 
     let messages = commit_message(Some(format!("{}", local_path.display())));

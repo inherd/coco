@@ -10,17 +10,20 @@ use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 
 use crate::domain::CocoOpt;
+use core_model::coco_config::CocoCommitConfig;
 use rayon::prelude::*;
 use std::time::Instant;
 
 pub struct Analyst {
     repos: Vec<RepoConfig>,
+    commit_config: Option<Vec<CocoCommitConfig>>,
 }
 
 impl From<&CocoConfig> for Analyst {
     fn from(config: &CocoConfig) -> Self {
         Self {
             repos: config.repos.clone(),
+            commit_config: config.commit_config.clone(),
         }
     }
 }
@@ -35,7 +38,7 @@ impl Analyst {
                 analysis_branches(url_str);
             }
             if cli_option.commits {
-                analysis_commits(url_str);
+                analysis_commits(url_str, self.commit_config.clone());
             }
             if cli_option.tags {
                 analysis_tags(url_str);
@@ -93,8 +96,8 @@ fn analysis_file_history(url_str: &str, git_years: f64) {
     fs::write(output_file, result).expect("cannot write file");
 }
 
-fn analysis_commits(url_str: &str) {
-    let branches = commit_analysis::analysis(url_str);
+fn analysis_commits(url_str: &str, commit_config: Option<Vec<CocoCommitConfig>>) {
+    let branches = commit_analysis::analysis(url_str, commit_config);
     let file_name = url_format::json_filename_suffix(url_str, Some("-commits"));
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
