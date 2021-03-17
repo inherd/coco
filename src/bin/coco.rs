@@ -39,7 +39,7 @@ fn main() {
     analyst.analysis(opt);
 
     let plugin_manager = PluginManager::from(&config);
-    plugin_manager.run_all();
+    plugin_manager.run_all(opt.debug.clone());
 }
 
 fn create_config_file() {

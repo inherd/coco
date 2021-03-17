@@ -21,7 +21,7 @@ pub struct PluginManager {
 }
 
 impl PluginManager {
-    pub fn run(&self, plugin_name: &str) {
+    pub fn run(&self, plugin_name: &str, is_debug: bool) {
         let root = PathBuf::from(".");
         let production_plugins = root.join("coco_plugins");
 
@@ -35,7 +35,9 @@ impl PluginManager {
             path = debug_root.join(plugin_path);
         }
 
-        println!("search plugins in path: {:?}", path.display());
+        if is_debug {
+            println!("search plugins in path: {:?}", path.display());
+        }
 
         let cont: Container<Wrapper> =
             unsafe { Container::load(path) }.expect("Could not open library or load symbols");
@@ -47,12 +49,12 @@ impl PluginManager {
         plugin.execute(self.config.clone());
     }
 
-    pub fn run_all(&self) {
+    pub fn run_all(&self, is_debug: bool) {
         if self.config.plugins.is_none() {
             return ();
         }
         for plugin in self.config.plugins.as_ref().unwrap().iter() {
-            self.run(&plugin.name);
+            self.run(&plugin.name, is_debug);
         }
     }
 
@@ -113,7 +115,7 @@ mod tests {
         config.plugins = Some(plugins);
 
         let manager = PluginManager::from(&config);
-        manager.run_all();
+        manager.run_all(false);
     }
 
     #[test]
