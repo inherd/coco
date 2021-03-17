@@ -30,7 +30,8 @@ fn main() {
     let config_file = &opt.config_file;
     let config = CocoConfig::from_file(config_file);
 
-    if opt.debug {
+    let is_debug = opt.debug.clone();
+    if is_debug {
         println!("found config file: {}", config_file);
         println!("{:?}", opt);
     }
@@ -39,7 +40,7 @@ fn main() {
     analyst.analysis(opt);
 
     let plugin_manager = PluginManager::from(&config);
-    plugin_manager.run_all(opt.debug.clone());
+    plugin_manager.run_all(is_debug);
 }
 
 fn create_config_file() {
