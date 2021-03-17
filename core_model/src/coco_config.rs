@@ -9,7 +9,7 @@ pub struct CocoConfig {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub plugins: Option<Vec<CocoPlugin>>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub commit_config: Option<Vec<CocoCommitConfig>>,
+    pub commit_config: Option<CocoCommitConfig>,
 }
 
 /// Coco Commit Config from `coco.yml`
@@ -22,7 +22,7 @@ pub struct CocoCommitConfig {
 
 #[allow(dead_code)]
 impl CocoCommitConfig {
-    fn verify_config(config: &CocoCommitConfig) -> Result<HashMap<String, String>, String> {
+    pub fn verify_config(config: &CocoCommitConfig) -> Result<HashMap<String, String>, String> {
         let mut items: HashMap<String, String> = Default::default();
         match Regex::new(&config.regex) {
             Ok(re) => {

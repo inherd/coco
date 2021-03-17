@@ -8,6 +8,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct ShortCommit {
     pub branch: String,
+    pub story_id: String,
     pub commit_id: String,
     pub author: String,
     pub email: String,
@@ -21,9 +22,10 @@ pub struct ShortCommit {
 }
 
 impl ShortCommit {
-    pub fn convert(commit: CocoCommit) -> ShortCommit {
-        Self {
+    pub fn convert(commit: CocoCommit, commit_config: &Option<CocoCommitConfig>) -> ShortCommit {
+        let mut short_commit = Self {
             branch: commit.branch,
+            story_id: "".to_string(),
             commit_id: commit.commit_id,
             author: commit.author,
             email: commit.email,
@@ -34,11 +36,21 @@ impl ShortCommit {
             total_added: commit.total_added,
             total_deleted: commit.total_deleted,
             changed_file_count: commit.changed_file_count,
+        };
+
+        if let Some(config) = commit_config {
+            if let Ok(hash) = CocoCommitConfig::verify_config(config) {
+                if let Some(id) = hash.get("id") {
+                    short_commit.story_id = String::from(id)
+                }
+            }
         }
+
+        short_commit
     }
 }
 
-pub fn analysis(url: &str, commit_config: Option<Vec<CocoCommitConfig>>) -> Vec<ShortCommit> {
+pub fn analysis(url: &str, commit_config: Option<CocoCommitConfig>) -> Vec<ShortCommit> {
     let local_path = url_format::uri_to_path(url);
 
     let messages = commit_message(Some(format!("{}", local_path.display())));
@@ -46,7 +58,7 @@ pub fn analysis(url: &str, commit_config: Option<Vec<CocoCommitConfig>>) -> Vec<
 
     let mut results = vec![];
     for commit in vec {
-        results.push(ShortCommit::convert(commit))
+        results.push(ShortCommit::convert(commit, &commit_config))
     }
 
     return results;

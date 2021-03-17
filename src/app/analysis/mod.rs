@@ -16,7 +16,7 @@ use std::time::Instant;
 
 pub struct Analyst {
     repos: Vec<RepoConfig>,
-    commit_config: Option<Vec<CocoCommitConfig>>,
+    commit_config: Option<CocoCommitConfig>,
 }
 
 impl From<&CocoConfig> for Analyst {
@@ -96,7 +96,7 @@ fn analysis_file_history(url_str: &str, git_years: f64) {
     fs::write(output_file, result).expect("cannot write file");
 }
 
-fn analysis_commits(url_str: &str, commit_config: Option<Vec<CocoCommitConfig>>) {
+fn analysis_commits(url_str: &str, commit_config: Option<CocoCommitConfig>) {
     let branches = commit_analysis::analysis(url_str, commit_config);
     let file_name = url_format::json_filename_suffix(url_str, Some("-commits"));
 
