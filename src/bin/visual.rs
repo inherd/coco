@@ -12,7 +12,7 @@ async fn main() -> std::io::Result<()> {
     let opt: VisualOpt = VisualOpt::from_args();
 
     if let Some(sub_cmd) = &opt.cmd {
-        match sub_cmd {
+        return match sub_cmd {
             SubVisualCommand::Export { output, name } => {
                 let project = match name {
                     Some(proj) => proj.to_string(),
@@ -20,9 +20,9 @@ async fn main() -> std::io::Result<()> {
                 };
 
                 start_export_reporter(output, project.clone());
-                return Ok(());
+                Ok(())
             }
-        }
+        };
     }
 
     let project = match opt.name {
