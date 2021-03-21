@@ -6,11 +6,11 @@ use std::path::PathBuf;
 use std::{fs, str};
 use structopt::StructOpt;
 
-use crate::coco_struct::ClassInfo;
 use crate::ctags_cmd::CmdCtags;
 use crate::ctags_opt::Opt;
 use crate::ctags_parser::CtagsParser;
 use crate::plantuml_render::PlantUmlRender;
+use core_model::coco_struct::ClassInfo;
 
 pub fn execute(config: CocoConfig) {
     for repo in &config.repos {

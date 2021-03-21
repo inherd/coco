@@ -1,4 +1,4 @@
-use crate::coco_struct::ClassInfo;
+use core_model::coco_struct::ClassInfo;
 use std::collections::HashMap;
 
 pub trait PlantUml {
@@ -96,8 +96,8 @@ impl PlantUmlRender {
 
 #[cfg(test)]
 mod tests {
-    use crate::coco_struct::{ClassInfo, MemberInfo, MethodInfo};
     use crate::plantuml_render::PlantUmlRender;
+    use core_model::coco_struct::{ClassInfo, MemberInfo, MethodInfo};
 
     #[test]
     fn should_render_empty() {

@@ -12,7 +12,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
-use crate::coco_struct::{ClassInfo, MemberInfo, MethodInfo};
+use core_model::coco_struct::{ClassInfo, MemberInfo, MethodInfo};
 use regex::Regex;
 use std::collections::HashMap;
 use std::fs::File;
@@ -99,7 +99,7 @@ lazy_static! {
 impl CtagsParser {
     pub fn parse_str(all_lines: Vec<Lines>) -> CtagsParser {
         let mut parser = CtagsParser::default();
-        for lines in all_lines {
+        for lines in all_lines.clone() {
             for line in lines.into_iter() {
                 parser.parse_class(line);
             }
