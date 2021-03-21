@@ -97,15 +97,15 @@ lazy_static! {
 }
 
 impl CtagsParser {
-    pub fn parse_str(lines: Vec<Lines>) -> CtagsParser {
+    pub fn parse_str(all_lines: Vec<Lines>) -> CtagsParser {
         let mut parser = CtagsParser::default();
-        for lines in lines.clone() {
+        for lines in all_lines {
             for line in lines.into_iter() {
                 parser.parse_class(line);
             }
         }
 
-        for lines in lines {
+        for lines in all_lines {
             for line in lines.into_iter() {
                 parser.parse_method_methods(line);
             }
