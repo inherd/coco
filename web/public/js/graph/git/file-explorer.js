@@ -32,8 +32,18 @@ function renderCodeExplorer(data, elementId) {
     let currentValue = 0;
 
 
-    let min_time = d3.min(allNodes, d => d.data.data.git.creation_date) * 1000;
-    let max_time = d3.max(allNodes, d => d.data.data.git.last_update) * 1000;
+    let min_time = d3.min(allNodes, d => {
+      if (d.data.data.git) {
+        return d.data.data.git.creation_date;
+      }
+      return null;
+    }) * 1000;
+    let max_time = d3.max(allNodes, d => {
+      if (d.data.data.git) {
+        return d.data.data.git.last_update;
+      }
+      return null;
+    }) * 1000;
     let startDate = min_time;
 
     let targetValue = width;
