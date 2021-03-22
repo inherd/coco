@@ -62,6 +62,12 @@ SUBCOMMANDS:
     plugins    Download plugins from GitHub
 ```
 
+sample:
+
+```
+coco --file-history=true --git-years=3
+```
+
 ### coco.yml
 
 #### 配置 (config in Chinese)
