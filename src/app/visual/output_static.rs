@@ -45,5 +45,5 @@ fn export_reporter<P: AsRef<Path>>(path: &P, project: String) {
 
     // struct analysis
     let structs = Settings::struct_dir().join(format!("{}.json", project));
-    let _ = fs::copy(structs, &data_dir.join("struct-analysis.json"));
+    let _ = fs::copy(structs, &data_dir.join("struct.json"));
 }
