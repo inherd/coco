@@ -1,4 +1,4 @@
-function renderPacking(originData) {
+function renderPacking(originData, selector) {
   let dMap = {};
 
   for (let datum of originData) {
@@ -35,7 +35,7 @@ function renderPacking(originData) {
   let focus = root;
   let view;
 
-  const svg = d3.select("#circle-packing").append("svg")
+  const svg = d3.select(selector).append("svg")
     .attr("viewBox", `-${width / 2} -${height / 2} ${width} ${height}`);
 
   svg.style("display", "block")

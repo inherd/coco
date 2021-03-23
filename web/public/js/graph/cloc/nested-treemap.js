@@ -1,4 +1,4 @@
-function renderNestedTreemap(originData) {
+function renderNestedTreemap(originData, selector) {
   let color = d3.scaleLinear()
     .domain([0, 4])
     .range(["hsl(0,0%,100%)", "hsl(197,73%,45%)"])
@@ -35,7 +35,7 @@ function renderNestedTreemap(originData) {
 
   let data = CodeSupport.hierarchy(Object.values(dMap));
 
-  const svg = d3.select("#nested-treemap").append("svg")
+  const svg = d3.select(selector).append("svg")
     .attr("id", "graphSvg")
     .attr("viewBox", [0.5, -30.5, width, height + 30])
 

@@ -1,4 +1,4 @@
-function renderTagsTimeline(originData) {
+function renderTagsTimeline(originData, selectId, selector) {
   let data = [];
   for (let i = originData.length - 1; i >= 0; i--) {
     let datum = originData[i]
@@ -8,7 +8,7 @@ function renderTagsTimeline(originData) {
 
   let yearOptions = buildYearOptions(data[0].date);
 
-  d3.select("#tags-timeline-select")
+  d3.select(selectId)
     .selectAll('myOptions')
     .data(yearOptions)
     .enter()
@@ -21,7 +21,7 @@ function renderTagsTimeline(originData) {
     })
 
   // When the button is changed, run the updateChart function
-  d3.select("#tags-timeline-select").on("change", function (d) {
+  d3.select(selectId).on("change", function (d) {
     let selectedOption = d3.select(this).property("value")
     let selectYear = new Date(selectedOption, 0, 1);
     let selectDate = data.filter((d) => d.date > selectYear);
@@ -29,19 +29,20 @@ function renderTagsTimeline(originData) {
   })
 
   function render(selectData) {
-    d3.select("#tags-timeline svg").remove();
+    let selector = selector;
+    d3.select(selector + " svg").remove();
 
     let margin = {top: 20, right: 20, bottom: 30, left: 50},
       width = GraphConfig.width - margin.left - margin.right,
       height = 500 - margin.top - margin.bottom;
 
     // create a tooltip
-    let tooltip = d3.select("#tags-timeline")
+    let tooltip = d3.select(selector)
       .append("div")
       .style("opacity", 0)
       .attr("class", "tooltip")
 
-    let svg = d3.select("#tags-timeline").append("svg")
+    let svg = d3.select(selector).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")

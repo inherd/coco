@@ -12,8 +12,8 @@ d3.json("data/cloc.json").then(function (json) {
     }
   }
 
-  renderPacking(data["reports"])
-  renderNestedTreemap(data["reports"])
+  renderPacking(data["reports"], "#circle-packing")
+  renderNestedTreemap(data["reports"], "#nested-treemap")
   renderCodeFlower(data["reports"], '#code-flower');
 });
 
@@ -37,7 +37,7 @@ d3.json("data/git-tags.json").then(function (data) {
     throw Error("not tags");
   }
 
-  renderTagsTimeline(data);
+  renderTagsTimeline(data, "#tags-timeline-select", "#tags-timeline");
 });
 
 d3.json("data/git-commits.json").then(function (data) {
@@ -62,7 +62,7 @@ d3.json("data/git-commits.json").then(function (data) {
   renderTimeInteractiveLine(lineData, '#line-history', 'total_line');
 
   let commitByWeeks = commit_by_weeks(data);
-  renderCodeFrequency(commitByWeeks);
+  renderCodeFrequency(commitByWeeks, "#code-frequency-select", "#code-frequency");
 });
 
 d3.json("data/struct.json").then(function (data) {

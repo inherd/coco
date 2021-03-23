@@ -1,11 +1,11 @@
-function renderCodeFrequency(data) {
+function renderCodeFrequency(data, selectId, selector) {
   let margin = {top: 30, right: 30, bottom: 30, left: 80},
     width = GraphConfig.width - margin.left - margin.right,
     height = GraphConfig.height / 2 - margin.top - margin.bottom;
 
   let yearOptions = buildYearOptions(data[0].date);
 
-  d3.select("#code-frequency-select")
+  d3.select(selectId)
     .selectAll('myOptions')
     .data(yearOptions)
     .enter()
@@ -14,7 +14,7 @@ function renderCodeFrequency(data) {
     .attr("value", d => d)
 
   // When the button is changed, run the updateChart function
-  d3.select("#code-frequency-select").on("change", function (d) {
+  d3.select(selectId).on("change", function (d) {
     let selectedOption = d3.select(this).property("value")
     let selectYear = new Date(selectedOption, 0, 1);
     let selectDate = data.filter((d) => d.date > selectYear);
@@ -22,9 +22,10 @@ function renderCodeFrequency(data) {
   })
 
   function render(data) {
-    d3.select("#code-frequency svg").remove();
+    let selector = selector;
+    d3.select(selector + " svg").remove();
 
-    let svg = d3.select("#code-frequency")
+    let svg = d3.select(selector)
       .append("svg")
       .attr("preserveAspectRatio", "xMinYMin meet")
       .attr("width", width + margin.left + margin.right)
