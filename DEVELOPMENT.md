@@ -144,6 +144,24 @@ we need you coding in TDD. You can use this repo to learn TDD :
 
 ## Release
 
+### Generate Executable Binary 
+
+```shell
+cargo build --all
+```
+
+You will find executable file here:
+
+```
+target
+└── debug
+    ├── coco
+    ├── visual
+    └── suggest
+```
+
+### Legacy
+
 use [conventional-changelog-cli](https://github.com/conventional-changelog/conventional-changelog/tree/master/packages/conventional-changelog-cli) for generate CHANGELOG
 
 ```
