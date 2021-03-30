@@ -1,4 +1,4 @@
-use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
+use crate::jvm::psa_maven::MavenProjectStructureAnalyzer;
 pub use dependency_analyzer::DependencyAnalyzer;
 pub use module_analyzer::ModuleAnalyzer;
 pub use pas_content_root::ContentRoot;
@@ -45,7 +45,7 @@ impl ProjectAnalyzer {
 impl Default for ProjectAnalyzer {
     fn default() -> Self {
         ProjectAnalyzer {
-            analyzers: vec![Box::new(JvmProjectStructureAnalyzer::default())],
+            analyzers: vec![Box::new(MavenProjectStructureAnalyzer::default())],
         }
     }
 }

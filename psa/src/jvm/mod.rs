@@ -1,3 +1,3 @@
 pub mod maven_dependency;
 pub mod maven_module;
-pub mod psa_jvm;
+pub mod psa_maven;
