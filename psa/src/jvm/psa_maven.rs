@@ -3,15 +3,15 @@ use std::path::Path;
 use crate::jvm::maven_module::MavenModuleAnalyzer;
 use crate::{files, ModuleAnalyzer, ProjectStructureAnalyzer};
 
-pub struct JvmProjectStructureAnalyzer {}
+pub struct MavenProjectStructureAnalyzer {}
 
-impl Default for JvmProjectStructureAnalyzer {
+impl Default for MavenProjectStructureAnalyzer {
     fn default() -> Self {
-        JvmProjectStructureAnalyzer {}
+        MavenProjectStructureAnalyzer {}
     }
 }
 
-impl ProjectStructureAnalyzer for JvmProjectStructureAnalyzer {
+impl ProjectStructureAnalyzer for MavenProjectStructureAnalyzer {
     fn get_project_name(&self, project_path: &str) -> String {
         Path::new(project_path)
             .file_name()
@@ -55,7 +55,7 @@ mod tests {
     use std::path::PathBuf;
 
     use crate::files::join_path;
-    use crate::jvm::psa_jvm::JvmProjectStructureAnalyzer;
+    use crate::jvm::psa_maven::MavenProjectStructureAnalyzer;
     use crate::{DependencyScope, Project, ProjectStructureAnalyzer};
 
     #[test]
@@ -239,7 +239,7 @@ mod tests {
             project_dir.push(path);
         }
 
-        let analyzer = JvmProjectStructureAnalyzer::default();
+        let analyzer = MavenProjectStructureAnalyzer::default();
         analyzer.analysis(project_dir.display().to_string().as_str())
     }
 }
