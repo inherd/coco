@@ -2,7 +2,7 @@ mod architecture_analysis;
 mod cloc_analysis;
 mod framework_analysis;
 mod git_analysis;
-use git_analysis::*;
+pub use git_analysis::*;
 use std::fs;
 
 use core_model::url_format;
