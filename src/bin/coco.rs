@@ -30,7 +30,7 @@ fn main() {
     let config_file = &opt.config_file;
     let config = CocoConfig::from_file(config_file);
 
-    let is_debug = opt.debug.clone();
+    let is_debug = opt.debug;
     if is_debug {
         println!("found config file: {}", config_file);
         println!("{:?}", opt);
