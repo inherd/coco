@@ -17,7 +17,11 @@ impl ModelSuggest {
     pub fn find_long_parameter_list_method(&self) {
         // let max_parameters = 5;
         for info in &self.model {
-            for _method in &info.methods {}
+            for method in &info.methods {
+                if method.parameter_too_long() {
+                    println!("Parameter list too loong: {:?}", method);
+                }
+            }
         }
     }
 

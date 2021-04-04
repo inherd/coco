@@ -124,7 +124,7 @@ mod tests {
         let member = MemberInfo::new("demo", "-", "String".to_string());
         demo.members.push(member);
 
-        let method = MethodInfo::new("method", "-", "Demo".to_string());
+        let method = MethodInfo::new("method", "-", vec![], "Demo".to_string());
         demo.methods.push(method);
 
         classes.push(demo);
@@ -145,7 +145,7 @@ mod tests {
         let member = MemberInfo::new("demo", "-", "String".to_string());
         demo.members.push(member);
 
-        let method = MethodInfo::new("method", "-", "Demo2".to_string());
+        let method = MethodInfo::new("method", "-", vec![], "Demo2".to_string());
         demo.methods.push(method);
 
         classes.push(demo);
@@ -180,7 +180,7 @@ mod tests {
         let mut demo = ClassInfo::new("Demo");
         let demo2 = ClassInfo::new("Demo2");
 
-        let mut method = MethodInfo::new("method", "-", "[]Demo2".to_string());
+        let mut method = MethodInfo::new("method", "-", vec![], "[]Demo2".to_string());
         method.pure_return_type = "Demo2".to_string();
         demo.methods.push(method);
 

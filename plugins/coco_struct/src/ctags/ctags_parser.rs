@@ -74,6 +74,8 @@ lazy_static! {
         r"/\^([ |\t]*).*:([ |\t]*)(?P<datatype>[A-Za-z0-9_.<>\[\]]+).*\$/"
     ).unwrap();
 
+    static ref PARAMETER: Regex = Regex::new(r"/.*\((?P<parameters>(.*?))\).*/").unwrap();
+
     static ref TYPE_KEYWORDS: [&'static str; 18] = [
         "private",
         "public",
@@ -226,7 +228,8 @@ impl CtagsParser {
             }
             clazz.members.push(member);
         } else if tag_type.eq("method") || tag_type.eq("function") {
-            let mut method = MethodInfo::new(name, access, data_type);
+            let parameters = Self::pick_parameter_list(&captures[3]);
+            let mut method = MethodInfo::new(name, access, parameters, data_type);
             if !pure_data_type.is_empty() {
                 method.pure_return_type = pure_data_type;
             }
@@ -291,6 +294,21 @@ impl CtagsParser {
 
         return classes;
     }
+
+    fn pick_parameter_list(signature: &str) -> Vec<String> {
+        PARAMETER.captures(signature).and_then(
+            |cap| cap.name("parameters")
+                .map(|s| s.as_str())
+                .and_then(|s| {
+                    if s.is_empty() {
+                        None
+                    } else {
+                        Some(s.split(',').map(|s| s.to_string()).collect())
+                    }
+                })
+        ).unwrap_or(vec![])
+
+    }
 }
 
 #[cfg(test)]
@@ -328,6 +346,15 @@ MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodId
         assert_eq!(1, classes.len());
         let first_method = classes[0].methods[0].clone();
         assert_eq!("MethodIdentifier", first_method.return_type);
+    }
+
+    #[test]
+    fn should_get_parameters() {
+        let str = "MethodIdentifier	SubscriberRegistry.java	/^    MethodIdentifier(Method method) {$/;\"	method	line:239	language:Java	class:SubscriberRegistry.MethodIdentifier	access:default
+MethodIdentifier	SubscriberRegistry.java	/^  private static final class MethodIdentifier {$/;\"	class	line:234	language:Java	class:SubscriberRegistry	access:private";
+
+        let parameters = CtagsParser::pick_parameter_list(str);
+        assert_eq!(vec![String::from("Method method")], parameters);
     }
 
     #[test]

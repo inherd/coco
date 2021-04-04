@@ -23,18 +23,24 @@ impl MemberInfo {
 pub struct MethodInfo {
     pub name: String,
     pub access: String,
+    pub parameters: Vec<String>,
     pub return_type: String,
     pub pure_return_type: String,
 }
 
 impl MethodInfo {
-    pub fn new(name: &str, access: &str, return_type: String) -> Self {
+    pub fn new(name: &str, access: &str, parameters: Vec<String>, return_type: String) -> Self {
         MethodInfo {
             name: name.to_string(),
             access: access.to_string(),
+            parameters,
             return_type,
             pure_return_type: "".to_string(),
         }
+    }
+
+    pub fn parameter_too_long(&self) -> bool {
+        self.parameters.len() > 5
     }
 }
 
