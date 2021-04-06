@@ -78,7 +78,7 @@ mod tests {
             }
         }
 
-        assert_eq!(4, vec.len());
+        assert_eq!(3, vec.len());
     }
 
     #[test]
