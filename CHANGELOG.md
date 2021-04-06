@@ -1,4 +1,41 @@
-# [](https://github.com/inherd/coco/compare/v0.5.0...v) (2021-03-07)
+# [](https://github.com/inherd/coco/compare/v0.5.1...v) (2021-04-06)
+
+
+
+## [0.5.1](https://github.com/inherd/coco/compare/v0.5.0...v0.5.1) (2021-03-30)
+
+
+### Bug Fixes
+
+* fix arg position wrong issue ([6475772](https://github.com/inherd/coco/commit/64757724b43e9bce3730e48e34e419f76a5730de))
+* fix daily commit legend issue ([511e9d2](https://github.com/inherd/coco/commit/511e9d21028deecd6a129bd602964a4c62dca9ce))
+* fix data empty issue for git ([b2659c9](https://github.com/inherd/coco/commit/b2659c941a8712caf050bb240d9aa6ba33ce0a4f))
+* fix opt duplicate issue ([5a6e1c5](https://github.com/inherd/coco/commit/5a6e1c5c61b668ea524f10e2b0ad88222dc045d1))
+* fix opt issue ([bd911eb](https://github.com/inherd/coco/commit/bd911ebaa75cf98f8f5c8c3b6c2c07996fe3da23))
+* fix opt issue ([47bd48f](https://github.com/inherd/coco/commit/47bd48fd03fe9d7148bfffc9dc99bf4437ed8281))
+* fix some layout issue ([3824f25](https://github.com/inherd/coco/commit/3824f25c18c017f0032f74f66e1004d80d355d79))
+* fix tests ([c63fe11](https://github.com/inherd/coco/commit/c63fe11867d37834a96fc9a38de3066d99189ce3))
+* fix transition issue ([cf23058](https://github.com/inherd/coco/commit/cf23058087c4f7606de8a9400f1b71715160e1b6))
+* fix typo ([f418a3c](https://github.com/inherd/coco/commit/f418a3c6c322c7832724615a6f726e490aafd60e))
+* fix typos ([ef6cb58](https://github.com/inherd/coco/commit/ef6cb58ac37e46917067130c36cf109b78668e01))
+* fix visual opt issue ([a3a9f24](https://github.com/inherd/coco/commit/a3a9f243e2b060bf24986b03f2f949eec421a070))
+
+
+### Features
+
+* add basic parse commit log support ([12c2ae4](https://github.com/inherd/coco/commit/12c2ae4913c64ff2e18371f8f2abfeaf6953dce4))
+* add debug option for plugin manager ([2a85b65](https://github.com/inherd/coco/commit/2a85b6520ae0a638f17560a1c74d4f19d10c2210))
+* add parse for story id ([071e717](https://github.com/inherd/coco/commit/071e717e25be7a10901237e8a38ab29c627b61c9))
+* init suggest process ([b478d4e](https://github.com/inherd/coco/commit/b478d4e5dd1afe23f04e551ff0d0369ec1b6b6a0))
+* make commit config pass to cli analysis ([4102e82](https://github.com/inherd/coco/commit/4102e8227269e56a744d6d5b629954ecd94902fa))
+* make select options circles ([3159b5e](https://github.com/inherd/coco/commit/3159b5ea73856776d2ef9d6961663d40a6add4d5))
+* make suggest in workflow ([bf32e29](https://github.com/inherd/coco/commit/bf32e297d311a3a34c192e6bcd1c845d8bc3ecd0))
+* **container:** init dockerfile support ([0e8ed64](https://github.com/inherd/coco/commit/0e8ed6453e307c77b7db4f39f78f5fdc213e6918))
+* **psa:** parse dependency version from properties label. ([7baab19](https://github.com/inherd/coco/commit/7baab19b5d810ef162ec8d8457084c7436957887))
+* **psa:** parse maven sub modules dependencies. ([51744b6](https://github.com/inherd/coco/commit/51744b61096d01c0ba0031c443e5242e3fdb0106))
+* **suggest:** test for i18n ([54b1197](https://github.com/inherd/coco/commit/54b1197147a024ab4565cae66029dc6187f0342f))
+* make path with expand ([018de67](https://github.com/inherd/coco/commit/018de6707a91e03ce653d297efaabe450763986b))
+* try to add openapi ([11fc8a6](https://github.com/inherd/coco/commit/11fc8a6824cc0da5d0f0ffddf89bad2b50e4d72a))
 
 
 
