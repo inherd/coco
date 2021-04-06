@@ -1,6 +1,11 @@
 # [](https://github.com/inherd/coco/compare/v0.5.1...v) (2021-04-06)
 
 
+### Features
+
+* **suggest:** parse function's parameters ([789189e](https://github.com/inherd/coco/commit/789189e39636b1440eefca8503c108cec700ff8f))
+
+
 
 ## [0.5.1](https://github.com/inherd/coco/compare/v0.5.0...v0.5.1) (2021-03-30)
 
