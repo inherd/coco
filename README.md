@@ -35,10 +35,15 @@ Support OS: macOS, Windows, GNU/Linux
    - `visual`, visualization of data
    - `suggest`, generate suggestion
 
+visual URL:
+
+ - all:  [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+ - explorer: [http://127.0.0.1:8000/explorer.html](http://127.0.0.1:8000/explorer.html)
+
 ### Coco
 
 ```
-coco 0.4.2
+coco 0.5.3
 
 USAGE:
     coco [OPTIONS] [SUBCOMMAND]
