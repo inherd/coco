@@ -34,6 +34,12 @@ Support OS: macOS, Windows, GNU/Linux
    - `coco`, gather data from source
    - `visual`, visualization of data
    - `suggest`, generate suggestion
+5. download plugins (optional)
+  - coco_container，container analysis
+  - coco_pipeline，pipeline analysis
+  - coco_struct，model analysis by ctags
+  - coco_swagger，Swagger API Analysis
+
 
 visual URL:
 
