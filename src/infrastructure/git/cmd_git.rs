@@ -24,7 +24,7 @@ pub fn tags(exec_path: Option<String>) -> String {
     return String::from_utf8_lossy(&*output.stdout).to_string();
 }
 
-pub fn clone(url: String, exec_path: Option<String>) {
+pub fn clone(url: &str, exec_path: Option<String>) {
     let mut command = Command::new("git");
 
     let git_cmd = command.arg("clone").arg(url);
@@ -33,9 +33,10 @@ pub fn clone(url: String, exec_path: Option<String>) {
         git_cmd.arg(path);
     }
 
-    let output = git_cmd.output().expect("ls command failed to start");
+    let output = git_cmd.output().expect("git command failed to start");
 
-    println!("{}", String::from_utf8_lossy(&*output.stdout).to_string());
+    println!("{}", String::from_utf8_lossy(&*output.stderr));
+    println!("{:?}", String::from_utf8_lossy(&*output.stdout).to_string());
 }
 
 /// Return project's commits in String
@@ -91,6 +92,6 @@ mod test {
     #[ignore]
     #[test]
     fn should_clone_self() {
-        cmd_git::clone("https://github.com/phodal/adl".to_string(), None);
+        cmd_git::clone("https://github.com/phodal/adl", None);
     }
 }
