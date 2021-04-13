@@ -16,7 +16,7 @@ plugins:
         value: /usr/local/bin/ctags
 
 git:
-  local: true
+  local: false
 
 # todo: api mapping services/repository
 openapi:

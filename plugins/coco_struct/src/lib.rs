@@ -117,7 +117,8 @@ mod tests {
             url: format!("{}", ctags_fixtures_dir().display()),
             languages: None,
         });
-        let config = CocoConfig::default();
+        let mut config = CocoConfig::default();
+        config.repos = repos;
 
         execute(config);
 
