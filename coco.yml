@@ -15,6 +15,9 @@ plugins:
       - key: ctags
         value: /usr/local/bin/ctags
 
+git:
+  local: true
+
 # todo: api mapping services/repository
 openapi:
   - url: _fixtures/swagger/petstore.yaml
