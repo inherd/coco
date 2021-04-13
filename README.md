@@ -102,6 +102,9 @@ plugins:
     config:
       - key: ctags                       # set location for macOS ctags path
         value: /usr/local/bin/ctags
+        
+git:
+  local: true # true will use `git clone`, false will use libgit2
 ```
 
 ## Documents
