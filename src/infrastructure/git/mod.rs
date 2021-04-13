@@ -23,14 +23,14 @@ mod test {
 
     pub fn initialize() {
         INIT.call_once(|| {
-            GitRepository::open("https://github.com/coco-rs/coco.fixtures");
+            GitRepository::open("https://github.com/coco-rs/coco.fixtures", false);
         });
     }
 
     #[test]
     fn should_verify_github_dir() {
         initialize();
-        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
+        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures", false);
         let path_str: &str = repo.path().to_str().unwrap();
 
         assert!(path_str.contains("github.com"));
@@ -42,7 +42,7 @@ mod test {
     fn should_list_branch() {
         initialize();
 
-        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
+        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures", false);
         let branches = GitBranch::list(repo);
         assert!(branches.len() >= 5);
     }
@@ -51,7 +51,7 @@ mod test {
     fn should_get_master() {
         initialize();
 
-        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
+        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures", false);
         let branch = GitBranch::get("master", repo).unwrap();
         assert_eq!("Local", branch.branch_type);
         assert_eq!("master", branch.name);
@@ -67,7 +67,7 @@ mod test {
     fn should_count_master_commits() {
         initialize();
 
-        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures");
+        let repo = GitRepository::open("https://github.com/coco-rs/coco.fixtures", false);
         let branch = GitBranch::get("master", repo).unwrap();
 
         assert!(branch.commits_count >= 2);

@@ -10,20 +10,27 @@ use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 
 use crate::domain::CocoOpt;
-use core_model::coco_config::CocoCommitConfig;
+use core_model::coco_config::{CocoCommitConfig, GitConfig};
 use rayon::prelude::*;
 use std::time::Instant;
 
 pub struct Analyst {
     repos: Vec<RepoConfig>,
     commit_config: Option<CocoCommitConfig>,
+    local_git: bool,
 }
 
 impl From<&CocoConfig> for Analyst {
     fn from(config: &CocoConfig) -> Self {
+        let mut local_git = false;
+        if let Some(git_config) = &config.git {
+            local_git = git_config.local
+        }
+
         Self {
             repos: config.repos.clone(),
             commit_config: config.commit_config.clone(),
+            local_git,
         }
     }
 }
@@ -35,7 +42,7 @@ impl Analyst {
             let url_str = repo.url.as_str();
 
             if cli_option.branches {
-                analysis_branches(url_str);
+                analysis_branches(url_str, self.local_git);
             }
             if cli_option.commits {
                 analysis_commits(url_str, self.commit_config.clone());
@@ -66,8 +73,8 @@ fn analysis_framework(url_str: &str) {
     fs::write(output_file, frameworks).expect("cannot write file");
 }
 
-fn analysis_branches(url_str: &str) {
-    let branches = branch_analysis::analysis(url_str);
+fn analysis_branches(url_str: &str, local_git: bool) {
+    let branches = branch_analysis::analysis(url_str, local_git);
     let file_name = url_format::json_filename(url_str);
 
     let result = serde_json::to_string_pretty(&branches).unwrap();
