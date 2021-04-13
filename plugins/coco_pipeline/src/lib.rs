@@ -69,6 +69,7 @@ mod tests {
             repos,
             plugins: None,
             commit_config: None,
+            git: None,
         };
 
         execute(config);

@@ -10,6 +10,13 @@ pub struct CocoConfig {
     pub plugins: Option<Vec<CocoPlugin>>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub commit_config: Option<CocoCommitConfig>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub git: Option<GitConfig>,
+}
+
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+pub struct GitConfig {
+    pub local: bool,
 }
 
 /// Coco Commit Config from `coco.yml`
@@ -63,6 +70,7 @@ impl Default for CocoConfig {
             repos: vec![],
             plugins: None,
             commit_config: None,
+            git: None,
         }
     }
 }
@@ -104,6 +112,7 @@ impl CocoConfig {
                     repos: repo,
                     plugins: None,
                     commit_config: None,
+                    git: None,
                 }
             }
         }
