@@ -24,6 +24,20 @@ pub fn tags(exec_path: Option<String>) -> String {
     return String::from_utf8_lossy(&*output.stdout).to_string();
 }
 
+pub fn clone(url: String, exec_path: Option<String>) {
+    let mut command = Command::new("git");
+
+    let git_cmd = command.arg("clone").arg(url);
+
+    if let Some(path) = exec_path {
+        git_cmd.arg(path);
+    }
+
+    let output = git_cmd.output().expect("ls command failed to start");
+
+    println!("{}", String::from_utf8_lossy(&*output.stdout).to_string());
+}
+
 /// Return project's commits in String
 /// git log --pretty="format:[%h] %aN<%ae> %at (%p,%t) #%gn# %s" --date=short --numstat --summary --date=unix --reverse --branches --remotes
 /// more docs see in: https://github.com/git/git/blob/master/Documentation/pretty-formats.txt
@@ -72,5 +86,11 @@ mod test {
     fn should_get_git_tag() {
         let output = cmd_git::tags(None);
         assert!(output.contains("0.1.3"));
+    }
+
+    #[ignore]
+    #[test]
+    fn should_clone_self() {
+        cmd_git::clone("https://github.com/phodal/adl".to_string(), None);
     }
 }

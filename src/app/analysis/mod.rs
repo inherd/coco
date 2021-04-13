@@ -10,7 +10,7 @@ use core_model::Settings;
 use core_model::{CocoConfig, RepoConfig};
 
 use crate::domain::CocoOpt;
-use core_model::coco_config::{CocoCommitConfig, GitConfig};
+use core_model::coco_config::CocoCommitConfig;
 use rayon::prelude::*;
 use std::time::Instant;
 

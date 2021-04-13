@@ -6,7 +6,7 @@ use std::fs;
 pub struct GitRepository {}
 
 impl GitRepository {
-    pub fn open(url: &str, local_git: bool) -> Repository {
+    pub fn open(url: &str, _local_git: bool) -> Repository {
         let local_path = url_format::uri_to_path(url);
 
         println!("target dir: {:?}", local_path.display());
