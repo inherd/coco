@@ -117,12 +117,7 @@ mod tests {
             url: format!("{}", ctags_fixtures_dir().display()),
             languages: None,
         });
-        let config = CocoConfig {
-            repos: repos,
-            plugins: None,
-            commit_config: None,
-            git: None,
-        };
+        let config = CocoConfig::default();
 
         execute(config);
 

@@ -65,12 +65,7 @@ mod tests {
             url: format!("{}", fixtures_dir().display()),
             languages: None,
         });
-        let config = CocoConfig {
-            repos,
-            plugins: None,
-            commit_config: None,
-            git: None,
-        };
+        let config = CocoConfig::default();
 
         execute(config);
 
