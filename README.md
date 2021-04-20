@@ -10,6 +10,7 @@ Online Demos:
 
  - [Element-Plus](https://inherd.org/cases/element-plus/)
  - [Nginx](https://inherd.org/cases/nginx/)
+ - [Redis](https://inherd.org/cases/redis/)
 
 Support OS: macOS, Windows, GNU/Linux
 
