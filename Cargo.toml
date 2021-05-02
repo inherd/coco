@@ -5,9 +5,9 @@ authors = ["Inherd Group <group@inherd.org>", "Phodal Huang <h@phodal.com>"]
 edition = "2018"
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/phodal/coco"
-documentation = "https://github.com/phodal/coco"
-homepage = "https://github.com/phodal/coco"
+repository = "https://github.com/inherd/coco"
+documentation = "https://github.com/inherd/coco"
+homepage = "https://github.com/inherd/coco"
 description = """
 Coco 是一个研发效能分析工具，如开发速率（根据架构复杂度及行数变更）、团队演进、历史分析、根因分析等。生成可视化报告，并对应的改进建议。 A DevOps efficiency analysis and auto-suggestion tool.
 """
