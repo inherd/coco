@@ -4,26 +4,15 @@
 
 > (aka coconut, juice), an automatic DevOps metrics analysis tool.
 
-Case Studies: [Coco cases](https://inherd.github.io/cases/)
+case studies: [Coco cases](https://inherd.github.io/cases/)
 
-Online Demos:
+online Demos:
 
  - [Element-Plus](https://inherd.org/cases/element-plus/)
  - [Nginx](https://inherd.org/cases/nginx/)
  - [Redis](https://inherd.org/cases/redis/)
 
-Support OS: macOS, Windows, GNU/Linux
-
-Todo（in Chinese）：
-
- - [x] 可交互式架构分析
- - [ ] UML 可视化
- - [ ] 团队/项目健康值分析
- - [ ] 框架检测与分析
- - [ ] 云原生成熟度分析
- - [x] 多项目**并行**分析
- - [ ] 分支生命周期和可视化
- - [ ] 改进建议（在线）
+OS: macOS, Windows, GNU/Linux
 
 ## Usage
 
@@ -183,7 +172,7 @@ reporter
     - [ ] include analysis
        - [x] code parser: [pest](https://github.com/pest-parser/pest)
        - [ ] languages support.
- - [ ] team analysis
+ - [x] team analysis
     - [x] join time & life time
        - 以加入时间开始度量平均提交：上手成本分析
        - 平均加入时长
@@ -192,7 +181,7 @@ reporter
     - [x] count system size & learning curve
  - [ ] commit analysis
     - [x] commit times analysis (hours)
-    - [ ] rule regex support in config
+    - [x] rule regex support in config
     - [ ] participle（分词）
     - [x] tags generate
  - [ ] suggestion API
@@ -208,10 +197,10 @@ reporter
        - [ ] Maven Center 
        - [ ] NPM Server 
        - [ ] Go Server 
- - [ ] tools
-    - [ ] tools config identify
-    - [ ] tools suggest (identify old tools)
-    - [ ] cloud-native config
+ - [ ] ~~tools~~
+    - [ ] ~~tools config identify~~
+    - [ ] ~~tools suggest (identify old tools)~~
+    - [ ] ~~cloud-native config~~
  - [ ] case study
     - [x] homepage: [https://github.com/inherd/cases](https://github.com/inherd/cases)
     - [ ] auto clone and auto deploy
@@ -233,7 +222,7 @@ reporter
        - [x] uml
     - [x] swagger
     - [x] Jenkinsfile
-    - [ ] Dockerfile
+    - [ ] ~~Dockerfile~~
 
 Visual and Reporter
 
