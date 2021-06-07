@@ -88,7 +88,7 @@ repos:
 
 plugins:
   - name: swagger
-  - name: struct_analysis
+  - name: struct
     config:
       - key: ctags                       # set location for macOS ctags path
         value: /usr/local/bin/ctags
