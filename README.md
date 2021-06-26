@@ -282,6 +282,53 @@ Tech Debt Integration
 
 Refs: [Libgit2 Documents](https://github.com/libgit2/libgit2.github.com/blob/master/docs/guides/101-samples/index.md)
 
+## FAQ
+
+### How to install in macOS?
+
+#### Step1
+
+Download Coco to your Mac from [release](https://github.com/daolou/coco/releases)
+
+#### Step2
+
+Move it(Coco) to your preferred directory,such as:
+
+```zsh
+mkdir ~/.coco
+mv ~/Downloads/coco_macos ~/.coco/
+```
+
+#### Step3
+
+Set up an alias to make it easier to use,such as:
+
+```zsh
+export 'alias coco="~/.coco/coco_macos"' >> ~/.zshrc
+```
+
+#### Step4
+
+Try to use execute it by alias `coco`:
+
+```zsh
+coco -h
+```
+
+If it show no permission,you can execute the following command:
+
+```zsh
+chmod -R u=rwx,g=rw,o=r ~/.coco/coco_macos
+```
+
+Then retry:
+
+```zsh
+coco -h
+```
+
+Good luck!
+
 ## Thanks
 
 [![Jetbrains](docs/images/jetbrains.svg)](https://www.jetbrains.com/?from=coco)
