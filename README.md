@@ -16,7 +16,7 @@ OS: macOS, Windows, GNU/Linux
 
 ## Usage
 
-0. install or download Coco components from release
+0. install or download Coco components from release, and download ctags: [windows](https://github.com/universal-ctags/ctags-win32/releases)
 1. use `coco init` to generate config file
 2. config `coco.yml`
 3. optional: use `coco plugins` to download plugins
