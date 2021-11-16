@@ -6,7 +6,7 @@
 
 case studies: [Coco cases](https://inherd.github.io/cases/)
 
-online Demos:
+Online Demos:
 
  - [Element-Plus](https://inherd.org/cases/element-plus/)
  - [Nginx](https://inherd.org/cases/nginx/)
@@ -35,7 +35,13 @@ visual URL:
  - all:  [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
  - explorer: [http://127.0.0.1:8000/explorer.html](http://127.0.0.1:8000/explorer.html)
 
-### Coco
+Offline usage:
+
+1. download `coco`, `visual` e``xec file
+2. download `coco_plugins_xxxx` with platform
+3. extract `coco_plugins_xxxx` to `plugins` dir 
+
+### Coco Usage
 
 ```
 coco 0.5.3
