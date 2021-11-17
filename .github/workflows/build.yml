@@ -43,6 +43,9 @@ jobs:
         run: |
           choco install universal-ctags
 
+      - name: Debug Ctags
+        run: ctags --version
+
       - name: Run unit tests
         run: ${{matrix.ENV_VARS}} just tests
 
