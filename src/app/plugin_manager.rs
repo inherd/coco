@@ -118,6 +118,7 @@ mod tests {
         manager.run_all(false);
     }
 
+    #[cfg(not(windows))]
     #[test]
     fn test_manager_from_config() {
         let config = CocoConfig::default();
