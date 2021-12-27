@@ -33,13 +33,13 @@ function renderCodeExplorer(data, elementId) {
 
 
     let min_time = d3.min(allNodes, d => {
-      if (d.data.data.git) {
+      if (d.data.data && d.data.data.git) {
         return d.data.data.git.creation_date;
       }
       return null;
     }) * 1000;
     let max_time = d3.max(allNodes, d => {
-      if (d.data.data.git) {
+      if (d.data.data && d.data.data.git) {
         return d.data.data.git.last_update;
       }
       return null;
