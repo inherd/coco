@@ -31,6 +31,9 @@ jobs:
           version: 0.1.0-alpha.4
           use-tool-cache: true
 
+      - name: Build Plugins
+        run: ${{matrix.ENV_VARS}} cargo build --all
+
       - name: Coverage
         uses: actions-rs/cargo@v1
         with:
