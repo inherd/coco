@@ -100,6 +100,7 @@ mod tests {
     use core_model::coco_config::CocoPlugin;
     use core_model::CocoConfig;
 
+    #[cfg(not(windows))]
     #[test]
     fn test_plugin_run_all_in_local() {
         let mut config = CocoConfig::default();
